@@ -1,4 +1,5 @@
-##COLLECTIONS API
+##COLLECTIONS API 
+#####Team members: Shruthi, Dennis, Tyler, Lucy: taj26, wg74, dmh58, sk593
 1. In your experience using these collections, are they hard or easy to use?
     1. They’re generally easy to use. We’ve used them a lot for methods like that update collections like .add(), .remove()
 2. In your experience using these collections, do you feel mistakes are easy to avoid?

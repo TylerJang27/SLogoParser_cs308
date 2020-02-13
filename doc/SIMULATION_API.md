@@ -1,5 +1,6 @@
-Simulation API
-====
+# Parser Team 20 - API Lab Discussion
+## Simulation API Overview
+### Names: Dennis, Tyler, Lucy, Shruthi, Nevzat
 This file provides an overview of the API found in a well-designed simulation project.
 
 ##Method Publicity

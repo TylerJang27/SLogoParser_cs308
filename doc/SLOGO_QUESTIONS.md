@@ -1,7 +1,6 @@
 # Parser Team 20 - API Lab Discussion
 ## SLOGO High Level Design
 ### Names: Dennis, Tyler, Lucy, Shruthi, Nevzat
-
 General concerns: 
 * Maneuvering between front and back end and making sure that they?re separate
 * Implementing functions that the user could write - intentional about hierarchy we make 

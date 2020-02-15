@@ -11,7 +11,8 @@ is to make it so that the design is very flexible to new commands, such that add
 
 ##Overview
 
-![](DesignComponents.png ?Design Components Diagram?)
+![](DesignComponents.png "Design Components Diagram")
+
 The program will be divided into Model (Back-End), View (Front-End), and Controller. The Controller will create instances of the View (i.e. the GUI, and TurtleView) and the Model (i.e. Parser), and will handle communication between the two. 
 For the case when the user inputs a command, the CommandLine will read this command, sending a String to the Controller. The Controller will forward this String to the Parser, which will parse through the commands and convert them into Command implementation instances, passing this to TurtleModel, which will ?execute? these commands, converting them into a Collection of TurtleStatus instances. The Controller will take this Collection and return them to the TurtleView of the View, allowing the turtle?s position and status to be updated.
 
@@ -40,7 +41,7 @@ This section describes how the user will interact with your program (keep it sim
 
 The user will interact with the program through the GUI. The GUI will essentially contain two different sections: one for the commands and one for displaying the turtle. On the command side, There will be a text box that users can input their commands into and either click run or enter to execute the command. There will also be a display box underneath the text box that holds the history of the commands that the user has entered. On the other side of the display, we?ll have a screen that shows the turtles movements. This will display both the turtle and the path that it has taken depending on the commands entered. There will also be a place to display the variables the user has set, likely next to the command history box. Finally, the GUI will also include a Toolbar at the top of the screen with dropdowns for choosing color and languages. There will also be pop ups if the command that is entered is not a valid command (or it?ll display right above the box). The user will then be able to input another command. 
 
-![](InterfaceDiagram.png ?Diagram of interface?)
+![](InterfaceDiagram.png "Diagram of interface")
 
 ##Design Details
 

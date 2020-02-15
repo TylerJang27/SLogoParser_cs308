@@ -2,7 +2,7 @@ NetID:  sk593, taj26, wg74, dmh58
 
 #Front end
 
-####External:
+###External:
 * Overview:
     - The external API on the front end should be responsible for 
     sending the command to the backend side. This will allow the backend 
@@ -12,7 +12,7 @@ NetID:  sk593, taj26, wg74, dmh58
 * Methods
     - sendCommand()
         * This will send the command to the backend side of the project
-    - parseCommand()
+    - readCommand()
         * This will read in the command so that it can be sent to the back end 
     - sendUpdates()
         * This will send information on whether the user changes the color of the 
@@ -28,7 +28,7 @@ NetID:  sk593, taj26, wg74, dmh58
         that have been inputted previously
 
 
-####Internal:
+###Internal:
 * Goals:
     - The goal of the internal front end API will be to construct various components of 
     the UI that can be easily modifiable, easily accessed, and easily extended by future users. 
@@ -59,7 +59,7 @@ NetID:  sk593, taj26, wg74, dmh58
  
 #Backend 
 
-####External: (everything front-end will need to know about the back-end)
+###External: (everything front-end will need to know about the back-end)
 * Overview:
     - The external interface of the back-end will need to have a central class, 
     CommandProcessor.java, that will call the necessary components internally to deliver 
@@ -109,7 +109,31 @@ NetID:  sk593, taj26, wg74, dmh58
         * Clears the Collection of commands that have already been executed
     - reset()
         * Clear all commands in the collection, clear all the variables
+
+###CRC Cards
+![](CommandLineCRC.png "Command Line CRC Cards")
+
+![](TurtleCRC.png "Turtle CRC Cards")
+
+![](ParserCRC.png "Parser CRC Cards")
  
+###Use Cases
+1. The user types 'fd 50' in the command window, sees the turtle move in the display window leaving a trail, and has the command added to the environment's history.
+
+    After the user presses “ENTER,” CommandLine’s readCommand() would read the string. The Controller would call readCommand() to store the inputted commands as a string. Controller in turn calls getCommands(), which in turn passes the resulting String to Parser’s parseCommand(). The result would then be passed to TurtleModel’s executeCommands(), returning a Collection of TurtleStatus instances. These would be passed as arguments to TurtleView’s update(), causing the turtle to move.
+
+2. The user types '50 fd' in the command window and sees an error message that the command was not formatted correctly.
+
+    Upon the user pressing “ENTER”, readCommand() is called by the Controller from the CommandLine class, storing the command as a string. Controller calls getCommands(), which in turn receives and then passes all commands which have been entered since the last run to the Parser’s parseCommand(). This function will catch an InvalidCommandError which is thrown by the validateCommand() call within it. In this case, the error would be thrown, which in turn would result in the error message showing up in the command line, and upon enter CommandLine’s prepareNewCommand() is called to reset for a new command from the user and be able to take input again.
+
+3. The user types 'pu fd 50 pd fd 50' in the command window and sees the turtle move twice (once without a trail and once with a trail).
+
+    After the user presses “ENTER,” CommandLine’s readCommand() would read the entire string. The Controller would take the result of readCommand() and pass it to Parser’s parseCommand(). The result would then be passed to TurtleModel’s executeCommands(), returning a Collection of TurtleStatus instances. These would be passed as arguments to TurtleView’s update(), causing the turtle to move, in two discrete steps.
+
+4. The user changes the color of the environment's background.
+
+    After entering the choice to change the color, changeColor() is called by the Controller in the CommandLine class. This method would update the color of the background in the environment.
+
  
 
 

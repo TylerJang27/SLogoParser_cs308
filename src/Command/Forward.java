@@ -21,8 +21,8 @@ public class Forward implements Command {
     }
 
     @Override
-    public int returnValue() {
-        return (int)steps;
+    public double returnValue() {
+        return (double)steps;
     }
 
 }

@@ -21,7 +21,7 @@ public class Left implements Command {
 
 
     @Override
-    public int returnValue() {
-        return (int)degree;
+    public double returnValue() {
+        return (double)degree;
     }
 }

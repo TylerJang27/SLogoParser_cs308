@@ -66,6 +66,9 @@ public class Parser {
     ///////////////////////////////////////////////////////////////////////
     //Class.forName()
     private Collection<Command> parseLine(String s) {
+        //check first for Syntax
+        //if it's a command, check it with knownCommands (and declared functions)
+        //handle accordingly
         //recursive?
         return null;
     }

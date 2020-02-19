@@ -1,5 +1,7 @@
 package slogo.BackEndExternal;
 
+import slogo.Commands.Command;
+
 import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -38,7 +40,7 @@ public class Parser {
         }
     }
 
-    public String getSymbol (String text) {
+    private String getCommandString (String text) {
         final String ERROR = "NO MATCH";
         for (Map.Entry<String, Pattern> e : myCommands) {
             if (match(text, e.getValue())) {
@@ -61,6 +63,21 @@ public class Parser {
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////
+    //Class.forName()
+    private Collection<Command> parseLine(String s) {
+        //recursive?
+        return null;
+    }
+
+    //may want to change to account for multiple arguments, and just make this part of parseLine
+    public void validateCommand(String s) throws InvalidCommandException {
+
+    }
+
+    public Collection<TurtleStatus> parseCommands(Collection<String> commandStrings) {
+        return null;
+    }
 
 
 }

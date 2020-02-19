@@ -5,6 +5,8 @@ import java.util.*;
 
 public class Backward implements Command {
 
+    public static final int NUM_ARGS = 1;
+
     double steps;
 
     public Backward(double pixel){
@@ -24,4 +26,7 @@ public class Backward implements Command {
     public double returnValue() {
         return (double)steps;
     }
+
+    @Override
+    public int getNumArguments() { return NUM_ARGS; }
 }

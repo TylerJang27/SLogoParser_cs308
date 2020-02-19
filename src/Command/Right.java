@@ -8,6 +8,8 @@ import java.util.Collections;
 
 public class Right implements Command {
 
+    public static final int NUM_ARGS = 1;
+
     double degree;
 
     public Right(double turn){
@@ -27,4 +29,7 @@ public class Right implements Command {
     public double returnValue() {
         return (double)degree;
     }
+
+    @Override
+    public int getNumArguments() { return NUM_ARGS; }
 }

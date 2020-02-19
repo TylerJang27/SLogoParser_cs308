@@ -7,6 +7,7 @@ public interface Command {
 
     public Collection<TurtleStatus> execute(TurtleStatus ts);
     public double returnValue();
+    public int getNumArguments();
 
     //TODO: We may want to consider moving moveDelta to something like TurtleModel (or at the very least separate the front-end animation stuff)
     static Collection<TurtleStatus> moveDelta(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY) {
@@ -32,5 +33,4 @@ public interface Command {
         }
         return Collections.unmodifiableCollection(ret);
     }
-
 }

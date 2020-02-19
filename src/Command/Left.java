@@ -5,6 +5,8 @@ import java.util.*;
 
 public class Left implements Command {
 
+    public static final int NUM_ARGS = 1;
+
     double degree;
 
     public Left(double turn){
@@ -24,4 +26,7 @@ public class Left implements Command {
     public double returnValue() {
         return (double)degree;
     }
+
+    @Override
+    public int getNumArguments() { return NUM_ARGS; }
 }

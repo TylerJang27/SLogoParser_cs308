@@ -1,10 +1,11 @@
-package Command;
+package slogo.Commands;
 
-import BackEndExternal.TurtleStatus;
+import slogo.BackEndExternal.TurtleStatus;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+
 
 public class Right implements Command {
 

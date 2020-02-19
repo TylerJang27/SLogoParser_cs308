@@ -1,6 +1,6 @@
-package Command;
+package slogo.Commands;
 
-import BackEndExternal.TurtleStatus;
+import slogo.BackEndExternal.TurtleStatus;
 import java.util.*;
 
 public class Left implements Command {

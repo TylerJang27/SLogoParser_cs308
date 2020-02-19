@@ -1,5 +1,5 @@
-package Command;
-import BackEndExternal.TurtleStatus;
+package slogo.Commands;
+import slogo.BackEndExternal.TurtleStatus;
 
 import java.util.*;
 

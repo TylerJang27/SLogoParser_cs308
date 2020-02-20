@@ -24,7 +24,7 @@ public class Parser {
         myCommands = new ArrayList<>();
     }
 
-    //language should be something like "English.properties"
+    //language should be something like "English"
     public void addPatterns (String language) {
         File f = new File(RESOURCES_PACKAGE + language);
         System.out.println(f.getPath());

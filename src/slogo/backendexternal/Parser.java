@@ -67,10 +67,16 @@ public class Parser {
     ///////////////////////////////////////////////////////////////////////
     //Class.forName()
     private Collection<Command> parseLine(String s) {
-        //check first for Syntax
-        //if it's a command, check it with knownCommands (and declared functions)
-        //handle accordingly
-        //recursive?
+        //check first for Syntax (Syntax.properties):
+            //if it's a command, check it with knownCommands (and declared functions from TurtleModel)
+            //else throw InvalidCommandException
+        //add to stack of commands
+
+        //once end of String reached, retrieve each command one at a time
+            //if missing an argument or something, throw InvalidCommandException
+            //else pop off stack, execute one by one, generating TurtleStatus instances and adding them to a new stack
+            //also making sure to pass the return value of each command to the next popped command
+
         return null;
     }
 

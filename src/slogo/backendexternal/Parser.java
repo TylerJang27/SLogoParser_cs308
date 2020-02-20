@@ -73,8 +73,10 @@ public class Parser {
         //add to stack of commands
 
         //once end of String reached, retrieve each command one at a time
+                //may have to parse if statements and things with brackets specially
             //if missing an argument or something, throw InvalidCommandException
-            //else pop off stack, execute one by one using reflection, generating TurtleStatus instances and adding them to a new stack
+            //else pop off stack, execute one by one using reflection, generating TurtleStatus instances
+            //and adding them to a Collection
             //also making sure to pass the return value of each command to the next popped command
 
         return null;

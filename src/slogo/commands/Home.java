@@ -2,9 +2,7 @@ package slogo.commands;
 
 import slogo.backendexternal.TurtleStatus;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 public class Home implements Command {
 
@@ -15,7 +13,7 @@ public class Home implements Command {
     private Command go;
 
     public Home(){
-        go = new GoTo(xPos, yPos);
+        go = new SetPosition(xPos, yPos);
     }
 
 

@@ -17,7 +17,7 @@ public class Backward implements Command {
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts) {
         Collection<TurtleStatus> ret = new ArrayList<>();
-        double deltaX = 0-steps*Math.sin(ts.getBearing());
+        double deltaX = -1 * steps*Math.sin(ts.getBearing());
         double deltaY = steps*Math.cos(ts.getBearing());
         return Collections.unmodifiableCollection(Command.moveDelta(ts, ret, deltaX, deltaY));
     }

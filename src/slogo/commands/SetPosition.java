@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class GoTo implements Command {
+public class SetPosition implements Command {
 
     public static final int NUM_ARGS = 2;
 
@@ -14,7 +14,7 @@ public class GoTo implements Command {
     private double yPos;
     private double distance = 0;
 
-    public GoTo(double x, double y){
+    public SetPosition(double x, double y){
         xPos = x;
         yPos = y;
     }
@@ -22,11 +22,12 @@ public class GoTo implements Command {
 
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts) {
-        distance = Math.sqrt(Math.pow(ts.getX()-xPos,2)+Math.pow(ts.getY()-yPos,2));
-        Collection<TurtleStatus> ret = new ArrayList<>();
         double deltaX = xPos - ts.getX();
-        double deltaY = xPos - ts.getY();
-        double deltaHeading = Math.tan((ts.getX()-xPos)/(ts.getY()-yPos)) - ts.getBearing();
+        double deltaY = yPos - ts.getY();
+        distance = Math.sqrt(Math.pow(deltaX,2)+Math.pow(deltaY,2));
+        Collection<TurtleStatus> ret = new ArrayList<>();
+
+        double deltaHeading = Math.tan((deltaX)/(deltaY)) - ts.getBearing();
         Command.turnDeltaHeading(ts, ret, deltaHeading);
         Command.moveDelta(ts, ret, deltaX, deltaY);
         return Collections.unmodifiableCollection(ret);

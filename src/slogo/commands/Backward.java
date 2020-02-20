@@ -7,7 +7,7 @@ public class Backward implements Command {
 
     public static final int NUM_ARGS = 1;
 
-    double steps;
+    private double steps;
 
     public Backward(double pixel){
         steps = pixel;
@@ -19,7 +19,7 @@ public class Backward implements Command {
         Collection<TurtleStatus> ret = new ArrayList<>();
         double deltaX = 0-steps*Math.sin(ts.getBearing());
         double deltaY = steps*Math.cos(ts.getBearing());
-        return Command.moveDelta(ts, ret, deltaX, deltaY);
+        return Collections.unmodifiableCollection(Command.moveDelta(ts, ret, deltaX, deltaY));
     }
 
     @Override
@@ -27,6 +27,4 @@ public class Backward implements Command {
         return (double)steps;
     }
 
-    @Override
-    public int getNumArguments() { return NUM_ARGS; }
 }

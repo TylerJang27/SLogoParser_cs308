@@ -2,33 +2,33 @@ package slogo.commands;
 
 import slogo.backendexternal.TurtleStatus;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class Right implements Command {
+public class SetHeading implements Command {
 
     public static final int NUM_ARGS = 1;
 
     private double degree;
+    private double degreeMoved = 0;
 
-    public Right(double turn){
-        degree = turn;
+    public SetHeading(double heading){
+        degree = heading;
     }
 
 
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts) {
+        degreeMoved = degree - ts.getBearing();
         Collection<TurtleStatus> ret = new ArrayList<>();
-        double deltaHeading = degree;
-        return Collections.unmodifiableCollection(Command.turnDeltaHeading(ts, ret, deltaHeading));
+        return Collections.unmodifiableCollection(Command.turnDeltaHeading(ts, ret, degreeMoved));
     }
 
 
     @Override
     public double returnValue() {
-        return degree;
+        return degreeMoved;
     }
 
 }

@@ -9,6 +9,8 @@ public class TurtleStatus {
     public TurtleStatus(double xPos, double yPos, double bearing, boolean smooth){
         x = xPos;
         y = yPos;
+//        if(bearing>360) bearing-=360;
+//        if(bearing<0) bearing+=360;
         this.bearing = bearing;
         this.smooth = smooth;
     }

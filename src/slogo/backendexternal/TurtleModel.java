@@ -1,4 +1,4 @@
-package slogo.BackEndExternal;
+package slogo.backendexternal;
 
 import java.util.*;
 

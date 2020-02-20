@@ -1,6 +1,6 @@
 package slogo;
 
-import slogo.BackEndExternal.Parser;
+import slogo.backendexternal.Parser;
 
 /**
  * Feel free to completely change this code or delete it entirely. 
@@ -11,7 +11,7 @@ public class Main {
      */
     public static void main (String[] args) {
         Parser p = new Parser();
-        p.addPatterns("English.properties");
+        p.addPatterns("English");
         p.testParsing();
     }
 }

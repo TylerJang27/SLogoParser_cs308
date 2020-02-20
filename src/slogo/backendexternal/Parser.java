@@ -1,6 +1,6 @@
-package slogo.BackEndExternal;
+package slogo.backendexternal;
 
-import slogo.Commands.Command;
+import slogo.commands.Command;
 
 import java.io.File;
 import java.util.*;
@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
  * @author Tyler Jang
  */
 public class Parser {
-    //private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.languages.";
-    private static final String RESOURCES_PACKAGE = "src/slogo/BackEndExternal/resources/languages/";
+    private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
+    //private static final String RESOURCES_PACKAGE = "src/slogo/backendexternal/resources/";
     //TODO: REPLACE WITH USER CHOICE
 
     private List<Map.Entry<String, Pattern>> myCommands;
@@ -27,6 +27,7 @@ public class Parser {
     //language should be something like "English.properties"
     public void addPatterns (String language) {
         File f = new File(RESOURCES_PACKAGE + language);
+        System.out.println(f.getPath());
         System.out.println(f.exists());
 
         //TODO: Help! Can't load resource file!

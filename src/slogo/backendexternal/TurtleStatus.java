@@ -1,4 +1,4 @@
-package slogo.BackEndExternal;
+package slogo.backendexternal;
 
 public class TurtleStatus {
     private double x;

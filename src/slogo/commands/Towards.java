@@ -21,7 +21,7 @@ public class Towards implements Command {
 
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public Collection<TurtleStatus> execute(TurtleStatus ts, String mode) {
         degreeMoved = Math.tan((ts.getX()-xFacing)/(ts.getY()-yFacing)) - ts.getBearing();
         Collection<TurtleStatus> ret = new ArrayList<>();
         return Collections.unmodifiableCollection(Command.turnDeltaHeading(ts, ret, degreeMoved));

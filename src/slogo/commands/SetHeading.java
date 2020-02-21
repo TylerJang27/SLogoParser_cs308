@@ -19,7 +19,7 @@ public class SetHeading implements Command {
 
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public Collection<TurtleStatus> execute(TurtleStatus ts, String mode) {
         degreeMoved = degree - ts.getBearing();
         Collection<TurtleStatus> ret = new ArrayList<>();
         return Collections.unmodifiableCollection(Command.turnDeltaHeading(ts, ret, degreeMoved));

@@ -15,7 +15,7 @@ public class Left implements Command {
 
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public Collection<TurtleStatus> execute(TurtleStatus ts, String mode) {
         Collection<TurtleStatus> ret = new ArrayList<>();
         double deltaHeading = 0-degree;
         return Collections.unmodifiableCollection(Command.turnDeltaHeading(ts, ret, deltaHeading));

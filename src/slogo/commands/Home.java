@@ -20,8 +20,8 @@ public class Home implements Command {
 
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
-        return go.execute(ts);
+    public Collection<TurtleStatus> execute(TurtleStatus ts, String mode) {
+        return go.execute(ts, mode);
     }
 
 

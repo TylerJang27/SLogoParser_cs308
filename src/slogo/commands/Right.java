@@ -19,7 +19,7 @@ public class Right implements Command {
 
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public Collection<TurtleStatus> execute(TurtleStatus ts, String mode) {
         Collection<TurtleStatus> ret = new ArrayList<>();
         double deltaHeading = degree;
         return Collections.unmodifiableCollection(Command.turnDeltaHeading(ts, ret, deltaHeading));

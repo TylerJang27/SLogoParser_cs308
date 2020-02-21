@@ -21,7 +21,7 @@ public class GoTo implements Command {
 
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public Collection<TurtleStatus> execute(TurtleStatus ts, String mode) {
         distance = Math.sqrt(Math.pow(ts.getX()-xPos,2)+Math.pow(ts.getY()-yPos,2));
         Collection<TurtleStatus> ret = new ArrayList<>();
         double deltaX = xPos - ts.getX();

@@ -1,4 +1,4 @@
-package slogo.backendexternal;
+package slogo.backendexternal.backendexceptions;
 
 /**
  * Class for formatting the types of exceptions that may occur when an invalid command is parsed.

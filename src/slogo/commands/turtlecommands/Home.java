@@ -1,21 +1,24 @@
-package slogo.commands;
+package slogo.commands.turtlecommands;
 
 import slogo.backendexternal.TurtleStatus;
+import slogo.commands.TurtleCommand;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
-public class Home implements Command {
+/**
+ *
+ * @author Lucy Gu
+ */
+public class Home implements TurtleCommand {
 
     public static final int NUM_ARGS = 0;
 
-    private double xPos = 0;//WIDTH/2;      //TODO: What do we put here?
-    private double yPos = 0;//HEIGHT/2;
-    private Command go;
+    private static final double homeX = 0;
+    private static final double homeY = 0;
+    private TurtleCommand go;
 
     public Home(){
-        go = new GoTo(xPos, yPos);
+        go = new SetPosition(homeX, homeY);
     }
 
 

@@ -1,9 +1,15 @@
-package slogo.commands;
+package slogo.commands.turtlecommands;
 
 import slogo.backendexternal.TurtleStatus;
+import slogo.commands.TurtleCommand;
+
 import java.util.*;
 
-public class Backward implements Command {
+/**
+ *
+ * @author Lucy Gu
+ */
+public class Backward implements TurtleCommand {
 
     public static final int NUM_ARGS = 1;
 
@@ -17,11 +23,10 @@ public class Backward implements Command {
         yMax = maxY;
     }
 
-
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts, String mode) {
+    public Collection<TurtleStatus> execute(TurtleStatus ts) {
         Collection<TurtleStatus> ret = new ArrayList<>();
-        double deltaX = 0-steps*Math.sin(ts.getBearing());
+        double deltaX = -1 * steps*Math.sin(ts.getBearing());
         double deltaY = steps*Math.cos(ts.getBearing());
         return Collections.unmodifiableCollection(Command.move(ts,ret,deltaX,deltaY,xMax, yMax, mode));
     }

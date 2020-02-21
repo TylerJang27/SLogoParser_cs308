@@ -1,9 +1,15 @@
-package slogo.commands;
+package slogo.commands.turtlecommands;
 
 import slogo.backendexternal.TurtleStatus;
+import slogo.commands.TurtleCommand;
+
 import java.util.*;
 
-public class Left implements Command {
+/**
+ *
+ * @author Lucy Gu
+ */
+public class Left implements TurtleCommand {
 
     public static final int NUM_ARGS = 1;
 
@@ -18,7 +24,7 @@ public class Left implements Command {
     public Collection<TurtleStatus> execute(TurtleStatus ts, String mode) {
         Collection<TurtleStatus> ret = new ArrayList<>();
         double deltaHeading = 0-degree;
-        return Collections.unmodifiableCollection(Command.turnDeltaHeading(ts, ret, deltaHeading));
+        return Collections.unmodifiableCollection(TurtleCommand.turnDeltaHeading(ts, ret, deltaHeading));
     }
 
 

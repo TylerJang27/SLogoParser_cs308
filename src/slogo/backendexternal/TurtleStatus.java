@@ -1,38 +1,34 @@
 package slogo.backendexternal;
 
+import javafx.scene.paint.Color;
+
+/**
+ * @author Lucy Gu, Tyler Jang
+ */
 public class TurtleStatus {
     private double x;
     private double y;
     private double bearing;
     private boolean smooth;
-//    private String mode;
+    private PenModel penModel;
+    private boolean turtleVisible;
 
-    public TurtleStatus(double xPos, double yPos, double bearing, boolean smooth){// ,String mode){
-//        x = parse(xPos, 0);
-//        y = parse(yPos, 0);
-//        if(bearing>360) bearing-=360;
-//        if(bearing<0) bearing+=360;
-        x = xPos;
-        y = yPos;
+    public TurtleStatus(double xPos, double yPos, double bearing, boolean smooth, boolean visible, PenModel penModel){
+        this.x = xPos;
+        this.y = yPos;
         this.bearing = bearing;
         this.smooth = smooth;
-//        this.mode = mode;
+        this.turtleVisible = visible;
+        this.penModel = penModel;
     }
-//    public TurtleStatus(double xPos, double yPos, double bearing, boolean smooth) {
-//       this(xPos, yPos, bearing, smooth, "normal");
-//    }
 
-//    private double parse(double position, double size){
-//        if(mode.equals("toroidal")){
-//
-//        }
-//        else if(mode.equals("edge")){
-//            if(position<0) return 0;
-//            if(position>size) return size;
-//            return position;
-//        }
-//        return position;
-//    }
+    public TurtleStatus(double xPos, double yPos, double bearing, boolean smooth, boolean visible, boolean penDown, Color penColor) {
+        this(xPos, yPos, bearing, smooth, visible, new PenModel(penDown, penColor));
+    }
+
+    public TurtleStatus() {
+        this(0, 0, 0, false, true, new PenModel());
+    }
 
     public double getX(){
         return x;
@@ -50,6 +46,9 @@ public class TurtleStatus {
         return smooth;
     }
 
-//    public String getMode(){return mode;}
+    public boolean getPenDown() { return smooth && penModel.getPenDown(); }
 
+    public Color getPenColor() { return penModel.getPenColor(); }
+
+    public boolean getVisible() { return turtleVisible; }
 }

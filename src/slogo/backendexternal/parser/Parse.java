@@ -1,6 +1,8 @@
-package slogo.backendexternal;
+package slogo.backendexternal.parser;
 
 import slogo.commands.TurtleCommand;
+import slogo.backendexternal.backendexceptions.InvalidCommandException;
+import slogo.backendexternal.TurtleStatus;
 
 import java.io.File;
 import java.util.*;
@@ -13,25 +15,20 @@ import java.util.regex.Pattern;
  * https://coursework.cs.duke.edu/compsci308_2020spring/spike_parser/blob/master/src/regex/ProgramParser.java *
  * @author Tyler Jang
  */
-public class Parser {
-    private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
-    //private static final String RESOURCES_PACKAGE = "src/slogo/backendexternal/resources/";
+public class Parse {
+    @Deprecated
+    private static final String RESOURCES_PACKAGE = Parse.class.getPackageName() + ".resources.";
     //TODO: REPLACE WITH USER CHOICE
 
     private List<Map.Entry<String, Pattern>> myCommands;
 
-    public Parser () {
+    public Parse() {
         myCommands = new ArrayList<>();
     }
 
     //language should be something like "English"
     public void addPatterns (String language) {
         File f = new File(RESOURCES_PACKAGE + language);
-        System.out.println(f.getPath());
-        System.out.println(f.exists());
-
-        //TODO: Help! Can't load resource file!
-
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + language);
         for (String key : Collections.list(resources.getKeys())) {
             String regex = resources.getString(key);

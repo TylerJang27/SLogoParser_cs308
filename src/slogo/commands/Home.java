@@ -12,12 +12,12 @@ public class Home implements Command {
 
     public static final int NUM_ARGS = 0;
 
-    private double xPos = 0;//WIDTH/2;      //TODO: What do we put here?
-    private double yPos = 0;//HEIGHT/2;
+    private static final double homeX = 0;
+    private static final double homeY = 0;
     private Command go;
 
     public Home(){
-        go = new SetPosition(xPos, yPos);
+        go = new SetPosition(homeX, homeY);
     }
 
 

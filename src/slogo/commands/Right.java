@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ *
+ * @author Lucy Gu
+ */
 public class Right implements Command {
 
     public static final int NUM_ARGS = 1;

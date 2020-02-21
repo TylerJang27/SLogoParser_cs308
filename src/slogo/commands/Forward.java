@@ -3,6 +3,10 @@ package slogo.commands;
 import slogo.backendexternal.TurtleStatus;
 import java.util.*;
 
+/**
+ *
+ * @author Lucy Gu
+ */
 public class Forward implements Command {
 
     public static final int NUM_ARGS = 1;

@@ -7,6 +7,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ * @author Tyler Jang
+ */
 public class BuildableFunction implements Command {
 
     //SHOULD BE SEPARATE FROM MAKE--THIS REPRESENTS A SKELETON FOR A FUNCTION THAT THE USER CAN DEFINE

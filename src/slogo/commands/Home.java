@@ -4,6 +4,10 @@ import slogo.backendexternal.TurtleStatus;
 
 import java.util.Collection;
 
+/**
+ *
+ * @author Lucy Gu
+ */
 public class Home implements Command {
 
     public static final int NUM_ARGS = 0;

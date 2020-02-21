@@ -1,9 +1,9 @@
 package slogo.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+//import java.util.ArrayList;
+//import java.util.List;
+//import javafx.animation.KeyFrame;
+//import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -13,8 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import javax.swing.KeyStroke;
+//import javafx.util.Duration;
+//import javax.swing.KeyStroke;
 import slogo.backendexternal.parser.Parser;
 
 public class Controller extends Application {
@@ -62,10 +62,14 @@ public class Controller extends Application {
 
   private void sendCommand(KeyCode key, TextField field){
     String input = field.getText();
-    if(key == KeyCode.ENTER){
+    if(key == KeyCode.SHIFT){
       // FRONT END STORE COMMAND IN HISTORY
       myParser.parseLine(input);
       field.clear();
+    }
+    if(key == KeyCode.ENTER){
+      // FRONT END STORE COMMAND IN HISTORY
+      myParser.sendCommands();
     }
   }
 

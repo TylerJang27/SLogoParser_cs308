@@ -1,6 +1,7 @@
-package slogo.commands;
+package slogo.commands.turtlecommands;
 
 import slogo.backendexternal.TurtleStatus;
+import slogo.commands.TurtleCommand;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,20 +11,20 @@ import java.util.Collections;
  *
  * @author Tyler Jang
  */
-public class PenDown implements Command {
+public class ShowTurtle implements TurtleCommand {
 
     public static final int NUM_ARGS = 0;
-    private static final int DOWN_STATUS = 1;
+    private static final int TURTLE_SHOWN = 1;
 
-    public PenDown() {}
+    public ShowTurtle() {}
 
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts) {
         Collection<TurtleStatus> ret = new ArrayList<>();
-        ret.add(new TurtleStatus(ts.getX(), ts.getY(), ts.getBearing(), true, ts.getVisible(), true, ts.getPenColor()));
+        ret.add(new TurtleStatus(ts.getX(), ts.getY(), ts.getBearing(), true, true, ts.getPenDown(), ts.getPenColor()));
         return Collections.unmodifiableCollection(ret);
     }
 
     @Override
-    public double returnValue() { return DOWN_STATUS; }
+    public double returnValue() { return TURTLE_SHOWN; }
 }

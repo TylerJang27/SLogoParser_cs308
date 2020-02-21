@@ -1,6 +1,7 @@
-package slogo.commands;
+package slogo.commands.turtlecommands;
 
 import slogo.backendexternal.TurtleStatus;
+import slogo.commands.TurtleCommand;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,7 +11,7 @@ import java.util.Collections;
  *
  * @author Lucy Gu
  */
-public class SetTowards implements Command {
+public class SetTowards implements TurtleCommand {
 
     public static final int NUM_ARGS = 2;
 
@@ -29,7 +30,7 @@ public class SetTowards implements Command {
         double newDirection = Math.toDegrees(Math.atan((ts.getX()-xFacing)/(ts.getY()-yFacing)));
         degreeMoved = newDirection - ts.getBearing();
         Collection<TurtleStatus> ret = new ArrayList<>();
-        return Collections.unmodifiableCollection(Command.turnDeltaHeading(ts, ret, degreeMoved));
+        return Collections.unmodifiableCollection(TurtleCommand.turnDeltaHeading(ts, ret, degreeMoved));
     }
 
 

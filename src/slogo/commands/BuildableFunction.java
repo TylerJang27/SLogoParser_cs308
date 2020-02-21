@@ -11,15 +11,15 @@ import java.util.Map;
  *
  * @author Tyler Jang
  */
-public class BuildableFunction implements Command {
+public class BuildableFunction implements TurtleCommand {
 
     //SHOULD BE SEPARATE FROM MAKE--THIS REPRESENTS A SKELETON FOR A FUNCTION THAT THE USER CAN DEFINE
 
     Map<String, Integer> myVariables;
-    Collection<Command> myContent;
+    Collection<TurtleCommand> myContent;
     double finalVal;
 
-    public BuildableFunction(Map<String, Integer> variables, Collection<Command> content) {
+    public BuildableFunction(Map<String, Integer> variables, Collection<TurtleCommand> content) {
         myVariables = variables;
         myContent = content;
         finalVal = 0;
@@ -29,7 +29,7 @@ public class BuildableFunction implements Command {
     public Collection<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> statuses = new ArrayList<>();
         statuses.add(ts);
-        for (Command c: myContent) {
+        for (TurtleCommand c: myContent) {
             statuses.addAll(c.execute(statuses.get(statuses.size() - 1)));
             finalVal = c.returnValue();
             //TODO: Figure out how the internal commands have access to the local variables

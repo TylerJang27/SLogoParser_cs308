@@ -1,6 +1,7 @@
-package slogo.commands;
+package slogo.commands.turtlecommands;
 
 import slogo.backendexternal.TurtleStatus;
+import slogo.commands.TurtleCommand;
 
 import java.util.Collection;
 
@@ -8,13 +9,13 @@ import java.util.Collection;
  *
  * @author Lucy Gu
  */
-public class Home implements Command {
+public class Home implements TurtleCommand {
 
     public static final int NUM_ARGS = 0;
 
     private static final double homeX = 0;
     private static final double homeY = 0;
-    private Command go;
+    private TurtleCommand go;
 
     public Home(){
         go = new SetPosition(homeX, homeY);

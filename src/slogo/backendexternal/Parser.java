@@ -1,6 +1,6 @@
 package slogo.backendexternal;
 
-import slogo.commands.Command;
+import slogo.commands.TurtleCommand;
 
 import java.io.File;
 import java.util.*;
@@ -66,7 +66,7 @@ public class Parser {
 
     ///////////////////////////////////////////////////////////////////////
     //Class.forName()
-    private Collection<Command> parseLine(String s) {
+    private Collection<TurtleCommand> parseLine(String s) {
         //check first for Syntax (Syntax.properties):
             //if it's a command, check it with knownCommands (and declared functions from TurtleModel)
             //else throw InvalidCommandException

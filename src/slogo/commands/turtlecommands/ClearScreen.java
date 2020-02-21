@@ -1,6 +1,7 @@
-package slogo.commands;
+package slogo.commands.turtlecommands;
 
 import slogo.backendexternal.TurtleStatus;
+import slogo.commands.TurtleCommand;
 
 import java.util.Collection;
 
@@ -8,11 +9,11 @@ import java.util.Collection;
  *
  * @author Lucy Gu, Tyler Jang
  */
-public class ClearScreen implements Command {
+public class ClearScreen implements TurtleCommand {
 
     public static final int NUM_ARGS = 0;
 
-    private Command go;
+    private TurtleCommand go;
 
     public ClearScreen(){
         go = new Home();

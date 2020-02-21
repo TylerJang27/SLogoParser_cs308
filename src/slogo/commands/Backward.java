@@ -13,7 +13,6 @@ public class Backward implements Command {
         steps = pixel;
     }
 
-
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts) {
         Collection<TurtleStatus> ret = new ArrayList<>();

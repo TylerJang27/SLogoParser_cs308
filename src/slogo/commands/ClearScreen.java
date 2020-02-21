@@ -16,7 +16,7 @@ public class ClearScreen implements Command {
 
     public ClearScreen(){
         go = new Home();
-        //TODO: NEED ADDITIONAL PARAMETER QUALIFYING AS A RESET
+        //TODO: NEED ADDITIONAL PARAMETER QUALIFYING AS A RESET:
         //Could add a null to a collection of TurtleStatus, stuff, which the front
         //could interpret as remove everything and go from there
         //need to keep in mind sequential order of things

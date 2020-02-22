@@ -26,6 +26,7 @@ public class TurtleStatus {
         this(xPos, yPos, bearing, smooth, visible, new PenModel(penDown, penColor));
     }
 
+
     public TurtleStatus() {
         this(0, 0, 0, false, true, new PenModel());
     }

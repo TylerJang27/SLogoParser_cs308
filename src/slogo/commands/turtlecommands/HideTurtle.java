@@ -22,7 +22,7 @@ public class HideTurtle implements TurtleCommand {
     public Collection<TurtleStatus> execute(TurtleStatus ts) {
         Collection<TurtleStatus> ret = new ArrayList<>();
         ret.add(new TurtleStatus(ts.getX(), ts.getY(), ts.getBearing(), true, false, ts.getPenDown(), ts.getPenColor()));
-        return Collections.unmodifiableCollection(ret);
+        return ret;
     }
 
     @Override

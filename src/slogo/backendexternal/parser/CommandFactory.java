@@ -17,7 +17,7 @@ public class CommandFactory {
       command = key;
     }
     for(String key : myCommands.keySet()){
-      if(myCommands.get(key).contains(command)){
+      if(myCommands.get(key).indexOf(command) > -1){
         return buildCommand(key, components.get(command));
       }
     }

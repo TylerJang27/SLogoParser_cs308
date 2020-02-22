@@ -35,5 +35,8 @@ public class ClearScreen implements TurtleCommand {
         return go.returnValue();
     }
 
+    public static boolean toClear() {
+        return true; //TODO: MAKE SURE THIS IMPLEMENTATION WORKS
+    }
 
 }

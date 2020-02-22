@@ -14,4 +14,7 @@ public interface Command {
     public Collection<TurtleStatus> execute(TurtleStatus ts);
     public double returnValue();
 
+    public static boolean toClear() {
+        return false;
+    }
 }

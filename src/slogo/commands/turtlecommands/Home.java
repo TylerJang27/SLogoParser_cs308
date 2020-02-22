@@ -17,8 +17,8 @@ public class Home implements TurtleCommand {
     private static final double homeY = 0;
     private TurtleCommand go;
 
-    public Home(){
-        go = new SetPosition(homeX, homeY);
+    public Home(int xMax, int yMax, String mode){
+        go = new SetPosition(new Constant(homeX), new Constant(homeY), xMax, yMax, mode);
     }
 
 

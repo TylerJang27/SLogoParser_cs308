@@ -1,29 +1,29 @@
-package slogo.commands.mathcommands;
+package slogo.commands.booleancommands;
+
 import slogo.backendexternal.TurtleStatus;
+import slogo.commands.BooleanCommand;
 import slogo.commands.Command;
-import slogo.commands.MathCommand;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Remainder implements MathCommand {
-
+public class Not implements BooleanCommand{
     private Command arg1;
-    private Command arg2;
     private double returnVal;
-    public static final int NUM_ARGS = 2;
+    public static final int NUM_ARGS = 1;
 
-    public Remainder(Command argA, Command argB){
+    public Not(Command argA){
         arg1 = argA;
-        arg2 = argB;
     }
 
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
-        double[] val = MathCommand.twoArgOperation(ret, ts, arg1, arg2);
-        returnVal = ((int)val[0])%((int)val[1]);
+        ret.addAll(arg1.execute(ts));
+        double val = arg1.returnValue();
+        if(val==0) returnVal = 1;
+        else returnVal = 0;
         return ret;
     }
 

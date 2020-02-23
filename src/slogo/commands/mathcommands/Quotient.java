@@ -23,7 +23,8 @@ public class Quotient implements MathCommand {
     public Collection<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
         double[] val = MathCommand.twoArgOperation(ret, ts, arg1, arg2);
-        returnVal = val[0]/val[1];
+        int value = (int) ((val[0])/(val[1]));
+        returnVal = value;
         return ret;
     }
 

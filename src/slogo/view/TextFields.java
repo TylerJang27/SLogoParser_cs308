@@ -25,7 +25,7 @@ public class TextFields extends HBox {
 
     public TextFields(MainView mainview) {
         setMyMainView(mainview);
-        this.myToolBar = mainview.myToolbar;
+        this.myToolBar = mainview.getToolBar();
 
         Label comLabel = new Label("History of Commands:");
         Label varLabel = new Label("List of Variables:");
@@ -39,13 +39,11 @@ public class TextFields extends HBox {
         this.commandBox.getChildren().addAll(comLabel, commands);
         this.variableBox.getChildren().addAll(varLabel, variables);
 
-        commands.appendText("blah");
-
         this.getChildren().addAll(commandBox, variableBox);
     }
 
     public void addText(){
-        commands.appendText("b");
+        commands.appendText("b\n");
     }
 
     public MainView getMyMainView() {

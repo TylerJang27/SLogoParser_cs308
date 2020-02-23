@@ -1,8 +1,8 @@
 NetID:  sk593, taj26, wg74, dmh58
 
-#Front end
+## Front end
 
-###External:
+### External:
 * Overview:
     - The external API on the front end should be responsible for 
     sending the command to the backend side. This will allow the backend 
@@ -28,7 +28,7 @@ NetID:  sk593, taj26, wg74, dmh58
         that have been inputted previously
 
 
-###Internal:
+### Internal:
 * Goals:
     - The goal of the internal front end API will be to construct various components of 
     the UI that can be easily modifiable, easily accessed, and easily extended by future users. 
@@ -57,9 +57,9 @@ NetID:  sk593, taj26, wg74, dmh58
 
 
  
-#Backend 
+## Backend 
 
-###External: (everything front-end will need to know about the back-end)
+### External: (everything front-end will need to know about the back-end)
 * Overview:
     - The external interface of the back-end will need to have a central class, 
     CommandProcessor.java, that will call the necessary components internally to deliver 
@@ -79,7 +79,7 @@ NetID:  sk593, taj26, wg74, dmh58
     - setLanguage()
         * Sets the file from which commands will be translated.
  
-####Internal: (everything the rest of back-end will need to know about the back-end)
+#### Internal: (everything the rest of back-end will need to know about the back-end)
 * Overview:
     - The internal interface of the back-end will be divided into three packages.
     - Control (could be modified)
@@ -110,14 +110,14 @@ NetID:  sk593, taj26, wg74, dmh58
     - reset()
         * Clear all commands in the collection, clear all the variables
 
-###CRC Cards
+### CRC Cards
 ![](CommandLineCRC.png "Command Line CRC Cards")
 
 ![](TurtleCRC.png "Turtle CRC Cards")
 
 ![](ParserCRC.png "Parser CRC Cards")
  
-###Use Cases
+### Use Cases
 1. The user types 'fd 50' in the command window, sees the turtle move in the display window leaving a trail, and has the command added to the environment's history.
 
     After the user presses “ENTER,” CommandLine’s readCommand() would read the string. The Controller would call readCommand() to store the inputted commands as a string. Controller in turn calls getCommands(), which in turn passes the resulting String to Parser’s parseCommand(). The result would then be passed to TurtleModel’s executeCommands(), returning a Collection of TurtleStatus instances. These would be passed as arguments to TurtleView’s update(), causing the turtle to move.

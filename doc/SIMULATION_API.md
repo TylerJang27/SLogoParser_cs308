@@ -3,7 +3,7 @@
 ### Names: Dennis, Tyler, Lucy, Shruthi, Nevzat
 This file provides an overview of the API found in a well-designed simulation project.
 
-##Method Publicity
+## Method Publicity
 Choose someone's previous Cell Society project and examine it from the perspective of an API by categorizing each public or protected method in the Simulation "module" from following perspectives:
 
 1. A method should not be part of the API (i.e., it should not be public):

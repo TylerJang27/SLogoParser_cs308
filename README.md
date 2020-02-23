@@ -3,7 +3,7 @@ parser
 
 This project implements a development environment that helps users write SLogo programs.
 
-Names:
+Names: Dennis, Tyler, Lucy, Shruthi, Nevzat
 
 
 ### Timeline

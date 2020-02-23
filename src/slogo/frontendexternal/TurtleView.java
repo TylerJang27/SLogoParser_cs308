@@ -5,32 +5,39 @@ import javax.swing.text.Element;
 import javax.swing.text.html.ImageView;
 
 public class TurtleView {
-  private int xPos;
-  private int yPos;
-  private ImageView imageView;
+  private int myXPos;
+  private int myYPos;
+  private ImageView myImageView;
 
 
   public TurtleView() {
-    xPos = 0;
-    yPos = 0;
-    imageView = new ImageView((Element) Color.GREEN);
+    myXPos = 0;
+    myYPos = 0;
+    myImageView = new ImageView((Element) Color.GREEN);
   }
 
   public int getxPos() {
-    return xPos;
+    return myXPos;
   }
 
   public int getyPos() {
-    return yPos;
+    return myYPos;
   }
 
   public ImageView getImageView() {
-    return imageView;
+    return myImageView;
   }
 
+  public void setxPos(int xPos) {
+    myXPos = xPos;
+  }
 
+  public void setyPos(int yPos) {
+    myYPos = yPos;
+  }
 
-
-
+  public void setMyImageView(ImageView imageView) {
+    myImageView = imageView;
+  }
 
 }

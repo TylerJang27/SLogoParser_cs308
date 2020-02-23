@@ -4,6 +4,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ *
+ * @author Shruthi Kumar
+ */
 public class Display extends Application {
   private Scene myScene;
   private MainView myMainView;

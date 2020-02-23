@@ -24,7 +24,10 @@ public class Toolbar extends ToolBar {
   private Timeline animation;
 
 
-
+  /**
+   *
+   * @author Shruthi Kumar
+   */
   public Toolbar(MainView mainview) {
     myMainView = mainview;
 

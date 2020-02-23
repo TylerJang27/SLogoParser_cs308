@@ -22,7 +22,6 @@ public class PenView {
     isDown.set(true);
   }
 
-
   public boolean getPenDown() {
     return isDown.get();
   }
@@ -31,9 +30,34 @@ public class PenView {
     return myLineThickness;
   }
 
-  public void setMyLineThickness(double myLineThickness) {
-    this.myLineThickness = myLineThickness
+  public void setMyLineThickness(double lineThickness) {
+    this.myLineThickness = lineThickness;
   }
+
+  public double getMyXPos() {
+    return myXPos;
+  }
+
+  public void setMyXPos(int xPos) {
+    myXPos = xPos;
+  }
+
+  public double getMyYPos() {
+    return myYPos;
+  }
+
+  public void setMyYPos(int yPos) {
+    myYPos = yPos;
+  }
+
+  public Color getMyPenColor() {
+    return myPenColor;
+  }
+
+  public void setMyPenColor(Color penColor) {
+    myPenColor = penColor;
+  }
+
 
 
 

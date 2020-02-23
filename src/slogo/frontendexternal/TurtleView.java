@@ -3,6 +3,7 @@ package slogo.frontendexternal;
 import java.awt.Color;
 import javax.swing.text.Element;
 import javax.swing.text.html.ImageView;
+import slogo.backendexternal.TurtleModel;
 
 /**
  * Creates TurtleView
@@ -12,6 +13,7 @@ public class TurtleView {
   private int myXPos;
   private int myYPos;
   private ImageView myImageView;
+  private TurtleModel turtleModel = new TurtleModel();
 
 
   /**

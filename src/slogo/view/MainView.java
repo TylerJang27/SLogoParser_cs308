@@ -37,8 +37,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
   public MainView() {
-    this.myToolbar = new Toolbar(this);
     this.myTextFields = new TextFields(this);
+    this.myToolbar = new Toolbar(this);
 
     this.simCanvas = new Canvas(canvasWidth,canvasHeight);
 

@@ -23,8 +23,8 @@ import slogo.backendexternal.TurtleStatus;
  */
 public class MainView extends VBox implements EventHandler, MainViewAPI {
 
-  public Toolbar myToolbar;
-  public TextFields myTextFields;
+  private Toolbar myToolbar;
+  private TextFields myTextFields;
 
   private Timeline timeline;
 
@@ -34,8 +34,9 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
   public MainView() {
-    this.myToolbar = new Toolbar(this);
     this.myTextFields = new TextFields(this);
+
+    this.myToolbar = new Toolbar(this);
     this.myToolbar.setTextField(myTextFields);
 
 
@@ -92,4 +93,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   public void resetCommands() {
 
   }
+
+  public TextFields getTextFields(){return this.myTextFields;}
+  public ToolBar getToolBar(){return this.myToolbar;}
+
 }

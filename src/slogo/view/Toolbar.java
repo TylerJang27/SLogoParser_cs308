@@ -24,6 +24,7 @@ public class Toolbar extends ToolBar {
   private Timeline animation;
 
 
+
   public Toolbar(MainView mainview) {
     myMainView = mainview;
 
@@ -40,7 +41,7 @@ public class Toolbar extends ToolBar {
   }
 
   private void handleCommand(ActionEvent actionEvent) {
-    
+
   }
 
 

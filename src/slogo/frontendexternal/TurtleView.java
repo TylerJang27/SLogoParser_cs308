@@ -4,38 +4,69 @@ import java.awt.Color;
 import javax.swing.text.Element;
 import javax.swing.text.html.ImageView;
 
+/**
+ * Creates TurtleView
+ * @author Shruthi Kumar
+ */
 public class TurtleView {
   private int myXPos;
   private int myYPos;
   private ImageView myImageView;
 
 
+  /**
+   * Constructor for TurtleView object
+   */
   public TurtleView() {
     myXPos = 0;
     myYPos = 0;
     myImageView = new ImageView((Element) Color.GREEN);
   }
 
-  public int getxPos() {
+  /**
+   * Gets x position of turtle
+   * @return myXPos : x position
+   */
+  public int getMyXPos() {
     return myXPos;
   }
 
-  public int getyPos() {
+  /**
+   * Gets y position of turtle
+   * @return myYPos : y position
+   */
+  public int getMyYPos() {
     return myYPos;
   }
 
-  public ImageView getImageView() {
+  /**
+   * Gets ImageView of turtle
+   * @return myImageView : image view of turtle
+   */
+  public ImageView getMyImageView() {
     return myImageView;
   }
 
-  public void setxPos(int xPos) {
+  /**
+   * sets x position of turtle
+   * @param xPos : x position
+   */
+  public void setMyXPos(int xPos) {
     myXPos = xPos;
   }
 
-  public void setyPos(int yPos) {
+  /**
+   * sets y position of turtle
+   * @param yPos : y position
+   */
+  public void setMyYPos(int yPos) {
     myYPos = yPos;
   }
 
+  /**
+   * sets image view of turtle
+   * @param imageView : image view of turtle
+   */
   public void setMyImageView(ImageView imageView) {
     myImageView = imageView;
   }

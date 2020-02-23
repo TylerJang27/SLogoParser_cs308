@@ -19,6 +19,11 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import slogo.backendexternal.TurtleStatus;
 
+
+/**
+ *
+ * @author Shruthi Kumar
+ */
 public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public Toolbar myToolbar;

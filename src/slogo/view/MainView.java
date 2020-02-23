@@ -1,13 +1,19 @@
 package slogo.view;
 
+import java.awt.*;
 import java.io.ObjectInputFilter.Config;
 import java.util.Collection;
+
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.layout.BorderPane;
 import javafx.geometry.Pos;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
@@ -15,15 +21,31 @@ import slogo.backendexternal.TurtleStatus;
 
 public class MainView extends VBox implements EventHandler, MainViewAPI {
 
-  private Toolbar myToolbar;
-  private SimulationCanvas simulationCanvas;
- //s private Configpanel
+  public Toolbar myToolbar;
+  public TextFields myTextFields;
+
+  private Timeline timeline;
+
+  private Canvas simCanvas;
+  private double canvasWidth = 830;
+  private double canvasHeight = 830;
 
 
   public MainView() {
-    myToolbar = new Toolbar(this);
-    simulationCanvas = new SimulationCanvas();
+    this.myToolbar = new Toolbar(this);
+    this.myTextFields = new TextFields(this);
+
+    this.simCanvas = new Canvas(canvasWidth,canvasHeight);
+
+    this.getChildren().addAll(myTextFields, myToolbar, simCanvas);
   }
+
+  private void test(ActionEvent actionEvent) {
+
+  }
+
+
+
 
   public void step() {
   }

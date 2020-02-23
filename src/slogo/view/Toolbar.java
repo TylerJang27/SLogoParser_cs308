@@ -18,7 +18,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.util.ResourceBundle;
 
 public class Toolbar extends ToolBar {
+
   private MainView myMainView;
+  private TextFields myTextFields;
+
+  private Button runCommand;
+
+
   private static final int FRAMES_PER_SECOND = 60;
   private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
   private Timeline animation;
@@ -26,12 +32,13 @@ public class Toolbar extends ToolBar {
 
 
   public Toolbar(MainView mainview) {
-    myMainView = mainview;
+    this.myMainView = mainview;
+    this.myTextFields = myMainView.myTextFields;
 
     TextField textField = new TextField("Enter Command: ");
     textField.setOnAction(this:: handleCommand);
 
-    Button runCommand = new Button("Run");
+    this.runCommand = new Button("Run");
     runCommand.setOnAction(this:: handlePlay);
 
     animationFunctions();
@@ -69,6 +76,7 @@ public class Toolbar extends ToolBar {
    */
   private void handlePlay(ActionEvent actionEvent) {
     animation.play();
+    //myTextFields.addText();
     //timer.start();
   }
 

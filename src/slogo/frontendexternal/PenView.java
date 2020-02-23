@@ -32,7 +32,7 @@ public class PenView {
   }
 
   public void setMyLineThickness(double myLineThickness) {
-    this.myLineThickness = myLineThickness
+    this.myLineThickness = myLineThickness;
   }
 
 

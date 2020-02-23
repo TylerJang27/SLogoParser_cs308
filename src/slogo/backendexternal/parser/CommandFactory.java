@@ -26,14 +26,15 @@ public class CommandFactory {
 
   public static Command buildCommand(String key, List<Double> inputs){
     if(key == "Forward"){
-      return new Forward(inputs.get(0));
+      // return new Forward(inputs.get(0));
     }
     if(key == "Backward"){
-      return new Backward(inputs.get(0));
+      // return new Backward(inputs.get(0));
     }
     if(key == "Home"){
-      return new Home();
+     //  return new Home();
     }
-    return new Home();
+    // return new Home();
+    return null;
   }
 }

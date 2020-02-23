@@ -79,9 +79,11 @@ public class Toolbar extends ToolBar {
    */
   private void handlePlay(ActionEvent actionEvent) {
     animation.play();
-    //myTextFields.addText();
+    myTextFields.addText();
     //timer.start();
   }
+
+  public void setTextField(TextFields tf){this.myTextFields = tf;}
 
 
 

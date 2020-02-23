@@ -38,13 +38,11 @@ public class TextFields extends HBox {
         this.commandBox.getChildren().addAll(comLabel, commands);
         this.variableBox.getChildren().addAll(varLabel, variables);
 
-        commands.appendText("blah");
-
         this.getChildren().addAll(commandBox, variableBox);
     }
 
     public void addText(){
-        commands.appendText("b");
+        commands.appendText("b\n");
     }
 
 }

@@ -71,7 +71,7 @@ public class Toolbar extends ToolBar {
     this.backgroundMenu = new ColorPicker();
     backgroundMenu.setMaxWidth(50);
 
-    addTurtleSkins();
+    setUpTurtleMenu();
     this.languageMenu = new ComboBox();
     addLanguageChoices();
   }
@@ -79,6 +79,7 @@ public class Toolbar extends ToolBar {
 
   private void setUpTurtleMenu() {
     this.turtleMenu = new ComboBox();
+    addTurtleSkins();
 
     turtleMenu.setPromptText("Choose Turtle Skin");
     turtleMenu.setEditable(true);

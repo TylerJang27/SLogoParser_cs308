@@ -51,14 +51,15 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
   public MainView() {
-    this.myTextFields = new TextFields(this);
 
+    this.myTextFields = new TextFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setTextField(myTextFields);
+
     this.turtle = new TurtleView();
     this.simCanvas = new Canvas(canvasWidth,canvasHeight);
 
-    random = new Random();
+    //random = new Random();
 
    // this.getChildren().addAll(myToolbar, simCanvas, turtle.getMyImageView(), myTextFields);
 

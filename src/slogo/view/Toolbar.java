@@ -88,20 +88,7 @@ public class Toolbar extends ToolBar {
       myMainView.stop();
       if (newValue == "Turtle") {
         myMainView.setSkin(0);
-      } /*else if (newValue == toolbarBundle.getString("PercolationSim")) {
-        choosingNewSim(PERCOLATIONNUM);
-      }else if (newValue == toolbarBundle.getString("SegregationSim")){
-        choosingNewSim(SEGREGATIONNUM);
-      } else if (newValue == toolbarBundle.getString("PredatorPreySim")) {
-        choosingNewSim(PREDATORPREYNUM);
-      } else if (newValue == toolbarBundle.getString("FireSim")) {
-        choosingNewSim(FIRENUM);
-      } else if (newValue == toolbarBundle.getString("RPSSim")) {
-        choosingNewSim(RPSNUM);
-      } else if (newValue == toolbarBundle.getString("SugarscapeSim")) {
-        choosingNewSim(SURGARNUM);
       }
-      */
     });
   }
   //needs to be loaded from files not hardcoded
@@ -146,7 +133,6 @@ public class Toolbar extends ToolBar {
     this.myMainView.setBackgroundColor(backgroundMenu.getValue());
     this.myMainView.setPenColor(penMenu.getValue());
 
-   // this.myMainView.draw();
   }
 
   private void handleHelp(ActionEvent actionEvent) {

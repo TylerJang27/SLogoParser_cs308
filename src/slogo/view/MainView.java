@@ -1,20 +1,16 @@
 package slogo.view;
 
-import java.awt.*;
-import java.io.ObjectInputFilter.Config;
-import java.util.Collection;
-
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ToolBar;
+import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 import slogo.backendexternal.TurtleStatus;
+
+import java.awt.*;
+import java.util.Collection;
 
 
 /**
@@ -31,6 +27,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private Canvas simCanvas;
   private double canvasWidth = 600;
   private double canvasHeight = 600;
+
+  private Color backgroundColor, penColor;
 
 
   public MainView() {
@@ -94,6 +92,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   }
 
+  //Public Set Methods
+  public void setBackgroundColor(Color c){this.backgroundColor = c;}
+  public void setPenColor(Color c){this.penColor = c;}
+
+  //Public Get Methods
   public TextFields getTextFields(){return this.myTextFields;}
   public ToolBar getToolBar(){return this.myToolbar;}
 

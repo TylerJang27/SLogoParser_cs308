@@ -101,10 +101,11 @@ public class Toolbar extends ToolBar {
    * Methods that define the function of each Button
    */
   private void handleChanges() {
-    backgroundMenu.setValue(Color.BLUE);
-    penMenu.setValue(Color.PLUM);
-    this.myMainView.setBackgroundColor(Color.BLUE);
-    this.myMainView.setPenColor(Color.PINK);
+
+    this.myMainView.setBackgroundColor(backgroundMenu.getValue());
+    this.myMainView.setPenColor(penMenu.getValue());
+
+    this.myMainView.draw();
   }
 
   private void handleHelp(ActionEvent actionEvent) {

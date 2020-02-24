@@ -6,9 +6,12 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.geometry.Point2D;
 import javafx.scene.control.ToolBar;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Affine;
 import slogo.backendexternal.TurtleStatus;
 
 import java.awt.*;
@@ -46,11 +49,22 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
     this.simCanvas = new Canvas(canvasWidth,canvasHeight);
 
-    this.getChildren().addAll(myToolbar, simCanvas, turtle.getMyImageView(), myTextFields);
+    this.getChildren().addAll(myToolbar, simCanvas, myTextFields);
+
   }
 
 
   public void step() {
+  }
+
+
+
+  public void draw() {
+
+    GraphicsContext g = this.simCanvas.getGraphicsContext2D();
+    g.setFill(backgroundColor);
+    g.fillRect(0, 0, simCanvas.getWidth(), simCanvas.getHeight());
+
   }
 
   @Override
@@ -107,9 +121,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   //Public Set Methods
-  public void setBackgroundColor(Color c){
-    this.backgroundColor = c;
-  }
+  public void setBackgroundColor(Color c){ this.backgroundColor = c; }
   public void setPenColor(Color c){this.penColor = c;}
 
   //Public Get Methods

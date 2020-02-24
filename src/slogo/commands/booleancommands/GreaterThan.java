@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Greater implements BooleanCommand{
+public class GreaterThan implements BooleanCommand{
     private Command arg1;
     private Command arg2;
     private double returnVal;
     public static final int NUM_ARGS = 2;
 
-    public Greater(Command argA, Command argB){
+    public GreaterThan(Command argA, Command argB){
         arg1 = argA;
         arg2 = argB;
     }

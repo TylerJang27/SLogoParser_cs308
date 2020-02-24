@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Log implements MathCommand {
+public class NaturalLog implements MathCommand {
 
     private Command arg1;
     private double returnVal;
     public static final int NUM_ARGS = 1;
 
-    public Log(Command argA){
+    public NaturalLog(Command argA){
         arg1 = argA;
     }
 
@@ -21,7 +21,7 @@ public class Log implements MathCommand {
     public Collection<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(arg1.execute(ts));
-        int val = (int)arg1.returnValue();
+        int val = (int)arg1.returnValue();  //TODO: Should this be an int or double
         returnVal = Math.log(val);
         return ret;
     }

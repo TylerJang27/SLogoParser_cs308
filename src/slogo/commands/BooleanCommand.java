@@ -4,6 +4,10 @@ import slogo.backendexternal.TurtleStatus;
 
 import java.util.List;
 
+/**
+ *
+ * @author Tyler Jang
+ */
 public interface BooleanCommand extends Command {
 
     public static final int TRUE = 1;

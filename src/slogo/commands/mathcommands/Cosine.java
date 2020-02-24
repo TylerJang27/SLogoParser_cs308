@@ -1,29 +1,28 @@
-package slogo.commands.booleancommands;
-
+package slogo.commands.mathcommands;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
-import slogo.commands.BooleanCommand;
+import slogo.commands.MathCommand;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Less implements BooleanCommand{
-    private Command arg1;
-    private Command arg2;
-    private double returnVal;
-    public static final int NUM_ARGS = 2;
+public class Cosine implements MathCommand {
 
-    public Less(Command argA, Command argB){
+    private Command arg1;
+    private double returnVal;
+    public static final int NUM_ARGS = 1;
+
+    public Cosine(Command argA){
         arg1 = argA;
-        arg2 = argB;
     }
 
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
-        double[] val = BooleanCommand.twoArgOperation(ret, ts, arg1, arg2);
-        returnVal = (val[0]<val[1]) ? TRUE : FALSE;
+        ret.addAll(arg1.execute(ts));
+        int val = (int)arg1.returnValue(); //TODO: Should this be an int or double
+        returnVal = Math.cos(val);
         return ret;
     }
 

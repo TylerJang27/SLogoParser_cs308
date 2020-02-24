@@ -2,7 +2,7 @@ package slogo.commands.turtlecommands;
 
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.TurtleCommand;
-
+import slogo.commands.controlcommands.Constant;
 import java.util.Collection;
 
 /**
@@ -21,12 +21,10 @@ public class Home implements TurtleCommand {
         go = new SetPosition(new Constant(homeX), new Constant(homeY), xMax, yMax, mode);
     }
 
-
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts) {
         return go.execute(ts);
     }
-
 
     @Override
     public double returnValue() {

@@ -3,11 +3,15 @@ package slogo.view;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javafx.scene.control.*;
+import javax.imageio.ImageIO;
 
 /**
  * @author Shruthi Kumar, Nevzat Sevim
@@ -31,6 +35,8 @@ public class Toolbar extends ToolBar {
 
   //The Buttons
   private Button commandButton, helpButton, changesButton;
+  TextField textField;
+
 
   //Idk what this does
   private static final int FRAMES_PER_SECOND = 60;
@@ -41,11 +47,11 @@ public class Toolbar extends ToolBar {
   public Toolbar(MainView mainview) {
     this.myMainView = mainview;
     this.myTextFields = myMainView.getTextFields();
+    textField = new TextField("Enter Command: ");
 
     createMenus();
     createButtons();
 
-    TextField textField = new TextField("Enter Command: ");
     textField.setOnAction(this:: handleCommand);
 
     animationFunctions();
@@ -71,8 +77,11 @@ public class Toolbar extends ToolBar {
   }
 
   private void createButtons() {
-    this.commandButton = new Button("Run");
-    commandButton.setOnAction(this:: handleCommand);
+    //this.commandButton = new Button("Run");
+
+    EventHandler<ActionEvent> showHandler = event -> addCommand(); //commandButton.getText());
+    this.commandButton = makeButton("Go Command", showHandler);
+    //commandButton.setOnAction(this:: handleCommand);
 
     this.helpButton = new Button("?");
     helpButton.setOnAction(this:: handleHelp);
@@ -81,10 +90,12 @@ public class Toolbar extends ToolBar {
     changesButton.setOnAction(this::handleChanges);
   }
 
+  private void addCommand() {
+    myTextFields.addText(textField.getText());
+  }
   /**
    * Methods that define the function of each Button
    */
-
   private void handleChanges(ActionEvent actionEvent) {
     this.myMainView.setBackgroundColor(backgroundMenu.getValue());
     this.myMainView.setPenColor(penMenu.getValue());
@@ -93,9 +104,10 @@ public class Toolbar extends ToolBar {
   private void handleHelp(ActionEvent actionEvent) {
   }
 
+
   private void handleCommand(ActionEvent actionEvent) {
     animation.play();
-    myTextFields.addText();
+    myTextFields.addText(textField.getText());
   }
 
   /**
@@ -118,5 +130,25 @@ public class Toolbar extends ToolBar {
 
   // Public Set Methods
   public void setTextField(TextFields tf){this.myTextFields = tf;}
+
+  private Button makeButton (String property, EventHandler<ActionEvent> handler) {
+    Button result = new Button(property);
+
+    result.setOnAction(handler);
+    return result;
+  }
+
+  /**
+   * Display given URL.
+
+  public void showPage (String url) {
+    try {
+      myTextFields.addText(myModel.go(url));
+    }
+    catch (BrowserException e) {
+      showError(e.getMessage());
+    }
+  }
+   */
 
 }

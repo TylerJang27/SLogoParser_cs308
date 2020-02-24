@@ -10,12 +10,14 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.w3c.dom.Text;
+import slogo.frontendexternal.CommandReader;
 
 public class TextFields extends HBox {
 
     private MainView myMainView;
     private ToolBar myToolBar;
 
+    private CommandReader commandReader;
     private TextArea commands;
     private TextArea variables;
 
@@ -31,6 +33,7 @@ public class TextFields extends HBox {
         Label varLabel = new Label("List of Variables:");
 
         this.commands = new TextArea();
+
         this.variables = new TextArea();
 
         this.commandBox = new VBox();
@@ -42,8 +45,8 @@ public class TextFields extends HBox {
         this.getChildren().addAll(commandBox, variableBox);
     }
 
-    public void addText(){
-        commands.appendText("b\n");
+    public void addText(String text){
+        commands.appendText(text + "\n");
     }
 
     public MainView getMyMainView() {

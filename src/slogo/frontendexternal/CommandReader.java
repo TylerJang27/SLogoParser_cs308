@@ -1,10 +1,12 @@
 package slogo.frontendexternal;
 
+import java.awt.TextArea;
+
 /**
  * This class creates a Command object that will be sent to the backend for parsing
  * @author Shruthi Kumar
  */
-public class CommandReader {
+public class CommandReader extends TextArea {
 
   private String myCommand;
 

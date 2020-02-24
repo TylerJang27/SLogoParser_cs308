@@ -22,8 +22,7 @@ public class Not implements BooleanCommand{
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(arg1.execute(ts));
         double val = arg1.returnValue();
-        if(val==0) returnVal = 1;
-        else returnVal = 0;
+        returnVal = (val==0) ? TRUE : FALSE;
         return ret;
     }
 

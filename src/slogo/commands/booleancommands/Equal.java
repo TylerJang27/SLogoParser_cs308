@@ -23,8 +23,7 @@ public class Equal implements BooleanCommand{
     public Collection<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
         double[] val = BooleanCommand.twoArgOperation(ret, ts, arg1, arg2);
-        if(val[0]==val[1]) returnVal = 1;
-        else returnVal = 0;
+        returnVal = (val[0]==val[1]) ? TRUE : FALSE;
         return ret;
     }
 

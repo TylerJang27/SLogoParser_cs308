@@ -8,10 +8,16 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.geometry.Point2D;
 import javafx.scene.control.ToolBar;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
+<<<<<<< HEAD
 import javafx.util.Duration;
+=======
+import javafx.scene.transform.Affine;
+>>>>>>> be72b218583b147ccd7f3cb53bea76801cfefa6e
 import slogo.backendexternal.TurtleStatus;
 
 import java.awt.*;
@@ -52,11 +58,15 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.turtle = new TurtleView();
     this.simCanvas = new Canvas(canvasWidth,canvasHeight);
 
+<<<<<<< HEAD
     random = new Random();
 
     this.getChildren().addAll(myToolbar, simCanvas, turtle.getMyImageView(), myTextFields);
 
     animationFunctions();
+=======
+    this.getChildren().addAll(myToolbar, simCanvas, myTextFields);
+>>>>>>> be72b218583b147ccd7f3cb53bea76801cfefa6e
 
   }
 
@@ -64,6 +74,16 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   public void step() {
    // turtle.setMyXPos(random.nextInt(100));
     // turtle.setMyYPos(random.nextInt(100));
+  }
+
+
+
+  public void draw() {
+
+    GraphicsContext g = this.simCanvas.getGraphicsContext2D();
+    g.setFill(backgroundColor);
+    g.fillRect(0, 0, simCanvas.getWidth(), simCanvas.getHeight());
+
   }
 
   @Override
@@ -120,9 +140,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   //Public Set Methods
-  public void setBackgroundColor(Color c){
-    this.backgroundColor = c;
-  }
+  public void setBackgroundColor(Color c){ this.backgroundColor = c; }
   public void setPenColor(Color c){this.penColor = c;}
 
   //Public Get Methods

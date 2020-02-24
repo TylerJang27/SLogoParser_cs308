@@ -11,13 +11,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
-<<<<<<< HEAD
 import javafx.util.Duration;
-=======
 import javafx.scene.transform.Affine;
->>>>>>> be72b218583b147ccd7f3cb53bea76801cfefa6e
 import slogo.backendexternal.TurtleStatus;
 
 import java.awt.*;
@@ -58,22 +56,20 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.turtle = new TurtleView();
     this.simCanvas = new Canvas(canvasWidth,canvasHeight);
 
-<<<<<<< HEAD
     random = new Random();
 
-    this.getChildren().addAll(myToolbar, simCanvas, turtle.getMyImageView(), myTextFields);
+   // this.getChildren().addAll(myToolbar, simCanvas, turtle.getMyImageView(), myTextFields);
 
     animationFunctions();
-=======
-    this.getChildren().addAll(myToolbar, simCanvas, myTextFields);
->>>>>>> be72b218583b147ccd7f3cb53bea76801cfefa6e
+    this.getChildren().addAll(myToolbar, simCanvas, turtle.getMyImageView(), myTextFields);
 
   }
 
 
   public void step() {
-   // turtle.setMyXPos(random.nextInt(100));
-    // turtle.setMyYPos(random.nextInt(100));
+    turtle.setMyXPos(random.nextInt(100));
+    turtle.setMyYPos(random.nextInt(100));
+    draw();
   }
 
 
@@ -139,6 +135,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   }
 
+  @Override
+  public void setSkin(int choice) {
+    turtle.setMyImageView(new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825"));
+  }
+
   //Public Set Methods
   public void setBackgroundColor(Color c){ this.backgroundColor = c; }
   public void setPenColor(Color c){this.penColor = c;}
@@ -150,6 +151,10 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   @Override
   public Node getStyleableNode() {
     return null;
+  }
+
+  public void stop() {
+    animation.stop();
   }
 
   /**

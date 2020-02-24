@@ -91,7 +91,7 @@ public class TurtleView {
    * sets image view of turtle
    * @param imageView : image view of turtle
    */
-  public void setMyImageView(ImageView imageView) {
+  public void setMyImageView(Image imageView) {
     myImageView = imageView;
   }
 
@@ -99,7 +99,7 @@ public class TurtleView {
    * sets bearing of turtle
    * @param degrees : new bearing of turtle
    */
-  public void setMyImageView(double degrees) {
+  public void setMyBearing(double degrees) {
     myBearing = degrees;
   }
 

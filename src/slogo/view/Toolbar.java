@@ -9,9 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.scene.control.*;
 import javax.imageio.ImageIO;
+import slogo.frontendexternal.TurtleView;
 
 /**
  * @author Shruthi Kumar, Nevzat Sevim
@@ -52,7 +54,7 @@ public class Toolbar extends ToolBar {
     createMenus();
     createButtons();
 
-    textField.setOnAction(this:: handleCommand);
+    //textField.setOnAction(this:: handleCommand);
 
     animationFunctions();
 
@@ -79,33 +81,37 @@ public class Toolbar extends ToolBar {
   private void createButtons() {
     //this.commandButton = new Button("Run");
 
-    EventHandler<ActionEvent> showHandler = event -> addCommand(); //commandButton.getText());
+    EventHandler<ActionEvent> showHandler = event -> handleCommand(); //commandButton.getText());
     this.commandButton = makeButton("Go Command", showHandler);
     //commandButton.setOnAction(this:: handleCommand);
 
     this.helpButton = new Button("?");
     helpButton.setOnAction(this:: handleHelp);
 
-    this.changesButton = new Button("Apply");
-    changesButton.setOnAction(this::handleChanges);
+    EventHandler<ActionEvent> showHandler1 = event -> handleChanges();
+    this.changesButton = makeButton("Apply", showHandler1); //new Button("Apply");
+    //changesButton.setOnAction(this::handleChanges);
   }
 
   private void addCommand() {
     myTextFields.addText(textField.getText());
   }
+
   /**
    * Methods that define the function of each Button
    */
-  private void handleChanges(ActionEvent actionEvent) {
-    this.myMainView.setBackgroundColor(backgroundMenu.getValue());
-    this.myMainView.setPenColor(penMenu.getValue());
+  private void handleChanges() {
+    backgroundMenu.setValue(Color.BLUE);
+    penMenu.setValue(Color.PLUM);
+    this.myMainView.setBackgroundColor(Color.BLUE);
+    this.myMainView.setPenColor(Color.PINK);
   }
 
   private void handleHelp(ActionEvent actionEvent) {
   }
 
 
-  private void handleCommand(ActionEvent actionEvent) {
+  private void handleCommand() {
     animation.play();
     myTextFields.addText(textField.getText());
   }

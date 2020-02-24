@@ -1,8 +1,9 @@
 package slogo.frontendexternal;
 
-import java.awt.Color;
+import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javax.swing.text.Element;
-import javax.swing.text.html.ImageView;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 
@@ -16,16 +17,18 @@ public class TurtleView {
   private ImageView myImageView;
   private TurtleModel turtleModel = new TurtleModel();
   private double myBearing;
+  private String TURTLE_IMG = "view/imagesFolder/turtle.png";
 
 
   /**
    * Constructor for TurtleView object
    */
   public TurtleView() {
-    myXPos = 0;
-    myYPos = 0;
+    myXPos = 50;
+    myYPos = 100;
     myBearing = 0;
-    myImageView = new ImageView((Element) Color.GREEN);
+    myImageView = new ImageView(new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825"));
+    //myImageView = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream(TURTLE_IMG)));
   }
 
   /**

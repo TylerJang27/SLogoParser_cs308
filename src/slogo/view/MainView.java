@@ -11,6 +11,7 @@ import slogo.backendexternal.TurtleStatus;
 
 import java.awt.*;
 import java.util.Collection;
+import slogo.frontendexternal.TurtleView;
 
 
 /**
@@ -23,6 +24,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private TextFields myTextFields;
 
   private Timeline timeline;
+  private TurtleView turtle;
+
 
   private Canvas simCanvas;
   private double canvasWidth = 600;
@@ -37,10 +40,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setTextField(myTextFields);
 
+    this.turtle = new TurtleView();
 
     this.simCanvas = new Canvas(canvasWidth,canvasHeight);
 
-    this.getChildren().addAll(myToolbar, simCanvas, myTextFields);
+    this.getChildren().addAll(myToolbar, simCanvas, turtle.getMyImageView(), myTextFields);
   }
 
 
@@ -93,7 +97,9 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   //Public Set Methods
-  public void setBackgroundColor(Color c){this.backgroundColor = c;}
+  public void setBackgroundColor(Color c){
+    this.backgroundColor = c;
+  }
   public void setPenColor(Color c){this.penColor = c;}
 
   //Public Get Methods

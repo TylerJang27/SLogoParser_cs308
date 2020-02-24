@@ -1,7 +1,8 @@
 package slogo.view;
 
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.Collection;
+import javafx.util.Duration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.Event;
@@ -9,45 +10,33 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.geometry.Point2D;
 import javafx.scene.control.ToolBar;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
-import javafx.scene.transform.Affine;
 import slogo.backendexternal.TurtleStatus;
-
-import java.awt.*;
-import java.util.Collection;
 import slogo.frontendexternal.TurtleView;
 
+/** @author Shruthi Kumar, Nevzat Sevim */
 
-/**
- *
- * @author Shruthi Kumar
- */
 public class MainView extends VBox implements EventHandler, MainViewAPI {
 
+  //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
   private TextFields myTextFields;
 
-  private Timeline timeline;
-  private TurtleView turtle;
-
-
+  //Create a Timeline and the Object of Interest
+  private Timeline animation;
   private static final int FRAMES_PER_SECOND = 60;
   private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
 
-  private Timeline animation;
-
-
+  //Create Canvas, Canvas Parameters and Turtle Object
   private Canvas simCanvas;
   private double canvasWidth = 600;
   private double canvasHeight = 600;
-  private Random random;
-
   private Color backgroundColor, penColor;
+  private TurtleView turtle;
+
+  private Random random;
 
 
   public MainView() {
@@ -59,13 +48,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.turtle = new TurtleView();
     this.simCanvas = new Canvas(canvasWidth,canvasHeight);
 
-    //random = new Random();
-
-   // this.getChildren().addAll(myToolbar, simCanvas, turtle.getMyImageView(), myTextFields);
-
-    animationFunctions();
     this.getChildren().addAll(myToolbar, simCanvas, myTextFields);
-
+    animationFunctions();
   }
 
 
@@ -87,7 +71,6 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   @Override
   public void handle(Event event) {
-
   }
 
   @Override
@@ -179,4 +162,5 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     animation.play();
 
   }
+
 }

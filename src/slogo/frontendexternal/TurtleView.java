@@ -3,7 +3,6 @@ package slogo.frontendexternal;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javax.swing.text.Element;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 

@@ -72,8 +72,10 @@ public class Toolbar extends ToolBar {
     backgroundMenu.setMaxWidth(50);
 
     setUpTurtleMenu();
-    this.languageMenu = new ComboBox();
-    addLanguageChoices();
+
+    setUpLanguageMenu();
+    //this.languageMenu = new ComboBox();
+    //addLanguageChoices();
   }
 
 
@@ -88,22 +90,25 @@ public class Toolbar extends ToolBar {
       myMainView.stop();
       if (newValue == "Turtle") {
         myMainView.setSkin(0);
-      } /*else if (newValue == toolbarBundle.getString("PercolationSim")) {
-        choosingNewSim(PERCOLATIONNUM);
-      }else if (newValue == toolbarBundle.getString("SegregationSim")){
-        choosingNewSim(SEGREGATIONNUM);
-      } else if (newValue == toolbarBundle.getString("PredatorPreySim")) {
-        choosingNewSim(PREDATORPREYNUM);
-      } else if (newValue == toolbarBundle.getString("FireSim")) {
-        choosingNewSim(FIRENUM);
-      } else if (newValue == toolbarBundle.getString("RPSSim")) {
-        choosingNewSim(RPSNUM);
-      } else if (newValue == toolbarBundle.getString("SugarscapeSim")) {
-        choosingNewSim(SURGARNUM);
       }
-      */
     });
   }
+
+  private void setUpLanguageMenu() {
+    this.languageMenu = new ComboBox();
+    addLanguageChoices();
+
+    languageMenu.setPromptText("Choose Language");
+    languageMenu.setEditable(true);
+
+    languageMenu.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+      myMainView.stop();
+      if (newValue == "English") {
+        myMainView.changeLanguage(0);
+      }
+    });
+  }
+
   //needs to be loaded from files not hardcoded
   private void addTurtleSkins() {
     //turtleMenu.setOnAction();
@@ -126,11 +131,12 @@ public class Toolbar extends ToolBar {
     this.commandButton = makeButton("Go Command", showHandler);
     //commandButton.setOnAction(this:: handleCommand);
 
-    this.helpButton = new Button("?");
-    helpButton.setOnAction(this:: handleHelp);
+    showHandler = event -> handleHelp();
+    this.helpButton = makeButton("?", showHandler);
+    //helpButton.setOnAction(this:: handleHelp);
 
-    EventHandler<ActionEvent> showHandler1 = event -> handleChanges();
-    this.changesButton = makeButton("Apply", showHandler1); //new Button("Apply");
+    showHandler = event -> handleChanges();
+    this.changesButton = makeButton("Apply", showHandler); //new Button("Apply");
     //changesButton.setOnAction(this::handleChanges);
   }
 
@@ -146,10 +152,10 @@ public class Toolbar extends ToolBar {
     this.myMainView.setBackgroundColor(backgroundMenu.getValue());
     this.myMainView.setPenColor(penMenu.getValue());
 
-   // this.myMainView.draw();
+    //this.myMainView.draw();
   }
 
-  private void handleHelp(ActionEvent actionEvent) {
+  private void handleHelp() {
   }
 
 

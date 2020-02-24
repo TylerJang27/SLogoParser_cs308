@@ -113,7 +113,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   @Override
-  public void changeLanguage() {
+  public void changeLanguage(int choice) {
 
   }
 

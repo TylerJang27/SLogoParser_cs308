@@ -40,10 +40,8 @@ public class Toolbar extends ToolBar {
   TextField textField;
 
 
-  //Idk what this does
   private static final int FRAMES_PER_SECOND = 60;
   private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
-  private Timeline animation;
 
 
   public Toolbar(MainView mainview) {
@@ -56,7 +54,6 @@ public class Toolbar extends ToolBar {
 
     //textField.setOnAction(this:: handleCommand);
 
-    animationFunctions();
 
     this.getItems().addAll(textField, commandButton, new Separator(),
                             turtleLabel, turtleMenu, penLabel, penMenu,
@@ -74,8 +71,51 @@ public class Toolbar extends ToolBar {
     this.backgroundMenu = new ColorPicker();
     backgroundMenu.setMaxWidth(50);
 
-    this.turtleMenu = new ComboBox();
+    addTurtleSkins();
     this.languageMenu = new ComboBox();
+    addLanguageChoices();
+  }
+
+
+  private void setUpTurtleMenu() {
+    this.turtleMenu = new ComboBox();
+
+    turtleMenu.setPromptText("Choose Turtle Skin");
+    turtleMenu.setEditable(true);
+
+    turtleMenu.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+      myMainView.stop();
+      if (newValue == "Turtle") {
+        myMainView.setSkin(0);
+      } /*else if (newValue == toolbarBundle.getString("PercolationSim")) {
+        choosingNewSim(PERCOLATIONNUM);
+      }else if (newValue == toolbarBundle.getString("SegregationSim")){
+        choosingNewSim(SEGREGATIONNUM);
+      } else if (newValue == toolbarBundle.getString("PredatorPreySim")) {
+        choosingNewSim(PREDATORPREYNUM);
+      } else if (newValue == toolbarBundle.getString("FireSim")) {
+        choosingNewSim(FIRENUM);
+      } else if (newValue == toolbarBundle.getString("RPSSim")) {
+        choosingNewSim(RPSNUM);
+      } else if (newValue == toolbarBundle.getString("SugarscapeSim")) {
+        choosingNewSim(SURGARNUM);
+      }
+      */
+    });
+  }
+  //needs to be loaded from files not hardcoded
+  private void addTurtleSkins() {
+    //turtleMenu.setOnAction();
+    turtleMenu.getItems().add(0, "Turtle");
+    turtleMenu.getItems().add(1, "Mickey");
+    turtleMenu.getItems().add(2, "Raphael");
+  }
+
+  //needs to be loaded from files not hardcoded
+  private void addLanguageChoices() {
+    languageMenu.getItems().add(0, "English");
+    languageMenu.getItems().add(1, "Chinese");
+    languageMenu.getItems().add(2, "French");
   }
 
   private void createButtons() {
@@ -105,7 +145,7 @@ public class Toolbar extends ToolBar {
     this.myMainView.setBackgroundColor(backgroundMenu.getValue());
     this.myMainView.setPenColor(penMenu.getValue());
 
-    this.myMainView.draw();
+   // this.myMainView.draw();
   }
 
   private void handleHelp(ActionEvent actionEvent) {
@@ -113,27 +153,11 @@ public class Toolbar extends ToolBar {
 
 
   private void handleCommand() {
-    animation.play();
+    this.myMainView.sendCommand(textField.getText());
     myTextFields.addText(textField.getText());
   }
 
-  /**
-   * Method that sets up the animation, in which the myMainView step method is called every second which updates the
-   * grid on the screen.
-   */
-  public void animationFunctions() {
 
-    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
-      try {
-        myMainView.step();
-      } catch (Exception ex) {
-        ex.printStackTrace();
-      }
-    });
-    animation = new Timeline();
-    animation.setCycleCount(Timeline.INDEFINITE);
-    animation.getKeyFrames().add(frame);
-  }
 
   // Public Set Methods
   public void setTextField(TextFields tf){this.myTextFields = tf;}

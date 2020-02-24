@@ -24,11 +24,10 @@ public class TurtleView {
    * Constructor for TurtleView object
    */
   public TurtleView() {
-    myXPos = 50;
-    myYPos = 100;
+    myXPos = 0;
+    myYPos = 0;
     myBearing = 0;
     myImage = new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825");
-    //myImageView = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream(TURTLE_IMG)));
   }
 
   /**
@@ -91,18 +90,18 @@ public class TurtleView {
    * sets image view of turtle
    * @param imageView : image view of turtle
    */
+
   //public void setMyImageView(ImageView imageView) {
     //myImageView = imageView;
   //}
+
 
   /**
    * sets bearing of turtle
    * @param degrees : new bearing of turtle
    */
-  public void setMyImageView(double degrees) {
+  public void setMyBearing(double degrees) {
     myBearing = degrees;
   }
-
-
 
 }

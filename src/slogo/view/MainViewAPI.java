@@ -51,4 +51,6 @@ public interface MainViewAPI {
    */
   void resetCommands();
 
+  void setSkin(int choice);
+
 }

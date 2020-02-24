@@ -40,10 +40,8 @@ public class Toolbar extends ToolBar {
   TextField textField;
 
 
-  //Idk what this does
   private static final int FRAMES_PER_SECOND = 60;
   private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
-  private Timeline animation;
 
 
   public Toolbar(MainView mainview) {
@@ -56,7 +54,6 @@ public class Toolbar extends ToolBar {
 
     //textField.setOnAction(this:: handleCommand);
 
-    animationFunctions();
 
     this.getItems().addAll(textField, commandButton, new Separator(),
                             turtleLabel, turtleMenu, penLabel, penMenu,
@@ -112,27 +109,11 @@ public class Toolbar extends ToolBar {
 
 
   private void handleCommand() {
-    animation.play();
+    this.myMainView.sendCommand(textField.getText());
     myTextFields.addText(textField.getText());
   }
 
-  /**
-   * Method that sets up the animation, in which the myMainView step method is called every second which updates the
-   * grid on the screen.
-   */
-  public void animationFunctions() {
 
-    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
-      try {
-        myMainView.step();
-      } catch (Exception ex) {
-        ex.printStackTrace();
-      }
-    });
-    animation = new Timeline();
-    animation.setCycleCount(Timeline.INDEFINITE);
-    animation.getKeyFrames().add(frame);
-  }
 
   // Public Set Methods
   public void setTextField(TextFields tf){this.myTextFields = tf;}

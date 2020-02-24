@@ -24,8 +24,8 @@ public class TurtleView {
    * Constructor for TurtleView object
    */
   public TurtleView() {
-    myXPos = 50;
-    myYPos = 100;
+    myXPos = 0;
+    myYPos = 0;
     myBearing = 0;
     myImageView = new ImageView(new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825"));
     //myImageView = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream(TURTLE_IMG)));

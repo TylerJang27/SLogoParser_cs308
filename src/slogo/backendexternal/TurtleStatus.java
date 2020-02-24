@@ -52,4 +52,9 @@ public class TurtleStatus {
     public Color getPenColor() { return penModel.getPenColor(); }
 
     public boolean getVisible() { return turtleVisible; }
+
+    @Override
+    public String toString() {
+        return String.format("%f, %f \t %f \t%b \t%b \t%b \t%s", x, y, bearing, smooth, turtleVisible, penModel.getPenDown(), getPenColor());
+    }
 }

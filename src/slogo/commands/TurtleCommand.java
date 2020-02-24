@@ -24,25 +24,11 @@ public interface TurtleCommand extends Command {
     }
 
 
-
-
-
-
-
     static Collection<TurtleStatus> moveDelta(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY) {
         ret.add(new TurtleStatus(ts.getX()+deltaX, ts.getY()+deltaY, ts.getBearing(),
                 true, ts.getVisible(), ts.getPenDown(), ts.getPenColor()));
         return ret;
     }
-
-
-
-
-
-
-
-
-
 
 
     static Collection<TurtleStatus> moveDeltaWrap(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY) {
@@ -79,14 +65,6 @@ public interface TurtleCommand extends Command {
     }
 
 
-
-
-
-
-
-
-
-
     static Collection<TurtleStatus> moveDeltaEdge(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY) {
         double x = ts.getX()+deltaX;
         double y = ts.getY()+deltaY;
@@ -101,12 +79,6 @@ public interface TurtleCommand extends Command {
         if(position<-size) position = -size;
         return position;
     }
-
-
-
-
-
-
 
 
     static Collection<TurtleStatus> turnDeltaHeading(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaHeading) {

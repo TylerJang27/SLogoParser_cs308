@@ -1,0 +1,36 @@
+package slogo.commands.booleancommands;
+
+import slogo.backendexternal.TurtleStatus;
+import slogo.commands.BooleanCommand;
+import slogo.commands.Command;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class Equal implements BooleanCommand{
+    private Command arg1;
+    private Command arg2;
+    private double returnVal;
+    public static final int NUM_ARGS = 2;
+
+    public Equal(Command argA, Command argB){
+        arg1 = argA;
+        arg2 = argB;
+    }
+
+    @Override
+    public Collection<TurtleStatus> execute(TurtleStatus ts){
+        List<TurtleStatus> ret = new ArrayList<>();
+        double[] val = BooleanCommand.twoArgOperation(ret, ts, arg1, arg2);
+        if(val[0]==val[1]) returnVal = 1;
+        else returnVal = 0;
+        return ret;
+    }
+
+    @Override
+    public double returnValue() {
+        return returnVal;
+    }
+
+}

@@ -70,8 +70,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
   public void step() {
-    turtle.setMyXPos(random.nextInt(100));
-    turtle.setMyYPos(random.nextInt(100));
+    //turtle.setMyXPos(random.nextInt(100));
+    //turtle.setMyYPos(random.nextInt(100));
     draw();
   }
 
@@ -114,7 +114,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   @Override
-  public void changeLanguage() {
+  public void changeLanguage(int choice) {
 
   }
 

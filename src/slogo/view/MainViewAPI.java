@@ -28,7 +28,7 @@ public interface MainViewAPI {
   /**
    * Tells the backend side to update the language
    */
-  void changeLanguage();
+  void changeLanguage(int choice);
 
   /**
    * Returns all current runtime commands

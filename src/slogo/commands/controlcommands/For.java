@@ -37,23 +37,17 @@ public class For implements ControlCommand {
         //TODO: DETERMINE IF THIS IS APPROPRIATE/REQUIRED
 
         List<TurtleStatus> ret = new ArrayList<>();
-        varCounter.setVal(executeAndExtractValue(varMin, ts, ret));
-        double cap = executeAndExtractValue(varMax, ts, ret);
-        double incr = executeAndExtractValue(varIncr, ts, ret);
+        varCounter.setVal(ControlCommand.executeAndExtractValue(varMin, ts, ret));
+        double cap = ControlCommand.executeAndExtractValue(varMax, ts, ret);
+        double incr = ControlCommand.executeAndExtractValue(varIncr, ts, ret);
 
         while (varCounter.returnValue() < cap) {
             for (Command c: commandsToExecute) {
-                myVal = executeAndExtractValue(c, ts, ret);
+                myVal = ControlCommand.executeAndExtractValue(c, ts, ret);
             }
             varCounter.setVal(varCounter.returnValue() + incr);
         }
         return ret;
-    }
-
-    private double executeAndExtractValue(Command command, TurtleStatus ts, List<TurtleStatus> ret) {
-        TurtleStatus currentStatus = (ret.isEmpty()) ? ts : ret.get(ret.size()-1);
-        ret.addAll(command.execute(currentStatus));
-        return command.returnValue();
     }
 
     @Override

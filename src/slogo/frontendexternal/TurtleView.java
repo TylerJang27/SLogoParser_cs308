@@ -4,16 +4,18 @@ import java.awt.Color;
 import javax.swing.text.Element;
 import javax.swing.text.html.ImageView;
 import slogo.backendexternal.TurtleModel;
+import slogo.backendexternal.TurtleStatus;
 
 /**
  * Creates TurtleView
  * @author Shruthi Kumar
  */
 public class TurtleView {
-  private int myXPos;
-  private int myYPos;
+  private double myXPos;
+  private double myYPos;
   private ImageView myImageView;
   private TurtleModel turtleModel = new TurtleModel();
+  private double myBearing;
 
 
   /**
@@ -22,14 +24,23 @@ public class TurtleView {
   public TurtleView() {
     myXPos = 0;
     myYPos = 0;
+    myBearing = 0;
     myImageView = new ImageView((Element) Color.GREEN);
+  }
+
+  /**
+   *  Executes the command that the user enters by doing the action specified in the command
+   * @param t : Turtle status that holds command
+   */
+  public void executeState(TurtleStatus t) {
+    //do something
   }
 
   /**
    * Gets x position of turtle
    * @return myXPos : x position
    */
-  public int getMyXPos() {
+  public double getMyXPos() {
     return myXPos;
   }
 
@@ -37,7 +48,7 @@ public class TurtleView {
    * Gets y position of turtle
    * @return myYPos : y position
    */
-  public int getMyYPos() {
+  public double getMyYPos() {
     return myYPos;
   }
 
@@ -50,10 +61,18 @@ public class TurtleView {
   }
 
   /**
+   * Gets bearing of turtle
+   * @return  : image view of turtle
+   */
+  public double getMyBearing() {
+    return myBearing;
+  }
+
+  /**
    * sets x position of turtle
    * @param xPos : x position
    */
-  public void setMyXPos(int xPos) {
+  public void setMyXPos(double xPos) {
     myXPos = xPos;
   }
 
@@ -61,7 +80,7 @@ public class TurtleView {
    * sets y position of turtle
    * @param yPos : y position
    */
-  public void setMyYPos(int yPos) {
+  public void setMyYPos(double yPos) {
     myYPos = yPos;
   }
 
@@ -72,5 +91,15 @@ public class TurtleView {
   public void setMyImageView(ImageView imageView) {
     myImageView = imageView;
   }
+
+  /**
+   * sets bearing of turtle
+   * @param degrees : new bearing of turtle
+   */
+  public void setMyImageView(double degrees) {
+    myBearing = degrees;
+  }
+
+
 
 }

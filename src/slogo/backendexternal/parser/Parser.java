@@ -1,5 +1,7 @@
 package slogo.backendexternal.parser;
 
+import slogo.commands.Command;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,9 +13,6 @@ import java.util.regex.Pattern;
 
 public class Parser {
   private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
-  private static final ResourceBundle COMMAND_SYNTAX =
-      ResourceBundle.getBundle(Parser.class.getPackageName() + ".resources.Syntax.properties");
-
   private List<slogo.commands.Command> commandHistory;
   private List<slogo.commands.Command> newCommands;
   private Map<String, List<String>> myCommands;
@@ -22,6 +21,9 @@ public class Parser {
   public Parser(){ this("English");}
 
   public Parser(String language){
+    myCommands = new HashMap<String, List<String>>();
+    newCommands = new ArrayList<Command>();
+    commandHistory = new ArrayList<Command>();
     setLanguage(language);
   }
 
@@ -44,6 +46,7 @@ public class Parser {
       if(Input.Constant.matches(input)){
         if(currentCommand.size() > 0){
           currentCommand.put(currentKey, new ArrayList(Arrays.asList(Integer.parseInt(input)/1.0)));
+          completeCommands.add(currentCommand);
         }
       }
     }
@@ -63,6 +66,7 @@ public class Parser {
 
   private void setLanguage(String lang){
     ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + lang);
+    System.out.println(RESOURCES_PACKAGE + lang);
     for (String key : Collections.list(resources.getKeys())) {
       String translation = resources.getString(key);
       myCommands.put(key, Arrays.asList(translation.split("|")));

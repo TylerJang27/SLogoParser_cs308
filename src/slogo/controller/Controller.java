@@ -51,6 +51,7 @@ public class Controller extends Application {
     myStage.show();
     TextField input = new TextField();
     input.setOnKeyPressed(key -> sendCommand(key.getCode(), input));
+    layout.getChildren().add(input);
 
     // If we want animation
 //    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));

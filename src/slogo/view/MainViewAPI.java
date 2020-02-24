@@ -13,12 +13,12 @@ public interface MainViewAPI {
   /**
    * Reads in the command so that it can be sent to the back end
    */
-  void readCommand();
+  String readCommand();
 
   /**
    * Sends the command to the back end
    */
-  String sendCommand();
+  void sendCommand(String command);
 
   /**
    * Send information on whether the user changes the pen or the turtle

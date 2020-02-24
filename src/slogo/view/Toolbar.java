@@ -117,7 +117,7 @@ public class Toolbar extends ToolBar {
   }
 
   /**
-   * Method that sets up the animation, in which the myMainview step method is called every second which updates the
+   * Method that sets up the animation, in which the myMainView step method is called every second which updates the
    * grid on the screen.
    */
   public void animationFunctions() {

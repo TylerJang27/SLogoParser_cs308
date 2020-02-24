@@ -1,8 +1,10 @@
 package slogo.view;
 
+import java.util.ArrayList;
 import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ToolBar;
 import javafx.scene.paint.Color;
@@ -57,13 +59,21 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   @Override
-  public void readCommand() {
-
+  public String readCommand() {
+    return "";
   }
 
   @Override
-  public String sendCommand() {
-    return null;
+  public void sendCommand(String command) {
+
+    /*if(true) { //ie if command is valid - will add correct booleans when backend side sends command
+      turtle.executeState(((ArrayList) getCommands()).get(0));
+    }
+    else { //if not valid
+      turtle.executeState(((ArrayList) getCommands()).get(0));
+    }
+
+     */
   }
 
   @Override
@@ -106,4 +116,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   public TextFields getTextFields(){return this.myTextFields;}
   public ToolBar getToolBar(){return this.myToolbar;}
 
+  @Override
+  public Node getStyleableNode() {
+    return null;
+  }
 }

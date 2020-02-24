@@ -35,9 +35,4 @@ public class Variable implements ControlCommand {
     protected void setVal(double newVal) {
         myVal = newVal;
     }
-
-    //Should only be called from other Commands, not by Parser or CommandFactory
-    protected void increment() {
-        myVal++;
-    }
 }

@@ -1,6 +1,7 @@
 package slogo.commands.controlcommands;
 
 import slogo.backendexternal.TurtleStatus;
+import slogo.backendexternal.parser.Parser;
 import slogo.commands.Command;
 import slogo.commands.ControlCommand;
 
@@ -18,22 +19,22 @@ import java.util.List;
  */
 public class MakeVariable implements ControlCommand {
 
-    private Command arg1;
+    public static final int NUM_ARGS = 1;
+    private Command expr;
     private double val;
     Variable varHolder;
-    public static final int NUM_ARGS = 1;
 
     //TODO Dennis: PLEASE CHECK IN THE PARSER TO ENSURE THAT arg1 CONTAINS A VARIABLE INSTANCE
-    public MakeVariable(Variable var, Command argB) {
+    public MakeVariable(Variable var, Command value) {
         varHolder = var;
-        arg1 = argB;
+        expr = value;
     }
 
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
-        ret.addAll(arg1.execute(ts));
-        val = arg1.returnValue();
+        ret.addAll(expr.execute(ts));
+        val = expr.returnValue();
         varHolder.setVal(val);
         return ret;
     }

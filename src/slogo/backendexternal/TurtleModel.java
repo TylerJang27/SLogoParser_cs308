@@ -1,6 +1,6 @@
 package slogo.backendexternal;
 
-import slogo.commands.controlcommands.BuildableFunction;
+import slogo.commands.controlcommands.RunFunction;
 import slogo.commands.Command;
 import slogo.commands.controlcommands.Variable;
 
@@ -12,7 +12,7 @@ public class TurtleModel {
     Collection<Variable> declaredVariables;
 
     //TODO: change implementation/display method/remove altogether?
-    Collection<BuildableFunction> declaredFunctions;
+    Collection<RunFunction> declaredFunctions;
 
     private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
 
@@ -21,7 +21,7 @@ public class TurtleModel {
         declaredFunctions = new ArrayList<>();
     }
 
-    public TurtleModel(List<Variable> vars, List<BuildableFunction> functions) {
+    public TurtleModel(List<Variable> vars, List<RunFunction> functions) {
         declaredVariables = vars;
         declaredFunctions = functions;
     }
@@ -30,7 +30,7 @@ public class TurtleModel {
         return declaredVariables;
     }
 
-    public Collection<BuildableFunction> getFunctions() {
+    public Collection<RunFunction> getFunctions() {
         return declaredFunctions;
     }
 

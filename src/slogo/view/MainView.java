@@ -31,7 +31,6 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private Timeline timeline;
   private TurtleView turtle;
 
-
   private Canvas simCanvas;
   private double canvasWidth = 600;
   private double canvasHeight = 600;
@@ -58,12 +57,12 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
 
-
   public void draw() {
 
     GraphicsContext g = this.simCanvas.getGraphicsContext2D();
     g.setFill(backgroundColor);
     g.fillRect(0, 0, simCanvas.getWidth(), simCanvas.getHeight());
+    g.drawImage(turtle.myImage, 5, 5, 50, 50);
 
   }
 

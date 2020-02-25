@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import slogo.commands.controlcommands.Constant;
 
 public class Parser {
   private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
@@ -17,7 +18,7 @@ public class Parser {
   private List<slogo.commands.Command> newCommands;
   private Map<String, List<String>> myCommands;
   private CommandFactory commandFactory;
-
+  private Stack<Command> currentCommands;
 
   public Parser(){ this("English");}
 
@@ -26,29 +27,72 @@ public class Parser {
     newCommands = new ArrayList<Command>();
     commandHistory = new ArrayList<Command>();
     commandFactory = new CommandFactory();
+    currentCommands = new Stack<Command>();
     setLanguage(language);
   }
 
   public void parseLine(String line){
-    Stack<String> commands = new Stack<String>();
-    Stack<Double> constants = new Stack<Double>();
-    String currentKey = "";
-    int countInputs = 1;
+    Stack<String> components = new Stack<>();
+    Stack<Double> constants = new Stack<>();
     String[] inputs = line.split(" ");
+
     for(String input : inputs){
-      if(Input.Command.matches(input)){
-        commands.push(input);
+      components.push(input);
+    }
+
+    while(components.size() > 0){
+      Stack<Command> commands = new Stack<>();
+      String current = components.pop();
+      if(Input.Constant.matches(current)){
+        commands.add(new Constant((double) Integer.parseInt(current)));
       }
-      if(Input.Constant.matches(input)){
-          constants.push((double) Integer.parseInt(input));
+      else if(Input.Command.matches(current)){
+        commands.add(commandFactory.makeCommand(current, currentCommands, myCommands));
+      }
+      else if(Input.Variable.matches(current)){
+        commands.add(handleVariable(current, constants, currentCommands));
+      }
+      else if(Input.ListStart.matches(current)){
+        commands.addAll(handleList(components));
+      }
+
+      else if(Input.GroupStart.matches(current)){}
+
+      // DO NOTHING
+
+      else if(Input.Comment.matches(current)){ continue;}
+      else if(Input.Whitespace.matches(current)){ continue;}
+      else if(Input.GroupEnd.matches(current)){ continue;}
+      else if(Input.Newline.matches(current)){ continue;}
+
+      System.out.println(current);
+      currentCommands.addAll(commands);
+      System.out.println(currentCommands.size());
+    }
+    while(currentCommands.size() > 0){
+      newCommands.add(currentCommands.pop());
+    }
+  }
+
+  private List<Command> handleList(Stack<String> components) {
+    List<Command> commands = new ArrayList<>();
+    while(components.size() > 0){
+      String current = components.pop();
+      if(Input.ListEnd.matches(current)){
+        break;
       }
     }
-    newCommands = commandFactory.makeCommands(commands, constants, myCommands);
+    return commands;
+  }
+
+  private Command handleVariable(String variable, Stack<Double> constants, Stack<Command> previousCommands) {
+    Command command = null;
+    return command;
   }
 
   public List<slogo.commands.Command> sendCommands(){
     commandHistory.addAll(newCommands);
-    List<slogo.commands.Command> toSend = newCommands;
+    List<slogo.commands.Command> toSend = new ArrayList<>(newCommands);
     newCommands.clear();
     return toSend;
   }
@@ -58,7 +102,7 @@ public class Parser {
     System.out.println(RESOURCES_PACKAGE + lang);
     for (String key : Collections.list(resources.getKeys())) {
       String translation = resources.getString(key);
-      myCommands.put(key, Arrays.asList(translation.split("|")));
+      myCommands.put(key, Arrays.asList(translation.split("\\|")));
     }
   }
 }

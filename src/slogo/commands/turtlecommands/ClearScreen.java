@@ -16,7 +16,7 @@ public class ClearScreen implements TurtleCommand {
 
     private TurtleCommand go;
 
-    public ClearScreen(int xMax, int yMax, String mode){
+    public ClearScreen(double xMax, double yMax, String mode){
         go = new Home(xMax,yMax,mode);
         //TODO: NEED ADDITIONAL PARAMETER QUALIFYING AS A RESET:
         //Could add a null to a collection of TurtleStatus, stuff, which the front

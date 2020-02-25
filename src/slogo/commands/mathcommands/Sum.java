@@ -54,5 +54,4 @@ public class Sum implements MathCommand {
     public double returnValue() {
         return returnVal;
     }
-
 }

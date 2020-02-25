@@ -30,7 +30,11 @@ public class Display {
     return myScene;
   }
 
-  public TextFields getInputField() {
-    return myMainView.getTextFields();
+//  public String getCommandText() {
+//    return myMainView.getToolBar().getTextField().getText();
+//  }
+
+  public MainView getMainView(){
+    return myMainView;
   }
 }

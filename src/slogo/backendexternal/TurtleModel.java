@@ -19,15 +19,11 @@ public class TurtleModel {
     //TODO: change implementation/display method/remove altogether?
     Collection<RunFunction> declaredFunctions;
 
-    private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
+    public TurtleModel() {
+        declaredVariables = new ArrayList<>();
+        declaredFunctions = new ArrayList<>();
+    }
 
-    //TODO: update as necessary
-    /**
-     * Constructor for TurtleModel, taking in Lists of variables and functions.
-     *
-     * @param vars      defined variables in the scope.
-     * @param functions defined functions in the scope.
-     */
     public TurtleModel(List<Variable> vars, List<RunFunction> functions) {
         declaredVariables = vars;
         declaredFunctions = functions;

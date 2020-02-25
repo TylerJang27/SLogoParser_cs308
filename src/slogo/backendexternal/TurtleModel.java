@@ -39,9 +39,9 @@ public class TurtleModel {
         declaredFunctions.clear();
     }
 
-    public Collection<TurtleStatus> executeCommands(List<Command> commandList) {
+    public Collection<TurtleStatus> executeCommands(List<Command> commandList, TurtleStatus ts) {
         List<TurtleStatus> statusList = new ArrayList<>();
-        TurtleStatus status = INITIAL_STATUS;
+        TurtleStatus status = ts;
         for (Command c: commandList) {
             System.out.println(c);
             statusList.addAll(c.execute(status));

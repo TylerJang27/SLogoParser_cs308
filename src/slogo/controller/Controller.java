@@ -32,6 +32,7 @@ public class Controller extends Application {
   public static final int FRAMES_PER_SECOND = 60;
   public static final int MILLISECOND_DELAY = 100000 / FRAMES_PER_SECOND;
   public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+  public static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
 
   private Stage myStage;
   private Group layout;
@@ -41,6 +42,7 @@ public class Controller extends Application {
   private TurtleModel myModel;
   private TurtleView myView;
   private TextField input;
+  private TurtleStatus currentStatus;
   private int speed;
 
   /**
@@ -59,6 +61,7 @@ public class Controller extends Application {
     myParser = new Parser();
     myModel = new TurtleModel();
     myView = new TurtleView();
+    currentStatus = INITIAL_STATUS;
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
     myStage.show();
@@ -71,8 +74,13 @@ public class Controller extends Application {
       myParser.parseLine(input);
       field.clear();
       List<Command> toSend = myParser.sendCommands();
-      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend);
+      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend, currentStatus);
+      setStatus(statuses.get(statuses.size() - 1));
       myDisplay.getMainView().getTurtle().executeState(statuses);
     }
+  }
+
+  private void setStatus(TurtleStatus ts){
+    currentStatus = ts;
   }
 }

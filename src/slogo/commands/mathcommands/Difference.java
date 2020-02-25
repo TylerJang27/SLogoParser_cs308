@@ -32,9 +32,10 @@ public class Difference implements MathCommand {
      * Create an empty list of turtle status, fill list with execution from the argument commands
      * using twoArgOperation, and set return value to be the return value of the first command minus the return value of the
      * second command
-     * @param ts turtle status at the start of execution
+     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
+     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
      * @return list of turtle status from executing the argument commands to this operation
-     * (this operation itself does not generate new turtle status)
+     *         (this operation itself does not generate new turtle status)
      */
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts){

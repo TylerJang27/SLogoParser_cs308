@@ -28,9 +28,10 @@ public class Minus implements MathCommand {
     /**
      * Create an empty list of turtle status, fill list with execution from the argument command
      * set return value to the return value of the input command * -1
-     * @param ts turtle status at the start of execution
+     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
+     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
      * @return list of turtle status from executing the argument commands to this operation
-     * (this operation itself does not generate new turtle status)
+     *         (this operation itself does not generate new turtle status)
      */
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts){
@@ -40,6 +41,9 @@ public class Minus implements MathCommand {
         return ret;
     }
 
+    /**
+     * @return the return value set during the execution of this operation
+     */
     @Override
     public double returnValue() {
         return returnVal;

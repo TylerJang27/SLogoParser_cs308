@@ -31,9 +31,10 @@ public class And implements BooleanCommand{
     /**
      * Create an empty list of turtle status, fill the list up with status from the arguments
      *  using twoArgOperation, and set return value to be 1 if two argument commands both evaluate to non-zero result
-     * @param ts turtle status at the start of execution
+     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
+     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
      * @return list of turtle status from executing the argument commands to this operation
-     * (this operation itself does not generate new turtle status)
+     *         (this operation itself does not generate new turtle status)
      */
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts){
@@ -44,7 +45,7 @@ public class And implements BooleanCommand{
     }
 
     /**
-     * @return the return value of this operation
+     * @return the return value set during the execution of this operation
      */
     @Override
     public double returnValue() {

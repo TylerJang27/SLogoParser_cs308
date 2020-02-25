@@ -31,9 +31,10 @@ public class NotEqual implements BooleanCommand{
      * Create an empty list of turtle status, fill list with execution from the argument commands
      * using twoArgOperation, and set return value to be 1 if the return value of the two arguments are not
      * equal
-     * @param ts turtle status at the start of execution
+     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
+     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
      * @return list of turtle status from executing the argument commands to this operation
-     * (this operation itself does not generate new turtle status)
+     *         (this operation itself does not generate new turtle status)
      */
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts){
@@ -44,7 +45,7 @@ public class NotEqual implements BooleanCommand{
     }
 
     /**
-     * @return the return value of this operation
+     * @return the return value set during the execution of this operation
      */
     @Override
     public double returnValue() {

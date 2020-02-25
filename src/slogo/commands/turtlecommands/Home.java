@@ -4,6 +4,7 @@ import slogo.backendexternal.TurtleStatus;
 import slogo.commands.TurtleCommand;
 import slogo.commands.controlcommands.Constant;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -22,7 +23,7 @@ public class Home implements TurtleCommand {
     }
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         return go.execute(ts);
     }
 

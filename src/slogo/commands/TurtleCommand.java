@@ -57,36 +57,54 @@ public interface TurtleCommand extends Command {
 
 
     static List<TurtleStatus> moveDeltaWrap(TurtleStatus ts, List<TurtleStatus> ret, double deltaX, double deltaY, double xMax, double yMax) {
-
-        double x = ts.getX();
-        double y = ts.getY();
         double steps = Math.sqrt(Math.pow(deltaX,2)+Math.pow(deltaY,2));
-        for(int i = 1; i<(steps+1); i++){
-            x+=deltaX*i/steps;
-            y+=deltaY*i/steps;
-            if(x>xMax){
-                ret.add(new TurtleStatus(xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                ret.add(new TurtleStatus(-xMax, y, ts.getBearing(), false , ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                x = x - xMax;
-            }
-            if(x<-xMax){
-                ret.add(new TurtleStatus(-xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                ret.add(new TurtleStatus(xMax,  y, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                x = x + xMax;
-            }
-            if(y>yMax){
-                ret.add(new TurtleStatus(x, yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                y = y - yMax;
-            }
-            if(y<-yMax){
-                ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                ret.add(new TurtleStatus(y, yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                y = y + yMax;
-            }
+        double[] position = {ts.getX(),ts.getY()};
+        for(int i = 0; i<steps; i++){
+            double x = position[0]+deltaX/steps;
+            double y = position[1]+deltaY/steps;
+            position = TurtleCommand.wrap(ts, x, y, xMax, yMax, ret);
         }
-        ret.add(new TurtleStatus(x,y,ts.getBearing(),true,ts.getVisible(),ts.getPenDown(), ts.getPenColor()));
+        ret.add(new TurtleStatus(position[0],position[1],ts.getBearing(),true,ts.getVisible(),ts.getPenDown(), ts.getPenColor()));
         return ret;
+    }
+
+    /**
+     * Checks if the current x and y position exceeds the maximum (needs wrapping). If either variable requires wrapping, add two turtle
+     * status that represents the turtle moving to the edge of the screen, and appearing at the other edge, to the list. Moving to the edge of
+     * the screen has its trials variable set to true since theoretically a trial can be drawn between the previous and the current turtle status;
+     * the turtle status that represents turtle appearing at the other edge of the Afterwards,
+     * decrement/increment variable value depending on if the variable value is positive/negative.
+     *
+     * @param ts
+     * @param x
+     * @param y
+     * @param xMax
+     * @param yMax
+     * @param ret
+     * @return
+     */
+    static double[] wrap(TurtleStatus ts, double x, double y, double xMax, double yMax, List<TurtleStatus> ret){
+        if(x>xMax){
+            ret.add(new TurtleStatus(xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(-xMax, y, ts.getBearing(), false , ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            x = x - xMax;
+        }
+        if(x<-xMax){
+            ret.add(new TurtleStatus(-xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(xMax,  y, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            x = x + xMax;
+        }
+        if(y>yMax){
+            ret.add(new TurtleStatus(x, yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            y = y - yMax;
+        }
+        if(y<-yMax){
+            ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(y, yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            y = y + yMax;
+        }
+        return new double[]{x, y};
     }
 
 

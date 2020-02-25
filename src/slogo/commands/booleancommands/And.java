@@ -38,7 +38,7 @@ public class And implements BooleanCommand{
      *              (this operation itself does not generate new turtle status)
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts){
+    public List<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
         double[] val = BooleanCommand.twoArgOperation(ret, ts, arg1, arg2);
         returnVal = (val[0]!=0 && val[1]!=0) ? TRUE : FALSE;

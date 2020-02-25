@@ -36,7 +36,7 @@ public class Minus implements MathCommand {
      *              (this operation itself does not generate new turtle status)
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts){
+    public List<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(arg1.execute(ts));
         returnVal = -1*arg1.returnValue();

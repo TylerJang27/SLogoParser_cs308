@@ -2,7 +2,7 @@ package slogo.commands;
 
 import slogo.backendexternal.TurtleStatus;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Interface for instances of Commands, each with their own execute() and returnValue() implementation.
@@ -23,7 +23,7 @@ public interface Command {
      *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
      * @return a Collection of TurtleStatus instances, given by the execution of this and any subsequent commands.
      */
-    public Collection<TurtleStatus> execute(TurtleStatus ts);
+    public List<TurtleStatus> execute(TurtleStatus ts);
 
     /**
      * Retrieves the value returned by a Command's execution, calculated during the execute() process.

@@ -54,13 +54,10 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
   public void step() {
-<<<<<<< HEAD
+
    // turtle.setMyXPos(random.nextInt(100));
    // turtle.setMyYPos(random.nextInt(100));
-=======
-    //turtle.setMyXPos(random.nextInt(100));
-    //turtle.setMyYPos(random.nextInt(100));
->>>>>>> 4e26d0b38ef8e3ac38a32d0a0a2009f750d1137a
+
     draw();
   }
 

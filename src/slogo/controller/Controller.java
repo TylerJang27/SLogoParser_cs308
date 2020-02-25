@@ -16,21 +16,23 @@ import javafx.stage.Stage;
 //import javafx.util.Duration;
 //import javax.swing.KeyStroke;
 import slogo.backendexternal.parser.Parser;
+import slogo.view.Display;
+import slogo.view.TextFields;
 
 public class Controller extends Application {
 
   public static final String TITLE = "SLogo";
   public static final Paint BACKGROUND = Color.WHEAT;
   public static final int FRAMES_PER_SECOND = 60;
-  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth()/2.0;
-  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight()/2.0;
   public static final int MILLISECOND_DELAY = 100000 / FRAMES_PER_SECOND;
   public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
   private Stage myStage;
   private Group layout;
   private Scene myScene;
+  private Display myDisplay;
   private Parser myParser;
+  private TextFields input;
   private int speed;
 
   /**
@@ -43,38 +45,25 @@ public class Controller extends Application {
   @Override
   public void start(Stage currentStage) {
     myStage = new Stage();
-    layout = new Group();
-    myScene = new Scene(layout, SCREEN_WIDTH, SCREEN_HEIGHT, BACKGROUND);
+    myDisplay = new Display();
+    input = myDisplay.getInputField();
+    myScene = myDisplay.getScene();
     myParser = new Parser();
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
     myStage.show();
-    TextField input = new TextField();
     input.setOnKeyPressed(key -> sendCommand(key.getCode(), input));
-    layout.getChildren().add(input);
-
-    // If we want animation
-//    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
-//    Timeline animation = new Timeline();
-//    animation.setCycleCount(Timeline.INDEFINITE);
-//    animation.getKeyFrames().add(frame);
-//    animation.play();
   }
 
-  private void sendCommand(KeyCode key, TextField field){
-    String input = field.getText();
+  private void sendCommand(KeyCode key, TextFields field){
+    String input = field.getCommands().getText();
+    System.out.println(input);
     if(key == KeyCode.SHIFT){
-      // FRONT END STORE COMMAND IN HISTORY
       myParser.parseLine(input);
-      field.clear();
+      field.clearCommands();
     }
     if(key == KeyCode.ENTER){
-      // FRONT END STORE COMMAND IN HISTORY
       myParser.sendCommands();
     }
   }
-
-
-  private void step(double elapsedTime) {}
-
 }

@@ -1,30 +1,46 @@
 package slogo.backendexternal.parser;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import slogo.commands.Command;
 import slogo.commands.turtlecommands.Backward;
 import slogo.commands.turtlecommands.Forward;
 import slogo.commands.turtlecommands.Home;
 
-//NOT COMPLETE
 public class CommandFactory {
-  private List<Command> POSSIBLE_COMMANDS;
 
-  public static Command makeCommand(Map<String, List<Double>> components, Map<String, List<String>> myCommands) {
-    String command = "";
-    for(String key : components.keySet()){
-      command = key;
-    }
-    for(String key : myCommands.keySet()){
-      if(myCommands.get(key).indexOf(command) > -1){
-        return buildCommand(key, components.get(command));
+  public CommandFactory(){}
+
+  public List<Command> makeCommands(Stack<String> commands, Stack<Double> inputs, Map<String, List<String>> myCommands) {
+    List<Command> newCommands = new ArrayList<Command>();
+    Map<String, List<Double>> currentCommand = new HashMap<String, List<Double>>();
+    while(commands.size() > 0){
+      String currentString = commands.pop();
+      String key = validateCommand(currentString, myCommands);
+      if(!key.equals("")){
+        List<Double> currentInputs = new ArrayList<Double>();
+        while(currentInputs.size() < 1){
+          currentInputs.add(inputs.pop());
+        }
+        newCommands.add(buildCommand(key, inputs));
       }
     }
-    return null;
+    return newCommands;
   }
 
-  public static Command buildCommand(String key, List<Double> inputs){
+  private String validateCommand(String current, Map<String, List<String>> myCommands) {
+    for(String key : myCommands.keySet()){
+      if(myCommands.get(key).contains(current)){
+        return key;
+      }
+    }
+    return "";
+  }
+
+  public Command buildCommand(String key, List<Double> inputs){
     if(key == "Forward"){
       //return new Forward(inputs.get(0));
     }
@@ -36,6 +52,5 @@ public class CommandFactory {
     }
     //return new Home();
     return null;
-            //TODO: IMPLEMENT RETURNING/BUILDING
   }
 }

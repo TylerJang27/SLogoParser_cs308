@@ -61,6 +61,8 @@ public class TextFields extends HBox {
         return commands;
     }
 
+    public void clearCommands() { commands.clear(); }
+
     public TextArea getVariables() {
         return variables;
     }

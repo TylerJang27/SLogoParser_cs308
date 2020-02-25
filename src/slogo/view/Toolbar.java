@@ -156,7 +156,6 @@ public class Toolbar extends ToolBar {
     this.myMainView.setBackgroundColor(backgroundMenu.getValue());
     this.myMainView.setPenColor(penMenu.getValue());
 
-    //this.myMainView.draw();
   }
 
   private void handleHelp() {

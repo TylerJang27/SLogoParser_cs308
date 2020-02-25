@@ -4,6 +4,8 @@ import java.security.Policy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+
 import javafx.animation.PathTransition;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
@@ -43,7 +45,7 @@ public class TurtleView {
    *  Executes the command that the user enters by doing the action specified in the command
    * @param t : Turtle status that holds command
    */
-  public void executeState(Collection<TurtleStatus> t) {
+  public void executeState(List<TurtleStatus> t) {
     addPenViewLines(t);
     Polyline pathLine = new Polyline();
     Double[] pathPoints = new Double[t.size()*2];
@@ -51,6 +53,7 @@ public class TurtleView {
     int index = 0;
     while(iterator.hasNext()) {
       TurtleStatus temp = iterator.next();
+      System.out.println(temp);
       pathPoints[index] = temp.getX();
       setMyXPos(temp.getX());
       pathPoints[index+1] = temp.getY();
@@ -68,7 +71,7 @@ public class TurtleView {
     turtlePath.play();
   }
 
-  private void addPenViewLines(Collection<TurtleStatus> t) {
+  private void addPenViewLines(List<TurtleStatus> t) {
     ArrayList<TurtleStatus> temp = (ArrayList) t;
     for(int i = 0; i < temp.size() - 1; i++) {
       TurtleStatus startStatus = temp.get(i);

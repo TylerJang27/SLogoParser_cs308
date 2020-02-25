@@ -12,6 +12,7 @@ public class CommandCounter {
   }
 
   public int getCount(String key){
+    // FIXME: Null Pointer Exception
     return counts.get(key);
   }
 

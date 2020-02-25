@@ -40,10 +40,8 @@ public class Toolbar extends ToolBar {
   TextField textField;
 
 
-  //Idk what this does
   private static final int FRAMES_PER_SECOND = 60;
   private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
-  private Timeline animation;
 
 
   public Toolbar(MainView mainview) {
@@ -56,7 +54,6 @@ public class Toolbar extends ToolBar {
 
     //textField.setOnAction(this:: handleCommand);
 
-    animationFunctions();
 
     this.getItems().addAll(textField, commandButton, new Separator(),
                             turtleLabel, turtleMenu, penLabel, penMenu,
@@ -74,8 +71,57 @@ public class Toolbar extends ToolBar {
     this.backgroundMenu = new ColorPicker();
     backgroundMenu.setMaxWidth(50);
 
+    setUpTurtleMenu();
+
+    setUpLanguageMenu();
+    //this.languageMenu = new ComboBox();
+    //addLanguageChoices();
+  }
+
+
+  private void setUpTurtleMenu() {
     this.turtleMenu = new ComboBox();
+    addTurtleSkins();
+
+    turtleMenu.setPromptText("Choose Turtle Skin");
+    turtleMenu.setEditable(true);
+
+    turtleMenu.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+      myMainView.stop();
+      if (newValue == "Turtle") {
+        myMainView.setSkin(0);
+      }
+    });
+  }
+
+  private void setUpLanguageMenu() {
     this.languageMenu = new ComboBox();
+    addLanguageChoices();
+
+    languageMenu.setPromptText("Choose Language");
+    languageMenu.setEditable(true);
+
+    languageMenu.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+      myMainView.stop();
+      if (newValue == "English") {
+        myMainView.changeLanguage(0);
+      }
+    });
+  }
+
+  //needs to be loaded from files not hardcoded
+  private void addTurtleSkins() {
+    //turtleMenu.setOnAction();
+    turtleMenu.getItems().add(0, "Turtle");
+    turtleMenu.getItems().add(1, "Mickey");
+    turtleMenu.getItems().add(2, "Raphael");
+  }
+
+  //needs to be loaded from files not hardcoded
+  private void addLanguageChoices() {
+    languageMenu.getItems().add(0, "English");
+    languageMenu.getItems().add(1, "Chinese");
+    languageMenu.getItems().add(2, "French");
   }
 
   private void createButtons() {
@@ -85,11 +131,12 @@ public class Toolbar extends ToolBar {
     this.commandButton = makeButton("Go Command", showHandler);
     //commandButton.setOnAction(this:: handleCommand);
 
-    this.helpButton = new Button("?");
-    helpButton.setOnAction(this:: handleHelp);
+    showHandler = event -> handleHelp();
+    this.helpButton = makeButton("?", showHandler);
+    //helpButton.setOnAction(this:: handleHelp);
 
-    EventHandler<ActionEvent> showHandler1 = event -> handleChanges();
-    this.changesButton = makeButton("Apply", showHandler1); //new Button("Apply");
+    showHandler = event -> handleChanges();
+    this.changesButton = makeButton("Apply", showHandler); //new Button("Apply");
     //changesButton.setOnAction(this::handleChanges);
   }
 
@@ -101,38 +148,22 @@ public class Toolbar extends ToolBar {
    * Methods that define the function of each Button
    */
   private void handleChanges() {
-    backgroundMenu.setValue(Color.BLUE);
-    penMenu.setValue(Color.PLUM);
-    this.myMainView.setBackgroundColor(Color.BLUE);
-    this.myMainView.setPenColor(Color.PINK);
+
+    this.myMainView.setBackgroundColor(backgroundMenu.getValue());
+    this.myMainView.setPenColor(penMenu.getValue());
+
   }
 
-  private void handleHelp(ActionEvent actionEvent) {
+  private void handleHelp() {
   }
 
 
   private void handleCommand() {
-    animation.play();
+    this.myMainView.sendCommand(textField.getText());
     myTextFields.addText(textField.getText());
   }
 
-  /**
-   * Method that sets up the animation, in which the myMainview step method is called every second which updates the
-   * grid on the screen.
-   */
-  public void animationFunctions() {
 
-    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
-      try {
-        myMainView.step();
-      } catch (Exception ex) {
-        ex.printStackTrace();
-      }
-    });
-    animation = new Timeline();
-    animation.setCycleCount(Timeline.INDEFINITE);
-    animation.getKeyFrames().add(frame);
-  }
 
   // Public Set Methods
   public void setTextField(TextFields tf){this.myTextFields = tf;}

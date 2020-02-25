@@ -3,7 +3,6 @@ package slogo.frontendexternal;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javax.swing.text.Element;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 
@@ -14,7 +13,7 @@ import slogo.backendexternal.TurtleStatus;
 public class TurtleView {
   private double myXPos;
   private double myYPos;
-  private ImageView myImageView;
+  public Image myImage;
   private TurtleModel turtleModel = new TurtleModel();
   private double myBearing;
   private String TURTLE_IMG = "view/imagesFolder/turtle.png";
@@ -24,11 +23,10 @@ public class TurtleView {
    * Constructor for TurtleView object
    */
   public TurtleView() {
-    myXPos = 50;
-    myYPos = 100;
+    myXPos = 0;
+    myYPos = 0;
     myBearing = 0;
-    myImageView = new ImageView(new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825"));
-    //myImageView = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream(TURTLE_IMG)));
+    myImage = new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825");
   }
 
   /**
@@ -59,9 +57,9 @@ public class TurtleView {
    * Gets ImageView of turtle
    * @return myImageView : image view of turtle
    */
-  public ImageView getMyImageView() {
-    return myImageView;
-  }
+  //public ImageView getMyImageView() {
+    //return myImageView;
+  //}
 
   /**
    * Gets bearing of turtle
@@ -91,18 +89,18 @@ public class TurtleView {
    * sets image view of turtle
    * @param imageView : image view of turtle
    */
-  public void setMyImageView(ImageView imageView) {
-    myImageView = imageView;
-  }
+
+  //public void setMyImageView(ImageView imageView) {
+    //myImageView = imageView;
+  //}
+
 
   /**
    * sets bearing of turtle
    * @param degrees : new bearing of turtle
    */
-  public void setMyImageView(double degrees) {
+  public void setMyBearing(double degrees) {
     myBearing = degrees;
   }
-
-
 
 }

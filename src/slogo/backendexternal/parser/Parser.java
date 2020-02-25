@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import slogo.commands.controlcommands.Constant;
 
 public class Parser {
   private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
@@ -17,6 +18,7 @@ public class Parser {
   private List<slogo.commands.Command> newCommands;
   private Map<String, List<String>> myCommands;
   private CommandFactory commandFactory;
+  private Stack<Command> currentCommands;
 
   public Parser(){ this("English");}
 
@@ -25,42 +27,49 @@ public class Parser {
     newCommands = new ArrayList<Command>();
     commandHistory = new ArrayList<Command>();
     commandFactory = new CommandFactory();
+    currentCommands = new Stack<Command>();
     setLanguage(language);
   }
 
   public void parseLine(String line){
     Stack<String> components = new Stack<>();
-    Stack<Command> commands = new Stack<>();
     Stack<Double> constants = new Stack<>();
-    String currentKey = "";
-    int countInputs = 1;
     String[] inputs = line.split(" ");
     for(String input : inputs){
       components.push(input);
     }
+
     while(components.size() > 0){
+      Stack<Command> commands = new Stack<>();
       String current = components.pop();
       if(Input.Constant.matches(current)){
-        constants.push((double) Integer.parseInt(current));
+        commands.add(new Constant((double) Integer.parseInt(current)));
       }
-      if(Input.Command.matches(current)){
-        commands.add(handleCommand(current, constants, commands));
+      else if(Input.Command.matches(current)){
+        commands.add(commandFactory.makeCommand(current, currentCommands, myCommands));
       }
-      if(Input.Variable.matches(current)){
-        commands.add(handleVariable(current, constants, commands));
+      else if(Input.Variable.matches(current)){
+        commands.add(handleVariable(current, constants, currentCommands));
       }
-      if(Input.ListStart.matches(current)){
+      else if(Input.ListStart.matches(current)){
         commands.addAll(handleList(components));
       }
-      if(Input.GroupStart.matches(current)){
-//        commands.addAll(handleGroup(components));
-      }
-      // DO NOTHING
-      if(Input.Comment.matches(current)){ continue;}
-      if(Input.Whitespace.matches(current)){ continue;}
-      if(Input.GroupEnd.matches(current)){ continue;}
-      if(Input.Newline.matches(current)){ continue;}
 
+      else if(Input.GroupStart.matches(current)){}
+
+      // DO NOTHING
+
+      else if(Input.Comment.matches(current)){ continue;}
+      else if(Input.Whitespace.matches(current)){ continue;}
+      else if(Input.GroupEnd.matches(current)){ continue;}
+      else if(Input.Newline.matches(current)){ continue;}
+
+      System.out.println(current);
+      currentCommands.addAll(commands);
+      System.out.println(currentCommands.size());
+    }
+    while(currentCommands.size() > 0){
+      newCommands.add(currentCommands.pop());
     }
   }
 
@@ -68,17 +77,11 @@ public class Parser {
     List<Command> commands = new ArrayList<>();
     while(components.size() > 0){
       String current = components.pop();
-
       if(Input.ListEnd.matches(current)){
         break;
       }
-
     }
     return commands;
-  }
-
-  private Command handleCommand(String command, Stack<Double> constants, Stack<Command> previousCommands) {
-    return commandFactory.makeCommand(command, constants, previousCommands, myCommands);
   }
 
   private Command handleVariable(String variable, Stack<Double> constants, Stack<Command> previousCommands) {
@@ -86,11 +89,9 @@ public class Parser {
     return command;
   }
 
-
-
   public List<slogo.commands.Command> sendCommands(){
     commandHistory.addAll(newCommands);
-    List<slogo.commands.Command> toSend = newCommands;
+    List<slogo.commands.Command> toSend = new ArrayList<>(newCommands);
     newCommands.clear();
     return toSend;
   }
@@ -100,7 +101,7 @@ public class Parser {
     System.out.println(RESOURCES_PACKAGE + lang);
     for (String key : Collections.list(resources.getKeys())) {
       String translation = resources.getString(key);
-      myCommands.put(key, Arrays.asList(translation.split("|")));
+      myCommands.put(key, Arrays.asList(translation.split("\\|")));
     }
   }
 }

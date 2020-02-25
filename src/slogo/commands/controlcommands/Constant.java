@@ -1,5 +1,6 @@
 package slogo.commands.controlcommands;
 
+import java.util.Arrays;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.ControlCommand;
 
@@ -25,7 +26,7 @@ public class Constant implements ControlCommand {
 
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts) {
-        return new ArrayList<>();
+        return new ArrayList<>(Arrays.asList(ts));
     }
 
     @Override

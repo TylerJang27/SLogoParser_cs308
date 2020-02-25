@@ -72,7 +72,7 @@ public class Controller extends Application {
       field.clear();
       List<Command> toSend = myParser.sendCommands();
       List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend);
-      myView.executeState(statuses);
+      myDisplay.getMainView().getTurtle().executeState(statuses);
     }
   }
 }

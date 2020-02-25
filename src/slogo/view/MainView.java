@@ -60,6 +60,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.turtle = new TurtleView();
     turtle.myImageView.setFitWidth(50);
     turtle.myImageView.setFitHeight(50);
+    turtle.myImageView.setLayoutX(canvasWidth/2.0);
+    turtle.myImageView.setLayoutY(canvasHeight/2.0);
     this.penView = new PenView();
 
     this.pane = new Pane(turtle.myImageView);

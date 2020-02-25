@@ -43,9 +43,10 @@ public class TurtleModel {
         List<TurtleStatus> statusList = new ArrayList<>();
         TurtleStatus status = INITIAL_STATUS;
         for (Command c: commandList) {
+            System.out.println(c);
             statusList.addAll(c.execute(status));
             status = statusList.get(statusList.size() - 1);
         }
-        return Collections.unmodifiableCollection(statusList);
+        return statusList;
     }
 }

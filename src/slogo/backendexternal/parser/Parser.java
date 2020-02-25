@@ -1,5 +1,6 @@
 package slogo.backendexternal.parser;
 
+import java.util.Stack;
 import slogo.commands.Command;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Parser {
   private List<slogo.commands.Command> commandHistory;
   private List<slogo.commands.Command> newCommands;
   private Map<String, List<String>> myCommands;
+  private CommandFactory commandFactory;
 
 
   public Parser(){ this("English");}
@@ -24,37 +26,25 @@ public class Parser {
     myCommands = new HashMap<String, List<String>>();
     newCommands = new ArrayList<Command>();
     commandHistory = new ArrayList<Command>();
+    commandFactory = new CommandFactory();
     setLanguage(language);
   }
 
   public void parseLine(String line){
-    List<Map<String, List<Double>>> completeCommands = new ArrayList<Map<String, List<Double>>>();
-    List<Map<String, List<Double>>> unfinishedCommands = new ArrayList<Map<String, List<Double>>>();
-    Map<String, List<Double>> currentCommand = new HashMap<String, List<Double>>();
+    Stack<String> commands = new Stack<String>();
+    Stack<Double> constants = new Stack<Double>();
     String currentKey = "";
     int countInputs = 1;
     String[] inputs = line.split(" ");
     for(String input : inputs){
       if(Input.Command.matches(input)){
-        if(currentCommand.size() > 0){
-          unfinishedCommands.add(currentCommand);
-          currentCommand.clear();
-        }
-        currentKey = input;
-        currentCommand.put(input, new ArrayList<Double>());
+        commands.push(input);
       }
       if(Input.Constant.matches(input)){
-        if(currentCommand.size() > 0){
-          currentCommand.put(currentKey, new ArrayList(Arrays.asList(Integer.parseInt(input)/1.0)));
-          completeCommands.add(currentCommand);
-        }
+          constants.push(new Double(Integer.parseInt(input)));
       }
     }
-    for(int i = 0; i < completeCommands.size(); i++){
-      System.out.println(i);
-      System.out.println(completeCommands.get(i));
-      newCommands.add(CommandFactory.makeCommand(completeCommands.get(i), myCommands));
-    }
+    newCommands = commandFactory.makeCommands(commands, constants, myCommands);
   }
 
   public List<slogo.commands.Command> sendCommands(){

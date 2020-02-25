@@ -20,7 +20,8 @@ public class Rand implements MathCommand {
 
     /**
      * Takes in one input command, the return value of this command will be used for the Rand operation
-     * @param argA input command to be executed
+     *
+     * @param argA  input command to be executed
      */
     public Rand(Command argA){
         arg1 = argA;
@@ -30,10 +31,11 @@ public class Rand implements MathCommand {
      * Create an empty list of turtle status, fill list with execution from the argument command
      * set return value to be a non negative random double strictly less than the return value of the argument command
      * (Math.random() gives a result from 0 to 1 but not including 1, which satisfies the strictly less than requirement)
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
-     * @return list of turtle status from executing the argument commands to this operation
-     *         (this operation itself does not generate new turtle status)
+     *
+     * @param ts    a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
+     *              TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @return      list of turtle status from executing the argument commands to this operation
+     *              (this operation itself does not generate new turtle status)
      */
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts){
@@ -44,7 +46,7 @@ public class Rand implements MathCommand {
     }
 
     /**
-     * @return the return value set during the execution of this operation
+     * @return      the return value set during the execution of this operation
      */
     @Override
     public double returnValue() {

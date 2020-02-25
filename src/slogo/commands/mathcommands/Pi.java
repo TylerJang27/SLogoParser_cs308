@@ -25,9 +25,10 @@ public class Pi implements MathCommand {
 
     /**
      * Create and return an empty list of turtle status, and set return value to the value of pi
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
-     * @return
+     *
+     * @param ts    a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
+     *              TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @return      empty list of turtle status
      */
     @Override
     public Collection<TurtleStatus> execute(TurtleStatus ts){
@@ -37,7 +38,7 @@ public class Pi implements MathCommand {
     }
 
     /**
-     * @return the return value set during the execution of this operation
+     * @return      the return value set during the execution of this operation
      */
     @Override
     public double returnValue() {

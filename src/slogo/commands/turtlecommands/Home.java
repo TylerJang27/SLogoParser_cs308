@@ -22,7 +22,7 @@ public class Home implements TurtleCommand {
     }
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         return go.execute(ts);
     }
 

@@ -35,6 +35,7 @@ public class Parser {
     Stack<String> components = new Stack<>();
     Stack<Double> constants = new Stack<>();
     String[] inputs = line.split(" ");
+
     for(String input : inputs){
       components.push(input);
     }

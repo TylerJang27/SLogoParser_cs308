@@ -8,8 +8,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
- *
- * @author Shruthi Kumar
+ * @author Shruthi Kumar, Nevzat Sevim
  */
 public class Display {
   private Scene myScene;

@@ -13,12 +13,12 @@ public interface MainViewAPI {
   /**
    * Reads in the command so that it can be sent to the back end
    */
-  void readCommand();
+  String readCommand();
 
   /**
    * Sends the command to the back end
    */
-  String sendCommand();
+  void sendCommand(String command);
 
   /**
    * Send information on whether the user changes the pen or the turtle
@@ -28,7 +28,7 @@ public interface MainViewAPI {
   /**
    * Tells the backend side to update the language
    */
-  void changeLanguage();
+  void changeLanguage(int choice);
 
   /**
    * Returns all current runtime commands
@@ -50,5 +50,7 @@ public interface MainViewAPI {
    * Reset commands
    */
   void resetCommands();
+
+  void setSkin(int choice);
 
 }

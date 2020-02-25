@@ -47,7 +47,7 @@ public class RunFunction implements ControlCommand {
      *
      * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
      *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
-     * @return a Collection of TurtleStatus instances, produced as a result of setting the variable values and running the Function.
+     * @return a List of TurtleStatus instances, produced as a result of setting the variable values and running the Function.
      */
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {

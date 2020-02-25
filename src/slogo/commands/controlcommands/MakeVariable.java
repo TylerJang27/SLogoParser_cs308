@@ -41,7 +41,7 @@ public class MakeVariable implements ControlCommand {
      *
      * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
      *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
-     * @return   a Collection of TurtleStatus instances, containing any statuses resulting from the execution of subsequent commands.
+     * @return   a List of TurtleStatus instances, containing any statuses resulting from the execution of subsequent commands.
      */
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {

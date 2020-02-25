@@ -7,7 +7,7 @@ import slogo.commands.controlcommands.Variable;
 import java.util.*;
 
 /**
- * Class used to execute the Commands produced by Parser. This class then returns
+ * Class used to execute the Commands produced by Parser. This class then returns a List of TurtleStatus instances.
  */
 //TODO Dennis: at the moment, this class does not really need to hold variables and functions.
 // Would you like it to, or should this all just stay in Parser/CommandFactory?
@@ -21,29 +21,57 @@ public class TurtleModel {
 
     private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
 
-    public TurtleModel() {
-        declaredVariables = new ArrayList<>();
-        declaredFunctions = new ArrayList<>();
-    }
-
+    //TODO: update as necessary
+    /**
+     * Constructor for TurtleModel, taking in Lists of variables and functions.
+     *
+     * @param vars      defined variables in the scope.
+     * @param functions defined functions in the scope.
+     */
     public TurtleModel(List<Variable> vars, List<RunFunction> functions) {
         declaredVariables = vars;
         declaredFunctions = functions;
     }
 
+    /**
+     * Default Constructor for TurtleModel, creating empty ArrayLists.
+     */
+    public TurtleModel() {
+        this(new ArrayList<>(), new ArrayList<>());
+    }
+
+    /**
+     * Retrieves the declaredVariables for the scope.
+     *
+     * @return declaredVariables.
+     */
     public Collection<Variable> getVariables() {
         return declaredVariables;
     }
 
+    /**
+     * Retrieves the declaredFunctions for the scope.
+     *
+     * @return declaredFunctions
+     */
     public Collection<RunFunction> getFunctions() {
         return declaredFunctions;
     }
 
+    /**
+     * Resets/clears the functions and variables for the scope.
+     */
     public void clearVariables() {
         declaredVariables.clear();
         declaredFunctions.clear();
     }
 
+    /**
+     * Executes the parsed Command instances and returns a List of TurtleStatus instances.
+     *
+     * @param commandList a List of all parsed commands.
+     * @return            a List of resulting TurtleStatus instances.
+     */
     public List<TurtleStatus> executeCommands(List<Command> commandList) {
         List<TurtleStatus> statusList = new ArrayList<>();
         TurtleStatus status = INITIAL_STATUS;

@@ -21,7 +21,7 @@ public interface Command {
      *
      * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
      *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
-     * @return a Collection of TurtleStatus instances, given by the execution of this and any subsequent commands.
+     * @return a List of TurtleStatus instances, given by the execution of this and any subsequent commands.
      */
     public List<TurtleStatus> execute(TurtleStatus ts);
 

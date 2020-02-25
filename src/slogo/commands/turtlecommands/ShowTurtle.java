@@ -22,8 +22,9 @@ public class ShowTurtle implements TurtleCommand {
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
+        ret.add(ts);
         ret.add(new TurtleStatus(ts.getX(), ts.getY(), ts.getBearing(), true, true, ts.getPenDown(), ts.getPenColor()));
-        return (ret);
+        return ret;
     }
 
     @Override

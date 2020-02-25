@@ -159,7 +159,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
       try {
         this.step();
       } catch (Exception ex) {
-        ex.printStackTrace();
+        //ex.printStackTrace();
       }
     });
     animation = new Timeline();

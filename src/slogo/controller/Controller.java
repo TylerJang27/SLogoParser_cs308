@@ -4,6 +4,8 @@ package slogo.controller;
 //import java.util.List;
 //import javafx.animation.KeyFrame;
 //import javafx.animation.Timeline;
+import java.util.Arrays;
+import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -15,7 +17,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 //import javafx.util.Duration;
 //import javax.swing.KeyStroke;
+import slogo.backendexternal.TurtleModel;
+import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.parser.Parser;
+import slogo.commands.Command;
+import slogo.frontendexternal.TurtleView;
 import slogo.view.Display;
 import slogo.view.TextFields;
 
@@ -26,13 +32,17 @@ public class Controller extends Application {
   public static final int FRAMES_PER_SECOND = 60;
   public static final int MILLISECOND_DELAY = 100000 / FRAMES_PER_SECOND;
   public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+  public static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
 
   private Stage myStage;
   private Group layout;
   private Scene myScene;
   private Display myDisplay;
   private Parser myParser;
-  private TextFields input;
+  private TurtleModel myModel;
+  private TurtleView myView;
+  private TextField input;
+  private TurtleStatus currentStatus;
   private int speed;
 
   /**
@@ -46,24 +56,31 @@ public class Controller extends Application {
   public void start(Stage currentStage) {
     myStage = new Stage();
     myDisplay = new Display();
-    input = myDisplay.getInputField();
+    input = myDisplay.getMainView().getToolBar().getTextField();
     myScene = myDisplay.getScene();
     myParser = new Parser();
+    myModel = new TurtleModel();
+    myView = new TurtleView();
+    currentStatus = INITIAL_STATUS;
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
     myStage.show();
     input.setOnKeyPressed(key -> sendCommand(key.getCode(), input));
   }
 
-  private void sendCommand(KeyCode key, TextFields field){
-    String input = field.getCommands().getText();
-    System.out.println(input);
-    if(key == KeyCode.SHIFT){
-      myParser.parseLine(input);
-      field.clearCommands();
-    }
+  private void sendCommand(KeyCode key, TextField field){
+    String input = field.getText();
     if(key == KeyCode.ENTER){
-      myParser.sendCommands();
+      myParser.parseLine(input);
+      field.clear();
+      List<Command> toSend = myParser.sendCommands();
+      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend, currentStatus);
+      setStatus(statuses.get(statuses.size() - 1));
+      myDisplay.getMainView().getTurtle().executeState(statuses);
     }
+  }
+
+  private void setStatus(TurtleStatus ts){
+    currentStatus = ts;
   }
 }

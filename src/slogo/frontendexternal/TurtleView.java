@@ -49,7 +49,6 @@ public class TurtleView {
     Double[] pathPoints = new Double[t.size()*2];
     Iterator<TurtleStatus> iterator = t.iterator();
     int index = 0;
-
     while(iterator.hasNext()) {
       TurtleStatus temp = iterator.next();
       pathPoints[index] = temp.getX();

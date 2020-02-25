@@ -7,6 +7,8 @@ package slogo.backendexternal.backendexceptions;
  * https://coursework.cs.duke.edu/compsci308_2020spring/spike_simulation/blob/master/src/xml/XMLException.java
  *
  * @author Tyler Jang
+ *
+ * NOTE: Do not need multiple languages
  */
 public class InvalidCommandException extends RuntimeException{
 

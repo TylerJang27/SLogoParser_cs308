@@ -20,6 +20,8 @@ public class Repeat implements ControlCommand {
 
     //Start
     public static final int NUM_ARGS = 2;
+
+    //should not be static because that would break the nested repeat case
     private Variable repCount = new Variable();
     private ControlCommand loop;
 

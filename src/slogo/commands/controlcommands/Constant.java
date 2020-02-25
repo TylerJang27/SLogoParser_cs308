@@ -1,5 +1,6 @@
 package slogo.commands.controlcommands;
 
+import java.util.Arrays;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.ControlCommand;
 

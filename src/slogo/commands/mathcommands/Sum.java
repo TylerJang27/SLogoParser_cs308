@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Calculates the sum between two inputs
+ * @author Lucy Gu
+ */
 public class Sum implements MathCommand {
 
     private Command arg1;
@@ -14,11 +18,27 @@ public class Sum implements MathCommand {
     private double returnVal;
     public static final int NUM_ARGS = 2;
 
+    /**
+     * Takes in two input command, the return value of this command will be used for the Sum operation
+     *
+     * @param argA  first input command (executed first)
+     * @param argB  second input command (executed after the first command)
+     */
     public Sum(Command argA, Command argB){
         arg1 = argA;
         arg2 = argB;
     }
 
+    /**
+     * Create an empty list of turtle status, fill list with execution from the argument commands
+     * using twoArgOperation, and set return value to be the sum of the return value of the first command and the return value of the
+     * second command
+     *
+     * @param ts    a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
+     *              TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @return      list of turtle status from executing the argument commands to this operation
+     *              (this operation itself does not generate new turtle status)
+     */
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
@@ -27,6 +47,9 @@ public class Sum implements MathCommand {
         return ret;
     }
 
+    /**
+     * @return      the return value of this operation
+     */
     @Override
     public double returnValue() {
         return returnVal;

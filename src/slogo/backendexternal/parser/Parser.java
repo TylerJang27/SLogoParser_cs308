@@ -40,7 +40,7 @@ public class Parser {
         commands.push(input);
       }
       if(Input.Constant.matches(input)){
-          constants.push(new Double(Integer.parseInt(input)));
+          constants.push((double) Integer.parseInt(input));
       }
     }
     newCommands = commandFactory.makeCommands(commands, constants, myCommands);

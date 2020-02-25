@@ -15,10 +15,6 @@ import java.util.List;
  * @author Tyler Jang, Lucy Gu
  */
 public interface Command {
-    public static final int NUM_ARGS = 0;
-    double xMax = 100;
-    double yMax = 100;        //TODO: change to front end display size
-    public final static String[] MODES = {"normal", "edge", "toroidal"};
 
     /**
      * Executes a Command, updating variables, control logic, computation, or turtle movement (as stored in TurtleStatus instances).

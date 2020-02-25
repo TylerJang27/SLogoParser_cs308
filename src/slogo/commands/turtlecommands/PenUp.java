@@ -19,7 +19,7 @@ public class PenUp implements TurtleCommand {
     public PenUp() {}
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         Collection<TurtleStatus> ret = new ArrayList<>();
         ret.add(new TurtleStatus(ts.getX(), ts.getY(), ts.getBearing(), true, ts.getVisible(), false, ts.getPenColor()));
         return (ret);

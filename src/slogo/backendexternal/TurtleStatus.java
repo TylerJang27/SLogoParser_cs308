@@ -3,60 +3,122 @@ package slogo.backendexternal;
 import javafx.scene.paint.Color;
 
 /**
+ * a "data" class that contains all the information for the turtle, including information regarding its x and y position, its bearing,
+ * whether trail should be left when moved, and information of the pen used to draw the trail
+ *
  * @author Lucy Gu, Tyler Jang
  */
 public class TurtleStatus {
     private double x;
     private double y;
     private double bearing;
-    private boolean smooth;
+    private boolean leavesTrial;
     private PenModel penModel;
     private boolean turtleVisible;
 
+    /**
+     * Creating turtle status with an existing penModel
+     *
+     * @param xPos sets the x value of turtle status
+     * @param yPos sets the y value of turtle status
+     * @param bearing set the bearing (degrees turned away from north) of the turtle status
+     * @param smooth set whether there should be a line connecting this and the previous turtle status
+     * @param visible set whether the turtle is visible or hiding
+     * @param penModel existing pen model that will be directly stored in turtle status
+     */
     public TurtleStatus(double xPos, double yPos, double bearing, boolean smooth, boolean visible, PenModel penModel){
         this.x = xPos;
         this.y = yPos;
         this.bearing = bearing;
-        this.smooth = smooth;
+        this.leavesTrial = smooth;
         this.turtleVisible = visible;
         this.penModel = penModel;
     }
 
-    public TurtleStatus(double xPos, double yPos, double bearing, boolean smooth, boolean visible, boolean penDown, Color penColor) {
-        this(xPos, yPos, bearing, smooth, visible, new PenModel(penDown, penColor));
+    /**
+     * Create turtle status using the inputs
+     *
+     * @param xPos sets the x value of turtle status
+     * @param yPos sets the y value of turtle status
+     * @param bearing set the bearing (degrees turned away from north) of the turtle status
+     * @param trial set whether there should be a line connecting this and the previous turtle status
+     * @param visible set whether the turtle is visible or hiding
+     * @param penDown set whether the turtle leaves a trail (penDown and penColor will create a new PenModel object to store in turtle status)
+     * @param penColor set the color of trial the turtle leaves (penDown and penColor will create a new PenModel object to store in turtle status)
+     */
+    public TurtleStatus(double xPos, double yPos, double bearing, boolean trial, boolean visible, boolean penDown, Color penColor) {
+        this(xPos, yPos, bearing, trial, visible, new PenModel(penDown, penColor));
     }
 
-
+    /**
+     * Create a default turtle status, where the turtle is located at (0,0), has a bearing of 0, and is visible
+     */
     public TurtleStatus() {
         this(0, 0, 0, false, true, new PenModel());
     }
 
+    /**
+     * @return the x value of the turtle status
+     */
     public double getX(){
         return x;
     }
 
+    /**
+     * @return the y value of the turtle status
+     */
     public double getY(){
         return y;
     }
 
+    /**
+     * @return the degree of turn of the turtle status
+     */
     public double getBearing(){
         return bearing;
     }
 
-    public boolean getSmooth(){
-        return smooth;
+    /**
+     * @return if, theoretically, a line should be drawn between the previous and the current
+     *         turtle status
+     */
+    public boolean getTrial(){
+        return leavesTrial;
     }
 
+    /**
+     * @return true if pen is put down (thus turtle leaves trails) and false if pen is up (turtle leaves no trail)
+     */
     public boolean getPenDown() { return penModel.getPenDown(); }
 
-    public boolean getPenDraw() { return smooth && penModel.getPenDown(); } //USED BY THE FRONTEND
+    /**
+     * The value of penDraw is determined by both the smooth value and the penDown value
+     * leavesTrial specifies if a line should be created between this and the previous turtle
+     * status in the list; penDown specified if lines should be drawn at all. A line should only be
+     * drawn when both pen is down and smooth is set to be true.
+     *
+     * @return if a line should be drawn between the previous turtle status and this turtle status
+     */
+    public boolean getPenDraw() { return leavesTrial && penModel.getPenDown(); } //USED BY THE FRONTEND
 
+    /**
+     * @return the color of the penModel used by this turtle status
+     */
     public Color getPenColor() { return penModel.getPenColor(); }
 
+    /**
+     * @return whether the turtle is visible or hiding
+     */
     public boolean getVisible() { return turtleVisible; }
 
+    /**
+     * @return a string that summarizes the information in this turtle status, including the x location, y location,
+     *         bearing, whether the turtle theoretically leaves a trial between the previous and this status,
+     *         visibility of the turtle (hiding or not), status of the pen used to draw turtle's trail (down or up), and color
+     *         of pen used to draw trail
+     */
     @Override
     public String toString() {
-        return String.format("%f, %f \t %f \t%b \t%b \t%b \t%s", x, y, bearing, smooth, turtleVisible, penModel.getPenDown(), getPenColor());
+        return String.format("%f, %f \t %f \t%b \t%b \t%b \t%s", x, y, bearing, leavesTrial, turtleVisible, penModel.getPenDown(), getPenColor());
     }
 }

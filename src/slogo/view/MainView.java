@@ -3,6 +3,7 @@ package slogo.view;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.Collection;
 import javafx.geometry.Insets;
@@ -108,18 +109,12 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   }
 
-  public void moveTurtle() {
-    ArrayList<TurtleStatus> t = new ArrayList<>();
-    t.add(new TurtleStatus(turtle.getMyXPos() + 10, turtle.getMyYPos() + 10, 10, false, false, new PenModel()));
-    t.add(new TurtleStatus(turtle.getMyXPos() + 150, turtle.getMyYPos() + 150, 10, false, false, new PenModel()));
-    t.add(new TurtleStatus(turtle.getMyXPos() + 20, turtle.getMyYPos() + 38, 10, false, false, new PenModel()));
-
-
+  public void moveTurtle(List<TurtleStatus> ts) {
     Node obj = pane.getChildren().get(0); // remember first item
     pane.getChildren().clear(); // clear complete list
     pane.getChildren().add(obj);
 
-    turtle.executeState(t);
+    turtle.executeState(ts);
 
     Collection<Line> temp = turtle.getPenView().getMyLines();
     Iterator<Line> iterator = turtle.getPenView().getMyLines().iterator();

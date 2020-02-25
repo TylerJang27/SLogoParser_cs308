@@ -14,8 +14,6 @@ public class TurtleModel {
     //TODO: change implementation/display method/remove altogether?
     Collection<RunFunction> declaredFunctions;
 
-    private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-
     public TurtleModel() {
         declaredVariables = new ArrayList<>();
         declaredFunctions = new ArrayList<>();

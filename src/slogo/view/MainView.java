@@ -2,6 +2,7 @@ package slogo.view;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Collection;
 import javafx.geometry.Insets;
@@ -10,6 +11,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -21,6 +23,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ToolBar;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
+import javax.swing.text.html.ImageView;
 import slogo.backendexternal.PenModel;
 import slogo.backendexternal.TurtleStatus;
 import slogo.frontendexternal.PenView;
@@ -49,9 +52,12 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private PenView penView;
 
   private Random random;
+  Line line = new Line();
 
 
   public MainView() {
+    line = new Line(50, 50, 150, 150);
+    line.setStroke(Color.PLUM);
 
     this.myTextFields = new TextFields(this);
     this.myToolbar = new Toolbar(this);
@@ -63,8 +69,9 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     turtle.myImageView.setLayoutX(canvasWidth/2.0);
     turtle.myImageView.setLayoutY(canvasHeight/2.0);
     this.penView = new PenView();
+    penView.setMyPenColor(Color.BLUE);
 
-    this.pane = new Pane(turtle.myImageView);
+    this.pane = new Pane(turtle.myImageView); //, penView.drawTrail(new Point(0, 0), new Point(50, 50)));
     pane.setPrefSize(canvasWidth, canvasHeight);
     pane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(0))));
 
@@ -105,7 +112,18 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     t.add(new TurtleStatus(turtle.getMyXPos() + 10, turtle.getMyYPos() + 10, 10, false, false, new PenModel()));
     t.add(new TurtleStatus(turtle.getMyXPos() + 150, turtle.getMyYPos() + 150, 10, false, false, new PenModel()));
 
+    Node obj = pane.getChildren().get(0); // remember first item
+    pane.getChildren().clear(); // clear complete list
+    pane.getChildren().add(obj);
+
+
     turtle.executeState(t);
+
+    Collection<Line> temp = turtle.getPenView().getMyLines();
+    Iterator<Line> iterator = turtle.getPenView().getMyLines().iterator();
+    while(iterator.hasNext()) {
+      pane.getChildren().add(iterator.next());
+    }
   }
 
   public TurtleView getTurtle() {

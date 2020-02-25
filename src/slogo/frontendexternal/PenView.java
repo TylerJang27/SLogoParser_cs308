@@ -1,6 +1,8 @@
 package slogo.frontendexternal;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collection;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -15,6 +17,7 @@ public class PenView {
   private double myLineThickness;
   private double myXPos;
   private double myYPos;
+  private Collection<Line> myLines;
 
   /**
    * Constructor for pen view
@@ -23,8 +26,16 @@ public class PenView {
     isDown = new SimpleBooleanProperty(false);
     myPenColor = Color.BLACK;
     myLineThickness = .5;
-    myXPos = 0;
-    myYPos = 0;
+    myLines = new ArrayList<>();
+  }
+
+  /**
+   * Constructor for pen view
+   */
+  public PenView(boolean down, Point start, Point end) {
+    isDown = new SimpleBooleanProperty(down);
+    myLineThickness = .5;
+    myLines = new ArrayList<>();
   }
 
   /**
@@ -36,6 +47,7 @@ public class PenView {
     Line penTrail = new Line(start.getX(), start.getY(), end.getX(), end.getY());
     penTrail.setStroke(myPenColor);
     penTrail.setStrokeWidth(myLineThickness);
+
   }
 
   //getPenDraw();
@@ -119,6 +131,14 @@ public class PenView {
    */
   public void setMyPenColor(Color penColor) {
     myPenColor = penColor;
+  }
+
+  public void updateMyLines(double startX, double startY, double endX, double endY) {
+    myLines.add(new Line(startX, startY, endX, endY));
+  }
+
+  public Collection<Line> getMyLines() {
+    return myLines;
   }
 
 

@@ -165,8 +165,9 @@ public class Toolbar extends ToolBar {
   private void handleCommand() {
     this.myMainView.sendCommand(textField.getText());
     myTextFields.addText(textField.getText());
-    myMainView.getTurtle().setMyXPos(myMainView.getTurtle().getMyXPos() + 10);
-    myMainView.getTurtle().setMyYPos(myMainView.getTurtle().getMyYPos() + 10);
+    //myMainView.getTurtle().setMyXPos(myMainView.getTurtle().getMyXPos() + 10);
+    //myMainView.getTurtle().setMyYPos(myMainView.getTurtle().getMyYPos() + 10);
+    this.myMainView.moveTurtle();
   }
 
 

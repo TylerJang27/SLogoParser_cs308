@@ -23,7 +23,7 @@ public class Remainder implements MathCommand {
     public Collection<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
         double[] val = MathCommand.twoArgOperation(ret, ts, arg1, arg2);
-        returnVal = ((int)val[0])%((int)val[1]);
+        returnVal = (val[0])%(val[1]);
         return ret;
     }
 

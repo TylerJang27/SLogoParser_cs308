@@ -66,16 +66,18 @@ public class TurtleModel {
         declaredFunctions.clear();
     }
 
+//TODO: UPDATE COMMENTS
     /**
      * Executes the parsed Command instances and returns a List of TurtleStatus instances.
      *
      * @param commandList a List of all parsed commands.
      * @return            a List of resulting TurtleStatus instances.
      */
-    public List<TurtleStatus> executeCommands(List<Command> commandList) {
+    public Collection<TurtleStatus> executeCommands(List<Command> commandList, TurtleStatus ts) {
         List<TurtleStatus> statusList = new ArrayList<>();
-        TurtleStatus status = INITIAL_STATUS;
+        TurtleStatus status = ts;
         for (Command c: commandList) {
+            System.out.println(c);
             statusList.addAll(c.execute(status));
             status = statusList.get(statusList.size() - 1);
         }

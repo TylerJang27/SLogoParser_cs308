@@ -4,7 +4,8 @@ import slogo.backendexternal.TurtleStatus;
 import java.util.*;
 
 /**
- * Interface for instances of Turtle Commands, extending the overarching Command interface
+ * Interface for instances of Turtle Commands, extending the overarching Command interface.
+ * 
  * @author Lucy Gu, Tyler Jang
  */
 public interface TurtleCommand extends Command {

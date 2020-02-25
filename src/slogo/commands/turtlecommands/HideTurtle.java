@@ -6,6 +6,7 @@ import slogo.commands.TurtleCommand;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -20,7 +21,8 @@ public class HideTurtle implements TurtleCommand {
 
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
-        Collection<TurtleStatus> ret = new ArrayList<>();
+        List<TurtleStatus> ret = new ArrayList<>();
+        ret.add(ts);
         ret.add(new TurtleStatus(ts.getX(), ts.getY(), ts.getBearing(), true, false, ts.getPenDown(), ts.getPenColor()));
         return ret;
     }

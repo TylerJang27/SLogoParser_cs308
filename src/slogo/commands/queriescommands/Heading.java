@@ -26,7 +26,7 @@ public class Heading implements QueriesCommand {
      *
      * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
      *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
-     * @return   a Collection of TurtleStatus instances, containing only the parameter ts.
+     * @return   a List of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {

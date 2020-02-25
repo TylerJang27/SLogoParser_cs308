@@ -28,13 +28,12 @@ public class Pi implements MathCommand {
      *
      * @param ts    a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
      *              TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
-     * @return      empty list of turtle status
+     * @return      list of TurtleStatus instances containing only ts
      */
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts){
-        List<TurtleStatus> ret = new ArrayList<>();
         returnVal = Math.PI;
-        return ret;
+        return List.of(ts);
     }
 
     /**

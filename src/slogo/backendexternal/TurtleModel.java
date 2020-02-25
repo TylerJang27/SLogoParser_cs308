@@ -19,10 +19,6 @@ public class TurtleModel {
     //TODO: change implementation/display method/remove altogether?
     Collection<RunFunction> declaredFunctions;
 
-    public TurtleModel() {
-        declaredVariables = new ArrayList<>();
-        declaredFunctions = new ArrayList<>();
-    }
 
     public TurtleModel(List<Variable> vars, List<RunFunction> functions) {
         declaredVariables = vars;
@@ -73,7 +69,7 @@ public class TurtleModel {
         List<TurtleStatus> statusList = new ArrayList<>();
         TurtleStatus status = ts;
         for (Command c: commandList) {
-            System.out.println(c);
+            //System.out.println(c);
             statusList.addAll(c.execute(status));
             status = statusList.get(statusList.size() - 1);
         }

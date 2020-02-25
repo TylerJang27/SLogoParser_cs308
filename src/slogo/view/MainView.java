@@ -69,8 +69,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
   public void step() {
-    turtle.setMyXPos(random.nextInt(100));
-    turtle.setMyYPos(random.nextInt(100));
+   // turtle.setMyXPos(random.nextInt(100));
+   // turtle.setMyYPos(random.nextInt(100));
     draw();
   }
 
@@ -80,8 +80,12 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     GraphicsContext g = this.simCanvas.getGraphicsContext2D();
     g.setFill(backgroundColor);
     g.fillRect(0, 0, simCanvas.getWidth(), simCanvas.getHeight());
-    g.drawImage(turtle.myImage, 5, 5, 50, 50);
+    g.drawImage(turtle.myImage, turtle.getMyXPos(), turtle.getMyYPos(), 50, 50);
 
+  }
+
+  public TurtleView getTurtle() {
+    return turtle;
   }
 
   @Override
@@ -96,8 +100,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   @Override
   public void sendCommand(String command) {
-    turtle.setMyXPos(50);
-    turtle.setMyYPos(100);
+//    turtle.setMyXPos(50);
+//    turtle.setMyYPos(100);
     /*if(true) { //ie if command is valid - will add correct booleans when backend side sends command
       turtle.executeState(((ArrayList) getCommands()).get(0));
     }

@@ -90,6 +90,10 @@ public class Toolbar extends ToolBar {
       myMainView.stop();
       if (newValue == "Turtle") {
         myMainView.setSkin(0);
+      } else if (newValue == "Mickey") {
+        myMainView.setSkin(1);
+      } else {
+        myMainView.setSkin(2);
       }
     });
   }
@@ -162,6 +166,8 @@ public class Toolbar extends ToolBar {
   private void handleCommand() {
     this.myMainView.sendCommand(textField.getText());
     myTextFields.addText(textField.getText());
+    myMainView.getTurtle().setMyXPos(myMainView.getTurtle().getMyXPos() + 10);
+    myMainView.getTurtle().setMyYPos(myMainView.getTurtle().getMyYPos() + 10);
   }
 
 

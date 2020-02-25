@@ -4,6 +4,7 @@ package slogo.controller;
 //import java.util.List;
 //import javafx.animation.KeyFrame;
 //import javafx.animation.Timeline;
+import java.util.Arrays;
 import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -16,8 +17,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 //import javafx.util.Duration;
 //import javax.swing.KeyStroke;
+import slogo.backendexternal.TurtleModel;
+import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.parser.Parser;
 import slogo.commands.Command;
+import slogo.frontendexternal.TurtleView;
 import slogo.view.Display;
 import slogo.view.TextFields;
 
@@ -34,6 +38,8 @@ public class Controller extends Application {
   private Scene myScene;
   private Display myDisplay;
   private Parser myParser;
+  private TurtleModel myModel;
+  private TurtleView myView;
   private TextField input;
   private int speed;
 
@@ -51,6 +57,8 @@ public class Controller extends Application {
     input = myDisplay.getMainView().getToolBar().getTextField();
     myScene = myDisplay.getScene();
     myParser = new Parser();
+    myModel = new TurtleModel();
+    myView = new TurtleView();
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
     myStage.show();
@@ -59,12 +67,12 @@ public class Controller extends Application {
 
   private void sendCommand(KeyCode key, TextField field){
     String input = field.getText();
-    if(key == KeyCode.SHIFT){
+    if(key == KeyCode.ENTER){
       myParser.parseLine(input);
       field.clear();
-    }
-    if(key == KeyCode.ENTER){
       List<Command> toSend = myParser.sendCommands();
+      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend);
+      myView.executeState(statuses);
     }
   }
 }

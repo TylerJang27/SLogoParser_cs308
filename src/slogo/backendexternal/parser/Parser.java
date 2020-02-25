@@ -18,7 +18,6 @@ public class Parser {
   private Map<String, List<String>> myCommands;
   private CommandFactory commandFactory;
 
-
   public Parser(){ this("English");}
 
   public Parser(String language){
@@ -45,16 +44,16 @@ public class Parser {
         constants.push((double) Integer.parseInt(current));
       }
       if(Input.Command.matches(current)){
-        commands.addAll(handleCommands(current, constants, commands));
+        commands.add(handleCommand(current, constants, commands));
       }
       if(Input.Variable.matches(current)){
-        commands.addAll(handleVariables(current, constants, commands));
+        commands.add(handleVariable(current, constants, commands));
       }
       if(Input.ListStart.matches(current)){
         commands.addAll(handleList(components));
       }
       if(Input.GroupStart.matches(current)){
-        commands.addAll(handleGroup(components));
+//        commands.addAll(handleGroup(components));
       }
       // DO NOTHING
       if(Input.Comment.matches(current)){ continue;}
@@ -78,29 +77,13 @@ public class Parser {
     return commands;
   }
 
-  private List<Command> handleGroup(Stack<String> components) {
-    List<Command> commands = new ArrayList<>();
-    while(components.size() > 0){
-      String current = components.pop();
-
-      if(Input.GroupEnd.matches(current)){
-        break;
-      }
-
-    }
-    return commands;
+  private Command handleCommand(String command, Stack<Double> constants, Stack<Command> previousCommands) {
+    return commandFactory.makeCommand(command, constants, previousCommands, myCommands);
   }
 
-  private List<Command> handleCommands(String command, Stack<Double> constants, Stack<Command> previousCommands) {
-    List<Command> commands = new ArrayList<>();
-
-    return commands;
-  }
-
-  private List<Command> handleVariables(String variable, Stack<Double> constants, Stack<Command> previousCommands) {
-    List<Command> commands = new ArrayList<>();
-
-    return commands;
+  private Command handleVariable(String variable, Stack<Double> constants, Stack<Command> previousCommands) {
+    Command command = null;
+    return command;
   }
 
 
@@ -118,12 +101,6 @@ public class Parser {
     for (String key : Collections.list(resources.getKeys())) {
       String translation = resources.getString(key);
       myCommands.put(key, Arrays.asList(translation.split("|")));
-    }
-  }
-
-  public void printCurrentCommands(){
-    for(Command c : newCommands){
-      System.out.println(c);
     }
   }
 }

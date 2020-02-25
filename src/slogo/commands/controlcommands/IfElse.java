@@ -45,7 +45,7 @@ public class IfElse implements ControlCommand {
      * @return   a Collection of TurtleStatus instances produced as a result of running the conditional.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
         double exprVal = ControlCommand.executeAndExtractValue(conditionExpr, ts, ret);
 

@@ -52,7 +52,7 @@ public class For implements ControlCommand {
      * @return   a Collection of TurtleStatus instances produced as a result of running the loop.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         //TODO: AT THE MOMENT, THE ITEMS IN THE VARCAP FIELD WILL BE EXECUTED AND ADDED AS TURTLESTATUS INSTANCES
         //TODO: DETERMINE IF THIS IS APPROPRIATE/REQUIRED
 

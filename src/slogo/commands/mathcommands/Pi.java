@@ -17,7 +17,7 @@ public class Pi implements MathCommand {
     }
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts){
+    public List<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
         returnVal = Math.PI;
         return ret;

@@ -29,7 +29,7 @@ public class XCoordinate implements QueriesCommand {
      * @return   a Collection of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         xCor = ts.getX();
         return List.of(ts);
     }

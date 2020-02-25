@@ -5,6 +5,7 @@ import slogo.commands.Command;
 import slogo.commands.ControlCommand;
 
 import java.util.Collection;
+import java.util.List;
 
 //TODO Dennis: PLEASE REPLACE ANY INSTANCE OF ":repcount" in the parsing process with:
 // getRepCount()
@@ -60,7 +61,7 @@ public class Repeat implements ControlCommand {
      * @return   a Collection of TurtleStatus instances produced as a result of running the loop.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         return loop.execute(ts);
     }
 

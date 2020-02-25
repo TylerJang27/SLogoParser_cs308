@@ -20,7 +20,7 @@ public class Sum implements MathCommand {
     }
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts){
+    public List<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
         double[] val = MathCommand.twoArgOperation(ret, ts, arg1, arg2);
         returnVal = val[0]+val[1];

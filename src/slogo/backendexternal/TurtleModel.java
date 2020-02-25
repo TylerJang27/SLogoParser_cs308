@@ -6,6 +6,11 @@ import slogo.commands.controlcommands.Variable;
 
 import java.util.*;
 
+/**
+ * Class used to execute the Commands produced by Parser. This class then returns
+ */
+//TODO Dennis: at the moment, this class does not really need to hold variables and functions.
+// Would you like it to, or should this all just stay in Parser/CommandFactory?
 public class TurtleModel {
 
     //TODO: make ObservableMap?
@@ -39,13 +44,13 @@ public class TurtleModel {
         declaredFunctions.clear();
     }
 
-    public Collection<TurtleStatus> executeCommands(List<Command> commandList) {
+    public List<TurtleStatus> executeCommands(List<Command> commandList) {
         List<TurtleStatus> statusList = new ArrayList<>();
         TurtleStatus status = INITIAL_STATUS;
         for (Command c: commandList) {
             statusList.addAll(c.execute(status));
             status = statusList.get(statusList.size() - 1);
         }
-        return Collections.unmodifiableCollection(statusList);
+        return Collections.unmodifiableList(statusList);
     }
 }

@@ -6,6 +6,7 @@ import slogo.commands.ControlCommand;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Class that implements ControlCommand, used to run a standard If conditional flow.
@@ -35,7 +36,7 @@ public class If implements ControlCommand {
      * @return   a Collection of TurtleStatus instances produced as a result of running the conditional.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         return conditional.execute(ts);
     }
 

@@ -18,7 +18,7 @@ public class Not implements BooleanCommand{
     }
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts){
+    public List<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(arg1.execute(ts));
         double val = arg1.returnValue();

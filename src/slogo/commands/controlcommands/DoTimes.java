@@ -5,6 +5,7 @@ import slogo.commands.Command;
 import slogo.commands.ControlCommand;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Class that implements ControlCommand, used to run a standard DoTimes loop, of the form DOTIMES [ variable limit ] [ command(s) ].
@@ -38,10 +39,10 @@ public class DoTimes implements ControlCommand {
      *
      * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
      *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
-     * @return   a Collection of TurtleStatus instances produced as a result of running the loop.
+     * @return   a List of TurtleStatus instances produced as a result of running the loop.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         return loop.execute(ts);
     }
 

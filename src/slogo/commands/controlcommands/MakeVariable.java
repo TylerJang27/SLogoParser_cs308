@@ -44,7 +44,7 @@ public class MakeVariable implements ControlCommand {
      * @return   a Collection of TurtleStatus instances, containing any statuses resulting from the execution of subsequent commands.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(expr.execute(ts));
         val = expr.returnValue();

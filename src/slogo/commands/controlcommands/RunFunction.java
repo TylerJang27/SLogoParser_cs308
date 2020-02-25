@@ -50,7 +50,7 @@ public class RunFunction implements ControlCommand {
      * @return a Collection of TurtleStatus instances, produced as a result of setting the variable values and running the Function.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
 
         for (int k = 0; k < myValues.size(); k ++) {

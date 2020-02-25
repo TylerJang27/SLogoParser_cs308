@@ -18,7 +18,7 @@ public class NaturalLog implements MathCommand {
     }
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts){
+    public List<TurtleStatus> execute(TurtleStatus ts){
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(arg1.execute(ts));
         int val = (int)arg1.returnValue();  //TODO: Should this be an int or double

@@ -40,7 +40,7 @@ public class Constant implements ControlCommand {
      * @return   a Collection of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         return List.of(ts);
     }
 

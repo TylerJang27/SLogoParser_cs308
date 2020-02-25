@@ -74,7 +74,7 @@ public class Function implements ControlCommand {
      * @return   a Collection of TurtleStatus instances produced as a result of running the Function.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
         for (Command c: myCommands) {
             myVal = ControlCommand.executeAndExtractValue(c, ts, ret);

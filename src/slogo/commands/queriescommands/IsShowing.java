@@ -31,7 +31,7 @@ public class IsShowing implements QueriesCommand {
      * @return   a Collection of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         showing = ts.getVisible();
         return List.of(ts);
     }

@@ -10,7 +10,10 @@ import javafx.stage.Stage;
 /**
  * @author Shruthi Kumar, Nevzat Sevim
  */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5a2f1de5b29997530dd2311d47d565f7905b5d60
 public class Display {
   private Scene myScene;
   private MainView myMainView;

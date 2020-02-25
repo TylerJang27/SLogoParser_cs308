@@ -39,12 +39,12 @@ public class For implements ControlCommand {
         List<TurtleStatus> ret = new ArrayList<>();
         varCounter.setVal(ControlCommand.executeAndExtractValue(varMin, ts, ret));
         double cap = ControlCommand.executeAndExtractValue(varMax, ts, ret);
-        double incr = ControlCommand.executeAndExtractValue(varIncr, ts, ret);
 
         while (varCounter.returnValue() < cap) {
             for (Command c: commandsToExecute) {
                 myVal = ControlCommand.executeAndExtractValue(c, ts, ret);
             }
+            double incr = ControlCommand.executeAndExtractValue(varIncr, ts, ret);
             varCounter.setVal(varCounter.returnValue() + incr);
         }
         return ret;

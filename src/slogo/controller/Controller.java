@@ -74,7 +74,7 @@ public class Controller extends Application {
       myParser.parseLine(input);
       field.clear();
       List<Command> toSend = myParser.sendCommands();
-      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend, currentStatus);
+      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend);
       setStatus(statuses.get(statuses.size() - 1));
       myDisplay.getMainView().getTurtle().executeState(statuses);
     }

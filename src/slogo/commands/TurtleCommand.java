@@ -72,8 +72,9 @@ public interface TurtleCommand extends Command {
      * Checks if the current x and y position exceeds the maximum (needs wrapping). If either variable requires wrapping, add two turtle
      * status that represents the turtle moving to the edge of the screen, and appearing at the other edge, to the list. Moving to the edge of
      * the screen has its trials variable set to true since theoretically a trial can be drawn between the previous and the current turtle status;
-     * the turtle status that represents turtle appearing at the other edge of the Afterwards,
-     * decrement/increment variable value depending on if the variable value is positive/negative.
+     * the turtle status that represents turtle appearing at the other edge of the screen has its trial set to be false, since we would not
+     * want a line drawn between this point and the previous point. Afterwards, this method decrement/increment variable value depending on
+     * if the variable value is positive/negative.
      *
      * @param ts
      * @param x

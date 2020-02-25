@@ -79,7 +79,9 @@ public class TurtleModel {
         TurtleStatus status = ts;
         for (Command c: commandList) {
             System.out.println(c);
-            statusList.addAll(c.execute(status));
+            List<TurtleStatus> newStatuses = c.execute(status);
+            statusList.addAll(newStatuses.subList(0, Math.max(newStatuses.size() - 1, 0)));
+            //TODO: VERIFY THAT THIS WORKS ^^^
             status = statusList.get(statusList.size() - 1);
         }
         return Collections.unmodifiableList(statusList);

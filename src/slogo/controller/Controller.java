@@ -1,10 +1,6 @@
 package slogo.controller;
 
-//import java.util.ArrayList;
-//import java.util.List;
-//import javafx.animation.KeyFrame;
-//import javafx.animation.Timeline;
-import java.util.Arrays;
+
 import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -13,17 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-//import javafx.util.Duration;
-//import javax.swing.KeyStroke;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.parser.Parser;
 import slogo.commands.Command;
 import slogo.frontendexternal.TurtleView;
 import slogo.view.Display;
-import slogo.view.TextFields;
 
 public class Controller extends Application {
 
@@ -35,15 +27,12 @@ public class Controller extends Application {
   public static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
 
   private Stage myStage;
-  private Group layout;
   private Scene myScene;
   private Display myDisplay;
   private Parser myParser;
   private TurtleModel myModel;
-  private TurtleView myView;
   private TextField input;
   private TurtleStatus currentStatus;
-  private int speed;
 
   /**
    * Start of the program.
@@ -60,7 +49,6 @@ public class Controller extends Application {
     myScene = myDisplay.getScene();
     myParser = new Parser();
     myModel = new TurtleModel();
-    myView = new TurtleView();
     currentStatus = INITIAL_STATUS;
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
@@ -76,7 +64,7 @@ public class Controller extends Application {
       List<Command> toSend = myParser.sendCommands();
       List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend, currentStatus);
       setStatus(statuses.get(statuses.size() - 1));
-      myDisplay.getMainView().getTurtle().executeState(statuses);
+      myDisplay.getMainView().moveTurtle(statuses);
     }
   }
 

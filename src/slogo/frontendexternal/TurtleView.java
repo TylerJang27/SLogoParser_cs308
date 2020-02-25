@@ -51,13 +51,14 @@ public class TurtleView {
     Double[] pathPoints = new Double[t.size()*2];
     Iterator<TurtleStatus> iterator = t.iterator();
     int index = 0;
+
     while(iterator.hasNext()) {
       TurtleStatus temp = iterator.next();
-      addPenViewLines(temp);
       pathPoints[index] = temp.getX();
       setMyXPos(temp.getX());
       pathPoints[index+1] = temp.getY();
       setMyYPos(temp.getY());
+      addPenViewLines(temp);
       index+=2;
     }
 
@@ -72,11 +73,10 @@ public class TurtleView {
   }
 
   private void addPenViewLines(TurtleStatus t) {
-
       if(t.getPenDown()) {
         penView.updateMyLines(this.getMyXPos(), this.getMyYPos(), t.getX(), t.getY());
       }
-    }
+  }
 
   /**
    * Gets x position of turtle

@@ -36,4 +36,13 @@ public class Display extends Application{
   public void display(String[] args){
     launch();
   }
+
+  public Scene getScene(){
+    return myScene;
+  }
+
+  public TextFields getInputField() {
+    return myMainView.getTextFields();
+  }
+
 }

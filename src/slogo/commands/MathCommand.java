@@ -4,7 +4,9 @@ import slogo.backendexternal.TurtleStatus;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Lucy Gu
+ */
 public interface MathCommand extends Command {
 
 

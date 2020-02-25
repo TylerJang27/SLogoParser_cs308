@@ -8,30 +8,30 @@ import java.util.*;
  * @author Lucy Gu, Tyler Jang
  */
 public interface TurtleCommand extends Command {
-
+    public final static String[] MODES = {"normal", "edge", "toroidal"};
 
     static Collection<TurtleStatus> move(TurtleStatus ts, Collection<TurtleStatus> ret,
                                          double deltaX, double deltaY, double xMax, double yMax,  String mode){
         if(mode.equals(MODES[1])){
-            return TurtleCommand.moveDeltaEdge(ts, ret, deltaX, deltaY);
+            return TurtleCommand.moveDeltaEdge(ts, ret, deltaX, deltaY, xMax, yMax);
         }
         else if(mode.equals(MODES[2])){
-            return TurtleCommand.moveDeltaWrap(ts, ret, deltaX, deltaY);
+            return TurtleCommand.moveDeltaWrap(ts, ret, deltaX, deltaY,  xMax, yMax);
         }
         else {
-            return TurtleCommand.moveDelta(ts, ret, deltaX, deltaY);
+            return TurtleCommand.moveDelta(ts, ret, deltaX, deltaY , xMax, yMax);
         }
     }
 
 
-    static Collection<TurtleStatus> moveDelta(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY) {
+    static Collection<TurtleStatus> moveDelta(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY, double xMax, double yMax) {
         ret.add(new TurtleStatus(ts.getX()+deltaX, ts.getY()+deltaY, ts.getBearing(),
                 true, ts.getVisible(), ts.getPenDown(), ts.getPenColor()));
         return ret;
     }
 
 
-    static Collection<TurtleStatus> moveDeltaWrap(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY) {
+    static Collection<TurtleStatus> moveDeltaWrap(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY, double xMax, double yMax) {
 
         double x = ts.getX();
         double y = ts.getY();
@@ -65,7 +65,7 @@ public interface TurtleCommand extends Command {
     }
 
 
-    static Collection<TurtleStatus> moveDeltaEdge(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY) {
+    static Collection<TurtleStatus> moveDeltaEdge(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY, double xMax, double yMax) {
         double x = ts.getX()+deltaX;
         double y = ts.getY()+deltaY;
         x = edge(x,xMax);

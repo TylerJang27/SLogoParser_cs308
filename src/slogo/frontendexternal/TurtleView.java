@@ -1,8 +1,14 @@
 package slogo.frontendexternal;
 
+import java.security.Policy;
+import java.util.Collection;
+import java.util.Iterator;
+import javafx.animation.PathTransition;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Polyline;
+import javafx.util.Duration;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 
@@ -14,6 +20,8 @@ public class TurtleView {
   private double myXPos;
   private double myYPos;
   public Image myImage;
+  public ImageView myImageView =  new ImageView(new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825"));
+
   private TurtleModel turtleModel = new TurtleModel();
   private double myBearing;
   private String TURTLE_IMG = "view/imagesFolder/turtle.png";
@@ -33,8 +41,31 @@ public class TurtleView {
    *  Executes the command that the user enters by doing the action specified in the command
    * @param t : Turtle status that holds command
    */
-  public void executeState(TurtleStatus t) {
-    //do something
+  public void executeState(Collection<TurtleStatus> t) {
+    Polyline pathLine = new Polyline();
+    Double[] pathPoints = new Double[t.size()*2];
+    Iterator<TurtleStatus> iterator = t.iterator();
+    int index = 0;
+
+    while(iterator.hasNext()) {
+      TurtleStatus temp = iterator.next();
+      pathPoints[index] = temp.getX();
+      setMyXPos(temp.getX());
+      pathPoints[index+1] = temp.getY();
+      setMyYPos(temp.getY());
+
+
+      index+=2;
+    }
+
+    pathLine.getPoints().addAll(pathPoints);
+
+    PathTransition turtlePath = new PathTransition();
+    turtlePath.setDuration(Duration.millis(2500));
+    turtlePath.setNode(this.myImageView);
+
+    turtlePath.setPath(pathLine);
+    turtlePath.play();
   }
 
   /**

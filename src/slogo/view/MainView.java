@@ -1,7 +1,15 @@
 package slogo.view;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Collection;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,7 +21,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ToolBar;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
+import slogo.backendexternal.PenModel;
 import slogo.backendexternal.TurtleStatus;
+import slogo.frontendexternal.PenView;
 import slogo.frontendexternal.TurtleView;
 
 /** @author Shruthi Kumar, Nevzat Sevim */
@@ -31,10 +41,12 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   //Create Canvas, Canvas Parameters and Turtle Object
   private Canvas simCanvas;
+  private Pane pane;
   private double canvasWidth = 600;
   private double canvasHeight = 600;
   private Color backgroundColor, penColor;
   private TurtleView turtle;
+  private PenView penView;
 
   private Random random;
 
@@ -46,27 +58,56 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myToolbar.setTextField(myTextFields);
 
     this.turtle = new TurtleView();
+    turtle.myImageView.setFitWidth(50);
+    turtle.myImageView.setFitHeight(50);
+    this.penView = new PenView();
+
+    this.pane = new Pane(turtle.myImageView);
+    pane.setPrefSize(canvasWidth, canvasHeight);
+    pane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(0))));
+
     this.simCanvas = new Canvas(canvasWidth,canvasHeight);
 
-    this.getChildren().addAll(myToolbar, simCanvas, myTextFields);
+    this.getChildren().addAll(myToolbar, pane, myTextFields);
     animationFunctions();
   }
 
 
   public void step() {
-    //turtle.setMyXPos(random.nextInt(100));
-    //turtle.setMyYPos(random.nextInt(100));
+
+   // turtle.setMyXPos(random.nextInt(100));
+   // turtle.setMyYPos(random.nextInt(100));
+
     draw();
+    //penView.drawTrail()
   }
 
 
   public void draw() {
 
-    GraphicsContext g = this.simCanvas.getGraphicsContext2D();
-    g.setFill(backgroundColor);
-    g.fillRect(0, 0, simCanvas.getWidth(), simCanvas.getHeight());
-    g.drawImage(turtle.myImage, 5, 5, 50, 50);
+    //GraphicsContext g = this.simCanvas.getGraphicsContext2D();
+    //g.setFill(backgroundColor);
+    pane.setBackground(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, new Insets(0))));
 
+    //g.fillRect(0, 0, simCanvas.getWidth(), simCanvas.getHeight());
+    //g.drawImage(turtle.myImage, turtle.getMyXPos(), turtle.getMyYPos(), 50, 50);
+
+
+    //g.drawImage(turtle.myImage, 20, 20, 50, 50);
+    //g.drawImage(penView.penView.drawTrail(new Point(0, 0), new Point(0, 0)));
+
+  }
+
+  public void moveTurtle() {
+    ArrayList<TurtleStatus> t = new ArrayList<>();
+    t.add(new TurtleStatus(turtle.getMyXPos() + 10, turtle.getMyYPos() + 10, 10, false, false, new PenModel()));
+    t.add(new TurtleStatus(turtle.getMyXPos() + 150, turtle.getMyYPos() + 150, 10, false, false, new PenModel()));
+
+    turtle.executeState(t);
+  }
+
+  public TurtleView getTurtle() {
+    return turtle;
   }
 
   @Override
@@ -80,8 +121,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   @Override
   public void sendCommand(String command) {
-    turtle.setMyXPos(50);
-    turtle.setMyYPos(100);
+//    turtle.setMyXPos(50);
+//    turtle.setMyYPos(100);
     /*if(true) { //ie if command is valid - will add correct booleans when backend side sends command
       turtle.executeState(((ArrayList) getCommands()).get(0));
     }
@@ -153,7 +194,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
       try {
         this.step();
       } catch (Exception ex) {
-        ex.printStackTrace();
+        //ex.printStackTrace();
       }
     });
     animation = new Timeline();

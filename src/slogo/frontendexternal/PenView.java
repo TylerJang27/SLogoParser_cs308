@@ -38,6 +38,8 @@ public class PenView {
     penTrail.setStrokeWidth(myLineThickness);
   }
 
+  //getPenDraw();
+
   /**
    * Sets whether or not the pen should be down
    * @param setUpOrDown : T/F depending on if pen should be down

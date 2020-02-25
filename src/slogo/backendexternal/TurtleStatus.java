@@ -47,7 +47,9 @@ public class TurtleStatus {
         return smooth;
     }
 
-    public boolean getPenDown() { return smooth && penModel.getPenDown(); }
+    public boolean getPenDown() { return penModel.getPenDown(); }
+
+    public boolean getPenDraw() { return smooth && penModel.getPenDown(); } //USED BY THE FRONTEND
 
     public Color getPenColor() { return penModel.getPenColor(); }
 

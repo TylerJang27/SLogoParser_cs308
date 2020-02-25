@@ -155,7 +155,7 @@ public class Toolbar extends ToolBar {
 
     this.myMainView.setBackgroundColor(backgroundMenu.getValue());
     this.myMainView.setPenColor(penMenu.getValue());
-
+    this.myMainView.draw();
   }
 
   private void handleHelp() {
@@ -165,9 +165,6 @@ public class Toolbar extends ToolBar {
   private void handleCommand() {
     this.myMainView.sendCommand(textField.getText());
     myTextFields.addText(textField.getText());
-    //myMainView.getTurtle().setMyXPos(myMainView.getTurtle().getMyXPos() + 10);
-    //myMainView.getTurtle().setMyYPos(myMainView.getTurtle().getMyYPos() + 10);
-    this.myMainView.moveTurtle();
   }
 
 

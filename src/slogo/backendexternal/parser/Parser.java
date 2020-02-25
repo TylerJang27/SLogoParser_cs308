@@ -49,6 +49,12 @@ public class Parser {
       else if(Input.Command.matches(current)){
         commands.add(commandFactory.makeCommand(current, currentCommands, myCommands));
       }
+      else if(Input.Variable.matches(current)){
+//        commands.add(getVariable(current);
+      }
+      else if(Input.ListStart.matches(current)){
+        commands.addAll(handleList(components));
+      }
 
       else if(Input.GroupStart.matches(current)){}
 
@@ -59,9 +65,7 @@ public class Parser {
       else if(Input.GroupEnd.matches(current)){ continue;}
       else if(Input.Newline.matches(current)){ continue;}
 
-      System.out.println(current);
       currentCommands.addAll(commands);
-      System.out.println(currentCommands.size());
     }
     while(currentCommands.size() > 0){
       newCommands.add(currentCommands.pop());
@@ -93,7 +97,6 @@ public class Parser {
 
   private void setLanguage(String lang){
     ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + lang);
-    System.out.println(RESOURCES_PACKAGE + lang);
     for (String key : Collections.list(resources.getKeys())) {
       String translation = resources.getString(key);
       myCommands.put(key, Arrays.asList(translation.split("\\|")));

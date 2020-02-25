@@ -132,7 +132,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   //Public Get Methods
   public TextFields getTextFields(){return this.myTextFields;}
-  public ToolBar getToolBar(){return this.myToolbar;}
+  public Toolbar getToolBar(){return this.myToolbar;}
 
   @Override
   public Node getStyleableNode() {

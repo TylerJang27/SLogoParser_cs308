@@ -31,21 +31,80 @@ public class Parser {
   }
 
   public void parseLine(String line){
-    Stack<String> commands = new Stack<String>();
-    Stack<Double> constants = new Stack<Double>();
+    Stack<String> components = new Stack<>();
+    Stack<Command> commands = new Stack<>();
+    Stack<Double> constants = new Stack<>();
     String currentKey = "";
     int countInputs = 1;
     String[] inputs = line.split(" ");
     for(String input : inputs){
-      if(Input.Command.matches(input)){
-        commands.push(input);
-      }
-      if(Input.Constant.matches(input)){
-          constants.push(new Double(Integer.parseInt(input)));
-      }
+      components.push(input);
     }
-    newCommands = commandFactory.makeCommands(commands, constants, myCommands);
+    while(components.size() > 0){
+      String current = components.pop();
+      if(Input.Constant.matches(current)){
+        constants.push((double) Integer.parseInt(current));
+      }
+      if(Input.Command.matches(current)){
+        commands.addAll(handleCommands(current, constants, commands));
+      }
+      if(Input.Variable.matches(current)){
+        commands.addAll(handleVariables(current, constants, commands));
+      }
+      if(Input.ListStart.matches(current)){
+        commands.addAll(handleList(components));
+      }
+      if(Input.GroupStart.matches(current)){
+        commands.addAll(handleGroup(components));
+      }
+      // DO NOTHING
+      if(Input.Comment.matches(current)){ continue;}
+      if(Input.Whitespace.matches(current)){ continue;}
+      if(Input.GroupEnd.matches(current)){ continue;}
+      if(Input.Newline.matches(current)){ continue;}
+
+    }
   }
+
+  private List<Command> handleList(Stack<String> components) {
+    List<Command> commands = new ArrayList<>();
+    while(components.size() > 0){
+      String current = components.pop();
+
+      if(Input.ListEnd.matches(current)){
+        break;
+      }
+
+    }
+    return commands;
+  }
+
+  private List<Command> handleGroup(Stack<String> components) {
+    List<Command> commands = new ArrayList<>();
+    while(components.size() > 0){
+      String current = components.pop();
+
+      if(Input.GroupEnd.matches(current)){
+        break;
+      }
+
+    }
+    return commands;
+  }
+
+  private List<Command> handleCommands(String command, Stack<Double> constants, Stack<Command> previousCommands) {
+    List<Command> commands = new ArrayList<>();
+
+    return commands;
+  }
+
+  private List<Command> handleVariables(String variable, Stack<Double> constants, Stack<Command> previousCommands) {
+    List<Command> commands = new ArrayList<>();
+
+    return commands;
+  }
+
+
 
   public List<slogo.commands.Command> sendCommands(){
     commandHistory.addAll(newCommands);
@@ -60,6 +119,12 @@ public class Parser {
     for (String key : Collections.list(resources.getKeys())) {
       String translation = resources.getString(key);
       myCommands.put(key, Arrays.asList(translation.split("|")));
+    }
+  }
+
+  public void printCurrentCommands(){
+    for(Command c : newCommands){
+      System.out.println(c);
     }
   }
 }

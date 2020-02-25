@@ -4,6 +4,7 @@ package slogo.controller;
 //import java.util.List;
 //import javafx.animation.KeyFrame;
 //import javafx.animation.Timeline;
+import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 //import javafx.util.Duration;
 //import javax.swing.KeyStroke;
 import slogo.backendexternal.parser.Parser;
+import slogo.commands.Command;
 import slogo.view.Display;
 import slogo.view.TextFields;
 
@@ -32,7 +34,7 @@ public class Controller extends Application {
   private Scene myScene;
   private Display myDisplay;
   private Parser myParser;
-  private TextFields input;
+  private TextField input;
   private int speed;
 
   /**
@@ -46,7 +48,7 @@ public class Controller extends Application {
   public void start(Stage currentStage) {
     myStage = new Stage();
     myDisplay = new Display();
-    input = myDisplay.getInputField();
+    input = myDisplay.getMainView().getToolBar().getTextField();
     myScene = myDisplay.getScene();
     myParser = new Parser();
     myStage.setScene(myScene);
@@ -55,15 +57,14 @@ public class Controller extends Application {
     input.setOnKeyPressed(key -> sendCommand(key.getCode(), input));
   }
 
-  private void sendCommand(KeyCode key, TextFields field){
-    String input = field.getCommands().getText();
-    System.out.println(input);
+  private void sendCommand(KeyCode key, TextField field){
+    String input = field.getText();
     if(key == KeyCode.SHIFT){
       myParser.parseLine(input);
-      field.clearCommands();
+      field.clear();
     }
     if(key == KeyCode.ENTER){
-      myParser.sendCommands();
+      List<Command> toSend = myParser.sendCommands();
     }
   }
 }

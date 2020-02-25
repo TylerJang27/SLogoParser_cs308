@@ -188,4 +188,8 @@ public class Toolbar extends ToolBar {
   }
    */
 
+  public TextField getTextField(){
+    return textField;
+  }
+
 }

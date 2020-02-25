@@ -44,13 +44,14 @@ public class TurtleView {
    * @param t : Turtle status that holds command
    */
   public void executeState(Collection<TurtleStatus> t) {
-    addPenViewLines(t);
+//    addPenViewLines(t);
     Polyline pathLine = new Polyline();
     Double[] pathPoints = new Double[t.size()*2];
     Iterator<TurtleStatus> iterator = t.iterator();
     int index = 0;
     while(iterator.hasNext()) {
       TurtleStatus temp = iterator.next();
+      addPenViewLines(temp);
       pathPoints[index] = temp.getX();
       setMyXPos(temp.getX());
       pathPoints[index+1] = temp.getY();
@@ -68,15 +69,12 @@ public class TurtleView {
     turtlePath.play();
   }
 
-  private void addPenViewLines(Collection<TurtleStatus> t) {
-    ArrayList<TurtleStatus> temp = (ArrayList) t;
-    for(int i = 0; i < temp.size() - 1; i++) {
-      TurtleStatus startStatus = temp.get(i);
-      TurtleStatus endStatus = temp.get(i+1);
-      if(startStatus.getPenDown()) {
-        penView.updateMyLines(this.getMyXPos(), this.getMyYPos(), endStatus.getX(), endStatus.getY());
+  private void addPenViewLines(TurtleStatus t) {
+
+      if(t.getPenDown()) {
+        penView.updateMyLines(this.getMyXPos(), this.getMyYPos(), t.getX(), t.getY());
       }
-    }
+
   }
 
   /**

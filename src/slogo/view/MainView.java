@@ -8,6 +8,8 @@ import java.util.Random;
 import java.util.Collection;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -24,7 +26,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ToolBar;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
-import javax.swing.text.html.ImageView;
 import slogo.backendexternal.PenModel;
 import slogo.backendexternal.TurtleStatus;
 import slogo.frontendexternal.PenView;
@@ -77,11 +78,14 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.penView = new PenView();
     penView.setMyPenColor(Color.BLUE);
 
-    this.pane = new Pane(turtle.myImageView); //, penView.drawTrail(new Point(0, 0), new Point(50, 50)));
+    this.pane = new Pane(turtle.myImageView);
+
+
     pane.setPrefSize(canvasWidth, canvasHeight);
     pane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(0))));
 
     this.simCanvas = new Canvas(canvasWidth,canvasHeight);
+
 
     this.getChildren().addAll(myToolbar, pane, myTextFields);
     animationFunctions();

@@ -27,26 +27,31 @@ import slogo.backendexternal.TurtleStatus;
 public class TurtleView {
   private double myXPos;
   private double myYPos;
+
   public Image myImage;
-  public ImageView myImageView =  new ImageView(new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825"));
-  private PenView penView;// = new ArrayList<PenView>();
-  //private TurtleModel turtleModel = new TurtleModel();
+  public ImageView myImageView;
+
+  private PenView penView;
   private double myBearing;
   private boolean isVisbile;
   private String TURTLE_IMG = "view/imagesFolder/turtle.png";
   //private PathTransition turtlePath;
 
 
+
   /**
    * Constructor for TurtleView object
    */
+
   public TurtleView() {
     myXPos = 150;
     myYPos = 250;
     myBearing = 0;
     isVisbile = true;
     penView = new PenView();
-    myImage = new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825");
+
+    myImage = new Image("/slogo/view/imagesFolder/raphael.png");
+    myImageView =  new ImageView(myImage);
   }
 
   /**
@@ -88,6 +93,7 @@ public class TurtleView {
         //setMyXPos(end.getX());
         //setMyYPos(end.getY());
       }
+      
 
       if (checkMovement(start, end)) {
         addPenViewLines(end);
@@ -175,7 +181,7 @@ public class TurtleView {
    * @param imageView : image view of turtle
    */
 
-  public void setMyImageView(ImageView imageView) {
+  public void setImageView(ImageView imageView) {
     myImageView = imageView;
   }
 

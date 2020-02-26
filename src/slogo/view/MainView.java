@@ -76,7 +76,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
     this.penView = new PenView();
-    penView.setMyPenColor(Color.BLUE);
+    penView.setMyPenColor(Color.BLACK);
 
     this.pane = new Pane(turtle.myImageView);
 
@@ -99,13 +99,13 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public void draw() {
     pane.setBackground(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, new Insets(0))));
-    turtle.getPenView().setMyPenColor(Color.BLUE);
+    //turtle.getPenView().setMyPenColor(penColor);
   }
 
   public void moveTurtle(List<TurtleStatus> ts) {
-    //Node obj = pane.getChildren().get(0); // remember first item
-    //pane.getChildren().clear(); // clear complete list
-    //pane.getChildren().add(obj);
+//    Node obj = pane.getChildren().get(0); // remember first item
+//    pane.getChildren().clear(); // clear complete list
+//    pane.getChildren().add(obj);
     //turtle.getPenView().getMyLines().clear();
 
     turtle.executeState(ts);
@@ -118,11 +118,6 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
       }
     }
     //turtle.getPenView().getMyLines().clear();
-
-
-
-
-
 
     /*
     Collection<Line> temp = turtle.getPenView().getMyLines();

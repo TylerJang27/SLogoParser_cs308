@@ -96,13 +96,12 @@ public class TurtleView {
       
 
       if (checkMovement(start, end)) {
-        addPenViewLines(end);
+        addPenViewLines(start, end);
         pathPoints[index] = start.getX();
         pathPoints[index + 1] = start.getY();
         pathPoints[index + 2] = end.getX();
         pathPoints[index + 3] = end.getY();
-        setMyXPos(this.getMyXPos() + end.getX());
-        setMyYPos(this.getMyYPos() + end.getY());
+
         pathLine.getPoints().addAll(pathPoints);
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
             this.myImageView);
@@ -118,9 +117,9 @@ public class TurtleView {
     return start.getX() != end.getX() || start.getY() != end.getY();
   }
 
-  private void addPenViewLines(TurtleStatus t) {
-      if(t.getPenDown()) {
-        this.penView.updateMyLines(this.getMyXPos(), this.getMyYPos(), this.getMyXPos() + t.getX(), this.getMyYPos() + t.getY());
+  private void addPenViewLines(TurtleStatus start, TurtleStatus end) {
+      if(end.getPenDown()) {
+        this.penView.updateMyLines(this.getMyXPos() + start.getX(), this.getMyYPos() + start.getY(), this.getMyXPos() + end.getX(), this.getMyYPos() + end.getY());
       }
   }
 

@@ -34,7 +34,7 @@ public class SetPosition implements TurtleCommand {
 
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public Collection<TurtleStatus> execute(TurtleStatus ts) {
 
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(arg1.execute(ts));

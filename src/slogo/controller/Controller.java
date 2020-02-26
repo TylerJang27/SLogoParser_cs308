@@ -1,7 +1,9 @@
 package slogo.controller;
 
-
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
+//import javafx.animation.KeyFrame;
+//import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -9,30 +11,27 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-import slogo.backendexternal.TurtleModel;
-import slogo.backendexternal.TurtleStatus;
+//import javafx.util.Duration;
+//import javax.swing.KeyStroke;
 import slogo.backendexternal.parser.Parser;
-import slogo.commands.Command;
-import slogo.frontendexternal.TurtleView;
-import slogo.view.Display;
 
 public class Controller extends Application {
 
   public static final String TITLE = "SLogo";
   public static final Paint BACKGROUND = Color.WHEAT;
   public static final int FRAMES_PER_SECOND = 60;
+  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth()/2.0;
+  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight()/2.0;
   public static final int MILLISECOND_DELAY = 100000 / FRAMES_PER_SECOND;
   public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-  public static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
 
   private Stage myStage;
+  private Group layout;
   private Scene myScene;
-  private Display myDisplay;
   private Parser myParser;
-  private TurtleModel myModel;
-  private TextField input;
-  private TurtleStatus currentStatus;
+  private int speed;
 
   /**
    * Start of the program.
@@ -44,31 +43,37 @@ public class Controller extends Application {
   @Override
   public void start(Stage currentStage) {
     myStage = new Stage();
-    myDisplay = new Display();
-    input = myDisplay.getMainView().getToolBar().getTextField();
-    myScene = myDisplay.getScene();
+    layout = new Group();
+    myScene = new Scene(layout, SCREEN_WIDTH, SCREEN_HEIGHT, BACKGROUND);
     myParser = new Parser();
-    myModel = new TurtleModel();
-    currentStatus = INITIAL_STATUS;
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
     myStage.show();
+    TextField input = new TextField();
     input.setOnKeyPressed(key -> sendCommand(key.getCode(), input));
+
+    // If we want animation
+//    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
+//    Timeline animation = new Timeline();
+//    animation.setCycleCount(Timeline.INDEFINITE);
+//    animation.getKeyFrames().add(frame);
+//    animation.play();
   }
 
   private void sendCommand(KeyCode key, TextField field){
     String input = field.getText();
-    if(key == KeyCode.ENTER){
+    if(key == KeyCode.SHIFT){
+      // FRONT END STORE COMMAND IN HISTORY
       myParser.parseLine(input);
       field.clear();
-      List<Command> toSend = myParser.sendCommands();
-      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend, currentStatus);
-      setStatus(statuses.get(statuses.size() - 1));
-      myDisplay.getMainView().moveTurtle(statuses);
+    }
+    if(key == KeyCode.ENTER){
+      // FRONT END STORE COMMAND IN HISTORY
+      myParser.sendCommands();
     }
   }
 
-  private void setStatus(TurtleStatus ts){
-    currentStatus = ts;
-  }
+
+  private void step(double elapsedTime) {}
+
 }

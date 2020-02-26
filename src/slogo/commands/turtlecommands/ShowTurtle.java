@@ -6,7 +6,6 @@ import slogo.commands.TurtleCommand;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /**
  *
@@ -20,11 +19,10 @@ public class ShowTurtle implements TurtleCommand {
     public ShowTurtle() {}
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        List<TurtleStatus> ret = new ArrayList<>();
-        ret.add(ts);
+    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+        Collection<TurtleStatus> ret = new ArrayList<>();
         ret.add(new TurtleStatus(ts.getX(), ts.getY(), ts.getBearing(), true, true, ts.getPenDown(), ts.getPenColor()));
-        return ret;
+        return (ret);
     }
 
     @Override

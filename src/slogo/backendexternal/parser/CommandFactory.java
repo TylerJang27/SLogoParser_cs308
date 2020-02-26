@@ -196,6 +196,10 @@ public class CommandFactory {
     return null;
   }
 
+  public Command makeConstant(String current) {
+    return new Constant(Integer.parseInt(current));
+  }
+
   public void setMode(String mode){
     currentMode = mode;
   }
@@ -212,5 +216,4 @@ public class CommandFactory {
     }
     return null;
   }
-
 }

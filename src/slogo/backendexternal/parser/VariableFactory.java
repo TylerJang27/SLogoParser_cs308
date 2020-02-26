@@ -9,25 +9,38 @@ import slogo.commands.controlcommands.Variable;
 
 public class VariableFactory {
 
-  private Map<String, MakeVariable> variableMap;
+  Stack<String> variablesAdded;
+  private Map<String, Variable> variableMap;
 
   public VariableFactory(){
     variableMap = new HashMap<>();
+    variablesAdded = new Stack<>();
   }
 
-  public void makeVariable(String current, Command previous){
-    MakeVariable maker = new MakeVariable(new Variable(), previous);
-    variableMap.put(current, maker);
+  public MakeVariable makeVariable(Command previous){
+    String key = variablesAdded.pop();
+    return new MakeVariable(variableMap.get(key), previous);
   }
 
-  public MakeVariable getVariable(String varName){
+  public boolean handleVariable(String current){
+    if(variableMap.containsKey(current)){
+      return true;
+    }
+    else{
+      variablesAdded.push(current);
+      variableMap.put(current, new Variable());
+      return false;
+    }
+  }
+
+  public Variable getVariable(String varName){
     if(variableMap.containsKey(varName)){
       return variableMap.get(varName);
     }
     return null;
   }
 
-  public void setVariable(String varName, Command command){
-    variableMap.put(varName, new MakeVariable(new Variable(), command));
+  public MakeVariable setVariable(Command command){
+    return new MakeVariable(variableMap.get(variablesAdded.pop()), command);
   }
 }

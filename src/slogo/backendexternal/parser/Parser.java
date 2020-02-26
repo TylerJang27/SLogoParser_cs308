@@ -10,10 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import slogo.commands.controlcommands.Constant;
-import slogo.commands.controlcommands.Function;
-import slogo.commands.controlcommands.MakeVariable;
-import slogo.commands.controlcommands.Variable;
 
 public class Parser {
   private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
@@ -63,23 +59,25 @@ public class Parser {
       String current = components.pop();
 
       if(Input.Constant.matches(current)){
-        commands.add(new Constant((double) Integer.parseInt(current)));
+        commands.add(commandFactory.makeConstant(current));
       }
       else if(Input.Make.matches(current)){
         if(currentCommands.size() > 0){
-          variableFactory.makeVariable(current, currentCommands.pop());
+          commands.add(variableFactory.makeVariable(currentCommands.pop()));
         }
       }
       else if(Input.Set.matches(current)){
         if(currentCommands.size() > 0){
-          variableFactory.setVariable(current, currentCommands.pop());
+          commands.add(variableFactory.setVariable(currentCommands.pop()));
         }
       }
       else if(Input.Command.matches(current)){
         commands.add(commandFactory.makeCommand(current, currentCommands, myCommands));
       }
       else if(Input.Variable.matches(current)){
-        commands.add(variableFactory.getVariable(current));
+        if(variableFactory.handleVariable(current)){
+          commands.add(variableFactory.getVariable(current));
+        }
       }
       else if(Input.ListEnd.matches(current)){
         commands.add(handleList(components));
@@ -100,24 +98,22 @@ public class Parser {
     Command command = null;
     while(components.size() > 0){
       String current = components.pop();
-
       if(Input.ListStart.matches(current)){
         break;
       }
-
       Stack<Command> commands = new Stack<>();
 
       if(Input.Constant.matches(current)){
-        commands.add(new Constant((double) Integer.parseInt(current)));
+        commands.add(commandFactory.makeConstant(current));
       }
       else if(Input.Make.matches(current)){
         if(currentCommands.size() > 0){
-          variableFactory.makeVariable(current, currentCommands.pop());
+          commands.add(variableFactory.makeVariable(currentCommands.pop()));
         }
       }
       else if(Input.Set.matches(current)){
         if(currentCommands.size() > 0){
-          variableFactory.setVariable(current, currentCommands.pop());
+          commands.add(variableFactory.setVariable(currentCommands.pop()));
         }
       }
       else if(Input.Command.matches(current)){

@@ -26,8 +26,8 @@ public class FunctionFactory {
     if(previous.size() > 0){
 
     }
-    MakeUserInstruction maker = new MakeUserInstruction(new Function(), functionVariables, ); // TODO : THROW ERROR
-    functionMap.put(current, maker);
+//    MakeUserInstruction maker = new MakeUserInstruction(new Function(), functionVariables, ); // TODO : THROW ERROR
+//    functionMap.put(current, maker);
   }
 
   public MakeUserInstruction getVariable(String varName){

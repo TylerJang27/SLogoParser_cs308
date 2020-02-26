@@ -88,7 +88,6 @@ public class Toolbar extends ToolBar {
     changesButton.setOnAction(this::handleChanges);
   }
 
-
   /** Methods that define the function of each Button */
   private void handleChanges(ActionEvent actionEvent) {
 
@@ -114,7 +113,7 @@ public class Toolbar extends ToolBar {
 
     StackPane root = new StackPane();
     root.getChildren().add(wv);
-    Scene scene = new Scene(root, 1000, 1000);
+    Scene scene = new Scene(root, 1300, 1000);
 
     Stage stage = new Stage();
     stage.setTitle("List of Commands");
@@ -128,6 +127,8 @@ public class Toolbar extends ToolBar {
     this.myMainView.sendCommand(textField.getText());
     myTextFields.addText(textField.getText());
   }
+
+  /** Methods for useful Getters and Setters */
 
   // Public Set Methods
   public void setTextField(TextFields tf){this.myTextFields = tf;}

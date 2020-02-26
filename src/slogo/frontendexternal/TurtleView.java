@@ -23,7 +23,7 @@ public class TurtleView {
   public Image myImage;
   public ImageView myImageView =  new ImageView(new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825"));
   private PenView penView;// = new ArrayList<PenView>();
-  private TurtleModel turtleModel = new TurtleModel();
+  //private TurtleModel turtleModel = new TurtleModel();
   private double myBearing;
   private String TURTLE_IMG = "view/imagesFolder/turtle.png";
   private PathTransition turtlePath;

@@ -35,9 +35,9 @@ public class FunctionFactory {
     return null;
   }
 
-  public void alterFunction(String varName, Command command){
-    functionMap.put(varName, new MakeUserInstruction(new Function(), functionVariables, command));
-  }
+//  public void alterFunction(String varName, Command command){
+//    functionMap.put(varName, new MakeUserInstruction(new Function(), functionVariables, command));
+//  }
 
 
 }

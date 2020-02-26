@@ -85,7 +85,6 @@ public class Parser {
         commands.add(handleList(components));
       }
 
-
       // DO NOTHING
       else if(Input.GroupStart.matches(current)){ continue;}
       else if(Input.Comment.matches(current)){ continue;}
@@ -101,11 +100,38 @@ public class Parser {
     Command command = null;
     while(components.size() > 0){
       String current = components.pop();
+
       if(Input.ListStart.matches(current)){
         break;
       }
 
+      Stack<Command> commands = new Stack<>();
+
+      if(Input.Constant.matches(current)){
+        commands.add(new Constant((double) Integer.parseInt(current)));
+      }
+      else if(Input.Make.matches(current)){
+        if(currentCommands.size() > 0){
+          variableFactory.makeVariable(current, currentCommands.pop());
+        }
+      }
+      else if(Input.Set.matches(current)){
+        if(currentCommands.size() > 0){
+          variableFactory.setVariable(current, currentCommands.pop());
+        }
+      }
+      else if(Input.Command.matches(current)){
+        commands.add(commandFactory.makeCommand(current, currentCommands, myCommands));
+      }
+      else if(Input.Variable.matches(current)){
+        commands.add(variableFactory.getVariable(current));
+      }
+      else if(Input.ListEnd.matches(current)){
+        commands.add(handleList(components));
+      }
+
     }
+
     return command;
   }
 

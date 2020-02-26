@@ -105,10 +105,6 @@ public class Toolbar extends ToolBar {
     myTextFields.addText(textField.getText());
   }
 
-  private void addCommand() {
-    myTextFields.addText(textField.getText());
-  }
-
   // Public Set Methods
   public void setTextField(TextFields tf){this.myTextFields = tf;}
 

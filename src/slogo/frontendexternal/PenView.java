@@ -136,7 +136,7 @@ public class PenView {
 
   public void updateMyLines(double startX, double startY, double endX, double endY) {
     Line temp = new Line(startX, startY, endX, endY);
-    temp.setStroke(myPenColor);
+    temp.setStroke(this.myPenColor);
     myLines.add(temp);
   }
 

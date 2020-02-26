@@ -109,8 +109,7 @@ public class Toolbar extends ToolBar {
       myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyYPos());
     }
 
-    myMainView.getPane().getChildren().clear();
-    myMainView.getPane().getChildren().add(myMainView.getTurtle().myImageView);
+    myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);
   }
 
   private void handleHelp(ActionEvent actionEvent) {
@@ -128,7 +127,7 @@ public class Toolbar extends ToolBar {
 
     StackPane root = new StackPane();
     root.getChildren().add(wv);
-    Scene scene = new Scene(root, 1300, 1000);
+    Scene scene = new Scene(root, 1300 , 1000);
 
     Stage stage = new Stage();
     stage.setTitle("List of Commands");

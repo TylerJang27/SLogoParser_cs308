@@ -58,14 +58,18 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.getChildren().addAll(myToolbar, pane, myTextFields);
   }
 
+
+
   public void moveTurtle(List<TurtleStatus> ts) {
-    pane.getChildren().clear(); // clear complete list
-    turtle.executeState(ts);
-    pane.getChildren().add(turtle.myImageView);
+      pane.getChildren().clear(); // clear complete list
+      turtle.executeState(ts);
+      pane.getChildren().add(turtle.myImageView);
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
     for(int i = 0; i < temp.size(); i++)  {
-      pane.getChildren().add(temp.get(i));
+      if(!pane.getChildren().contains(temp.get(i))) {
+        pane.getChildren().add(temp.get(i));
+      }
     }
   }
 
@@ -81,8 +85,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   @Override
-  public void handle(Event event) {
-  }
+  public void handle(Event event) { }
 
   @Override
   public String readCommand() {
@@ -90,17 +93,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   @Override
-  public void sendCommand(String command) {
-//    turtle.setMyXPos(50);
-//    turtle.setMyYPos(100);
-    /*if(true) { //ie if command is valid - will add correct booleans when backend side sends command
-      turtle.executeState(((ArrayList) getCommands()).get(0));
-    }
-    else { //if not valid
-      turtle.executeState(((ArrayList) getCommands()).get(0));
-    }
-     */
-  }
+  public void sendCommand(String command) { }
 
   @Override
   public int sendUpdates() {

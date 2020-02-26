@@ -103,9 +103,9 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   public void moveTurtle(List<TurtleStatus> ts) {
-    Node obj = pane.getChildren().get(0); // remember first item
-    pane.getChildren().clear(); // clear complete list
-    pane.getChildren().add(obj);
+    //Node obj = pane.getChildren().get(0); // remember first item
+    //pane.getChildren().clear(); // clear complete list
+    //pane.getChildren().add(obj);
     //turtle.getPenView().getMyLines().clear();
 
     turtle.executeState(ts);
@@ -113,7 +113,9 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
     for(int i = 0; i < temp.size(); i++)  {
-      pane.getChildren().add(temp.get(i));
+      if(!pane.getChildren().contains(temp.get(i))) {
+        pane.getChildren().add(temp.get(i));
+      }
     }
     //turtle.getPenView().getMyLines().clear();
 

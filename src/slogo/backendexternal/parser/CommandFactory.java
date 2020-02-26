@@ -6,7 +6,29 @@ import java.util.Map;
 import java.util.Stack;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
+import slogo.commands.booleancommands.And;
+import slogo.commands.booleancommands.Equal;
+import slogo.commands.booleancommands.GreaterThan;
+import slogo.commands.booleancommands.LessThan;
+import slogo.commands.booleancommands.Not;
+import slogo.commands.booleancommands.NotEqual;
+import slogo.commands.booleancommands.Or;
 import slogo.commands.controlcommands.Constant;
+import slogo.commands.controlcommands.DoTimes;
+import slogo.commands.mathcommands.ArcTangent;
+import slogo.commands.mathcommands.Cosine;
+import slogo.commands.mathcommands.Difference;
+import slogo.commands.mathcommands.Minus;
+import slogo.commands.mathcommands.NaturalLog;
+import slogo.commands.mathcommands.Pi;
+import slogo.commands.mathcommands.Power;
+import slogo.commands.mathcommands.Product;
+import slogo.commands.mathcommands.Quotient;
+import slogo.commands.mathcommands.Rand;
+import slogo.commands.mathcommands.Remainder;
+import slogo.commands.mathcommands.Sine;
+import slogo.commands.mathcommands.Sum;
+import slogo.commands.mathcommands.Tangent;
 import slogo.commands.queriescommands.Heading;
 import slogo.commands.queriescommands.IsPenDown;
 import slogo.commands.queriescommands.IsShowing;
@@ -35,7 +57,7 @@ public class CommandFactory {
   private CommandCounter myCounts;
 
   public CommandFactory(){
-    currentMode = "normal";
+    currentMode = "toroidal";
     myCounts = new CommandCounter();
   }
 
@@ -50,6 +72,8 @@ public class CommandFactory {
     }
     return buildCommand(formalCommand, commands);
   }
+
+  //TODO Replace the following if else tree with reflection - will make much cleaner
 
   public Command buildCommand(String key, List<Command> commands){
     if(key.equals("Backward")){
@@ -106,7 +130,74 @@ public class CommandFactory {
     else if(key.equals("YCoordinate")){
       return new YCoordinate();
     }
+    else if(key.equals("ArcTangenet")){
+      return new ArcTangent(commands.get(0));
+    }
+    else if(key.equals("Cosine")){
+      return new Cosine(commands.get(0));
+    }
+    else if(key.equals("Difference")){
+      return new Difference(commands.get(0), commands.get(1));
+    }
+    else if(key.equals("Minus")){
+      return new Minus(commands.get(0));
+    }
+    else if(key.equals("NaturalLog")){
+      return new NaturalLog(commands.get(0));
+    }
+    else if(key.equals("Pi")){
+      return new Pi();
+    }
+    else if(key.equals("Power")){
+      return new Power(commands.get(0), commands.get(1));
+    }
+    else if(key.equals("Product")){
+      return new Product(commands.get(0), commands.get(1));
+    }
+    else if(key.equals("Quotient")){
+      return new Quotient(commands.get(0), commands.get(1));
+    }
+    else if(key.equals("Rand")){
+      return new Rand(commands.get(0));
+    }
+    else if(key.equals("Remainder")){
+      return new Remainder(commands.get(0), commands.get(1));
+    }
+    else if(key.equals("Sine")){
+      return new Sine(commands.get(0));
+    }
+    else if(key.equals("Sum")){
+      return new Sum(commands.get(0), commands.get(1));
+    }
+    else if(key.equals("Tangent")){
+      return new Tangent(commands.get(0));
+    }
+    else if(key.equals("And")){
+      return new And(commands.get(0), commands.get(1));
+    }
+    else if(key.equals("Equal")){
+      return new Equal(commands.get(0), commands.get(1));
+    }
+    else if(key.equals("GreaterThan")){
+      return new GreaterThan(commands.get(0), commands.get(1));
+    }
+    else if(key.equals("LessThan")){
+      return new LessThan(commands.get(0), commands.get(1));
+    }
+    else if(key.equals("Not")){
+      return new Not(commands.get(0));
+    }
+    else if(key.equals("NotEqual")){
+      return new NotEqual(commands.get(0),commands.get(1));
+    }
+    else if(key.equals("Or")){
+      return new Or(commands.get(0), commands.get(1));
+    }
     return null;
+  }
+
+  public Command makeConstant(String current) {
+    return new Constant(Integer.parseInt(current));
   }
 
   public void setMode(String mode){
@@ -125,5 +216,4 @@ public class CommandFactory {
     }
     return null;
   }
-
 }

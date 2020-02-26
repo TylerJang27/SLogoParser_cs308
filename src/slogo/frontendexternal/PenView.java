@@ -47,7 +47,6 @@ public class PenView {
     Line penTrail = new Line(start.getX(), start.getY(), end.getX(), end.getY());
     penTrail.setStroke(myPenColor);
     penTrail.setStrokeWidth(myLineThickness);
-
   }
 
   //getPenDraw();
@@ -134,7 +133,9 @@ public class PenView {
   }
 
   public void updateMyLines(double startX, double startY, double endX, double endY) {
-    myLines.add(new Line(startX, startY, endX, endY));
+    Line temp = new Line(startX, startY, endX, endY);
+    //temp.setStrokeWidth(3.0);
+    myLines.add(temp);
   }
 
   public Collection<Line> getMyLines() {

@@ -20,24 +20,28 @@ import slogo.backendexternal.TurtleStatus;
 public class TurtleView {
   private double myXPos;
   private double myYPos;
+
   public Image myImage;
-  public ImageView myImageView =  new ImageView(new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825"));
-  private PenView penView;// = new ArrayList<PenView>();
-  //private TurtleModel turtleModel = new TurtleModel();
+  public ImageView myImageView;
+
+  private PenView penView;
   private double myBearing;
-  private String TURTLE_IMG = "view/imagesFolder/turtle.png";
   private PathTransition turtlePath;
 
 
   /**
    * Constructor for TurtleView object
    */
+
   public TurtleView() {
     myXPos = 0;
     myYPos = 0;
+
     myBearing = 0;
     penView = new PenView();
-    myImage = new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825");
+
+    myImage = new Image("/slogo/view/imagesFolder/raphael.png");
+    myImageView =  new ImageView(myImage);
   }
 
   /**
@@ -51,14 +55,6 @@ public class TurtleView {
     Iterator<TurtleStatus> iterator = t.iterator();
     int index = 0;
 
-
-
-    // directions of commands
-    // rotate function
-    // check for get trail
-    // getTrail : if getTrail is true, animate turtle -- if false, just move it
-    // getPen : if true, pen down -- if false, pen up
-    // set heading, set position
     while(iterator.hasNext()) {
       TurtleStatus temp = iterator.next();
       addPenViewLines(temp);
@@ -147,7 +143,7 @@ public class TurtleView {
    * @param imageView : image view of turtle
    */
 
-  public void setMyImageView(ImageView imageView) {
+  public void setImageView(ImageView imageView) {
     myImageView = imageView;
   }
 

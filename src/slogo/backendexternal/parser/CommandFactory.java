@@ -35,7 +35,7 @@ public class CommandFactory {
   private CommandCounter myCounts;
 
   public CommandFactory(){
-    currentMode = "normal";
+    currentMode = "toroidal";
     myCounts = new CommandCounter();
   }
 

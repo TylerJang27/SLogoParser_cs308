@@ -19,26 +19,17 @@ public class TurtleModel {
     //TODO: change implementation/display method/remove altogether?
     Collection<RunFunction> declaredFunctions;
 
-    public TurtleModel() {
-        declaredVariables = new ArrayList<>();
-        declaredFunctions = new ArrayList<>();
-    }
-
     public TurtleModel(List<Variable> vars, List<RunFunction> functions) {
         declaredVariables = vars;
         declaredFunctions = functions;
     }
 
-    /*
     /**
      * Default Constructor for TurtleModel, creating empty ArrayLists.
-
+     */
     public TurtleModel() {
         this(new ArrayList<>(), new ArrayList<>());
     }
-
-     */
-
 
     /**
      * Retrieves the declaredVariables for the scope.

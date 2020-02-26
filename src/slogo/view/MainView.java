@@ -41,7 +41,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   //Create a Timeline and the Object of Interest
   private Timeline animation;
   private static final int FRAMES_PER_SECOND = 60;
-  private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
+  private static final double MILLISECOND_DELAY = 10000.0/FRAMES_PER_SECOND;
 
   //Create Canvas, Canvas Parameters and Turtle Object
   private Canvas simCanvas;

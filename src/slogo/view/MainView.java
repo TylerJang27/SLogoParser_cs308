@@ -8,6 +8,8 @@ import java.util.Random;
 import java.util.Collection;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -24,7 +26,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ToolBar;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
-import javax.swing.text.html.ImageView;
 import slogo.backendexternal.PenModel;
 import slogo.backendexternal.TurtleStatus;
 import slogo.frontendexternal.PenView;
@@ -67,18 +68,24 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.turtle = new TurtleView();
     turtle.myImageView.setFitWidth(50);
     turtle.myImageView.setFitHeight(50);
-    turtle.setMyXPos(canvasWidth/2.0);
-    turtle.setMyYPos(canvasHeight/2.0);
-    turtle.myImageView.setLayoutX(canvasWidth/2.0);
-    turtle.myImageView.setLayoutY(canvasHeight/2.0);
+    //turtle.setMyXPos(canvasWidth/2.0);
+    //turtle.setMyYPos(canvasHeight/2.0);
+    //turtle.myImageView.set
+    turtle.myImageView.setLayoutX(turtle.getMyXPos());
+    turtle.myImageView.setLayoutY(turtle.getMyYPos());
+
+
     this.penView = new PenView();
     penView.setMyPenColor(Color.BLUE);
 
-    this.pane = new Pane(turtle.myImageView); //, penView.drawTrail(new Point(0, 0), new Point(50, 50)));
+    this.pane = new Pane(turtle.myImageView);
+
+
     pane.setPrefSize(canvasWidth, canvasHeight);
     pane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(0))));
 
     this.simCanvas = new Canvas(canvasWidth,canvasHeight);
+
 
     this.getChildren().addAll(myToolbar, pane, myTextFields);
     animationFunctions();
@@ -86,12 +93,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
   public void step() {
-
-   // turtle.setMyXPos(random.nextInt(100));
-   // turtle.setMyYPos(random.nextInt(100));
-
     draw();
-    //penView.drawTrail()
   }
 
 
@@ -104,16 +106,33 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     Node obj = pane.getChildren().get(0); // remember first item
     pane.getChildren().clear(); // clear complete list
     pane.getChildren().add(obj);
+    //turtle.getPenView().getMyLines().clear();
 
     turtle.executeState(ts);
 
+
+    List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
+    for(int i = 0; i < temp.size(); i++)  {
+      pane.getChildren().add(temp.get(i));
+    }
+    //turtle.getPenView().getMyLines().clear();
+
+
+
+
+
+
+    /*
     Collection<Line> temp = turtle.getPenView().getMyLines();
     Iterator<Line> iterator = turtle.getPenView().getMyLines().iterator();
     while(iterator.hasNext()) {
       pane.getChildren().add(iterator.next());
     }
 
-    turtle.playTurtle();
+
+     */
+
+    //turtle.playTurtle();
 
   }
 

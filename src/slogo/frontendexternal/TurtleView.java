@@ -4,11 +4,18 @@ import java.security.Policy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import javafx.animation.PathTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.SequentialTransition;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
@@ -20,68 +27,95 @@ import slogo.backendexternal.TurtleStatus;
 public class TurtleView {
   private double myXPos;
   private double myYPos;
+
   public Image myImage;
-  public ImageView myImageView =  new ImageView(new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825"));
-  private PenView penView;// = new ArrayList<PenView>();
-  //private TurtleModel turtleModel = new TurtleModel();
+  public ImageView myImageView;
+
+  private PenView penView;
   private double myBearing;
+  private boolean isVisbile;
   private String TURTLE_IMG = "view/imagesFolder/turtle.png";
-  private PathTransition turtlePath;
+  //private PathTransition turtlePath;
+
 
 
   /**
    * Constructor for TurtleView object
    */
+
   public TurtleView() {
-    myXPos = 0;
-    myYPos = 0;
+    myXPos = 150;
+    myYPos = 250;
     myBearing = 0;
+    isVisbile = true;
     penView = new PenView();
-    myImage = new Image("https://vignette.wikia.nocookie.net/tmnt2012series/images/6/63/Raph-rage.png/revision/latest?cb=20170428232825");
+
+    myImage = new Image("/slogo/view/imagesFolder/raphael.png");
+    myImageView =  new ImageView(myImage);
   }
 
   /**
    *  Executes the command that the user enters by doing the action specified in the command
    * @param t : Turtle status that holds command
    */
-  public void executeState(Collection<TurtleStatus> t) {
+  public void executeState(List<TurtleStatus> t) {
 //    addPenViewLines(t);
+    SequentialTransition sequentialTransition = new SequentialTransition();
+    sequentialTransition.setNode(this.myImageView);
     Polyline pathLine = new Polyline();
-    Double[] pathPoints = new Double[t.size()*2];
+//    Double[] pathPoints = new Double[t.size()*2];
     Iterator<TurtleStatus> iterator = t.iterator();
+
+
     int index = 0;
 
 
 
     // directions of commands
-    // rotate function
     // check for get trail
-    // getTrail : if getTrail is true, animate turtle -- if false, just move it
+    // getTrail : if getTrail is true, animate turtle -- if false, just move itd 50
     // getPen : if true, pen down -- if false, pen up
     // set heading, set position
-    while(iterator.hasNext()) {
-      TurtleStatus temp = iterator.next();
-      addPenViewLines(temp);
-      pathPoints[index] = this.getMyXPos() + temp.getX();
-      setMyXPos(this.getMyXPos() + temp.getX());
-      pathPoints[index+1] = this.getMyYPos() + temp.getY();
-      setMyYPos(this.getMyYPos() + temp.getY());
+    // error handling, user-defined commands?
 
-      index+=2;
+    for(int i = 0; i < t.size(); i+=2) {
+      index = 0;
+      Double[] pathPoints = new Double[4];
+      TurtleStatus start = t.get(i);
+      TurtleStatus end = t.get(i + 1);
+      if (end.getBearing() != myBearing) {
+        RotateTransition turtleRotate = new RotateTransition(Duration.millis(2500),
+            this.myImageView);
+        turtleRotate.setFromAngle(start.getBearing());
+        turtleRotate.setToAngle(end.getBearing());
+        myBearing = end.getBearing();
+        sequentialTransition.getChildren().add(turtleRotate);
+        //setMyXPos(end.getX());
+        //setMyYPos(end.getY());
+      }
+      
+
+      if (checkMovement(start, end)) {
+        addPenViewLines(end);
+        pathPoints[index] = start.getX();
+        pathPoints[index + 1] = start.getY();
+        pathPoints[index + 2] = end.getX();
+        pathPoints[index + 3] = end.getY();
+        setMyXPos(this.getMyXPos() + end.getX());
+        setMyYPos(this.getMyYPos() + end.getY());
+        pathLine.getPoints().addAll(pathPoints);
+        PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
+            this.myImageView);
+        sequentialTransition.getChildren().add(turtlePath);
+      }
     }
 
-    pathLine.getPoints().addAll(pathPoints);
-
-    turtlePath = new PathTransition();
-    turtlePath.setDuration(Duration.millis(1));
-    turtlePath.setNode(this.myImageView);
-
-    turtlePath.setPath(pathLine);
+    sequentialTransition.play();
   }
 
-  public void playTurtle() {
-    turtlePath.play();
 
+  private boolean checkMovement(TurtleStatus start, TurtleStatus end) {
+    return start.getX() != end.getX() || start.getY() != end.getY();
   }
 
   private void addPenViewLines(TurtleStatus t) {
@@ -147,7 +181,7 @@ public class TurtleView {
    * @param imageView : image view of turtle
    */
 
-  public void setMyImageView(ImageView imageView) {
+  public void setImageView(ImageView imageView) {
     myImageView = imageView;
   }
 

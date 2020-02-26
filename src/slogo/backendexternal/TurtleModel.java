@@ -29,12 +29,16 @@ public class TurtleModel {
         declaredFunctions = functions;
     }
 
+    /*
     /**
      * Default Constructor for TurtleModel, creating empty ArrayLists.
-     */
+
     public TurtleModel() {
         this(new ArrayList<>(), new ArrayList<>());
     }
+
+     */
+
 
     /**
      * Retrieves the declaredVariables for the scope.

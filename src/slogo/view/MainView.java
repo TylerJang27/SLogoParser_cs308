@@ -47,7 +47,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private Canvas simCanvas;
   private Pane pane;
   private double canvasWidth = 300;
-  private double canvasHeight = 300;
+  private double canvasHeight = 500;
   private Color backgroundColor, penColor;
   private TurtleView turtle;
   private PenView penView;
@@ -67,6 +67,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.turtle = new TurtleView();
     turtle.myImageView.setFitWidth(50);
     turtle.myImageView.setFitHeight(50);
+    turtle.setMyXPos(canvasWidth/2.0);
+    turtle.setMyYPos(canvasHeight/2.0);
     turtle.myImageView.setLayoutX(canvasWidth/2.0);
     turtle.myImageView.setLayoutY(canvasHeight/2.0);
     this.penView = new PenView();
@@ -94,19 +96,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
   public void draw() {
-
-    //GraphicsContext g = this.simCanvas.getGraphicsContext2D();
-    //g.setFill(backgroundColor);
     pane.setBackground(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, new Insets(0))));
-    turtle.getPenView().setMyPenColor(penColor);
-    //resetPane();
-    //g.fillRect(0, 0, simCanvas.getWidth(), simCanvas.getHeight());
-    //g.drawImage(turtle.myImage, turtle.getMyXPos(), turtle.getMyYPos(), 50, 50);
-
-
-    //g.drawImage(turtle.myImage, 20, 20, 50, 50);
-    //g.drawImage(penView.penView.drawTrail(new Point(0, 0), new Point(0, 0)));
-
+    turtle.getPenView().setMyPenColor(Color.BLUE);
   }
 
   public void moveTurtle(List<TurtleStatus> ts) {
@@ -122,11 +113,13 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
       pane.getChildren().add(iterator.next());
     }
 
+    turtle.playTurtle();
+
   }
 
   public void resetPane() {
    // this.getChildren().get(turtle);
-    turtle.getPenView().getMyLines().clear(); // remember first item
+    //turtle.getPenView().getMyLines().clear(); // remember first item
     //pane.getChildren().clear(); // clear complete list
     //pane.getChildren().add(obj);
   }

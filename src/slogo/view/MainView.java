@@ -69,6 +69,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     turtle.myImageView.setFitHeight(50);
     //turtle.setMyXPos(canvasWidth/2.0);
     //turtle.setMyYPos(canvasHeight/2.0);
+    //turtle.myImageView.set
     turtle.myImageView.setLayoutX(turtle.getMyXPos());
     turtle.myImageView.setLayoutY(turtle.getMyYPos());
 
@@ -88,12 +89,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
   public void step() {
-
-   // turtle.setMyXPos(random.nextInt(100));
-   // turtle.setMyYPos(random.nextInt(100));
-
     draw();
-    //penView.drawTrail()
   }
 
 
@@ -103,15 +99,10 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   public void moveTurtle(List<TurtleStatus> ts) {
-
-    ArrayList<TurtleStatus> t = new ArrayList<>();
-    t.add(new TurtleStatus(turtle.getMyXPos() + 10, turtle.getMyYPos() + 10, 10, false, false, new PenModel()));
-    t.add(new TurtleStatus(turtle.getMyXPos() + 150, turtle.getMyYPos() + 150, 10, false, false, new PenModel()));
-    t.add(new TurtleStatus(turtle.getMyXPos() + 20, turtle.getMyYPos() + 38, 10, false, false, new PenModel()));
-
     Node obj = pane.getChildren().get(0); // remember first item
     pane.getChildren().clear(); // clear complete list
     pane.getChildren().add(obj);
+    //turtle.getPenView().getMyLines().clear();
 
     turtle.executeState(ts);
 
@@ -120,15 +111,22 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     for(int i = 0; i < temp.size(); i++)  {
       pane.getChildren().add(temp.get(i));
     }
+    turtle.getPenView().getMyLines().clear();
 
      */
 
+
+
+
+    /*
     Collection<Line> temp = turtle.getPenView().getMyLines();
     Iterator<Line> iterator = turtle.getPenView().getMyLines().iterator();
     while(iterator.hasNext()) {
       pane.getChildren().add(iterator.next());
     }
 
+
+     */
 
     //turtle.playTurtle();
 

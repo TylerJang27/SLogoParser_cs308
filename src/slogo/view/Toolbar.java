@@ -113,7 +113,7 @@ public class Toolbar extends ToolBar {
 
     StackPane root = new StackPane();
     root.getChildren().add(wv);
-    Scene scene = new Scene(root, 1300, 1000);
+    Scene scene = new Scene(root, 1300 , 1000);
 
     Stage stage = new Stage();
     stage.setTitle("List of Commands");

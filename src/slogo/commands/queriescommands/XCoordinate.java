@@ -3,11 +3,10 @@ package slogo.commands.queriescommands;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.QueriesCommand;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 /**
+ * Class that implements QueriesCommand, used to retrieve the xCoordinate of the turtle.
  *
  * @author Tyler Jang
  */
@@ -16,13 +15,30 @@ public class XCoordinate implements QueriesCommand {
 
     private double xCor;
 
+    /**
+     * Constructor for XCoordinate. Takes 0 arguments.
+     */
     public XCoordinate() {}
 
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    /**
+     * Executes the XCoordinate instance, retrieving the xCoordinate of the turtle.
+     *
+     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
+     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @return   a List of TurtleStatus instances, containing only the parameter ts.
+     */
+    @Override
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         xCor = ts.getX();
-        return Collections.unmodifiableCollection(new ArrayList<>());
+        return List.of(ts);
     }
 
+    /**
+     * Retrieves the xCoordinate calculated by XCoordinate's execution.
+     *
+     * @return the double xCoordinate of the turtle.
+     */
+    @Override
     public double returnValue() {
         return xCor;
     }

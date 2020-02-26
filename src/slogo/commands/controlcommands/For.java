@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * Class that implements ControlCommand, used to run For loops, of the form FOR [ variable start end increment ] [ command(s) ].
  *
  * @author Tyler Jang
  */
@@ -25,6 +26,15 @@ public class For implements ControlCommand {
     private Command varIncr;
     private Collection<Command> commandsToExecute;
 
+    /**
+     * Constructor for For, creating a loop with the specified parameters.
+     *
+     * @param var       the variable to increment.
+     * @param varStart  the starting value of the variable.
+     * @param varCap    the maximum value of the variable at which to stop the loop.
+     * @param varStep   the amount by which the variable should be incremented.
+     * @param commands  the Collection of commands to execute for a given loop.
+     */
     public For(Variable var, Command varStart, Command varCap, Command varStep, Collection<Command> commands) {
         varCounter = var;
         varMin = varStart;
@@ -34,8 +44,15 @@ public class For implements ControlCommand {
         myVal = 0;
     }
 
+    /**
+     * Executes the For instance, updating varCounter as necessary and executing the contained commands.
+     *
+     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
+     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @return   a List of TurtleStatus instances produced as a result of running the loop.
+     */
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         //TODO: AT THE MOMENT, THE ITEMS IN THE VARCAP FIELD WILL BE EXECUTED AND ADDED AS TURTLESTATUS INSTANCES
         //TODO: DETERMINE IF THIS IS APPROPRIATE/REQUIRED
 
@@ -59,6 +76,11 @@ public class For implements ControlCommand {
         return ret;
     }
 
+    /**
+     * Returns the value of For, referring to its last executed command's value, or 0 if no commands are executed.
+     *
+     * @return the value of the loop.
+     */
     @Override
     public double returnValue() {
         return myVal;

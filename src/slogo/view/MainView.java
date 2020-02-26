@@ -31,10 +31,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private Toolbar myToolbar;
   private TextFields myTextFields;
 
-  //Create Canvas, Canvas Parameters and Turtle Object
+  //Pane and Turtle Object
   private Pane pane;
-  private double canvasWidth = 300;
-  private double canvasHeight = 500;
+  private double paneWidth = 1075;
+  private double paneHeight = 600;
+  private double turtleSize = 90;
 
   private TurtleView turtle;
 
@@ -46,19 +47,20 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
     this.turtle = new TurtleView();
     turtle.getPenView().setMyPenColor(Color.RED);
-    turtle.myImageView.setFitWidth(50);
-    turtle.myImageView.setFitHeight(50);
+    turtle.myImageView.setFitWidth(turtleSize);
+    turtle.myImageView.setFitHeight(turtleSize);
     turtle.myImageView.setLayoutX(turtle.getMyXPos());
     turtle.myImageView.setLayoutY(turtle.getMyYPos());
 
     this.pane = new Pane(turtle.myImageView);
-    pane.setPrefSize(canvasWidth, canvasHeight);
-    pane.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, new Insets(0))));
+
+    pane.setMaxSize(paneWidth, paneHeight);
+    pane.setMinSize(paneWidth, paneHeight);
+    pane.setPrefSize(paneWidth, paneHeight);
+    pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, new Insets(0))));
 
     this.getChildren().addAll(myToolbar, pane, myTextFields);
   }
-
-
 
   public void moveTurtle(List<TurtleStatus> ts) {
       pane.getChildren().clear(); // clear complete list
@@ -104,9 +106,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   public void changeLanguage(int choice) { }
 
   @Override
-  public Collection<TurtleStatus> getCommands() {
-    return null;
-  }
+  public Collection<TurtleStatus> getCommands() { return null; }
 
   @Override
   public void updatePastCommands() { }
@@ -121,13 +121,12 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   public void setSkin(int choice) { }
 
   @Override
-  public Node getStyleableNode() {
-    return null;
-  }
+  public Node getStyleableNode() { return null; }
 
   //Public Get Methods
   public TextFields getTextFields(){return this.myTextFields;}
   public Toolbar getToolBar(){return this.myToolbar;}
   public Pane getPane() {return this.pane;}
+  public double getTurtleSize() {return this.turtleSize;}
 
 }

@@ -4,12 +4,20 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.web.PopupFeatures;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.scene.control.*;
 import javax.imageio.ImageIO;
@@ -98,7 +106,30 @@ public class Toolbar extends ToolBar {
     this.myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
   }
 
-  private void handleHelp(ActionEvent actionEvent) { }
+  private void handleHelp(ActionEvent actionEvent) {
+    WebView wv = new WebView();
+    wv.getEngine().setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
+
+      @Override
+      public WebEngine call(PopupFeatures p) {
+        Stage stage = new Stage(StageStyle.UTILITY);
+        WebView wv2 = new WebView();
+        stage.setScene(new Scene(wv2));
+        stage.show();
+        return wv2.getEngine(); }
+    });
+
+    StackPane root = new StackPane();
+    root.getChildren().add(wv);
+    Scene scene = new Scene(root, 1000, 1000);
+
+    Stage stage = new Stage();
+    stage.setTitle("List of Commands");
+    stage.setScene(scene);
+    stage.show();
+
+    wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
+  }
 
   private void handleCommand(ActionEvent actionEvent) {
     this.myMainView.sendCommand(textField.getText());

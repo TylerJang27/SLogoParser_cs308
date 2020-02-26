@@ -106,14 +106,14 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
     turtle.executeState(ts);
 
-    /*
+
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
     for(int i = 0; i < temp.size(); i++)  {
       pane.getChildren().add(temp.get(i));
     }
-    turtle.getPenView().getMyLines().clear();
+    //turtle.getPenView().getMyLines().clear();
 
-     */
+
 
 
 

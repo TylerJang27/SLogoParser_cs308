@@ -67,7 +67,6 @@ public class TurtleView {
 
 
     // directions of commands
-    // rotate function
     // check for get trail
     // getTrail : if getTrail is true, animate turtle -- if false, just move itd 50
     // getPen : if true, pen down -- if false, pen up
@@ -86,86 +85,31 @@ public class TurtleView {
         turtleRotate.setToAngle(end.getBearing());
         myBearing = end.getBearing();
         sequentialTransition.getChildren().add(turtleRotate);
+        //setMyXPos(end.getX());
+        //setMyYPos(end.getY());
       }
 
       if (checkMovement(start, end)) {
+        addPenViewLines(end);
         pathPoints[index] = start.getX();
         pathPoints[index + 1] = start.getY();
         pathPoints[index + 2] = end.getX();
         pathPoints[index + 3] = end.getY();
+        setMyXPos(this.getMyXPos() + end.getX());
+        setMyYPos(this.getMyYPos() + end.getY());
         pathLine.getPoints().addAll(pathPoints);
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
             this.myImageView);
         sequentialTransition.getChildren().add(turtlePath);
-
       }
     }
-
-
-
-
-/*
-
-
-    while(iterator.hasNext()) {
-      TurtleStatus temp = iterator.next();
-      //Double[] pathPoints = new Double[4];
-      /*
-      if(temp.getBearing() != 0.0) {
-        RotateTransition turtleRotate = new RotateTransition(Duration.millis(2500), this.myImageView);
-        turtleRotate.setByAngle(temp.getBearing());
-        sequentialTransition.getChildren().add(turtleRotate);
-      }
-
-
-      //else {
-
-        addPenViewLines(temp);
-        pathPoints[index] = temp.getX();
-        //setMyXPos(this.getMyXPos() + temp.getX());
-        pathPoints[index+1] = temp.getY();
-        //setMyYPos(this.getMyYPos() + temp.getY());
-        index += 2;
-        /*
-        if(index%2 == 0) {
-          pathLine.getPoints().addAll(pathPoints);
-          PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
-              this.myImageView);
-          //turtlePath.setNode(this.myImageView);
-          sequentialTransition.getChildren().add(turtlePath);
-        }
-
-
-      //}
-
-    }
-
-    //setMyXPos(this.getMyXPos() + t.get(t.size()-1).getX());
-    //setMyYPos(this.getMyYPos() + t.get(t.size()-1).getY());
-
-
-    pathLine.getPoints().addAll(pathPoints);
-    PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
-        this.myImageView);
-    //turtlePath.setNode(this.myImageView);
-    sequentialTransition.getChildren().add(turtlePath);
-*/
-//
-//    PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine);
-//    //turtlePath.setDuration(Duration.millis(2500));
-//    turtlePath.setNode(this.myImageView);
-//
-//    //turtlePath.setPath(pathLine);
-    //turtlePath.play();
-
-
 
     sequentialTransition.play();
   }
 
 
   private boolean checkMovement(TurtleStatus start, TurtleStatus end) {
-    return start.getX() != end.getX() && start.getY() != end.getY();
+    return start.getX() != end.getX() || start.getY() != end.getY();
   }
 
   private void addPenViewLines(TurtleStatus t) {

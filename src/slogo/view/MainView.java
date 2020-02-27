@@ -6,6 +6,7 @@ import java.util.Collection;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -31,6 +32,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private double paneHeight = 600;
   private double turtleSize = 90;
 
+
+
   private TurtleView turtle;
 
   public MainView() {
@@ -46,6 +49,12 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     turtle.myImageView.setLayoutX(turtle.getMyStartXPos());
     turtle.myImageView.setLayoutY(turtle.getMyStartYPos());
 
+
+    System.out.println("Turtle X: " + turtle.getMyStartXPos());
+    System.out.println("Turtle Y: " + turtle.getMyStartYPos());
+
+    System.out.println("TurtleView X: " + turtle.myImageView.getLayoutX());
+    System.out.println("TurtleView Y: " + turtle.myImageView.getLayoutY());
 
     this.pane = new Pane(turtle.myImageView);
 

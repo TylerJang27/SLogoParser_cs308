@@ -111,7 +111,6 @@ public class Toolbar extends ToolBar {
     if(!turtleMenu.getSelectionModel().isEmpty()) {
       myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
 
-
       myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyStartXPos());
       myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyStartYPos());
       myMainView.getTurtle().myImageView.setFitWidth(myMainView.getTurtleSize());
@@ -119,8 +118,6 @@ public class Toolbar extends ToolBar {
 
       myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);
     }
-
-
   }
 
   private void handleHelp(ActionEvent actionEvent) {
@@ -148,10 +145,6 @@ public class Toolbar extends ToolBar {
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
 
-  private void handleCommand(ActionEvent actionEvent) {
-    this.myMainView.sendCommand(textField.getText());
-    myTextFields.addCommandText(textField.getText());
-  }
 
   /** Methods for useful Getters and Setters */
 

@@ -56,10 +56,7 @@ public class TextFields extends HBox {
     public void addVariableText(String text){
         variables.appendText(text + "\n");
     }
-
-    public void addQueriesText(String query, String text) {
-        queries.appendText(query + ": " + text + "\n");
-    }
+    public void addQueriesText(Double value) { queries.appendText("Value: " + value + "\n"); }
 
 
     public MainView getMyMainView() {
@@ -84,6 +81,8 @@ public class TextFields extends HBox {
     public TextArea getVariables() {
         return variables;
     }
+
+    public TextArea getQueries() { return queries; }
 
     public VBox getCommandBox() {
         return commandBox;

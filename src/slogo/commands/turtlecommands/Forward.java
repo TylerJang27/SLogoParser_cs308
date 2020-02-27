@@ -39,7 +39,7 @@ public class Forward implements TurtleCommand {
         //  We'll see during testing
 
         double deltaX = returnVal*Math.sin(Math.toRadians(ret.get(ret.size()-1).getBearing()));
-        double deltaY = -1 * returnVal*Math.cos(Math.toRadians(ret.get(ret.size()-1).getBearing())); //TODO: Why is this negative?
+        double deltaY = returnVal*Math.cos(Math.toRadians(ret.get(ret.size()-1).getBearing())); //TODO: Why is this negative?
         return TurtleCommand.move(ret.get(ret.size()-1), ret, deltaX, deltaY, xMax, yMax, mode);
     }
 

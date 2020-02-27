@@ -37,8 +37,8 @@ public class TurtleView {
    */
 
   public TurtleView() {
-    myXPos = 150;
-    myYPos = 250;
+    myXPos = CENTER_X;
+    myYPos = CENTER_Y;
     myBearing = 0;
     isVisbile = true;
     penView = new PenView();

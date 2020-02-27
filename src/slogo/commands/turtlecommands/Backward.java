@@ -34,8 +34,8 @@ public class Backward implements TurtleCommand {
         ret.addAll(arg1.execute(ts));
         returnVal = arg1.returnValue();
 
-        double deltaX = returnVal*Math.sin(Math.toRadians(ret.get(ret.size()-1).getBearing()));
-        double deltaY = returnVal*Math.cos(Math.toRadians(ret.get(ret.size()-1).getBearing()));
+        double deltaX = -1 * returnVal*Math.sin(Math.toRadians(ret.get(ret.size()-1).getBearing()));
+        double deltaY = -1 * returnVal*Math.cos(Math.toRadians(ret.get(ret.size()-1).getBearing()));
         return TurtleCommand.move(ret.get(ret.size()-1),ret,deltaX,deltaY,xMax, yMax, mode);
     }
 

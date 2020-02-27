@@ -63,7 +63,14 @@ public class Toolbar extends ToolBar {
                             helpButton);
   }
 
-  /** Helping methods to import menus and buttons to the toolbar*/
+  public Button getCommandButton(){
+    return commandButton;
+  }
+
+  /**
+   * Helping methods to import menus and buttons to the toolbar
+   */
+
   private void createMenus() {
     //Color Menus
     this.penMenu = new ColorPicker();
@@ -144,7 +151,7 @@ public class Toolbar extends ToolBar {
 
   private void handleCommand(ActionEvent actionEvent) {
     this.myMainView.sendCommand(textField.getText());
-    myTextFields.addText(textField.getText());
+    myTextFields.addCommandText(textField.getText());
   }
 
   /** Methods for useful Getters and Setters */

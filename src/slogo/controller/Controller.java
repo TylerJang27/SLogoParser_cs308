@@ -88,13 +88,13 @@ public class Controller extends Application {
         myDisplay.getMainView().moveTurtle(statuses);
       }
     }
-    catch(InvalidCommandException e){
-      System.out.println("are we catching?");
-      myParser.addError();
+    catch(Exception e){
+      myParser.addError(e.getMessage());
     }
     field.clear();
     displayHistory();
     displayVariables();
+    displayQueries();
   }
 
   private void displayHistory(){
@@ -114,6 +114,12 @@ public class Controller extends Application {
   private void displayVariables(){
     myDisplay.getMainView().getTextFields().clearVariables();
     myDisplay.getMainView().getTextFields().addVariableText(myParser.getVariableString());
+  }
+
+
+  private void displayQueries() {
+    myDisplay.getMainView().getTextFields().clearQueries();
+    myDisplay.getMainView().getTextFields().addQueriesText(myModel.getLastReturn());
   }
 
   private void setLanguage(ComboBox language){

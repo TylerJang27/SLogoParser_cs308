@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 import slogo.commands.booleancommands.And;
@@ -15,6 +16,11 @@ import slogo.commands.booleancommands.NotEqual;
 import slogo.commands.booleancommands.Or;
 import slogo.commands.controlcommands.Constant;
 import slogo.commands.controlcommands.DoTimes;
+import slogo.commands.controlcommands.For;
+import slogo.commands.controlcommands.If;
+import slogo.commands.controlcommands.IfElse;
+import slogo.commands.controlcommands.Repeat;
+import slogo.commands.controlcommands.Variable;
 import slogo.commands.mathcommands.ArcTangent;
 import slogo.commands.mathcommands.Cosine;
 import slogo.commands.mathcommands.Difference;
@@ -55,27 +61,37 @@ public class CommandFactory {
 
   private String currentMode;
   private CommandCounter myCounts;
+  private FunctionFactory functionFactory;
+  private Map<String, List<String>> myCommands;
 
-  public CommandFactory(){
+  public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
     myCounts = new CommandCounter();
+    myCommands = commands;
+//    functionFactory = new FunctionFactory(myCommands);
   }
 
-  public Command makeCommand(String command, Stack<Command> previous, Map<String, List<String>> myCommands) throws InvalidCommandException{
+  public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
+    System.out.println(previous.size());
     int count = myCounts.getCount(formalCommand);
+
+    if(previous.size() < count){
+      throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
+    }
+
     while(commands.size() < count){
       if(previous.size() > 0){
         commands.add(previous.pop());
       }
     }
-    return buildCommand(formalCommand, commands);
+    return buildCommand(formalCommand, commands, listCommands);
   }
 
   //TODO Replace the following if else tree with reflection - will make much cleaner
 
-  public Command buildCommand(String key, List<Command> commands){
+  public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException{
     if(key.equals("Backward")){
       return new Backward(commands.get(0), X_MAX, Y_MAX, currentMode);
     }
@@ -193,7 +209,22 @@ public class CommandFactory {
     else if(key.equals("Or")){
       return new Or(commands.get(0), commands.get(1));
     }
-    return null;
+    else if(key.equals("Repeat")){
+      return new Repeat(commands.get(0), listCommands.pop());
+    }
+//    else if(key.equals("DoTimes")){
+//      return new DoTimes(commands.get(0), commands.get(1), listCommands.pop());
+//    }
+//    else if(key.equals("For")){
+//      return new For(commands.get(0), commands.get(1), commands.get(2), commands.get(3), listCommands.pop());
+//    }
+    else if(key.equals("If")){
+      return new If(commands.get(0), listCommands.pop());
+    }
+    else if(key.equals("IfElse")){
+      return new IfElse(commands.get(0), listCommands.pop(), listCommands.pop());
+    }
+    throw new InvalidCommandException("Command could not be found.");
   }
 
   public Command makeConstant(String current) {

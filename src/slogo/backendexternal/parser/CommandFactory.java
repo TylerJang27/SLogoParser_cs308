@@ -1,8 +1,8 @@
 package slogo.backendexternal.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-<<<<<<< HEAD
 import java.util.Stack;
 import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
@@ -39,18 +39,22 @@ import slogo.commands.queriescommands.IsPenDown;
 import slogo.commands.queriescommands.IsShowing;
 import slogo.commands.queriescommands.XCoordinate;
 import slogo.commands.queriescommands.YCoordinate;
-=======
-import slogo.commands.Command;
->>>>>>> origin/master
 import slogo.commands.turtlecommands.Backward;
+import slogo.commands.turtlecommands.ClearScreen;
 import slogo.commands.turtlecommands.Forward;
+import slogo.commands.turtlecommands.HideTurtle;
 import slogo.commands.turtlecommands.Home;
+import slogo.commands.turtlecommands.Left;
+import slogo.commands.turtlecommands.PenDown;
+import slogo.commands.turtlecommands.PenUp;
+import slogo.commands.turtlecommands.Right;
+import slogo.commands.turtlecommands.SetHeading;
+import slogo.commands.turtlecommands.SetPosition;
+import slogo.commands.turtlecommands.SetTowards;
+import slogo.commands.turtlecommands.ShowTurtle;
 
-//NOT COMPLETE
 public class CommandFactory {
-  private List<Command> POSSIBLE_COMMANDS;
 
-<<<<<<< HEAD
   private static final double X_MAX = 500; //TODO: TAKE FROM THE FRONT-END
   private static final double Y_MAX = 250;
 
@@ -233,31 +237,4 @@ public class CommandFactory {
     }
     throw new InvalidCommandException(String.format("The command %s could not be found", current));
   }
-=======
-  public static Command makeCommand(Map<String, List<Double>> components, Map<String, List<String>> myCommands) {
-    String command = "";
-    for(String key : components.keySet()){
-      command = key;
-    }
-    for(String key : myCommands.keySet()){
-      if(myCommands.get(key).contains(command)){
-        return buildCommand(key, components.get(command));
-      }
-    }
-    return null;
-  }
-
-  public static Command buildCommand(String key, List<Double> inputs){
-    if(key == "Forward"){
-      return new Forward(inputs.get(0));
-    }
-    if(key == "Backward"){
-      return new Backward(inputs.get(0));
-    }
-    if(key == "Home"){
-      return new Home();
-    }
-    return new Home();
-  }
->>>>>>> origin/master
 }

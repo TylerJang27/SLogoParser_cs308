@@ -36,7 +36,6 @@ public class SetPosition implements TurtleCommand {
 
 
     @Override
-<<<<<<< HEAD
     public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = turn.execute(ts);
         double deltaX = arg1.returnValue() - ret.get(ret.size() - 1).getX();
@@ -48,22 +47,6 @@ public class SetPosition implements TurtleCommand {
             TurtleCommand.moveDelta(ret.get(ret.size() - 1), ret, deltaX, deltaY);
         }
         return ret;
-=======
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
-
-        List<TurtleStatus> ret = new ArrayList<>();
-        ret.addAll(arg1.execute(ts));
-        ret.addAll(arg2.execute(ts));
-
-        double deltaX = arg1.returnValue() - ts.getX();
-        double deltaY = arg2.returnValue() - ts.getY();
-        distance = Math.sqrt(Math.pow(deltaX,2)+Math.pow(deltaY,2));
-
-        double deltaHeading = Math.tan((deltaX)/(deltaY)) - ts.getBearing();
-        TurtleCommand.turnDeltaHeading(ret.get(ret.size()-1), ret, deltaHeading);
-        TurtleCommand.move(ret.get(ret.size()-1), ret, deltaX, deltaY, xMax, yMax, mode);
-        return (ret);
->>>>>>> origin/master
     }
 
 

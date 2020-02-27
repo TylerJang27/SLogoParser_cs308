@@ -28,7 +28,7 @@ public class SetTowards implements TurtleCommand {
 
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(arg1.execute(ts));
         ret.addAll(arg2.execute(ret.get(ret.size()-1)));

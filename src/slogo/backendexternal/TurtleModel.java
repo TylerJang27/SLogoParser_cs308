@@ -1,16 +1,24 @@
 package slogo.backendexternal;
 
+import slogo.commands.controlcommands.RunFunction;
+import slogo.commands.Command;
+import slogo.commands.controlcommands.Variable;
+
 import java.util.*;
 
+/**
+ * Class used to execute the Commands produced by Parser. This class then returns a List of TurtleStatus instances.
+ */
+//TODO Dennis: at the moment, this class does not really need to hold variables and functions.
+// Would you like it to, or should this all just stay in Parser/CommandFactory?
 public class TurtleModel {
 
     //TODO: make ObservableMap?
-    Map<String, Double> declaredVariables;
+    Collection<Variable> declaredVariables;
 
     //TODO: change implementation/display method/remove altogether?
-    Collection<String> declaredFunctions;
+    Collection<RunFunction> declaredFunctions;
 
-<<<<<<< HEAD
     double lastReturn;
 
     public TurtleModel(List<Variable> vars, List<RunFunction> functions) {
@@ -40,26 +48,16 @@ public class TurtleModel {
      * @return declaredFunctions
      */
     public Collection<RunFunction> getFunctions() {
-=======
-    public TurtleModel() {
-        declaredVariables = new HashMap<>();
-        declaredFunctions = new ArrayList<>();
-    }
-
-    public Collection<String> getVariables() {
-        return declaredVariables.keySet();
-    }
-
-    public Collection<String> getFunctions() {
->>>>>>> origin/master
         return declaredFunctions;
     }
 
+    /**
+     * Resets/clears the functions and variables for the scope.
+     */
     public void clearVariables() {
         declaredVariables.clear();
         declaredFunctions.clear();
     }
-<<<<<<< HEAD
 
     /**
      * Executes the parsed Command instances and returns a List of TurtleStatus instances.
@@ -95,6 +93,4 @@ public class TurtleModel {
     public double getLastReturn() {
         return lastReturn;
     }
-=======
->>>>>>> origin/master
 }

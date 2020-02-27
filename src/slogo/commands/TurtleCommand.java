@@ -4,26 +4,39 @@ import slogo.backendexternal.TurtleStatus;
 import java.util.*;
 
 /**
- *
+ * Interface for instances of Turtle Commands, extending the overarching Command interface.
+ * 
  * @author Lucy Gu, Tyler Jang
  */
 public interface TurtleCommand extends Command {
+    String[] MODES = {"normal", "edge", "toroidal"};
 
-
-    static Collection<TurtleStatus> move(TurtleStatus ts, Collection<TurtleStatus> ret,
+    /**
+     * return a list of turtle status resulting from moving the turtle, from a position specified by an input
+     * turtle status, delta X in the X direction and delta Y in the Y direction
+     *
+     * @param ts        An instance of turtle status that is the initial position of the turtle before this method begins
+     * @param ret       A list of pre-established turtle status that will be added onto as move executes
+     * @param deltaX    How much the "turtle" needs to move in the X direction
+     * @param deltaY    How much the "turtle" needs to move in the Y direction
+     * @param xMax      The maximum X value (determined by screen size)
+     * @param yMax      The maximum Y value (determined by screen size)
+     * @param mode      The mode of the movement. Three possible modes include normal, edge, and toroidal
+     * @return          The list of turtle status created from moving
+     */
+    static List<TurtleStatus> move(TurtleStatus ts, List<TurtleStatus> ret,
                                          double deltaX, double deltaY, double xMax, double yMax,  String mode){
         if(mode.equals(MODES[1])){
-            return TurtleCommand.moveDeltaEdge(ts, ret, deltaX, deltaY);
+            return TurtleCommand.moveDeltaEdge(ts, ret, deltaX, deltaY, xMax, yMax);
         }
         else if(mode.equals(MODES[2])){
-            return TurtleCommand.moveDeltaWrap(ts, ret, deltaX, deltaY);
+            return TurtleCommand.moveDeltaWrap(ts, ret, deltaX, deltaY,  xMax, yMax);
         }
         else {
             return TurtleCommand.moveDelta(ts, ret, deltaX, deltaY);
         }
     }
 
-<<<<<<< HEAD
     /**
      * Simplest movement mode, where the turtle's destination is simply specified by the amount it needs to move in the X and Y
      * directions. The x and y values can be theoretically off-screen and there will be no changes made to the turtle status. A
@@ -38,64 +51,24 @@ public interface TurtleCommand extends Command {
      * @return          the list of turtle statuses after moveDelta has been executed
      */
     static List<TurtleStatus> moveDelta(TurtleStatus ts, List<TurtleStatus> ret, double deltaX, double deltaY) {
-=======
-
-
-
-
-
-
-    static Collection<TurtleStatus> moveDelta(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY) {
->>>>>>> origin/master
         ret.add(new TurtleStatus(ts.getX()+deltaX, ts.getY()+deltaY, ts.getBearing(),
                 true, ts.getVisible(), ts.getPenDown(), ts.getPenColor()));
         return ret;
     }
 
 
-
-
-
-
-
-
-
-
-
-    static Collection<TurtleStatus> moveDeltaWrap(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY) {
-
-        double x = ts.getX();
-        double y = ts.getY();
+    static List<TurtleStatus> moveDeltaWrap(TurtleStatus ts, List<TurtleStatus> ret, double deltaX, double deltaY, double xMax, double yMax) {
         double steps = Math.sqrt(Math.pow(deltaX,2)+Math.pow(deltaY,2));
-        for(int i = 1; i<(steps+1); i++){
-            x+=deltaX*i/steps;
-            y+=deltaY*i/steps;
-            if(x>xMax){
-                ret.add(new TurtleStatus(xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                ret.add(new TurtleStatus(-xMax, y, ts.getBearing(), false , ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                x = x - xMax;
-            }
-            if(x<-xMax){
-                ret.add(new TurtleStatus(-xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                ret.add(new TurtleStatus(xMax,  y, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                x = x + xMax;
-            }
-            if(y>yMax){
-                ret.add(new TurtleStatus(x, yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                y = y - yMax;
-            }
-            if(y<-yMax){
-                ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                ret.add(new TurtleStatus(y, yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-                y = y + yMax;
-            }
+        double[] position = {ts.getX(),ts.getY()};
+        for(int i = 0; i<steps; i++){
+            double x = position[0]+deltaX/steps;
+            double y = position[1]+deltaY/steps;
+            position = TurtleCommand.wrap(ts, x, y, xMax, yMax, ret);
         }
-        ret.add(new TurtleStatus(x,y,ts.getBearing(),true,ts.getVisible(),ts.getPenDown(), ts.getPenColor()));
+        ret.add(new TurtleStatus(position[0],position[1],ts.getBearing(),true,ts.getVisible(),ts.getPenDown(), ts.getPenColor()));
         return ret;
     }
 
-<<<<<<< HEAD
     /**
      * Checks if the current x and y position exceeds the maximum (needs wrapping). If either variable requires wrapping, add two turtle
      * status that represents the turtle moving to the edge of the screen, and appearing at the other edge, to the list. Moving to the edge of
@@ -152,18 +125,6 @@ public interface TurtleCommand extends Command {
      * @return          the list of turtle statuses after moveDeltaEdge has been executed
      */
     static List<TurtleStatus> moveDeltaEdge(TurtleStatus ts, List<TurtleStatus> ret, double deltaX, double deltaY, double xMax, double yMax) {
-=======
-
-
-
-
-
-
-
-
-
-    static Collection<TurtleStatus> moveDeltaEdge(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaX, double deltaY) {
->>>>>>> origin/master
         double x = ts.getX()+deltaX;
         double y = ts.getY()+deltaY;
         x = edge(x,xMax);
@@ -172,20 +133,30 @@ public interface TurtleCommand extends Command {
         return ret;
     }
 
-    static double edge(double position, double size){
-        if(position>size) position = size;
-        if(position<-size) position = -size;
+    /**
+     * If position is outside the range of [-max, max], cast position to either -max or max depending on which one is closer
+     *
+     * @param position  the position being checked
+     * @param max       the maximum value that the position could be (-max would be the minimum value position could be)
+     * @return          position after it has been modified
+     */
+    static double edge(double position, double max){
+        if(position>max) position = max;
+        if(position<-max) position = -max;
         return position;
     }
 
 
-
-
-
-
-
-
-    static Collection<TurtleStatus> turnDeltaHeading(TurtleStatus ts, Collection<TurtleStatus> ret, double deltaHeading) {
+    /**
+     * Moves the turtle to turn deltaHeading from its current heading
+     *
+     * @param ts            the initial status of the turtle before turnDeltaHeading is executed
+     * @param ret           a pre-established list of turtle status, onto which we will add a new turtle status that specifies
+     *                      the endpoint of the rotation
+     * @param deltaHeading  the amount of degrees that the turtle needs to turn from its current heading
+     * @return
+     */
+    static List<TurtleStatus> turnDeltaHeading(TurtleStatus ts, List<TurtleStatus> ret, double deltaHeading) {
         ret.add(new TurtleStatus(ts.getX(), ts.getY(), ts.getBearing()+deltaHeading,
                 false, ts.getVisible(), ts.getPenDown(), ts.getPenColor()));
         return ret;

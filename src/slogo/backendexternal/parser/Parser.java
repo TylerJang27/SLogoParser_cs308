@@ -1,14 +1,10 @@
 package slogo.backendexternal.parser;
 
-<<<<<<< HEAD
-import java.security.spec.RSAOtherPrimeInfo;
 import java.util.Iterator;
 import java.util.Stack;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 
-=======
->>>>>>> origin/master
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,16 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-<<<<<<< HEAD
-=======
-import java.util.regex.Pattern;
->>>>>>> origin/master
 
 public class Parser {
   private static final String DEFAULT_ERROR_MESSAGE = "The last command could not be recognized. "
       + "Please check spelling and try again. Reason:";
   private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
-<<<<<<< HEAD
   private List<String> commandHistory;
   private List<slogo.commands.Command> newCommands;
   private Map<String, List<String>> myCommands;
@@ -34,20 +25,10 @@ public class Parser {
   private FunctionFactory functionFactory;
   private Stack<Command> currentCommands;
   private Stack<String> currentComponents;
-=======
-  private static final ResourceBundle COMMAND_SYNTAX =
-      ResourceBundle.getBundle(Parser.class.getPackageName() + ".resources.Syntax.properties");
-
-  private List<slogo.commands.Command> commandHistory;
-  private List<slogo.commands.Command> newCommands;
-  private Map<String, List<String>> myCommands;
-
->>>>>>> origin/master
 
   public Parser(){ this("English");}
 
   public Parser(String language){
-<<<<<<< HEAD
     myCommands = new HashMap<String, List<String>>();
     setLanguage(language);
     newCommands = new ArrayList<Command>();
@@ -57,26 +38,15 @@ public class Parser {
     functionFactory = new FunctionFactory(myCommands);
     currentCommands = new Stack<Command>();
     currentComponents = new Stack<>();
-=======
-    setLanguage(language);
->>>>>>> origin/master
   }
 
 
   public void parseLine(String line){
-<<<<<<< HEAD
     commandHistory.add(line);
 
-=======
-    List<Map<String, List<Double>>> completeCommands = new ArrayList<Map<String, List<Double>>>();
-    List<Map<String, List<Double>>> unfinishedCommands = new ArrayList<Map<String, List<Double>>>();
-    Map<String, List<Double>> currentCommand = new HashMap<String, List<Double>>();
-    String currentKey = "";
-    int countInputs = 1;
->>>>>>> origin/master
     String[] inputs = line.split(" ");
+
     for(String input : inputs){
-<<<<<<< HEAD
       currentComponents.push(input);
     }
 
@@ -84,32 +54,11 @@ public class Parser {
 
     while(currentCommands.size() > 0){
       newCommands.add(currentCommands.pop());
-=======
-      if(Input.Command.matches(input)){
-        if(currentCommand.size() > 0){
-          unfinishedCommands.add(currentCommand);
-          currentCommand.clear();
-        }
-        currentKey = input;
-        currentCommand.put(input, new ArrayList<Double>());
-      }
-      if(Input.Constant.matches(input)){
-        if(currentCommand.size() > 0){
-          currentCommand.put(currentKey, new ArrayList(Arrays.asList(Integer.parseInt(input)/1.0)));
-        }
-      }
-    }
-    for(int i = 0; i < completeCommands.size(); i++){
-      System.out.println(i);
-      System.out.println(completeCommands.get(i));
-      newCommands.add(CommandFactory.makeCommand(completeCommands.get(i), myCommands));
->>>>>>> origin/master
     }
 
   }
 
   public List<slogo.commands.Command> sendCommands(){
-<<<<<<< HEAD
     List<slogo.commands.Command> toSend = new ArrayList<>(newCommands);
     newCommands.clear();
     return toSend;
@@ -184,19 +133,13 @@ public class Parser {
 
   public List<String> getCommandHistory(){
     return commandHistory;
-=======
-    commandHistory.addAll(newCommands);
-    List<slogo.commands.Command> toSend = newCommands;
-    newCommands.clear();
-    return toSend;
->>>>>>> origin/master
   }
 
   public void setLanguage(String lang){
     ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + lang);
     for (String key : Collections.list(resources.getKeys())) {
       String translation = resources.getString(key);
-      myCommands.put(key, Arrays.asList(translation.split("|")));
+      myCommands.put(key, Arrays.asList(translation.split("\\|")));
     }
   }
 

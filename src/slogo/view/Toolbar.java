@@ -120,6 +120,8 @@ public class Toolbar extends ToolBar {
       myMainView.getTurtle().myImageView.setFitHeight(myMainView.getTurtleSize());
 
       myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);
+      myMainView.getTurtle().myImageView.setX(myMainView.getTurtle().myImageView.getX() - myMainView.getTurtle().myImageView.getFitWidth() / 2);
+      myMainView.getTurtle().myImageView.setY(myMainView.getTurtle().myImageView.getY() - myMainView.getTurtle().myImageView.getFitHeight() / 2);
     }
   }
 

@@ -80,7 +80,6 @@ public class Controller extends Application {
       System.out.println("Parser Command");
       List<TurtleStatus> statuses = (List<TurtleStatus>) myModel
           .executeCommands(toSend, currentStatus);
-//      myDisplay.getMainView().get.addText(myModel.getLastReturn());
       System.out.println("Status Size");
       System.out.println(statuses.size());
 
@@ -89,9 +88,8 @@ public class Controller extends Application {
         myDisplay.getMainView().moveTurtle(statuses);
       }
     }
-    catch(InvalidCommandException e){
-      System.out.println("are we catching?");
-      myParser.addError();
+    catch(Exception e){
+      myParser.addError(e.getMessage());
     }
     field.clear();
     displayHistory();
@@ -121,7 +119,7 @@ public class Controller extends Application {
 
   private void displayQueries() {
     myDisplay.getMainView().getTextFields().clearQueries();
-    myDisplay.getMainView().getTextFields().addCommandText("");
+    myDisplay.getMainView().getTextFields().addQueriesText(myModel.getLastReturn());
   }
 
   private void setLanguage(ComboBox language){

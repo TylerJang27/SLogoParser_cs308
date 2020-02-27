@@ -7,8 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import slogo.commands.Command;
+import slogo.commands.controlcommands.DoTimes;
+import slogo.commands.controlcommands.For;
 import slogo.commands.controlcommands.Function;
+import slogo.commands.controlcommands.If;
+import slogo.commands.controlcommands.IfElse;
 import slogo.commands.controlcommands.MakeUserInstruction;
+import slogo.commands.controlcommands.Repeat;
 import slogo.commands.controlcommands.RunFunction;
 import slogo.commands.controlcommands.Variable;
 
@@ -25,9 +30,9 @@ public class FunctionFactory {
     functionMap = new HashMap<>();
     functionVariables = new ArrayList<>();
     functionCommands = new ArrayList<>();
-    commandFactory = new CommandFactory();
-    variableFactory = new VariableFactory();
     myCommands = commands;
+    commandFactory = new CommandFactory(myCommands);
+    variableFactory = new VariableFactory();
   }
 
   public boolean hasFunction(String funcName){
@@ -52,6 +57,7 @@ public class FunctionFactory {
   }
 
   private void fillVariables(Stack<String> components) {
+    functionVariables.clear();
     while(components.size() > 0){
       String current = components.pop();
       if(Input.ListStart.matches(current)){
@@ -67,6 +73,7 @@ public class FunctionFactory {
   }
 
   private void fillCommands(Stack<String> components){
+    functionCommands.clear();
     Stack<Command> newCommands = new Stack<Command>();
     newCommands.addAll(parseComponentsFunction(components));
     while(newCommands.size() > 0){
@@ -88,6 +95,7 @@ public class FunctionFactory {
 
   private Stack<Command> parseComponentsFunction(Stack<String> components){
     Stack<Command> currentCommand = new Stack<>();
+    Stack<List<Command>> listCommands = new Stack();
 
     while(components.size() > 0){
 
@@ -119,7 +127,7 @@ public class FunctionFactory {
           commands.add(this.runFunction(current, currentCommand));
         }
         else{
-          commands.add(commandFactory.makeCommand(current, currentCommand, myCommands));
+          commands.add(commandFactory.makeCommand(current, currentCommand, listCommands, myCommands));
         }
       }
 
@@ -130,8 +138,30 @@ public class FunctionFactory {
 
       currentCommand.addAll(commands);
     }
-
     return currentCommand;
+  }
+
+  public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands){
+    Stack<Command> components = new Stack<>();
+    for(Command c : commands){
+      components.push(c);
+    }
+//    if(key.equals("DoTimes")){
+//      return new DoTimes(listCommands.pop().get(0), )
+//    }
+//    else if(key.equals("For")){
+//      return new For()
+//    }
+//    else if(key.equals("If")){
+//      return new If()
+//    }
+//    else if(key.equals("IfElse")){
+//      return new IfElse()
+//    }
+//    else if(key.equals("Repeat")){
+//      return new Repeat()
+//    }
+    return new Function();
   }
 
 

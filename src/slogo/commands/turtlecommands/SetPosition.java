@@ -37,16 +37,16 @@ public class SetPosition implements TurtleCommand {
 
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
-        double deltaX = arg1.returnValue() - ts.getX();
-        double deltaY = arg2.returnValue() - ts.getY();
         List<TurtleStatus> ret = turn.execute(ts);
+        double deltaX = arg1.returnValue() - ret.get(ret.size() - 1).getX();
+        double deltaY = -1*arg2.returnValue() - ret.get(ret.size() - 1).getY();
         if(outOfBounds(arg1.returnValue(), arg2.returnValue())) {
             TurtleCommand.move(ret.get(ret.size() - 1), ret, deltaX, deltaY, xMax, yMax, mode);
         }
         else{
-            TurtleCommand.moveDelta(ret.get(ret.size()-1), ret, deltaX, deltaY);
+            TurtleCommand.moveDelta(ret.get(ret.size() - 1), ret, deltaX, deltaY);
         }
-        return (ret);
+        return ret;
     }
 
 

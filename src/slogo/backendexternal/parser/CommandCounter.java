@@ -14,6 +14,7 @@ public class CommandCounter {
   }
 
   public int getCount(String key){
+    System.out.println("HELP " + key + " " + counts.keySet().size());
     return counts.get(key);
   }
 

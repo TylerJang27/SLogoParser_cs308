@@ -113,7 +113,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
     for(int i = 0; i < temp.size(); i++)  {
-      if(!pane.getChildren().contains(temp.get(i))) {
+      if(!pane.getChildren().contains(temp.get(i))) { //TODO: redundant? Should be for-each?
         pane.getChildren().add(temp.get(i));
       }
     }

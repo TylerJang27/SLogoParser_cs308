@@ -12,7 +12,7 @@ public class TurtleStatus {
     private double x;
     private double y;
     private double bearing;
-    private boolean leavesTrial;
+    private boolean leavesTrail;
     private PenModel penModel;
     private boolean turtleVisible;
 
@@ -30,7 +30,7 @@ public class TurtleStatus {
         this.x = xPos;
         this.y = yPos;
         this.bearing = bearing;
-        this.leavesTrial = smooth;
+        this.leavesTrail = smooth;
         this.turtleVisible = visible;
         this.penModel = penModel;
     }
@@ -82,8 +82,8 @@ public class TurtleStatus {
      * @return if, theoretically, a line should be drawn between the previous and the current
      *         turtle status
      */
-    public boolean getTrial(){
-        return leavesTrial;
+    public boolean getTrail(){
+        return leavesTrail;
     }
 
     /**
@@ -99,7 +99,7 @@ public class TurtleStatus {
      *
      * @return if a line should be drawn between the previous turtle status and this turtle status
      */
-    public boolean getPenDraw() { return leavesTrial && penModel.getPenDown(); } //USED BY THE FRONTEND
+    public boolean getPenDraw() { return leavesTrail && penModel.getPenDown(); } //USED BY THE FRONTEND
 
     /**
      * @return the color of the penModel used by this turtle status
@@ -119,6 +119,6 @@ public class TurtleStatus {
      */
     @Override
     public String toString() {
-        return String.format("%f, %f \t %f \t%b \t%b \t%b \t%s", x, y, bearing, leavesTrial, turtleVisible, penModel.getPenDown(), getPenColor());
+        return String.format("%f, %f \t %f \t%b \t%b \t%b \t%s", x, y, bearing, leavesTrail, turtleVisible, penModel.getPenDown(), getPenColor());
     }
 }

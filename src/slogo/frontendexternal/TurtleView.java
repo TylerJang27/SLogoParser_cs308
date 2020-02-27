@@ -1,23 +1,14 @@
 package slogo.frontendexternal;
 
-import java.security.Policy;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 
 /**
@@ -25,6 +16,8 @@ import slogo.backendexternal.TurtleStatus;
  * @author Shruthi Kumar
  */
 public class TurtleView {
+  private static final int CENTER_X = 150;
+  private static final int CENTER_Y = 250;
   private double myXPos;
   private double myYPos;
 
@@ -66,10 +59,7 @@ public class TurtleView {
 //    Double[] pathPoints = new Double[t.size()*2];
     Iterator<TurtleStatus> iterator = t.iterator();
 
-
     int index = 0;
-
-
 
     // directions of commands
     // check for get trail
@@ -78,7 +68,10 @@ public class TurtleView {
     // set heading, set position
     // error handling, user-defined commands?
 
-    for(int i = 0; i < t.size(); i+=2) {
+    //TODO: TYLER SHOULD BE CHANGED TO T.SIZE() - 1??
+    //for(int i = 0; i < t.size(); i+=2) {
+    for(int i = 0; i < t.size() - 1; i++) {
+
       index = 0;
       Double[] pathPoints = new Double[4];
       TurtleStatus start = t.get(i);
@@ -93,16 +86,15 @@ public class TurtleView {
         //setMyXPos(end.getX());
         //setMyYPos(end.getY());
       }
-      
 
-      if (checkMovement(start, end)) {
+      if (checkMovement(start, end) && t.get(i).getTrail()) {
         addPenViewLines(end);
         pathPoints[index] = start.getX();
         pathPoints[index + 1] = start.getY();
         pathPoints[index + 2] = end.getX();
         pathPoints[index + 3] = end.getY();
-        setMyXPos(this.getMyXPos() + end.getX());
-        setMyYPos(this.getMyYPos() + end.getY());
+        setMyXPos(CENTER_X + end.getX());
+        setMyYPos(CENTER_Y + end.getY());
         pathLine.getPoints().addAll(pathPoints);
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
             this.myImageView);

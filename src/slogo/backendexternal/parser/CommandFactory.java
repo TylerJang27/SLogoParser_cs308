@@ -50,8 +50,8 @@ import slogo.commands.turtlecommands.ShowTurtle;
 
 public class CommandFactory {
 
-  private static final double X_MAX = 100.0;
-  private static final double Y_MAX = 100.0;
+  private static final double X_MAX = 300; //TODO: TAKE FROM THE FRONT-END
+  private static final double Y_MAX = 500;
 
   private String currentMode;
   private CommandCounter myCounts;
@@ -199,6 +199,7 @@ public class CommandFactory {
   public Command makeConstant(String current) {
     return new Constant(Integer.parseInt(current));
   }
+  //TODO: WILL IT ALWAYS BE AN INTEGER?
 
   public void setMode(String mode){
     currentMode = mode;

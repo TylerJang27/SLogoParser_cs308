@@ -40,9 +40,9 @@ public class TurtleView {
    * Constructor for TurtleView object
    */
 
-  public TurtleView() {
-    myStartXPos = 150;
-    myStartYPos = 250;
+  public TurtleView(double x, double y) {
+    myStartXPos = x;
+    myStartYPos = y;
     myEndXPos = 150;
     myEndYPos = 250;
     myBearing = 0;
@@ -231,7 +231,7 @@ public class TurtleView {
   }
 
   public boolean getIsVisible() {
-    return isVisbile;
+    return isVisible;
   }
 
   /**
@@ -306,7 +306,7 @@ public class TurtleView {
    * @param visible : new bearing of turtle
    */
   public void setIsVisible(boolean visible) {
-    isVisbile = visible;
+    isVisible = visible;
   }
 
 }

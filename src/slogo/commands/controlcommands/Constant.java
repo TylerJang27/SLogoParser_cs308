@@ -1,6 +1,5 @@
 package slogo.commands.controlcommands;
 
-import java.util.Arrays;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.ControlCommand;
 
@@ -14,7 +13,7 @@ import java.util.List;
  */
 public class Constant implements ControlCommand {
 
-    public static final int NUM_ARGS = 1;
+    public static final int NUM_ARGS = 0;
     private double myVal;
 
     /**

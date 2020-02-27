@@ -94,7 +94,6 @@ public class Toolbar extends ToolBar {
 
   private void createButtons() {
     this.commandButton = new Button("Run");
-    commandButton.setOnAction(this:: handleCommand);
 
     this.helpButton = new Button("?");
     helpButton.setOnAction(this:: handleHelp);

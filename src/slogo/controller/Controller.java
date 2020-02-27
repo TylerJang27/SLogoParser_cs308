@@ -41,7 +41,6 @@ public class Controller extends Application {
   public void start(Stage currentStage) {
     Stage myStage = new Stage();
     myDisplay = new Display();
-
     input = myDisplay.getMainView().getToolBar().getTextField();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand(input));

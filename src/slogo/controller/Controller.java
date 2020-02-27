@@ -88,9 +88,8 @@ public class Controller extends Application {
         myDisplay.getMainView().moveTurtle(statuses);
       }
     }
-    catch(InvalidCommandException e){
-      System.out.println("are we catching?");
-      myParser.addError();
+    catch(Exception e){
+      myParser.addError(e.getMessage());
     }
     field.clear();
     displayHistory();

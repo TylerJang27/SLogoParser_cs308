@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class Parser {
   private static final String DEFAULT_ERROR_MESSAGE = "The last command could not be recognized. "
-      + "Please check spelling and try again.";
+      + "Please check spelling and try again. Reason:";
   private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
   private List<String> commandHistory;
   private List<slogo.commands.Command> newCommands;
@@ -34,7 +34,7 @@ public class Parser {
     setLanguage(language);
     newCommands = new ArrayList<Command>();
     commandHistory = new ArrayList<String>();
-    commandFactory = new CommandFactory();
+    commandFactory = new CommandFactory(myCommands);
     variableFactory = new VariableFactory();
     functionFactory = new FunctionFactory(myCommands);
     currentCommands = new Stack<Command>();
@@ -68,12 +68,13 @@ public class Parser {
   public Stack<Command> parseComponents(Stack<String> components) throws InvalidCommandException {
 
     Stack<Command> currentCommand = new Stack<>();
+    Stack<List<Command>> listCommands = new Stack<>();
+    List<Command> currentList = new ArrayList<>();
 
+    boolean inList = false;
     while (components.size() > 0) {
       Stack<Command> commands = new Stack<>();
-
       String current = components.pop();
-
       if (Input.Constant.matches(current)) {
         commands.add(commandFactory.makeConstant(current));
       } else if (Input.Make.matches(current)) {
@@ -88,19 +89,31 @@ public class Parser {
         if (functionFactory.hasFunction(current)) {
           commands.add(functionFactory.runFunction(current, currentCommand));
         } else {
-          commands.add(commandFactory.makeCommand(current, currentCommand, myCommands));
+          commands.add(commandFactory.makeCommand(current, currentCommand, listCommands, myCommands));
         }
       } else if (Input.Variable.matches(current)) {
         if (variableFactory.handleVariable(current)) {
           commands.add(variableFactory.getVariable(current));
         }
       } else if (Input.ListEnd.matches(current)) {
+        inList = true;
+        currentList.clear();
         if (checkFunction(components)) {
           commands.add(functionFactory.handleFunction(components));
+          inList = false;
         }
+      } else if(Input.ListStart.matches(current)){
+        inList = false;
+        listCommands.add(currentList);
       }
 
-      currentCommand.addAll(commands);
+      if(inList) {
+        currentCommand.addAll(commands);
+        currentList.addAll(commands);
+      }
+      else{
+        currentCommand.addAll(commands);
+      }
     }
 
     return currentCommand;
@@ -131,8 +144,9 @@ public class Parser {
     }
   }
 
-  public void addError(){
+  public void addError(String message){
     commandHistory.add(DEFAULT_ERROR_MESSAGE);
+    commandHistory.add(message);
   }
 
   public String getVariableString() {

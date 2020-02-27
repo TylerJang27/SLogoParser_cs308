@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -28,6 +29,7 @@ public class Controller extends Application {
   private TurtleModel myModel;
   private TextField input;
   private Button runButton;
+  private ComboBox language;
   private TurtleStatus currentStatus;
 
   /**
@@ -44,6 +46,8 @@ public class Controller extends Application {
     input = myDisplay.getMainView().getToolBar().getTextField();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand(input));
+    language = myDisplay.getMainView().getToolBar().getLanguageBox();
+    language.setOnAction(event -> setLanguage(language));
     Scene myScene = myDisplay.getScene();
     myParser = new Parser();
     myModel = new TurtleModel();
@@ -95,5 +99,9 @@ public class Controller extends Application {
   private void displayVariables(){
     myDisplay.getMainView().getTextFields().clearVariables();
     myDisplay.getMainView().getTextFields().addVariableText(myParser.getVariableString());
+  }
+
+  private void setLanguage(ComboBox language){
+    myParser.setLanguage(language.getValue().toString());
   }
 }

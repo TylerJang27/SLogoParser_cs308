@@ -134,7 +134,7 @@ public class Parser {
     return commandHistory;
   }
 
-  private void setLanguage(String lang){
+  public void setLanguage(String lang){
     ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + lang);
     for (String key : Collections.list(resources.getKeys())) {
       String translation = resources.getString(key);

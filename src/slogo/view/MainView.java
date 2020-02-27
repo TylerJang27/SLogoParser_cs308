@@ -1,5 +1,6 @@
 package slogo.view;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
@@ -15,13 +16,20 @@ import slogo.frontendexternal.TurtleView;
 import java.lang.Object;
 import javafx.scene.Node;
 import javafx.scene.shape.Shape;
+=======
+import java.io.ObjectInputFilter.Config;
+import javafx.scene.layout.BorderPane;
+import javafx.geometry.Pos;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+>>>>>>> origin/master
 
-/** @author Shruthi Kumar, Nevzat Sevim */
+public class MainView extends BorderPane {
 
-public class MainView extends VBox implements EventHandler, MainViewAPI {
-
-  //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
+<<<<<<< HEAD
   private TextFields myTextFields;
 
   //Pane and Turtle Object
@@ -141,4 +149,19 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   public Pane getPane() {return this.pane;}
   public double getTurtleSize() {return this.turtleSize;}
 
+=======
+ //s private Configpanel
+
+
+  public MainView() {
+    myToolbar = new Toolbar(this);
+    this.setTop(myToolbar);
+
+
+
+  }
+
+  public void step() {
+  }
+>>>>>>> origin/master
 }

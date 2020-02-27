@@ -29,17 +29,22 @@ public class Forward implements TurtleCommand {
 
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public Collection<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(arg1.execute(ts));
         returnVal = arg1.returnValue();
 
+<<<<<<< HEAD
         //TODO: MAY HAVE TO ADD SOMETHING LIKE:
         //  TurtleStatus currentStatus = (ret.isEmpty()) ? ts : ret.get(ret.size()-1);
         //  We'll see during testing
 
         double deltaX = returnVal*Math.sin(Math.toRadians(ret.get(ret.size()-1).getBearing()));
         double deltaY = -1*returnVal*Math.cos(Math.toRadians(ret.get(ret.size()-1).getBearing())); //TODO: Why is this negative?
+=======
+        double deltaX = returnVal*Math.sin(ret.get(ret.size()-1).getBearing());
+        double deltaY = -1 * returnVal*Math.cos(ret.get(ret.size()-1).getBearing()); //TODO: Why is this negative?
+>>>>>>> origin/master
         return TurtleCommand.move(ret.get(ret.size()-1), ret, deltaX, deltaY, xMax, yMax, mode);
     }
 

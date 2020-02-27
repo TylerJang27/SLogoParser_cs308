@@ -16,7 +16,7 @@ public class ClearScreen implements TurtleCommand {
 
     private TurtleCommand go;
 
-    public ClearScreen(double xMax, double yMax, String mode){
+    public ClearScreen(int xMax, int yMax, String mode){
         go = new Home(xMax,yMax,mode);
         //TODO: NEED ADDITIONAL PARAMETER QUALIFYING AS A RESET:
         //Could add a null to a collection of TurtleStatus, stuff, which the front
@@ -26,8 +26,8 @@ public class ClearScreen implements TurtleCommand {
 
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        List<TurtleStatus> ret = go.execute(ts);
+    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+        List<TurtleStatus> ret = (List<TurtleStatus>) go.execute(ts);
         TurtleStatus last = ret.get(ret.size()-1);
         TurtleStatus next = new TurtleStatus(last.getX(), last.getY(), 0.0, false, last.getVisible(), last.getPenDown(), last.getPenColor());
         next.setClear();
@@ -41,8 +41,5 @@ public class ClearScreen implements TurtleCommand {
         return go.returnValue();
     }
 
-    public static boolean toClear() {
-        return true; //TODO: MAKE SURE THIS IMPLEMENTATION WORKS
-    }
 
 }

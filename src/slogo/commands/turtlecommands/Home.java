@@ -2,9 +2,8 @@ package slogo.commands.turtlecommands;
 
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.TurtleCommand;
-import slogo.commands.controlcommands.Constant;
+
 import java.util.Collection;
-import java.util.List;
 
 /**
  *
@@ -18,17 +17,24 @@ public class Home implements TurtleCommand {
     private static final double homeY = 0;
     private TurtleCommand go;
 
-    public Home(double xMax, double yMax, String mode){
+    public Home(int xMax, int yMax, String mode){
         go = new SetPosition(new Constant(homeX), new Constant(homeY), xMax, yMax, mode);
     }
 
+
     @Override
+<<<<<<< HEAD
     public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret =  go.execute(ts);
         double deltaHeading = -1*ret.get(ret.size()-1).getBearing();
         TurtleCommand.turnDeltaHeading(ret.get(ret.size()-1), ret, deltaHeading);
         return ret;
+=======
+    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+        return go.execute(ts);
+>>>>>>> origin/master
     }
+
 
     @Override
     public double returnValue() {

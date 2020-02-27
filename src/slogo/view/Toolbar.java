@@ -67,6 +67,8 @@ public class Toolbar extends ToolBar {
     return commandButton;
   }
 
+  public ComboBox getLanguageBox() {return languageMenu; }
+
   /**
    * Helping methods to import menus and buttons to the toolbar
    */
@@ -88,8 +90,9 @@ public class Toolbar extends ToolBar {
 
     //Language Menu
     this.languageMenu = new ComboBox();
-    languageMenu.setPromptText("Language");
-    languageMenu.getItems().addAll("English", "French", "Not Turkish");
+    languageMenu.setPromptText("English");
+    languageMenu.getItems().addAll("English", "Chinese", "French", "German", "Italian",
+        "Portuguese", "Russian", "Spanish", "Urdu");
   }
 
   private void createButtons() {

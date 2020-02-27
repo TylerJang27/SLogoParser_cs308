@@ -68,13 +68,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   public void moveTurtle(List<TurtleStatus> ts) {
-      pane.getChildren().clear(); // clear complete list
-
-      turtle.executeState(ts);
-      //turtle.myImageView.setVisible(turtle.getIsVisible());
-      //System.out.println(turtle.getIsVisible());
-
-
+    pane.getChildren().clear(); // clear complete list
+    turtle.executeState(ts);
     pane.getChildren().add(turtle.myImageView);
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();

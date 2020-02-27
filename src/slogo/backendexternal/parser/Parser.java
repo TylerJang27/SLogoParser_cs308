@@ -37,6 +37,7 @@ public class Parser {
     setLanguage(language);
   }
 
+
   public void parseLine(String line){
     commandHistory.add(line);
 
@@ -46,7 +47,7 @@ public class Parser {
       currentComponents.push(input);
     }
 
-    parseComponents(currentComponents);
+    currentCommands.addAll(parseComponents(currentComponents));
 
     while(currentCommands.size() > 0){
       newCommands.add(currentCommands.pop());
@@ -60,7 +61,8 @@ public class Parser {
     return toSend;
   }
 
-  private void parseComponents(Stack<String> components){
+  public Stack<Command> parseComponents(Stack<String> components){
+    Stack<Command> currentCommand = new Stack<>();
     while(components.size() > 0){
       Stack<Command> commands = new Stack<>();
       String current = components.pop();
@@ -68,17 +70,22 @@ public class Parser {
         commands.add(commandFactory.makeConstant(current));
       }
       else if(Input.Make.matches(current)){
-        if(currentCommands.size() > 0){
+        if(currentCommand.size() > 0){
           commands.add(variableFactory.makeVariable(currentCommands.pop()));
         }
       }
       else if(Input.Set.matches(current)){
-        if(currentCommands.size() > 0){
+        if(currentCommand.size() > 0){
           commands.add(variableFactory.setVariable(currentCommands.pop()));
         }
       }
       else if(Input.Command.matches(current)){
-        commands.add(commandFactory.makeCommand(current, currentCommands, myCommands));
+        if(functionFactory.hasFunction(current)){
+          commands.add(functionFactory.getFunction(current));
+        }
+        else{
+          commands.add(commandFactory.makeCommand(current, currentCommands, myCommands));
+        }
       }
       else if(Input.Variable.matches(current)){
         if(variableFactory.handleVariable(current)){
@@ -93,8 +100,9 @@ public class Parser {
           continue;
         }
       }
-      currentCommands.addAll(commands);
+      currentCommand.addAll(commands);
     }
+    return currentCommand;
   }
 
   private boolean checkFunction(Stack<String> components) {
@@ -102,6 +110,7 @@ public class Parser {
     while(iter.hasNext()){
       String current = iter.next();
       if(Input.TO.matches(current)){
+        components.remove(current);
         return true;
       }
     }

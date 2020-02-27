@@ -52,7 +52,6 @@ public class Controller extends Application {
   private void sendCommand(KeyCode key, TextField field){
     String input = field.getText();
     if(key == KeyCode.ENTER) {
-
       myParser.parseLine(input);
       field.clear();
 
@@ -80,5 +79,4 @@ public class Controller extends Application {
   private void setStatus(TurtleStatus ts){
     currentStatus = ts;
   }
-
 }

@@ -82,7 +82,7 @@ public class TurtleModel {
             lastReturn = c.returnValue();
         }
         for (TurtleStatus t: statusList) {
-            System.out.println(t); //TODO: REMOVE
+//            System.out.println(t); //TODO: REMOVE
         }
         return Collections.unmodifiableList(statusList);
     }

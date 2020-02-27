@@ -20,9 +20,11 @@ public class TextFields extends HBox {
     private CommandReader commandReader;
     private TextArea commands;
     private TextArea variables;
+    private TextArea queries;
 
     private VBox commandBox;
     private VBox variableBox;
+    private VBox queriesBox;
 
 
     public TextFields(MainView mainview) {
@@ -31,18 +33,21 @@ public class TextFields extends HBox {
 
         Label comLabel = new Label("History of Commands:");
         Label varLabel = new Label("List of Variables:");
+        Label queryLabel = new Label("Queries:");
 
         this.commands = new TextArea();
-
         this.variables = new TextArea();
+        this.queries = new TextArea();
 
         this.commandBox = new VBox();
         this.variableBox = new VBox();
+        this.queriesBox = new VBox();
 
         this.commandBox.getChildren().addAll(comLabel, commands);
         this.variableBox.getChildren().addAll(varLabel, variables);
+        this.queriesBox.getChildren().addAll(queryLabel, queries);
 
-        this.getChildren().addAll(commandBox, variableBox);
+        this.getChildren().addAll(commandBox, variableBox, queriesBox);
     }
 
     public void addCommandText(String text){
@@ -50,6 +55,10 @@ public class TextFields extends HBox {
     }
     public void addVariableText(String text){
         variables.appendText(text + "\n");
+    }
+
+    public void addQueriesText(String query, String text) {
+        queries.appendText(query + ": " + text + "\n");
     }
 
 
@@ -68,6 +77,8 @@ public class TextFields extends HBox {
     public void clearCommands() { commands.clear(); }
 
     public void clearVariables() { variables.clear(); }
+
+    public void clearQueries() { queries.clear(); }
 
 
     public TextArea getVariables() {

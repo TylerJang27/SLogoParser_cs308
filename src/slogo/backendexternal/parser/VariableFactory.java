@@ -1,5 +1,7 @@
 package slogo.backendexternal.parser;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 import slogo.commands.Command;
 import slogo.commands.controlcommands.MakeVariable;
@@ -7,18 +9,38 @@ import slogo.commands.controlcommands.Variable;
 
 public class VariableFactory {
 
-  public VariableFactory(){}
+  Stack<String> variablesAdded;
+  private Map<String, Variable> variableMap;
 
-  public MakeVariable makeVariable(String current, Stack<Command> previous){
-    Variable newVar = new Variable();
-    MakeVariable maker = null; // TODO : THROW ERROR
-    if(previous.size() > 0){
-      maker = new MakeVariable(newVar, previous.pop());
-    }
-    return maker;
+  public VariableFactory(){
+    variableMap = new HashMap<>();
+    variablesAdded = new Stack<>();
   }
 
-//  public MakeVariable getVariable(){
-//    return new Mke
-//  }
+  public MakeVariable makeVariable(Command previous){
+    String key = variablesAdded.pop();
+    return new MakeVariable(variableMap.get(key), previous);
+  }
+
+  public boolean handleVariable(String current){
+    if(variableMap.containsKey(current)){
+      return true;
+    }
+    else{
+      variablesAdded.push(current);
+      variableMap.put(current, new Variable());
+      return false;
+    }
+  }
+
+  public Variable getVariable(String varName){
+    if(variableMap.containsKey(varName)){
+      return variableMap.get(varName);
+    }
+    return null;
+  }
+
+  public MakeVariable setVariable(Command command){
+    return new MakeVariable(variableMap.get(variablesAdded.pop()), command);
+  }
 }

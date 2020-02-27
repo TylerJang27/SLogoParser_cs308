@@ -23,7 +23,6 @@ public class TurtleView {
   private double myUpdatedXPos;
   private double myUpdatedYPos;
 
-
   public Image myImage;
   public ImageView myImageView;
 
@@ -64,10 +63,7 @@ public class TurtleView {
 //    Double[] pathPoints = new Double[t.size()*2];
     Iterator<TurtleStatus> iterator = t.iterator();
 
-
     int index = 0;
-
-
 
     // directions of commands
     // check for get trail
@@ -76,7 +72,10 @@ public class TurtleView {
     // set heading, set position
     // error handling, user-defined commands?
 
-    for(int i = 0; i < t.size(); i+=2) {
+    //TODO: TYLER's changes here:
+    //for(int i = 0; i < t.size(); i+=2) {
+    for(int i = 0; i < t.size() - 1; i++) {
+
       index = 0;
       Double[] pathPoints = new Double[4];
       TurtleStatus start = t.get(i);
@@ -89,9 +88,8 @@ public class TurtleView {
         myBearing = end.getBearing();
         sequentialTransition.getChildren().add(turtleRotate);
       }
-      
 
-      if (checkMovement(start, end)) {
+      if (checkMovement(start, end) && end.getTrail()) {
         addPenViewLines(start, end);
         pathPoints[index] = start.getX();
         pathPoints[index + 1] = start.getY();
@@ -100,6 +98,16 @@ public class TurtleView {
         pathLine.getPoints().addAll(pathPoints);
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
             this.myImageView);
+        sequentialTransition.getChildren().add(turtlePath);
+      }
+      if (!end.getTrail()) { //wraparound case
+        pathPoints[index] = end.getX();
+        pathPoints[index + 1] = end.getY();
+        pathPoints[index + 2] = end.getX();
+        pathPoints[index + 3] = end.getY();
+        pathLine.getPoints().addAll(pathPoints);
+        PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
+                this.myImageView);
         sequentialTransition.getChildren().add(turtlePath);
       }
     }

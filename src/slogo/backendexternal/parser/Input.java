@@ -13,7 +13,9 @@ public enum Input {
   GroupStart (Pattern.compile("\\(", Pattern.CASE_INSENSITIVE)),
   GroupEnd (Pattern.compile("\\)", Pattern.CASE_INSENSITIVE)),
   Whitespace (Pattern.compile("\\s+", Pattern.CASE_INSENSITIVE)),
-  Newline (Pattern.compile("\\n+", Pattern.CASE_INSENSITIVE));
+  Newline (Pattern.compile("\\n+", Pattern.CASE_INSENSITIVE)),
+  Make (Pattern.compile("MAKE", Pattern.CASE_INSENSITIVE)),
+  Set (Pattern.compile("SET", Pattern.CASE_INSENSITIVE));
 
   private Pattern regex;
   Input(Pattern regex){ this.regex = regex;}

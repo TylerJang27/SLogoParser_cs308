@@ -19,26 +19,17 @@ public class TurtleModel {
     //TODO: change implementation/display method/remove altogether?
     Collection<RunFunction> declaredFunctions;
 
-    public TurtleModel() {
-        declaredVariables = new ArrayList<>();
-        declaredFunctions = new ArrayList<>();
-    }
-
     public TurtleModel(List<Variable> vars, List<RunFunction> functions) {
         declaredVariables = vars;
         declaredFunctions = functions;
     }
 
-    /*
     /**
      * Default Constructor for TurtleModel, creating empty ArrayLists.
-
+     */
     public TurtleModel() {
         this(new ArrayList<>(), new ArrayList<>());
     }
-
-     */
-
 
     /**
      * Retrieves the declaredVariables for the scope.
@@ -66,20 +57,27 @@ public class TurtleModel {
         declaredFunctions.clear();
     }
 
-//TODO: UPDATE COMMENTS
     /**
      * Executes the parsed Command instances and returns a List of TurtleStatus instances.
      *
      * @param commandList a List of all parsed commands.
+     * @param ts          the TurtleStatus for the initial start point
      * @return            a List of resulting TurtleStatus instances.
      */
-    public Collection<TurtleStatus> executeCommands(List<Command> commandList, TurtleStatus ts) {
+    public List<TurtleStatus> executeCommands(List<Command> commandList, TurtleStatus ts) {
         List<TurtleStatus> statusList = new ArrayList<>();
+        //statusList.add(ts);
         TurtleStatus status = ts;
         for (Command c: commandList) {
             System.out.println(c);
-            statusList.addAll(c.execute(status));
+            List<TurtleStatus> newStatuses = c.execute(status);
+            //statusList.addAll(newStatuses.subList(0, Math.max(newStatuses.size() - 1, 0)));
+            statusList.addAll(newStatuses);
+            //TODO: VERIFY THAT THIS WORKS ^^^
             status = statusList.get(statusList.size() - 1);
+        }
+        for (TurtleStatus t: statusList) {
+            System.out.println(t); //TODO: REMOVE
         }
         return Collections.unmodifiableList(statusList);
     }

@@ -3,6 +3,8 @@ package slogo.backendexternal.parser;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO Refactor this functionality into a different place, this class doesn't do much right now
+
 public class CommandCounter {
   private Map<String, Integer> counts;
 
@@ -12,6 +14,7 @@ public class CommandCounter {
   }
 
   public int getCount(String key){
+    System.out.println("HELP " + key + " " + counts.keySet().size());
     return counts.get(key);
   }
 
@@ -34,5 +37,26 @@ public class CommandCounter {
     counts.put("IsShowing",0);
     counts.put("XCoordinate", 0);
     counts.put("YCoordinate",0);
+    counts.put("ArcTangent",1);
+    counts.put("Cosine",1);
+    counts.put("Difference", 2);
+    counts.put("Minus", 2);
+    counts.put("NaturalLog", 1);
+    counts.put("Pi", 0);
+    counts.put("Power", 2);
+    counts.put("Product", 2);
+    counts.put("Quotient", 2);
+    counts.put("Rand", 1);
+    counts.put("Remainder", 2);
+    counts.put("Sine", 1);
+    counts.put("Sum", 2);
+    counts.put("Tangent", 1);
+    counts.put("And", 2);
+    counts.put("Equal", 2);
+    counts.put("GreaterThan", 2);
+    counts.put("LessThan", 2);
+    counts.put("Not", 1);
+    counts.put("NotEqual", 2);
+    counts.put("Or", 2);
   }
 }

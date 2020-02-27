@@ -59,13 +59,15 @@ public class Controller extends Application {
   }
 
   private void sendCommand(KeyCode key, TextField field){
-    String input = field.getText();
+    String input = field.getText(); //TODO: TYLER LOOK HERE
     if(key == KeyCode.ENTER){
       myParser.parseLine(input);
       field.clear();
       List<Command> toSend = myParser.sendCommands();
-      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend, currentStatus);
-      setStatus(statuses.get(statuses.size() - 1));
+      List<TurtleStatus> statuses = myModel.executeCommands(toSend, currentStatus);
+      if (statuses.size() > 0) {
+        setStatus(statuses.get(statuses.size() - 1));
+      }
       myDisplay.getMainView().moveTurtle(statuses);
     }
   }

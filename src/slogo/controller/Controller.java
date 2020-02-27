@@ -56,11 +56,16 @@ public class Controller extends Application {
       field.clear();
 
       List<Command> toSend = myParser.sendCommands();
+      System.out.println("Parser Command");
       List<TurtleStatus> statuses = (List<TurtleStatus>) myModel
           .executeCommands(toSend, currentStatus);
+      System.out.println("Status Size");
+      System.out.println(statuses.size());
 
-      setStatus(statuses.get(statuses.size() - 1));
-      myDisplay.getMainView().moveTurtle(statuses);
+      if(statuses.size() > 1){
+        setStatus(statuses.get(statuses.size() - 1));
+        myDisplay.getMainView().moveTurtle(statuses);
+      }
 
       displayHistory();
     }

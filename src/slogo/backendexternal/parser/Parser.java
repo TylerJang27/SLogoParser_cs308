@@ -1,5 +1,6 @@
 package slogo.backendexternal.parser;
 
+import java.security.spec.RSAOtherPrimeInfo;
 import java.util.Iterator;
 import java.util.Stack;
 import slogo.commands.Command;
@@ -49,8 +50,6 @@ public class Parser {
 
     currentCommands.addAll(parseComponents(currentComponents));
 
-    System.out.println(currentCommands.size());
-
     while(currentCommands.size() > 0){
       newCommands.add(currentCommands.pop());
     }
@@ -64,43 +63,52 @@ public class Parser {
   }
 
   public Stack<Command> parseComponents(Stack<String> components){
-    Stack<Command> currentCommand = new Stack<>();
-    while(components.size() > 0){
-      String current = components.pop();
 
+    Stack<Command> currentCommand = new Stack<>();
+
+
+    while(components.size() > 0){
       Stack<Command> commands = new Stack<>();
+
+      String current = components.pop();
 
       if(Input.Constant.matches(current)){
         commands.add(commandFactory.makeConstant(current));
       }
+
       else if(Input.Make.matches(current)){
         if(currentCommand.size() > 0){
-          commands.add(variableFactory.makeVariable(currentCommands.pop()));
+          commands.add(variableFactory.makeVariable(currentCommand.pop()));
         }
       }
+
       else if(Input.Set.matches(current)){
         if(currentCommand.size() > 0){
-          commands.add(variableFactory.setVariable(currentCommands.pop()));
+          commands.add(variableFactory.setVariable(currentCommand.pop()));
         }
       }
+
       else if(Input.Command.matches(current)){
         if(functionFactory.hasFunction(current)){
           commands.add(functionFactory.getFunction(current));
         }
         else{
-          commands.add(commandFactory.makeCommand(current, currentCommands, myCommands));
+          commands.add(commandFactory.makeCommand(current, currentCommand, myCommands));
         }
       }
+
       else if(Input.Variable.matches(current)){
         if(variableFactory.handleVariable(current)){
           commands.add(variableFactory.getVariable(current));
         }
       }
+
       else if(Input.ListEnd.matches(current)){
         if(checkFunction(components)){
           commands.add(functionFactory.handleFunction(components));
         }
       }
+
       currentCommand.addAll(commands);
     }
 

@@ -9,7 +9,7 @@ import slogo.commands.controlcommands.Variable;
 
 public class VariableFactory {
 
-  Stack<String> variablesAdded;
+  private Stack<String> variablesAdded;
   private Map<String, Variable> variableMap;
 
   public VariableFactory(){
@@ -27,7 +27,6 @@ public class VariableFactory {
       return true;
     }
     else{
-      System.out.println("HELP ME");
       variablesAdded.push(current);
       variableMap.put(current, new Variable());
       return false;

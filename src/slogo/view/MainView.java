@@ -2,7 +2,6 @@ package slogo.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Collection;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
@@ -10,17 +9,12 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import javafx.util.Duration;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
 import slogo.backendexternal.TurtleStatus;
-import slogo.frontendexternal.PenView;
 import slogo.frontendexternal.TurtleView;
 
 /** @author Shruthi Kumar, Nevzat Sevim */
@@ -48,8 +42,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     turtle.getPenView().setMyPenColor(Color.RED);
     turtle.myImageView.setFitWidth(50);
     turtle.myImageView.setFitHeight(50);
-    turtle.myImageView.setLayoutX(turtle.getMyXPos());
-    turtle.myImageView.setLayoutY(turtle.getMyYPos());
+    turtle.myImageView.setLayoutX(turtle.getMyStartXPos());
+    turtle.myImageView.setLayoutY(turtle.getMyStartYPos());
 
     this.pane = new Pane(turtle.myImageView);
     pane.setPrefSize(canvasWidth, canvasHeight);

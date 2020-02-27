@@ -2,7 +2,6 @@ package slogo.view;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -105,8 +104,8 @@ public class Toolbar extends ToolBar {
       myMainView.getTurtle().myImageView.setFitWidth(50);
       myMainView.getTurtle().myImageView.setFitHeight(50);
 
-      myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyXPos());
-      myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyYPos());
+      myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyStartXPos());
+      myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyStartYPos());
     }
 
     myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);

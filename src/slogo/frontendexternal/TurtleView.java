@@ -1,23 +1,14 @@
 package slogo.frontendexternal;
 
-import java.security.Policy;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 
 /**
@@ -25,8 +16,13 @@ import slogo.backendexternal.TurtleStatus;
  * @author Shruthi Kumar
  */
 public class TurtleView {
-  private double myXPos;
-  private double myYPos;
+  private double myStartXPos;
+  private double myStartYPos;
+  private double myXPosCalc;
+  private double myYPosCalc;
+  private double myUpdatedXPos;
+  private double myUpdatedYPos;
+
 
   public Image myImage;
   public ImageView myImageView;
@@ -44,8 +40,10 @@ public class TurtleView {
    */
 
   public TurtleView() {
-    myXPos = 150;
-    myYPos = 250;
+    myStartXPos = 150;
+    myStartYPos = 250;
+    myXPosCalc = 150;
+    myYPosCalc = 250;
     myBearing = 0;
     isVisbile = true;
     penView = new PenView();
@@ -90,8 +88,6 @@ public class TurtleView {
         turtleRotate.setToAngle(end.getBearing());
         myBearing = end.getBearing();
         sequentialTransition.getChildren().add(turtleRotate);
-        //setMyXPos(end.getX());
-        //setMyYPos(end.getY());
       }
       
 
@@ -101,13 +97,15 @@ public class TurtleView {
         pathPoints[index + 1] = start.getY();
         pathPoints[index + 2] = end.getX();
         pathPoints[index + 3] = end.getY();
-
         pathLine.getPoints().addAll(pathPoints);
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
             this.myImageView);
         sequentialTransition.getChildren().add(turtlePath);
       }
     }
+
+ //   setMyUpdatedXPos(this.getMyStartXPos() + t.get(t.size() - 1).getX());
+   // setMyUpdatedYPos(this.getMyStartYPos() + t.get(t.size() - 1).getY());
 
     sequentialTransition.play();
   }
@@ -119,7 +117,7 @@ public class TurtleView {
 
   private void addPenViewLines(TurtleStatus start, TurtleStatus end) {
       if(end.getPenDown()) {
-        this.penView.updateMyLines(this.getMyXPos() + start.getX(), this.getMyYPos() + start.getY(), this.getMyXPos() + end.getX(), this.getMyYPos() + end.getY());
+        this.penView.updateMyLines(this.getMyStartXPos() + start.getX(), this.getMyStartYPos() + start.getY(), this.getMyStartXPos() + end.getX(), this.getMyStartYPos() + end.getY());
       }
   }
 
@@ -127,16 +125,32 @@ public class TurtleView {
    * Gets x position of turtle
    * @return myXPos : x position
    */
-  public double getMyXPos() {
-    return myXPos;
+  public double getMyStartXPos() {
+    return myStartXPos;
   }
 
   /**
    * Gets y position of turtle
    * @return myYPos : y position
    */
-  public double getMyYPos() {
-    return myYPos;
+  public double getMyStartYPos() {
+    return myStartYPos;
+  }
+
+  /**
+   * Gets x position of turtle
+   * @return myXPos : x position
+   */
+  public double getMyUpdatedXPos() {
+    return myUpdatedXPos;
+  }
+
+  /**
+   * Gets y position of turtle
+   * @return myYPos : y position
+   */
+  public double getMyUpdatedYPos() {
+    return myUpdatedYPos;
   }
 
   /**
@@ -163,16 +177,48 @@ public class TurtleView {
    * sets x position of turtle
    * @param xPos : x position
    */
-  public void setMyXPos(double xPos) {
-    myXPos = xPos;
+  public void setMyStartXPos(double xPos) {
+    myStartXPos = xPos;
   }
 
   /**
    * sets y position of turtle
    * @param yPos : y position
    */
-  public void setMyYPos(double yPos) {
-    myYPos = yPos;
+  public void setMyStartYPos(double yPos) {
+    myStartYPos = yPos;
+  }
+
+  /**
+   * sets x position of turtle
+   * @param xPos : x position
+   */
+  public void setMyUpdatedXPos(double xPos) {
+    myUpdatedXPos = xPos;
+  }
+
+  /**
+   * sets y position of turtle
+   * @param yPos : y position
+   */
+  public void setMyUpdatedYPos(double yPos) {
+    myUpdatedYPos = yPos;
+  }
+
+  /**
+   * sets x position of turtle
+   * @param xPos : x position
+   */
+  public void setMyXPosCalc(double xPos) {
+    myXPosCalc = xPos;
+  }
+
+  /**
+   * sets y position of turtle
+   * @param yPos : y position
+   */
+  public void setMyYPosCalc(double yPos) {
+    myYPosCalc = yPos;
   }
 
   /**

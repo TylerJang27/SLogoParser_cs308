@@ -61,7 +61,7 @@ public class CommandFactory {
     myCounts = new CommandCounter();
   }
 
-  public Command makeCommand(String command, Stack<Command> previous, Map<String, List<String>> myCommands) {
+  public Command makeCommand(String command, Stack<Command> previous, Map<String, List<String>> myCommands) throws InvalidCommandException{
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
     int count = myCounts.getCount(formalCommand);
@@ -79,49 +79,49 @@ public class CommandFactory {
     if(key.equals("Backward")){
       return new Backward(commands.get(0), X_MAX, Y_MAX, currentMode);
     }
-    if(key.equals("ClearScreen")){
+    else if(key.equals("ClearScreen")){
       return new ClearScreen(X_MAX, Y_MAX, currentMode);
     }
-    if(key.equals("Forward")){
+    else if(key.equals("Forward")){
       return new Forward(commands.get(0), X_MAX, Y_MAX, currentMode);
     }
-    if(key.equals("HideTurtle")){
+    else if(key.equals("HideTurtle")){
       return new HideTurtle();
     }
-    if(key.equals("Home")){
+    else if(key.equals("Home")){
       return new Home(X_MAX, Y_MAX, currentMode);
     }
-    if(key.equals("Left")){
+    else if(key.equals("Left")){
       return new Left(commands.get(0));
     }
-    if(key.equals("PenDown")){
+    else if(key.equals("PenDown")){
       return new PenDown();
     }
-    if(key.equals("PenUp")){
+    else if(key.equals("PenUp")){
       return new PenUp();
     }
-    if(key.equals("Right")){
+    else if(key.equals("Right")){
       return new Right(commands.get(0));
     }
-    if(key.equals("SetHeading")){
+    else if(key.equals("SetHeading")){
       return new SetHeading(commands.get(0));
     }
-    if(key.equals("SetPosition")){
+    else if(key.equals("SetPosition")){
       return new SetPosition(commands.get(0), commands.get(1), X_MAX, Y_MAX, currentMode);
     }
-    if(key.equals("SetTowards")){
+    else if(key.equals("SetTowards")){
       return new SetTowards(commands.get(0), commands.get(1));
     }
-    if(key.equals("ShowTurtle")){
+    else if(key.equals("ShowTurtle")){
       return new ShowTurtle();
     }
-    if(key.equals("Heading")){
+    else if(key.equals("Heading")){
       return new Heading();
     }
-    if(key.equals("IsPenDown")){
+    else if(key.equals("IsPenDown")){
       return new IsPenDown();
     }
-    if(key.equals("IsShowing")){
+    else if(key.equals("IsShowing")){
       return new IsShowing();
     }
     else if(key.equals("XCoordinate")){
@@ -199,6 +199,7 @@ public class CommandFactory {
   public Command makeConstant(String current) {
     return new Constant(Integer.parseInt(current));
   }
+
   //TODO: WILL IT ALWAYS BE AN INTEGER?
 
   public void setMode(String mode){
@@ -206,15 +207,11 @@ public class CommandFactory {
   }
 
   private String validateCommand(String current, Map<String, List<String>> myCommands) throws InvalidCommandException {
-    try {
-      for (String key : myCommands.keySet()) {
-        if (myCommands.get(key).contains(current)) {
-          return key;
-        }
+    for (String key : myCommands.keySet()) {
+      if (myCommands.get(key).contains(current)) {
+        return key;
       }
-    } catch (Exception e) {
-      throw new InvalidCommandException(String.format("The command %s could not be found", current));
     }
-    return null;
+    throw new InvalidCommandException(String.format("The command %s could not be found", current));
   }
 }

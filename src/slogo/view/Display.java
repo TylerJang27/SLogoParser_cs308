@@ -14,8 +14,8 @@ public class Display {
   private Scene myScene;
   private MainView myMainView;
 
-  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
-  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
+  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth();
+  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight();
 
   public Display() {
     myMainView = new MainView();
@@ -29,10 +29,6 @@ public class Display {
   public Scene getScene(){
     return myScene;
   }
-
-//  public String getCommandText() {
-//    return myMainView.getToolBar().getTextField().getText();
-//  }
 
   public MainView getMainView(){
     return myMainView;

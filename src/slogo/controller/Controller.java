@@ -1,6 +1,8 @@
 package slogo.controller;
 
 
+import static javafx.application.Platform.exit;
+
 import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -44,6 +46,7 @@ public class Controller extends Application {
     Stage myStage = new Stage();
     myDisplay = new Display();
     input = myDisplay.getMainView().getToolBar().getTextField();
+    input.setOnKeyPressed(key -> quit(key.getCode()));
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand(input));
     language = myDisplay.getMainView().getToolBar().getLanguageBox();
@@ -54,9 +57,16 @@ public class Controller extends Application {
     currentStatus = INITIAL_STATUS;
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
-    myStage.setWidth(1075); myStage.setHeight(858);
+    myStage.setWidth(1075);
+    myStage.setHeight(758);
     myStage.setResizable(false);
     myStage.show();
+  }
+
+  private void quit(KeyCode key) {
+    if(key == KeyCode.ESCAPE){
+      exit();
+    }
   }
 
   private void sendCommand(TextField field){

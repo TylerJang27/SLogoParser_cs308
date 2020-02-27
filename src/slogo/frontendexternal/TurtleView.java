@@ -20,8 +20,8 @@ import slogo.backendexternal.TurtleStatus;
 public class TurtleView {
   private double myStartXPos;
   private double myStartYPos;
-  private double myXPosCalc;
-  private double myYPosCalc;
+  private double myEndXPos;
+  private double myEndYPos;
   private double myUpdatedXPos;
   private double myUpdatedYPos;
 
@@ -40,11 +40,11 @@ public class TurtleView {
    * Constructor for TurtleView object
    */
 
-  public TurtleView() {
-    myStartXPos = 150;
-    myStartYPos = 250;
-    myXPosCalc = 150;
-    myYPosCalc = 250;
+  public TurtleView(double x, double y) {
+    myStartXPos = x;
+    myStartYPos = y;
+    myEndXPos = 150;
+    myEndYPos = 250;
     myBearing = 0;
     isVisible = true;
     penView = new PenView();
@@ -81,6 +81,7 @@ public class TurtleView {
       Double[] pathPoints = new Double[4];
       TurtleStatus start = t.get(i);
       TurtleStatus end = t.get(i + 1);
+      this.myImageView.setVisible(end.getVisible());
       if (end.getBearing() != myBearing) {
         RotateTransition turtleRotate = new RotateTransition(Duration.millis(2500),
             this.myImageView);
@@ -90,7 +91,7 @@ public class TurtleView {
         sequentialTransition.getChildren().add(turtleRotate);
       }
 
-      if (checkMovement(start, end) && end.getTrail()) {
+      else if (checkMovement(start, end) && end.getTrail()) {
         addPenViewLines(start, end);
         System.out.println("hello" + i);
         pathPoints[index] = start.getX();
@@ -116,11 +117,9 @@ public class TurtleView {
 
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
                 this.myImageView);
+        turtlePath.setDuration(new Duration(0));
         sequentialTransition.getChildren().add(turtlePath);
         pathLine = new Polyline();
-        /*PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
-                this.myImageView);
-        sequentialTransition.getChildren().add(turtlePath);*/
       } else {
         pathPoints[index] = start.getX();
         pathPoints[index + 1] = start.getY();
@@ -130,9 +129,12 @@ public class TurtleView {
       }
     }
 
+    setMyEndXPos(t.get(t.size()-1).getX());
+    setMyEndYPos(t.get(t.size()-1).getY());
+//    setMyEndXPos(t.get(t.size()-1).getX());
+  //  setMyEndYPos(t.get(t.size()-1).getY());
  //   setMyUpdatedXPos(this.getMyStartXPos() + t.get(t.size() - 1).getX());
    // setMyUpdatedYPos(this.getMyStartYPos() + t.get(t.size() - 1).getY());
-
 
     /*PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
             this.myImageView);
@@ -189,6 +191,24 @@ public class TurtleView {
   }
 
   /**
+   * Gets x position of turtle
+   * @return myXPos : x position
+   */
+  public double getMyEndXPos() {
+    return myEndXPos;
+  }
+
+  /**
+   * Gets y position of turtle
+   * @return myYPos : y position
+   */
+  public double getMyEndYPos() {
+    return myEndYPos;
+  }
+
+
+
+  /**
    * Gets ImageView of turtle
    * @return myImageView : image view of turtle
    */
@@ -206,6 +226,10 @@ public class TurtleView {
 
   public PenView getPenView() {
     return penView;
+  }
+
+  public boolean getIsVisible() {
+    return isVisible;
   }
 
   /**
@@ -244,16 +268,16 @@ public class TurtleView {
    * sets x position of turtle
    * @param xPos : x position
    */
-  public void setMyXPosCalc(double xPos) {
-    myXPosCalc = xPos;
+  public void setMyEndXPos(double xPos) {
+    myEndXPos = xPos;
   }
 
   /**
    * sets y position of turtle
    * @param yPos : y position
    */
-  public void setMyYPosCalc(double yPos) {
-    myYPosCalc = yPos;
+  public void setMyEndYPos(double yPos) {
+    myEndYPos = yPos;
   }
 
   /**
@@ -273,6 +297,14 @@ public class TurtleView {
    */
   public void setMyBearing(double degrees) {
     myBearing = degrees;
+  }
+
+  /**
+   * sets bearing of turtle
+   * @param visible : new bearing of turtle
+   */
+  public void setIsVisible(boolean visible) {
+    isVisible = visible;
   }
 
 }

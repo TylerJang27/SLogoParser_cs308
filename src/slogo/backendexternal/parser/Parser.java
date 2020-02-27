@@ -1,5 +1,7 @@
 package slogo.backendexternal.parser;
 
+import java.security.spec.RSAOtherPrimeInfo;
+import java.util.Iterator;
 import java.util.Stack;
 import slogo.commands.Command;
 
@@ -13,122 +15,123 @@ import java.util.ResourceBundle;
 
 public class Parser {
   private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
-  private List<slogo.commands.Command> commandHistory;
+  private List<String> commandHistory;
   private List<slogo.commands.Command> newCommands;
   private Map<String, List<String>> myCommands;
   private CommandFactory commandFactory;
   private VariableFactory variableFactory;
   private FunctionFactory functionFactory;
   private Stack<Command> currentCommands;
+  private Stack<String> currentComponents;
 
   public Parser(){ this("English");}
 
   public Parser(String language){
     myCommands = new HashMap<String, List<String>>();
+    setLanguage(language);
     newCommands = new ArrayList<Command>();
-    commandHistory = new ArrayList<Command>();
+    commandHistory = new ArrayList<String>();
     commandFactory = new CommandFactory();
     variableFactory = new VariableFactory();
-    functionFactory = new FunctionFactory();
+    functionFactory = new FunctionFactory(myCommands);
     currentCommands = new Stack<Command>();
-    setLanguage(language);
+    currentComponents = new Stack<>();
   }
 
+
   public void parseLine(String line){
+    commandHistory.add(line);
+
     String[] inputs = line.split(" ");
-    Stack<String> components = new Stack<>();
+
     for(String input : inputs){
-      components.push(input);
+      currentComponents.push(input);
     }
-    parseComponents(components);
+
+    currentCommands.addAll(parseComponents(currentComponents));
+
     while(currentCommands.size() > 0){
       newCommands.add(currentCommands.pop());
     }
+
   }
 
   public List<slogo.commands.Command> sendCommands(){
-    commandHistory.addAll(newCommands);
     List<slogo.commands.Command> toSend = new ArrayList<>(newCommands);
     newCommands.clear();
     return toSend;
   }
 
-  public void parseComponents(Stack<String> components){
+  public Stack<Command> parseComponents(Stack<String> components){
+
+    Stack<Command> currentCommand = new Stack<>();
+
+
     while(components.size() > 0){
       Stack<Command> commands = new Stack<>();
+
       String current = components.pop();
 
       if(Input.Constant.matches(current)){
         commands.add(commandFactory.makeConstant(current));
       }
+
       else if(Input.Make.matches(current)){
-        if(currentCommands.size() > 0){
-          commands.add(variableFactory.makeVariable(currentCommands.pop()));
+        if(currentCommand.size() > 0){
+          commands.add(variableFactory.makeVariable(currentCommand.pop()));
         }
       }
+
       else if(Input.Set.matches(current)){
-        if(currentCommands.size() > 0){
-          commands.add(variableFactory.setVariable(currentCommands.pop()));
+        if(currentCommand.size() > 0){
+          commands.add(variableFactory.setVariable(currentCommand.pop()));
         }
       }
+
       else if(Input.Command.matches(current)){
-        commands.add(commandFactory.makeCommand(current, currentCommands, myCommands));
+        if(functionFactory.hasFunction(current)){
+          commands.add(functionFactory.getFunction(current));
+        }
+        else{
+          commands.add(commandFactory.makeCommand(current, currentCommand, myCommands));
+        }
       }
+
       else if(Input.Variable.matches(current)){
         if(variableFactory.handleVariable(current)){
           commands.add(variableFactory.getVariable(current));
         }
       }
+
       else if(Input.ListEnd.matches(current)){
-        commands.add(handleList(components));
+        if(checkFunction(components)){
+          System.out.println("okay we got a function");
+          commands.add(functionFactory.handleFunction(components));
+        }
+        System.out.println("exiting functoin making jawn");
       }
 
-      // DO NOTHING
-      else if(Input.GroupStart.matches(current)){ continue;}
-      else if(Input.Comment.matches(current)){ continue;}
-      else if(Input.Whitespace.matches(current)){ continue;}
-      else if(Input.GroupEnd.matches(current)){ continue;}
-      else if(Input.Newline.matches(current)){ continue;}
-
-      currentCommands.addAll(commands);
+      currentCommand.addAll(commands);
     }
+
+    return currentCommand;
   }
 
-  public Command handleList(Stack<String> components) {
-    Command command = null;
-    while(components.size() > 0){
-      String current = components.pop();
-      if(Input.ListStart.matches(current)){
-        break;
+  private boolean checkFunction(Stack<String> components) {
+    System.out.println("Checking function");
+    Iterator<String> iter = components.iterator();
+    while(iter.hasNext()){
+      String current = iter.next();
+      if(Input.TO.matches(current)){
+        components.remove(current);
+        return true;
       }
-      Stack<Command> commands = new Stack<>();
-
-      if(Input.Constant.matches(current)){
-        commands.add(commandFactory.makeConstant(current));
-      }
-      else if(Input.Make.matches(current)){
-        if(currentCommands.size() > 0){
-          commands.add(variableFactory.makeVariable(currentCommands.pop()));
-        }
-      }
-      else if(Input.Set.matches(current)){
-        if(currentCommands.size() > 0){
-          commands.add(variableFactory.setVariable(currentCommands.pop()));
-        }
-      }
-      else if(Input.Command.matches(current)){
-        commands.add(commandFactory.makeCommand(current, currentCommands, myCommands));
-      }
-      else if(Input.Variable.matches(current)){
-        commands.add(variableFactory.getVariable(current));
-      }
-      else if(Input.ListEnd.matches(current)){
-        commands.add(handleList(components));
-      }
-
     }
+    return false;
+  }
 
-    return command;
+  public List<String> getCommandHistory(){
+    return commandHistory;
   }
 
   private void setLanguage(String lang){
@@ -137,5 +140,9 @@ public class Parser {
       String translation = resources.getString(key);
       myCommands.put(key, Arrays.asList(translation.split("\\|")));
     }
+  }
+
+  public String getVariableString() {
+    return variableFactory.getVariableString();
   }
 }

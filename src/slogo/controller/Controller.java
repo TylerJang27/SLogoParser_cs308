@@ -80,6 +80,7 @@ public class Controller extends Application {
       System.out.println("Parser Command");
       List<TurtleStatus> statuses = (List<TurtleStatus>) myModel
           .executeCommands(toSend, currentStatus);
+//      myDisplay.getMainView().get.addText(myModel.getLastReturn());
       System.out.println("Status Size");
       System.out.println(statuses.size());
 

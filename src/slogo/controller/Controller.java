@@ -95,6 +95,7 @@ public class Controller extends Application {
     field.clear();
     displayHistory();
     displayVariables();
+    displayQueries();
   }
 
   private void displayHistory(){
@@ -114,6 +115,12 @@ public class Controller extends Application {
   private void displayVariables(){
     myDisplay.getMainView().getTextFields().clearVariables();
     myDisplay.getMainView().getTextFields().addVariableText(myParser.getVariableString());
+  }
+
+
+  private void displayQueries() {
+    myDisplay.getMainView().getTextFields().clearQueries();
+    myDisplay.getMainView().getTextFields().addQueriesText(myModel.getLastReturn());
   }
 
   private void setLanguage(ComboBox language){

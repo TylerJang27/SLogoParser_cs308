@@ -25,6 +25,12 @@ public class TurtleView {
   private double myUpdatedXPos;
   private double myUpdatedYPos;
 
+  private double xCor;
+  private double yCor;
+  private double heading;
+  private boolean penDown;
+  private boolean showing;
+
   public Image myImage;
   public ImageView myImageView;
 
@@ -48,9 +54,18 @@ public class TurtleView {
     myBearing = 0;
     isVisible = true;
     penView = new PenView();
-
     myImage = new Image("/slogo/view/imagesFolder/raphael.png");
     myImageView =  new ImageView(myImage);
+    initializeQueries(myStartXPos, myStartYPos, myBearing);
+
+  }
+
+  private void initializeQueries(double x, double y, double angle) {
+    xCor = x;
+    yCor = y;
+    heading = angle;
+    penDown = true;
+    showing = true;
   }
 
   /**
@@ -127,6 +142,13 @@ public class TurtleView {
         pathPoints[index + 3] = end.getY();
         pathLine.getPoints().addAll(pathPoints);
       }
+
+      xCor = myStartXPos + end.getX();
+      yCor = myStartYPos + end.getY();
+      heading = myBearing;
+      penDown = end.getPenDown();
+      showing = end.getVisible();
+
     }
 
     setMyEndXPos(t.get(t.size()-1).getX());
@@ -212,9 +234,9 @@ public class TurtleView {
    * Gets ImageView of turtle
    * @return myImageView : image view of turtle
    */
-  //public ImageView getMyImageView() {
-  //return myImageView;
-  //}
+  public ImageView getMyImageView() {
+    return myImageView;
+  }
 
   /**
    * Gets bearing of turtle

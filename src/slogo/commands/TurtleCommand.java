@@ -40,8 +40,8 @@ public interface TurtleCommand extends Command {
     /**
      * Simplest movement mode, where the turtle's destination is simply specified by the amount it needs to move in the X and Y
      * directions. The x and y values can be theoretically off-screen and there will be no changes made to the turtle status. A
-     * new turtle status is added to the list, which will be the endpoint of the movement. Trial is set to true since there will
-     * not be toroidal movement of the turtle and theoretically a trial will be left (unless pen is up). Bearing, visibility, pen status,
+     * new turtle status is added to the list, which will be the endpoint of the movement. Trail is set to true since there will
+     * not be toroidal movement of the turtle and theoretically a trail will be left (unless pen is up). Bearing, visibility, pen status,
      * and pen color remains the same as the initial turtle status provided
      *
      * @param ts        Initial status of the turtle before the method executes
@@ -72,10 +72,9 @@ public interface TurtleCommand extends Command {
     /**
      * Checks if the current x and y position exceeds the maximum (needs wrapping). If either variable requires wrapping, add two turtle
      * status that represents the turtle moving to the edge of the screen, and appearing at the other edge, to the list. Moving to the edge of
-     * the screen has its trials variable set to true since theoretically a trial can be drawn between the previous and the current turtle status;
-     * the turtle status that represents turtle appearing at the other edge of the screen has its trial set to be false, since we would not
-     * want a line drawn between this point and the previous point. Afterwards, this method decrement/increment variable value depending on
-     * if the variable value is positive/negative.
+     * the screen has its trails variable set to true since theoretically a trial can be drawn between the previous and the current turtle status;
+     * the turtle status that represents turtle appearing at the other edge of the Afterwards,
+     * decrement/increment variable value depending on if the variable value is positive/negative.
      *
      * @param ts
      * @param x
@@ -89,22 +88,22 @@ public interface TurtleCommand extends Command {
         if(x>xMax){
             ret.add(new TurtleStatus(xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
             ret.add(new TurtleStatus(-xMax, y, ts.getBearing(), false , ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-            x = x - xMax;
+            x = x - 2 * xMax;
         }
         if(x<-xMax){
             ret.add(new TurtleStatus(-xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
             ret.add(new TurtleStatus(xMax,  y, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-            x = x + xMax;
+            x = x + 2 * xMax;
         }
         if(y>yMax){
             ret.add(new TurtleStatus(x, yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
             ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-            y = y - yMax;
+            y = y - 2 * yMax;
         }
         if(y<-yMax){
             ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
             ret.add(new TurtleStatus(x, yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-            y = y + yMax;
+            y = y + 2 * yMax;
         }
         return new double[]{x, y};
     }
@@ -115,7 +114,7 @@ public interface TurtleCommand extends Command {
      * edge of the display screen. For example, moving the turtle forward 500 in a coordinate system with maximum y being 100 will
      * move the turtle to (0,100). The location of the end point for the turtle (x and y) are calculated, then changed to reflect
      * the fact that the turtle cannot go beyond xMax and yMax (using the edge method. A new turtle status is added to the list
-     * of turtle status, which specifies the end point of the turtle movement. Since there is no toroidal movement, trial is set to be true
+     * of turtle status, which specifies the end point of the turtle movement. Since there is no toroidal movement, trail is set to be true
      *
      * @param ts        the initial status of the turtle before moving
      * @param ret       a pre-established list of turtle status, onto which we will add the endpoint of the turtle movement

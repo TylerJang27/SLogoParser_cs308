@@ -16,10 +16,12 @@ import slogo.backendexternal.TurtleStatus;
  * @author Shruthi Kumar
  */
 public class TurtleView {
-  private static final int CENTER_X = 150;
-  private static final int CENTER_Y = 250;
-  private double myXPos;
-  private double myYPos;
+  private double myStartXPos;
+  private double myStartYPos;
+  private double myXPosCalc;
+  private double myYPosCalc;
+  private double myUpdatedXPos;
+  private double myUpdatedYPos;
 
   public Image myImage;
   public ImageView myImageView;
@@ -37,8 +39,10 @@ public class TurtleView {
    */
 
   public TurtleView() {
-    myXPos = CENTER_X;
-    myYPos = CENTER_Y;
+    myStartXPos = 150;
+    myStartYPos = 250;
+    myXPosCalc = 150;
+    myYPosCalc = 250;
     myBearing = 0;
     isVisbile = true;
     penView = new PenView();
@@ -83,8 +87,6 @@ public class TurtleView {
         turtleRotate.setToAngle(end.getBearing());
         myBearing = end.getBearing();
         sequentialTransition.getChildren().add(turtleRotate);
-        //setMyXPos(end.getX());
-        //setMyYPos(end.getY());
       }
 
       if (checkMovement(start, end) && end.getTrail()) {
@@ -93,20 +95,24 @@ public class TurtleView {
         pathPoints[index + 1] = start.getY();
         pathPoints[index + 2] = end.getX();
         pathPoints[index + 3] = end.getY();
-        ///REMOVE?
-        //setMyXPos(CENTER_X + end.getX());
-        //setMyYPos(CENTER_Y + end.getY());
-        ///REMOVE?
         pathLine.getPoints().addAll(pathPoints);
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
-            this.myImageView);
+                this.myImageView);
+        sequentialTransition.getChildren().add(turtlePath);
+      } else if (checkMovement(start, end) && !end.getTrail()) { //wraparound case
+        pathPoints[index] = end.getX();
+        pathPoints[index + 1] = end.getY();
+        pathPoints[index + 2] = end.getX();
+        pathPoints[index + 3] = end.getY();
+        pathLine.getPoints().addAll(pathPoints);
+        PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
+                this.myImageView);
         sequentialTransition.getChildren().add(turtlePath);
       }
-      if (!end.getTrail()) {
-        System.out.println("hello");
-        //TODO: JUMP, WITHOUT ANIMATING
-      }
     }
+
+ //   setMyUpdatedXPos(this.getMyStartXPos() + t.get(t.size() - 1).getX());
+   // setMyUpdatedYPos(this.getMyStartYPos() + t.get(t.size() - 1).getY());
 
     sequentialTransition.play();
   }
@@ -118,7 +124,7 @@ public class TurtleView {
 
   private void addPenViewLines(TurtleStatus start, TurtleStatus end) {
       if(end.getPenDown()) {
-        this.penView.updateMyLines(this.getMyXPos() + start.getX(), this.getMyYPos() + start.getY(), this.getMyXPos() + end.getX(), this.getMyYPos() + end.getY());
+        this.penView.updateMyLines(this.getMyStartXPos() + start.getX(), this.getMyStartYPos() + start.getY(), this.getMyStartXPos() + end.getX(), this.getMyStartYPos() + end.getY());
       }
   }
 
@@ -126,16 +132,32 @@ public class TurtleView {
    * Gets x position of turtle
    * @return myXPos : x position
    */
-  public double getMyXPos() {
-    return myXPos;
+  public double getMyStartXPos() {
+    return myStartXPos;
   }
 
   /**
    * Gets y position of turtle
    * @return myYPos : y position
    */
-  public double getMyYPos() {
-    return myYPos;
+  public double getMyStartYPos() {
+    return myStartYPos;
+  }
+
+  /**
+   * Gets x position of turtle
+   * @return myXPos : x position
+   */
+  public double getMyUpdatedXPos() {
+    return myUpdatedXPos;
+  }
+
+  /**
+   * Gets y position of turtle
+   * @return myYPos : y position
+   */
+  public double getMyUpdatedYPos() {
+    return myUpdatedYPos;
   }
 
   /**
@@ -162,16 +184,48 @@ public class TurtleView {
    * sets x position of turtle
    * @param xPos : x position
    */
-  public void setMyXPos(double xPos) {
-    myXPos = xPos;
+  public void setMyStartXPos(double xPos) {
+    myStartXPos = xPos;
   }
 
   /**
    * sets y position of turtle
    * @param yPos : y position
    */
-  public void setMyYPos(double yPos) {
-    myYPos = yPos;
+  public void setMyStartYPos(double yPos) {
+    myStartYPos = yPos;
+  }
+
+  /**
+   * sets x position of turtle
+   * @param xPos : x position
+   */
+  public void setMyUpdatedXPos(double xPos) {
+    myUpdatedXPos = xPos;
+  }
+
+  /**
+   * sets y position of turtle
+   * @param yPos : y position
+   */
+  public void setMyUpdatedYPos(double yPos) {
+    myUpdatedYPos = yPos;
+  }
+
+  /**
+   * sets x position of turtle
+   * @param xPos : x position
+   */
+  public void setMyXPosCalc(double xPos) {
+    myXPosCalc = xPos;
+  }
+
+  /**
+   * sets y position of turtle
+   * @param yPos : y position
+   */
+  public void setMyYPosCalc(double yPos) {
+    myYPosCalc = yPos;
   }
 
   /**

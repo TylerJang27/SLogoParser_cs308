@@ -1,13 +1,19 @@
 package slogo.view;
 
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.web.PopupFeatures;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -62,8 +68,11 @@ public class Toolbar extends ToolBar {
   private void createMenus() {
     //Color Menus
     this.penMenu = new ColorPicker();
+    penMenu.setValue(Color.BLACK);
     penMenu.setMaxWidth(50);
+
     this.backgroundMenu = new ColorPicker();
+    backgroundMenu.setValue(Color.LIGHTGRAY);
     backgroundMenu.setMaxWidth(50);
 
     //Turtle Menu
@@ -73,7 +82,7 @@ public class Toolbar extends ToolBar {
 
     //Language Menu
     this.languageMenu = new ComboBox();
-    languageMenu.setPromptText("Choose Language");
+    languageMenu.setPromptText("Language");
     languageMenu.getItems().addAll("English", "French", "Not Turkish");
   }
 
@@ -91,11 +100,21 @@ public class Toolbar extends ToolBar {
   /** Methods that define the function of each Button */
   private void handleChanges(ActionEvent actionEvent) {
 
-    this.myMainView.setBackgroundColor(backgroundMenu.getValue());
-    this.myMainView.setPenColor(penMenu.getValue());
+    this.myMainView.getPane().setBackground(new Background(new BackgroundFill(backgroundMenu.getValue(), CornerRadii.EMPTY, new Insets(0))));
+    this.myMainView.getTurtle().getPenView().setMyPenColor(penMenu.getValue());
 
-    if(!turtleMenu.getSelectionModel().isEmpty())
-    this.myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
+    if(!turtleMenu.getSelectionModel().isEmpty()) {
+      myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
+
+      myMainView.getTurtle().myImageView.setFitWidth(myMainView.getTurtleSize());
+      myMainView.getTurtle().myImageView.setFitHeight(myMainView.getTurtleSize());
+      myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyXPos());
+      myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyYPos());
+
+      myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);
+    }
+
+
   }
 
   private void handleHelp(ActionEvent actionEvent) {
@@ -135,5 +154,4 @@ public class Toolbar extends ToolBar {
 
   // Public Get Methods
   public TextField getTextField(){ return textField; }
-
 }

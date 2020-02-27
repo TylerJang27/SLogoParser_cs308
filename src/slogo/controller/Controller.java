@@ -52,6 +52,8 @@ public class Controller extends Application {
     currentStatus = INITIAL_STATUS;
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
+    myStage.setWidth(1075); myStage.setHeight(858);
+    myStage.setResizable(false);
     myStage.show();
     input.setOnKeyPressed(key -> sendCommand(key.getCode(), input));
   }

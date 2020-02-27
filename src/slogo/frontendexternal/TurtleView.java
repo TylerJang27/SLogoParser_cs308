@@ -68,7 +68,7 @@ public class TurtleView {
     // set heading, set position
     // error handling, user-defined commands?
 
-    //TODO: TYLER SHOULD BE CHANGED TO T.SIZE() - 1??
+    //TODO: TYLER's changes here:
     //for(int i = 0; i < t.size(); i+=2) {
     for(int i = 0; i < t.size() - 1; i++) {
 
@@ -87,7 +87,7 @@ public class TurtleView {
         //setMyYPos(end.getY());
       }
 
-      if (checkMovement(start, end) && t.get(i).getTrail()) {
+      if (checkMovement(start, end) && end.getTrail()) {
         addPenViewLines(start, end);
         pathPoints[index] = start.getX();
         pathPoints[index + 1] = start.getY();
@@ -101,6 +101,10 @@ public class TurtleView {
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
             this.myImageView);
         sequentialTransition.getChildren().add(turtlePath);
+      }
+      if (!end.getTrail()) {
+        System.out.println("hello");
+        //TODO: JUMP, WITHOUT ANIMATING
       }
     }
 

@@ -102,7 +102,7 @@ public interface TurtleCommand extends Command {
         }
         if(y<-yMax){
             ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-            ret.add(new TurtleStatus(y, yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(x, yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
             y = y + yMax;
         }
         return new double[]{x, y};

@@ -93,19 +93,20 @@ public class TurtleView {
         pathPoints[index + 1] = start.getY();
         pathPoints[index + 2] = end.getX();
         pathPoints[index + 3] = end.getY();
-        ///REMOVE?
-        //setMyXPos(CENTER_X + end.getX());
-        //setMyYPos(CENTER_Y + end.getY());
-        ///REMOVE?
         pathLine.getPoints().addAll(pathPoints);
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
             this.myImageView);
         sequentialTransition.getChildren().add(turtlePath);
       }
-      if (!end.getTrail()) {
-        System.out.println("hello");
-        setMyXPos(CENTER_X + end.getX());
-        setMyYPos(CENTER_Y + end.getY());
+      if (!end.getTrail()) { //wraparound case
+        pathPoints[index] = end.getX();
+        pathPoints[index + 1] = end.getY();
+        pathPoints[index + 2] = end.getX();
+        pathPoints[index + 3] = end.getY();
+        pathLine.getPoints().addAll(pathPoints);
+        PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
+                this.myImageView);
+        sequentialTransition.getChildren().add(turtlePath);
       }
     }
 

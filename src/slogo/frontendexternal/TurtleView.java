@@ -18,8 +18,8 @@ import slogo.backendexternal.TurtleStatus;
 public class TurtleView {
   private double myStartXPos;
   private double myStartYPos;
-  private double myXPosCalc;
-  private double myYPosCalc;
+  private double myEndXPos;
+  private double myEndYPos;
   private double myUpdatedXPos;
   private double myUpdatedYPos;
 
@@ -41,8 +41,8 @@ public class TurtleView {
   public TurtleView() {
     myStartXPos = 150;
     myStartYPos = 250;
-    myXPosCalc = 150;
-    myYPosCalc = 250;
+    myEndXPos = 150;
+    myEndYPos = 250;
     myBearing = 0;
     isVisbile = true;
     penView = new PenView();
@@ -80,6 +80,7 @@ public class TurtleView {
       Double[] pathPoints = new Double[4];
       TurtleStatus start = t.get(i);
       TurtleStatus end = t.get(i + 1);
+      this.isVisbile = end.getVisible();
       if (end.getBearing() != myBearing) {
         RotateTransition turtleRotate = new RotateTransition(Duration.millis(2500),
             this.myImageView);
@@ -111,6 +112,8 @@ public class TurtleView {
       }
     }
 
+    setMyEndXPos(t.get(t.size()-1).getX());
+    setMyEndYPos(t.get(t.size()-1).getY());
  //   setMyUpdatedXPos(this.getMyStartXPos() + t.get(t.size() - 1).getX());
    // setMyUpdatedYPos(this.getMyStartYPos() + t.get(t.size() - 1).getY());
 
@@ -161,6 +164,24 @@ public class TurtleView {
   }
 
   /**
+   * Gets x position of turtle
+   * @return myXPos : x position
+   */
+  public double getMyEndXPos() {
+    return myEndXPos;
+  }
+
+  /**
+   * Gets y position of turtle
+   * @return myYPos : y position
+   */
+  public double getMyEndYPos() {
+    return myEndYPos;
+  }
+
+
+
+  /**
    * Gets ImageView of turtle
    * @return myImageView : image view of turtle
    */
@@ -178,6 +199,10 @@ public class TurtleView {
 
   public PenView getPenView() {
     return penView;
+  }
+
+  public boolean getIsVisible() {
+    return isVisbile;
   }
 
   /**
@@ -216,16 +241,16 @@ public class TurtleView {
    * sets x position of turtle
    * @param xPos : x position
    */
-  public void setMyXPosCalc(double xPos) {
-    myXPosCalc = xPos;
+  public void setMyEndXPos(double xPos) {
+    myEndXPos = xPos;
   }
 
   /**
    * sets y position of turtle
    * @param yPos : y position
    */
-  public void setMyYPosCalc(double yPos) {
-    myYPosCalc = yPos;
+  public void setMyEndYPos(double yPos) {
+    myEndYPos = yPos;
   }
 
   /**

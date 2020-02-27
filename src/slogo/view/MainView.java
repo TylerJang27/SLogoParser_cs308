@@ -30,6 +30,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private double paneHeight = 600;
   private double turtleSize = 90;
 
+
+
   private TurtleView turtle;
 
   public MainView() {

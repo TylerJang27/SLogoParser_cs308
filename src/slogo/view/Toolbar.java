@@ -1,19 +1,25 @@
 package slogo.view;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
+import javafx.scene.web.PopupFeatures;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import javafx.scene.control.*;
-import javax.imageio.ImageIO;
-import slogo.frontendexternal.TurtleView;
 
 /**
  * @author Shruthi Kumar, Nevzat Sevim
@@ -25,12 +31,6 @@ public class Toolbar extends ToolBar {
   private MainView myMainView;
   private TextFields myTextFields;
 
-  //Labels for DropDown Menus
-  private final Label penLabel = new Label("Pen:");
-  private final Label backgroundLabel = new Label("Background:");
-  private final Label turtleLabel = new Label("Turtle:");
-  private final Label languageLabel = new Label("Language:");
-
   //The Drop Down Menus Themselves
   private ColorPicker penMenu, backgroundMenu;
   private ComboBox languageMenu, turtleMenu;
@@ -39,7 +39,7 @@ public class Toolbar extends ToolBar {
   private Button commandButton, helpButton, changesButton;
   TextField textField;
 
-
+  //Timeline Inputs
   private static final int FRAMES_PER_SECOND = 60;
   private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
 
@@ -52,8 +52,10 @@ public class Toolbar extends ToolBar {
     createMenus();
     createButtons();
 
-    //textField.setOnAction(this:: handleCommand);
-
+    Label penLabel = new Label("Pen:");
+    Label backgroundLabel = new Label("Background:");
+    Label turtleLabel = new Label("Turtle:");
+    Label languageLabel = new Label("Language:");
 
     this.getItems().addAll(textField, commandButton, new Separator(),
                             turtleLabel, turtleMenu, penLabel, penMenu,
@@ -70,134 +72,93 @@ public class Toolbar extends ToolBar {
    */
 
   private void createMenus() {
+    //Color Menus
     this.penMenu = new ColorPicker();
+    penMenu.setValue(Color.BLACK);
     penMenu.setMaxWidth(50);
+
     this.backgroundMenu = new ColorPicker();
+    backgroundMenu.setValue(Color.LIGHTGRAY);
     backgroundMenu.setMaxWidth(50);
 
-    setUpTurtleMenu();
-
-    setUpLanguageMenu();
-    //this.languageMenu = new ComboBox();
-    //addLanguageChoices();
-  }
-
-
-  private void setUpTurtleMenu() {
+    //Turtle Menu
     this.turtleMenu = new ComboBox();
-    addTurtleSkins();
+    turtleMenu.setPromptText("raphael");
+    turtleMenu.getItems().addAll("mickey", "raphael", "turtle");
 
-    turtleMenu.setPromptText("Choose Turtle Skin");
-    turtleMenu.setEditable(true);
-
-    turtleMenu.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
-      myMainView.stop();
-      if (newValue == "Turtle") {
-        myMainView.setSkin(0);
-      } else if (newValue == "Mickey") {
-        myMainView.setSkin(1);
-      } else {
-        myMainView.setSkin(2);
-      }
-    });
-  }
-
-  private void setUpLanguageMenu() {
+    //Language Menu
     this.languageMenu = new ComboBox();
-    addLanguageChoices();
-
-    languageMenu.setPromptText("Choose Language");
-    languageMenu.setEditable(true);
-
-    languageMenu.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
-      myMainView.stop();
-      if (newValue == "English") {
-        myMainView.changeLanguage(0);
-      }
-    });
-  }
-
-  //needs to be loaded from files not hardcoded
-  private void addTurtleSkins() {
-    //turtleMenu.setOnAction();
-    turtleMenu.getItems().add(0, "Turtle");
-    turtleMenu.getItems().add(1, "Mickey");
-    turtleMenu.getItems().add(2, "Raphael");
-  }
-
-  //needs to be loaded from files not hardcoded
-  private void addLanguageChoices() {
-    languageMenu.getItems().add(0, "English");
-    languageMenu.getItems().add(1, "Chinese");
-    languageMenu.getItems().add(2, "French");
+    languageMenu.setPromptText("Language");
+    languageMenu.getItems().addAll("English", "French", "Not Turkish");
   }
 
   private void createButtons() {
-    //this.commandButton = new Button("Run");
+    this.commandButton = new Button("Run");
+    commandButton.setOnAction(this:: handleCommand);
 
-    EventHandler<ActionEvent> showHandler = event -> handleCommand(); //commandButton.getText());
-    this.commandButton = new Button("Go Command");
-    //commandButton.setOnAction(this:: handleCommand);
+    this.helpButton = new Button("?");
+    helpButton.setOnAction(this:: handleHelp);
 
-    showHandler = event -> handleHelp();
-    this.helpButton = makeButton("?", showHandler);
-    //helpButton.setOnAction(this:: handleHelp);
-
-    showHandler = event -> handleChanges();
-    this.changesButton = makeButton("Apply", showHandler); //new Button("Apply");
-    //changesButton.setOnAction(this::handleChanges);
+    this.changesButton = new Button("Apply");
+    changesButton.setOnAction(this::handleChanges);
   }
 
-  private void addCommand() {
-    myTextFields.addCommandText(textField.getText());
+  /** Methods that define the function of each Button */
+  private void handleChanges(ActionEvent actionEvent) {
+
+    this.myMainView.getPane().setBackground(new Background(new BackgroundFill(backgroundMenu.getValue(), CornerRadii.EMPTY, new Insets(0))));
+    this.myMainView.getTurtle().getPenView().setMyPenColor(penMenu.getValue());
+
+    if(!turtleMenu.getSelectionModel().isEmpty()) {
+      myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
+
+
+      myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyStartXPos());
+      myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyStartYPos());
+      myMainView.getTurtle().myImageView.setFitWidth(myMainView.getTurtleSize());
+      myMainView.getTurtle().myImageView.setFitHeight(myMainView.getTurtleSize());
+
+      myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);
+    }
+
+
   }
 
-  /**
-   * Methods that define the function of each Button
-   */
-  private void handleChanges() {
+  private void handleHelp(ActionEvent actionEvent) {
+    WebView wv = new WebView();
+    wv.getEngine().setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
 
-    this.myMainView.setBackgroundColor(backgroundMenu.getValue());
-    this.myMainView.setPenColor(penMenu.getValue());
-    this.myMainView.draw();
+      @Override
+      public WebEngine call(PopupFeatures p) {
+        Stage stage = new Stage(StageStyle.UTILITY);
+        WebView wv2 = new WebView();
+        stage.setScene(new Scene(wv2));
+        stage.show();
+        return wv2.getEngine(); }
+    });
+
+    StackPane root = new StackPane();
+    root.getChildren().add(wv);
+    Scene scene = new Scene(root, 1300 , 1000);
+
+    Stage stage = new Stage();
+    stage.setTitle("List of Commands");
+    stage.setScene(scene);
+    stage.show();
+
+    wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
 
-  private void handleHelp() {
-  }
-
-
-  private void handleCommand() {
+  private void handleCommand(ActionEvent actionEvent) {
     this.myMainView.sendCommand(textField.getText());
     myTextFields.addCommandText(textField.getText());
   }
 
-
+  /** Methods for useful Getters and Setters */
 
   // Public Set Methods
   public void setTextField(TextFields tf){this.myTextFields = tf;}
 
-  private Button makeButton (String property, EventHandler<ActionEvent> handler) {
-    Button result = new Button(property);
-
-    result.setOnAction(handler);
-    return result;
-  }
-
-  /**
-   * Display given URL.
-
-  public void showPage (String url) {
-    try {
-      myTextFields.addText(myModel.go(url));
-    }
-    catch (BrowserException e) {
-      showError(e.getMessage());
-    }
-  }
-   */
-
-  public TextField getTextField(){
-    return textField;
-  }
-
+  // Public Get Methods
+  public TextField getTextField(){ return textField; }
 }

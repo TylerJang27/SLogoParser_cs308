@@ -43,6 +43,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     turtle.getPenView().setMyPenColor(Color.RED);
     turtle.myImageView.setFitWidth(turtleSize);
     turtle.myImageView.setFitHeight(turtleSize);
+    turtle.myImageView.setX(turtle.myImageView.getX() - turtle.myImageView.getFitWidth() / 2);
+    turtle.myImageView.setY(turtle.myImageView.getY() - turtle.myImageView.getFitHeight() / 2);
     turtle.myImageView.setLayoutX(turtle.getMyStartXPos());
     turtle.myImageView.setLayoutY(turtle.getMyStartYPos());
 

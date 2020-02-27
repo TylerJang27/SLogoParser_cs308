@@ -50,8 +50,8 @@ import slogo.commands.turtlecommands.ShowTurtle;
 
 public class CommandFactory {
 
-  private static final double X_MAX = 200; //TODO: TAKE FROM THE FRONT-END
-  private static final double Y_MAX = 200;
+  private static final double X_MAX = 500; //TODO: TAKE FROM THE FRONT-END
+  private static final double Y_MAX = 250;
 
   private String currentMode;
   private CommandCounter myCounts;

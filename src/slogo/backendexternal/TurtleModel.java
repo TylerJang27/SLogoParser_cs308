@@ -77,7 +77,7 @@ public class TurtleModel {
             status = statusList.get(statusList.size() - 1);
         }
         for (TurtleStatus t: statusList) {
-            System.out.println(t); //TODO: REMOVE
+//            System.out.println(t); //TODO: REMOVE
         }
         return Collections.unmodifiableList(statusList);
     }

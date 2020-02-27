@@ -26,6 +26,8 @@ public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
   private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
+  private static final int WIDTH = 1075;
+  private static final int HEIGHT = 758;
   private Display myDisplay;
   private Parser myParser;
   private TurtleModel myModel;
@@ -57,8 +59,8 @@ public class Controller extends Application {
     currentStatus = INITIAL_STATUS;
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
-    myStage.setWidth(1075);
-    myStage.setHeight(758);
+    myStage.setWidth(WIDTH);
+    myStage.setHeight(HEIGHT);
     myStage.setResizable(false);
     myStage.show();
   }
@@ -71,8 +73,6 @@ public class Controller extends Application {
 
   private void sendCommand(TextField field){
     String input = field.getText();
-    System.out.println(input);
-    System.out.println("Are we getting here");
     myParser.parseLine(input);
     field.clear();
 

@@ -9,6 +9,7 @@ import java.util.Stack;
 import slogo.commands.Command;
 import slogo.commands.controlcommands.Function;
 import slogo.commands.controlcommands.MakeUserInstruction;
+import slogo.commands.controlcommands.RunFunction;
 import slogo.commands.controlcommands.Variable;
 
 public class FunctionFactory {
@@ -33,23 +34,34 @@ public class FunctionFactory {
     return functionMap.containsKey(funcName);
   }
 
-  public Function getFunction(String funcName){
-    return functionMap.get(funcName);
+  public RunFunction runFunction(String funcName, Stack<Command> commands){
+    List<Command> variableValues = new ArrayList<>();
+    Function func = functionMap.get(funcName);
+    while(variableValues.size() < func.getNumVars()){
+      variableValues.add(commands.pop());
+    }
+    return new RunFunction(functionMap.get(funcName), variableValues);
   }
 
   public MakeUserInstruction handleFunction(Stack<String> components){
     String func = getName(components);
-    fillVariables(components);
+    functionMap.put(func, new Function());
     fillCommands(components);
+    fillVariables(components);
     return new MakeUserInstruction(functionMap.get(func), functionVariables, functionCommands);
   }
 
   private void fillVariables(Stack<String> components) {
     while(components.size() > 0){
       String current = components.pop();
+      if(Input.ListStart.matches(current)){
+        break;
+      }
       if(Input.Variable.matches(current)){
         variableFactory.handleVariable(current);
         functionVariables.add(variableFactory.getVariable(current));
+        System.out.println("Variables Being Made in Function:");
+        System.out.println(variableFactory.getVariableString());
       }
     }
   }
@@ -78,6 +90,7 @@ public class FunctionFactory {
     Stack<Command> currentCommand = new Stack<>();
 
     while(components.size() > 0){
+
       Stack<Command> commands = new Stack<>();
       String current = components.pop();
 
@@ -103,7 +116,7 @@ public class FunctionFactory {
 
       else if(Input.Command.matches(current)){
         if(this.hasFunction(current)){
-          commands.add(this.getFunction(current));
+          commands.add(this.runFunction(current, currentCommand));
         }
         else{
           commands.add(commandFactory.makeCommand(current, currentCommand, myCommands));
@@ -111,9 +124,8 @@ public class FunctionFactory {
       }
 
       else if(Input.Variable.matches(current)){
-        if(variableFactory.handleVariable(current)){
-          commands.add(variableFactory.getVariable(current));
-        }
+        variableFactory.handleVariable(current);
+        commands.add(variableFactory.getVariable(current));
       }
 
       currentCommand.addAll(commands);

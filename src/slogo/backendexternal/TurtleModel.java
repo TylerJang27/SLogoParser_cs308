@@ -71,7 +71,9 @@ public class TurtleModel {
         for (Command c: commandList) {
             System.out.println(c);
             List<TurtleStatus> newStatuses = c.execute(status);
-            statusList.addAll(newStatuses.subList(1, Math.max(newStatuses.size(), 0)));
+            if (!newStatuses.isEmpty()) {
+                statusList.addAll(newStatuses.subList(1, Math.max(newStatuses.size(), 0)));
+            }
             //statusList.addAll(newStatuses);
             //TODO: VERIFY THAT THIS WORKS ^^^
             status = statusList.get(statusList.size() - 1);

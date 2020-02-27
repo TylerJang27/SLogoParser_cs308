@@ -24,7 +24,10 @@ public class Home implements TurtleCommand {
 
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
-        return go.execute(ts);
+        List<TurtleStatus> ret =  go.execute(ts);
+        double deltaHeading = -1*ret.get(ret.size()-1).getBearing();
+        TurtleCommand.turnDeltaHeading(ret.get(ret.size()-1), ret, deltaHeading);
+        return ret;
     }
 
     @Override

@@ -33,8 +33,11 @@ public class SetTowards implements TurtleCommand {
         ret.addAll(arg1.execute(ts));
         ret.addAll(arg2.execute(ts));
 
-        double newDirection = Math.toDegrees(Math.atan((ts.getX()-arg1.returnValue())/(ts.getY()-arg2.returnValue())));
-        degreeMoved = newDirection - ts.getBearing();
+        double deltaX = arg1.returnValue() - ts.getX();
+        double deltaY = arg2.returnValue() - ts.getY();
+
+        degreeMoved = Math.toDegrees(Math.atan((deltaX)/(-1*deltaY))) - ts.getBearing();
+        if(deltaY>0) degreeMoved+=180;
 
         return (TurtleCommand.turnDeltaHeading(ret.get(ret.size()-1), ret, degreeMoved));
     }

@@ -68,6 +68,7 @@ public class Controller extends Application {
       }
 
       displayHistory();
+      displayVariables();
     }
   }
 
@@ -78,10 +79,15 @@ public class Controller extends Application {
       display.append(s);
       display.append("\n");
     }
-    myDisplay.getMainView().getTextFields().addText(display.toString());
+    myDisplay.getMainView().getTextFields().addCommandText(display.toString());
   }
 
   private void setStatus(TurtleStatus ts){
     currentStatus = ts;
+  }
+
+  private void displayVariables(){
+    myDisplay.getMainView().getTextFields().clearVariables();
+    myDisplay.getMainView().getTextFields().addVariableText(myParser.getVariableString());
   }
 }

@@ -139,4 +139,7 @@ public class Parser {
     }
   }
 
+  public String getVariableString() {
+    return variableFactory.getVariableString();
+  }
 }

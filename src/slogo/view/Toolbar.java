@@ -145,7 +145,7 @@ public class Toolbar extends ToolBar {
   }
 
   private void addCommand() {
-    myTextFields.addText(textField.getText());
+    myTextFields.addCommandText(textField.getText());
   }
 
   /**
@@ -164,7 +164,7 @@ public class Toolbar extends ToolBar {
 
   private void handleCommand() {
     this.myMainView.sendCommand(textField.getText());
-    myTextFields.addText(textField.getText());
+    myTextFields.addCommandText(textField.getText());
   }
 
 

@@ -28,13 +28,22 @@ public class SetTowards implements TurtleCommand {
 
 
     @Override
-    public Collection<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(arg1.execute(ts));
-        ret.addAll(arg2.execute(ts));
+        ret.addAll(arg2.execute(ret.get(ret.size()-1)));
 
-        double newDirection = Math.toDegrees(Math.atan((ts.getX()-arg1.returnValue())/(ts.getY()-arg2.returnValue())));
-        degreeMoved = newDirection - ts.getBearing();
+        double deltaX = arg1.returnValue() - ret.get(ret.size()-1).getX();
+        double deltaY = arg2.returnValue() + ret.get(ret.size()-1).getY();
+        System.out.println(arg2.returnValue());
+        System.out.println(ts.getY());
+        System.out.println(deltaX);
+        System.out.println(deltaY);
+
+        degreeMoved = Math.toDegrees(Math.atan((deltaX)/(deltaY))) - ret.get(ret.size()-1).getBearing();
+        System.out.println(degreeMoved);
+        if(deltaY<0) degreeMoved+=180;
+
 
         return (TurtleCommand.turnDeltaHeading(ret.get(ret.size()-1), ret, degreeMoved));
     }

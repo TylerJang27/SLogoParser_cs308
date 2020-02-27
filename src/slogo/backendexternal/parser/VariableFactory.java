@@ -27,6 +27,7 @@ public class VariableFactory {
       return true;
     }
     else{
+      System.out.println("HELP ME");
       variablesAdded.push(current);
       variableMap.put(current, new Variable());
       return false;

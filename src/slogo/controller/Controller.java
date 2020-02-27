@@ -19,15 +19,8 @@ import slogo.view.Display;
 
 public class Controller extends Application {
 
-  public static final String TITLE = "SLogo";
-  public static final Paint BACKGROUND = Color.WHEAT;
-  public static final int FRAMES_PER_SECOND = 60;
-  public static final int MILLISECOND_DELAY = 100000 / FRAMES_PER_SECOND;
-  public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-  public static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-
-  private Stage myStage;
-  private Scene myScene;
+  private static final String TITLE = "SLogo";
+  private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
   private Display myDisplay;
   private Parser myParser;
   private TurtleModel myModel;
@@ -43,10 +36,10 @@ public class Controller extends Application {
 
   @Override
   public void start(Stage currentStage) {
-    myStage = new Stage();
+    Stage myStage = new Stage();
     myDisplay = new Display();
     input = myDisplay.getMainView().getToolBar().getTextField();
-    myScene = myDisplay.getScene();
+    Scene myScene = myDisplay.getScene();
     myParser = new Parser();
     myModel = new TurtleModel();
     currentStatus = INITIAL_STATUS;
@@ -58,17 +51,34 @@ public class Controller extends Application {
 
   private void sendCommand(KeyCode key, TextField field){
     String input = field.getText();
-    if(key == KeyCode.ENTER){
+    if(key == KeyCode.ENTER) {
+
       myParser.parseLine(input);
       field.clear();
+
       List<Command> toSend = myParser.sendCommands();
-      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend, currentStatus);
+      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel
+          .executeCommands(toSend, currentStatus);
+
       setStatus(statuses.get(statuses.size() - 1));
       myDisplay.getMainView().moveTurtle(statuses);
+
+      displayHistory();
     }
+  }
+
+  private void displayHistory(){
+    myDisplay.getMainView().getTextFields().clearCommands();
+    StringBuilder display = new StringBuilder();
+    for(String s : myParser.getCommandHistory()){
+      display.append(s);
+      display.append("\n");
+    }
+    myDisplay.getMainView().getTextFields().addText(display.toString());
   }
 
   private void setStatus(TurtleStatus ts){
     currentStatus = ts;
   }
+
 }

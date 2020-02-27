@@ -16,17 +16,17 @@ public class FunctionFactory {
   private Map<String, Function> functionMap;
   private List<Variable> functionVariables;
   private List<Command> functionCommands;
-  private Parser parser;
   private CommandFactory commandFactory;
   private VariableFactory variableFactory;
+  private Map<String, List<String>> myCommands;
 
-  public FunctionFactory(){
+  public FunctionFactory(Map<String, List<String>> commands){
     functionMap = new HashMap<>();
     functionVariables = new ArrayList<>();
     functionCommands = new ArrayList<>();
-    parser = new Parser();
     commandFactory = new CommandFactory();
     variableFactory = new VariableFactory();
+    myCommands = commands;
   }
 
   public boolean hasFunction(String funcName){
@@ -56,7 +56,7 @@ public class FunctionFactory {
 
   private void fillCommands(Stack<String> components){
     Stack<Command> newCommands = new Stack<Command>();
-    newCommands.addAll(parser.parseComponents(components));
+    newCommands.addAll(parseComponentsFunction(components));
     while(newCommands.size() > 0){
       functionCommands.add(newCommands.pop());
     }
@@ -72,6 +72,45 @@ public class FunctionFactory {
       }
     }
     return "";
+  }
+
+  public Stack<Command> parseComponentsFunction(Stack<String> components){
+    Stack<Command> currentCommand = new Stack<>();
+    while(components.size() > 0){
+      Stack<Command> commands = new Stack<>();
+      String current = components.pop();
+      if(Input.ListStart.matches(current)){
+        break;
+      }
+      if(Input.Constant.matches(current)){
+        commands.add(commandFactory.makeConstant(current));
+      }
+      else if(Input.Make.matches(current)){
+        if(currentCommand.size() > 0){
+          commands.add(variableFactory.makeVariable(currentCommand.pop()));
+        }
+      }
+      else if(Input.Set.matches(current)){
+        if(currentCommand.size() > 0){
+          commands.add(variableFactory.setVariable(currentCommand.pop()));
+        }
+      }
+      else if(Input.Command.matches(current)){
+        if(this.hasFunction(current)){
+          commands.add(this.getFunction(current));
+        }
+        else{
+          commands.add(commandFactory.makeCommand(current, currentCommand, myCommands));
+        }
+      }
+      else if(Input.Variable.matches(current)){
+        if(variableFactory.handleVariable(current)){
+          commands.add(variableFactory.getVariable(current));
+        }
+      }
+      currentCommand.addAll(commands);
+    }
+    return currentCommand;
   }
 
 

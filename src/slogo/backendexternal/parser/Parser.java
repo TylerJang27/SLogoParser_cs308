@@ -27,14 +27,14 @@ public class Parser {
 
   public Parser(String language){
     myCommands = new HashMap<String, List<String>>();
+    setLanguage(language);
     newCommands = new ArrayList<Command>();
     commandHistory = new ArrayList<String>();
     commandFactory = new CommandFactory();
     variableFactory = new VariableFactory();
-    functionFactory = new FunctionFactory();
+    functionFactory = new FunctionFactory(myCommands);
     currentCommands = new Stack<Command>();
     currentComponents = new Stack<>();
-    setLanguage(language);
   }
 
 
@@ -48,6 +48,8 @@ public class Parser {
     }
 
     currentCommands.addAll(parseComponents(currentComponents));
+
+    System.out.println(currentCommands.size());
 
     while(currentCommands.size() > 0){
       newCommands.add(currentCommands.pop());
@@ -64,8 +66,10 @@ public class Parser {
   public Stack<Command> parseComponents(Stack<String> components){
     Stack<Command> currentCommand = new Stack<>();
     while(components.size() > 0){
-      Stack<Command> commands = new Stack<>();
       String current = components.pop();
+
+      Stack<Command> commands = new Stack<>();
+
       if(Input.Constant.matches(current)){
         commands.add(commandFactory.makeConstant(current));
       }
@@ -96,12 +100,10 @@ public class Parser {
         if(checkFunction(components)){
           commands.add(functionFactory.handleFunction(components));
         }
-        else{
-          continue;
-        }
       }
       currentCommand.addAll(commands);
     }
+
     return currentCommand;
   }
 

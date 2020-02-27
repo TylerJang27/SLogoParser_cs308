@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import org.w3c.dom.Text;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
+import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.backendexternal.parser.Parser;
 import slogo.commands.Command;
 import slogo.frontendexternal.TurtleView;
@@ -73,21 +74,25 @@ public class Controller extends Application {
 
   private void sendCommand(TextField field){
     String input = field.getText();
-    myParser.parseLine(input);
-    field.clear();
+    try{
+      myParser.parseLine(input);
+      List<Command> toSend = myParser.sendCommands();
+      System.out.println("Parser Command");
+      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel
+          .executeCommands(toSend, currentStatus);
+      System.out.println("Status Size");
+      System.out.println(statuses.size());
 
-    List<Command> toSend = myParser.sendCommands();
-    System.out.println("Parser Command");
-    List<TurtleStatus> statuses = (List<TurtleStatus>) myModel
-        .executeCommands(toSend, currentStatus);
-    System.out.println("Status Size");
-    System.out.println(statuses.size());
-
-    if(statuses.size() > 1){
-      setStatus(statuses.get(statuses.size() - 1));
-      myDisplay.getMainView().moveTurtle(statuses);
+      if(statuses.size() > 1){
+        setStatus(statuses.get(statuses.size() - 1));
+        myDisplay.getMainView().moveTurtle(statuses);
+      }
     }
-
+    catch(InvalidCommandException e){
+      System.out.println("are we catching?");
+      myParser.addError();
+    }
+    field.clear();
     displayHistory();
     displayVariables();
   }

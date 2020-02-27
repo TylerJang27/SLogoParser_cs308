@@ -3,6 +3,7 @@ package slogo.backendexternal.parser;
 import java.security.spec.RSAOtherPrimeInfo;
 import java.util.Iterator;
 import java.util.Stack;
+import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Parser {
+  private static final String DEFAULT_ERROR_MESSAGE = "The last command could not be recognized. "
+      + "Please check spelling and try again.";
   private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
   private List<String> commandHistory;
   private List<slogo.commands.Command> newCommands;
@@ -62,49 +65,37 @@ public class Parser {
     return toSend;
   }
 
-  public Stack<Command> parseComponents(Stack<String> components){
+  public Stack<Command> parseComponents(Stack<String> components) throws InvalidCommandException {
 
     Stack<Command> currentCommand = new Stack<>();
 
-
-    while(components.size() > 0){
+    while (components.size() > 0) {
       Stack<Command> commands = new Stack<>();
 
       String current = components.pop();
 
-      if(Input.Constant.matches(current)){
+      if (Input.Constant.matches(current)) {
         commands.add(commandFactory.makeConstant(current));
-      }
-
-      else if(Input.Make.matches(current)){
-        if(currentCommand.size() > 0){
+      } else if (Input.Make.matches(current)) {
+        if (currentCommand.size() > 0) {
           commands.add(variableFactory.makeVariable(currentCommand.pop()));
         }
-      }
-
-      else if(Input.Set.matches(current)){
-        if(currentCommand.size() > 0){
+      } else if (Input.Set.matches(current)) {
+        if (currentCommand.size() > 0) {
           commands.add(variableFactory.setVariable(currentCommand.pop()));
         }
-      }
-
-      else if(Input.Command.matches(current)){
-        if(functionFactory.hasFunction(current)){
+      } else if (Input.Command.matches(current)) {
+        if (functionFactory.hasFunction(current)) {
           commands.add(functionFactory.runFunction(current, currentCommand));
-        }
-        else{
+        } else {
           commands.add(commandFactory.makeCommand(current, currentCommand, myCommands));
         }
-      }
-
-      else if(Input.Variable.matches(current)){
-        if(variableFactory.handleVariable(current)){
+      } else if (Input.Variable.matches(current)) {
+        if (variableFactory.handleVariable(current)) {
           commands.add(variableFactory.getVariable(current));
         }
-      }
-
-      else if(Input.ListEnd.matches(current)){
-        if(checkFunction(components)){
+      } else if (Input.ListEnd.matches(current)) {
+        if (checkFunction(components)) {
           commands.add(functionFactory.handleFunction(components));
         }
       }
@@ -113,6 +104,7 @@ public class Parser {
     }
 
     return currentCommand;
+
   }
 
   private boolean checkFunction(Stack<String> components) {
@@ -137,6 +129,10 @@ public class Parser {
       String translation = resources.getString(key);
       myCommands.put(key, Arrays.asList(translation.split("\\|")));
     }
+  }
+
+  public void addError(){
+    commandHistory.add(DEFAULT_ERROR_MESSAGE);
   }
 
   public String getVariableString() {

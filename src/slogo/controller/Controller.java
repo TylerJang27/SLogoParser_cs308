@@ -52,18 +52,22 @@ public class Controller extends Application {
     currentStatus = INITIAL_STATUS;
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
+    myStage.setWidth(1075); myStage.setHeight(858);
+    myStage.setResizable(false);
     myStage.show();
     input.setOnKeyPressed(key -> sendCommand(key.getCode(), input));
   }
 
   private void sendCommand(KeyCode key, TextField field){
-    String input = field.getText();
+    String input = field.getText(); //TODO: TYLER LOOK HERE
     if(key == KeyCode.ENTER){
       myParser.parseLine(input);
       field.clear();
       List<Command> toSend = myParser.sendCommands();
-      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel.executeCommands(toSend, currentStatus);
-      setStatus(statuses.get(statuses.size() - 1));
+      List<TurtleStatus> statuses = myModel.executeCommands(toSend, currentStatus);
+      if (statuses.size() > 0) {
+        setStatus(statuses.get(statuses.size() - 1));
+      }
       myDisplay.getMainView().moveTurtle(statuses);
     }
   }

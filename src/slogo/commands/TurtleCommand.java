@@ -103,7 +103,7 @@ public interface TurtleCommand extends Command {
         }
         if(y<-yMax){
             ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-            ret.add(new TurtleStatus(y, yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(x, yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
             y = y + yMax;
         }
         return new double[]{x, y};
@@ -119,7 +119,7 @@ public interface TurtleCommand extends Command {
      *
      * @param ts        the initial status of the turtle before moving
      * @param ret       a pre-established list of turtle status, onto which we will add the endpoint of the turtle movement
-     * @param deltaX    the amount the turtle needs to move in the x direction
+     * @param deltaX    the amount the turtle needs to move in the x directionT
      * @param deltaY    the amount the turtle needs to move in the y direction
      * @param xMax      the maximum x that the turtle cannot go beyond
      * @param yMax      the maximum y that the turtle cannot go beyond

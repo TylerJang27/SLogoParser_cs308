@@ -97,10 +97,9 @@ public class TurtleView {
         pathPoints[index + 3] = end.getY();
         pathLine.getPoints().addAll(pathPoints);
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
-            this.myImageView);
+                this.myImageView);
         sequentialTransition.getChildren().add(turtlePath);
-      }
-      if (!end.getTrail()) { //wraparound case
+      } else if (checkMovement(start, end) && !end.getTrail()) { //wraparound case
         pathPoints[index] = end.getX();
         pathPoints[index + 1] = end.getY();
         pathPoints[index + 2] = end.getX();

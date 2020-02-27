@@ -38,8 +38,8 @@ public class Forward implements TurtleCommand {
         //  TurtleStatus currentStatus = (ret.isEmpty()) ? ts : ret.get(ret.size()-1);
         //  We'll see during testing
 
-        double deltaX = returnVal*Math.sin(ret.get(ret.size()-1).getBearing());
-        double deltaY = -1 * returnVal*Math.cos(ret.get(ret.size()-1).getBearing()); //TODO: Why is this negative?
+        double deltaX = returnVal*Math.sin(Math.toRadians(ret.get(ret.size()-1).getBearing()));
+        double deltaY = returnVal*Math.cos(Math.toRadians(ret.get(ret.size()-1).getBearing())); //TODO: Why is this negative?
         return TurtleCommand.move(ret.get(ret.size()-1), ret, deltaX, deltaY, xMax, yMax, mode);
     }
 

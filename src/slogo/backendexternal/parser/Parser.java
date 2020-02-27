@@ -105,8 +105,10 @@ public class Parser {
 
       else if(Input.ListEnd.matches(current)){
         if(checkFunction(components)){
+          System.out.println("okay we got a function");
           commands.add(functionFactory.handleFunction(components));
         }
+        System.out.println("exiting functoin making jawn");
       }
 
       currentCommand.addAll(commands);
@@ -116,6 +118,7 @@ public class Parser {
   }
 
   private boolean checkFunction(Stack<String> components) {
+    System.out.println("Checking function");
     Iterator<String> iter = components.iterator();
     while(iter.hasNext()){
       String current = iter.next();

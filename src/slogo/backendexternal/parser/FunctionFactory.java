@@ -63,9 +63,9 @@ public class FunctionFactory {
   }
 
   private String getName(Stack<String> components){
-    Iterator<String> iter = components.iterator();
-    while(iter.hasNext()){
-      String current = iter.next();
+    Iterator<String> iterator = components.iterator();
+    while(iterator.hasNext()){
+      String current = iterator.next();
       if(Input.Command.matches(current)){
         components.remove(current);
         return current;
@@ -74,27 +74,33 @@ public class FunctionFactory {
     return "";
   }
 
-  public Stack<Command> parseComponentsFunction(Stack<String> components){
+  private Stack<Command> parseComponentsFunction(Stack<String> components){
     Stack<Command> currentCommand = new Stack<>();
+
     while(components.size() > 0){
       Stack<Command> commands = new Stack<>();
       String current = components.pop();
+
       if(Input.ListStart.matches(current)){
         break;
       }
+
       if(Input.Constant.matches(current)){
         commands.add(commandFactory.makeConstant(current));
       }
+
       else if(Input.Make.matches(current)){
         if(currentCommand.size() > 0){
           commands.add(variableFactory.makeVariable(currentCommand.pop()));
         }
       }
+
       else if(Input.Set.matches(current)){
         if(currentCommand.size() > 0){
           commands.add(variableFactory.setVariable(currentCommand.pop()));
         }
       }
+
       else if(Input.Command.matches(current)){
         if(this.hasFunction(current)){
           commands.add(this.getFunction(current));
@@ -103,13 +109,16 @@ public class FunctionFactory {
           commands.add(commandFactory.makeCommand(current, currentCommand, myCommands));
         }
       }
+
       else if(Input.Variable.matches(current)){
         if(variableFactory.handleVariable(current)){
           commands.add(variableFactory.getVariable(current));
         }
       }
+
       currentCommand.addAll(commands);
     }
+
     return currentCommand;
   }
 

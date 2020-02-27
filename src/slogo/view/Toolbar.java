@@ -61,6 +61,10 @@ public class Toolbar extends ToolBar {
                             helpButton);
   }
 
+  public Button getCommandButton(){
+    return commandButton;
+  }
+
   /**
    * Helping methods to import menus and buttons to the toolbar
    */
@@ -132,7 +136,7 @@ public class Toolbar extends ToolBar {
     //this.commandButton = new Button("Run");
 
     EventHandler<ActionEvent> showHandler = event -> handleCommand(); //commandButton.getText());
-    this.commandButton = makeButton("Go Command", showHandler);
+    this.commandButton = new Button("Go Command");
     //commandButton.setOnAction(this:: handleCommand);
 
     showHandler = event -> handleHelp();

@@ -45,9 +45,13 @@ public class TextFields extends HBox {
         this.getChildren().addAll(commandBox, variableBox);
     }
 
-    public void addText(String text){
+    public void addCommandText(String text){
         commands.appendText(text + "\n");
     }
+    public void addVariableText(String text){
+        variables.appendText(text + "\n");
+    }
+
 
     public MainView getMyMainView() {
         return myMainView;
@@ -62,6 +66,9 @@ public class TextFields extends HBox {
     }
 
     public void clearCommands() { commands.clear(); }
+
+    public void clearVariables() { variables.clear(); }
+
 
     public TextArea getVariables() {
         return variables;

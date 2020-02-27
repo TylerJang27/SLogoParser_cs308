@@ -97,7 +97,6 @@ public class TurtleView {
       TurtleStatus start = t.get(i);
       TurtleStatus end = t.get(i + 1);
       this.myImageView.setVisible(end.getVisible());
-      //System.out.println(this.getIsVisible());
       if (end.getBearing() != myBearing) {
         RotateTransition turtleRotate = new RotateTransition(Duration.millis(2500),
             this.myImageView);
@@ -133,11 +132,9 @@ public class TurtleView {
 
         PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
                 this.myImageView);
+        turtlePath.setDuration(new Duration(0));
         sequentialTransition.getChildren().add(turtlePath);
         pathLine = new Polyline();
-        /*PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
-                this.myImageView);
-        sequentialTransition.getChildren().add(turtlePath);*/
       } else {
         pathPoints[index] = start.getX();
         pathPoints[index + 1] = start.getY();
@@ -154,11 +151,12 @@ public class TurtleView {
 
     }
 
+    setMyEndXPos(t.get(t.size()-1).getX());
+    setMyEndYPos(t.get(t.size()-1).getY());
 //    setMyEndXPos(t.get(t.size()-1).getX());
   //  setMyEndYPos(t.get(t.size()-1).getY());
  //   setMyUpdatedXPos(this.getMyStartXPos() + t.get(t.size() - 1).getX());
    // setMyUpdatedYPos(this.getMyStartYPos() + t.get(t.size() - 1).getY());
-
 
     /*PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
             this.myImageView);

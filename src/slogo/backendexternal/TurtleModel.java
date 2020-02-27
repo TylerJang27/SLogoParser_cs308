@@ -19,6 +19,8 @@ public class TurtleModel {
     //TODO: change implementation/display method/remove altogether?
     Collection<RunFunction> declaredFunctions;
 
+    double lastReturn;
+
     public TurtleModel(List<Variable> vars, List<RunFunction> functions) {
         declaredVariables = vars;
         declaredFunctions = functions;
@@ -77,10 +79,18 @@ public class TurtleModel {
             //statusList.addAll(newStatuses);
             //TODO: VERIFY THAT THIS WORKS ^^^
             status = statusList.get(statusList.size() - 1);
+            lastReturn = c.returnValue();
         }
         for (TurtleStatus t: statusList) {
-            System.out.println(t); //TODO: REMOVE
+//            System.out.println(t); //TODO: REMOVE
         }
         return Collections.unmodifiableList(statusList);
+    }
+
+    /**
+     * @return the return value of the last command executed.
+     */
+    public double getLastReturn() {
+        return lastReturn;
     }
 }

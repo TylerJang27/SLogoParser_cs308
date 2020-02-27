@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
 import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.layout.VBox;
 import slogo.backendexternal.TurtleStatus;
 import slogo.frontendexternal.TurtleView;
+import java.lang.Object;
+import javafx.scene.Node;
+import javafx.scene.shape.Shape;
 
 /** @author Shruthi Kumar, Nevzat Sevim */
 
@@ -38,30 +36,33 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public MainView() {
 
+    // Get the Textfield and Toolbar in the MainView
     this.myTextFields = new TextFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setTextField(myTextFields);
 
-    this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0);
+    //Generate the initial Turtle Object
+    this.turtle = new TurtleView();
     turtle.getPenView().setMyPenColor(Color.RED);
     turtle.myImageView.setFitWidth(turtleSize);
     turtle.myImageView.setFitHeight(turtleSize);
+    turtle.myImageView.setX(turtle.myImageView.getX() - turtle.myImageView.getFitWidth() / 2);
+    turtle.myImageView.setY(turtle.myImageView.getY() - turtle.myImageView.getFitHeight() / 2);
     turtle.myImageView.setLayoutX(turtle.getMyStartXPos());
     turtle.myImageView.setLayoutY(turtle.getMyStartYPos());
 
-
-    System.out.println("Turtle X: " + turtle.getMyStartXPos());
-    System.out.println("Turtle Y: " + turtle.getMyStartYPos());
-
-    System.out.println("TurtleView X: " + turtle.myImageView.getLayoutX());
-    System.out.println("TurtleView Y: " + turtle.myImageView.getLayoutY());
-
+    //Set the Pane for the IDE
     this.pane = new Pane(turtle.myImageView);
+    pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,
+            CornerRadii.EMPTY, new Insets(0))));
 
     pane.setMaxSize(paneWidth, paneHeight);
     pane.setMinSize(paneWidth, paneHeight);
     pane.setPrefSize(paneWidth, paneHeight);
-    pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, new Insets(0))));
+
+    BorderStroke borderStroke = new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5));
+    Border border = new Border(borderStroke);
+    pane.setBorder(border);
 
     this.getChildren().addAll(myToolbar, pane, myTextFields);
   }

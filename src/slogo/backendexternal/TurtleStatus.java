@@ -15,6 +15,7 @@ public class TurtleStatus {
     private boolean leavesTrail;
     private PenModel penModel;
     private boolean turtleVisible;
+    private boolean clear;
 
     /**
      * Creating turtle status with an existing penModel
@@ -33,6 +34,7 @@ public class TurtleStatus {
         this.leavesTrail = smooth;
         this.turtleVisible = visible;
         this.penModel = penModel;
+        this.clear = false;
     }
 
     /**
@@ -110,6 +112,16 @@ public class TurtleStatus {
      * @return whether the turtle is visible or hiding
      */
     public boolean getVisible() { return turtleVisible; }
+
+    /**
+     * Toggles clear to be on for the ClearScreen command.
+     */
+    public void setClear() { clear = true; }
+
+    /**
+     * @return whether or not the screen should be cleared
+     */
+    public boolean getClear() { return clear; }
 
     /**
      * @return a string that summarizes the information in this turtle status, including the x location, y location,

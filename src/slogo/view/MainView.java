@@ -44,6 +44,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     turtle.getPenView().setMyPenColor(Color.RED);
     turtle.myImageView.setFitWidth(turtleSize);
     turtle.myImageView.setFitHeight(turtleSize);
+    turtle.myImageView.setX(turtle.myImageView.getX() - turtle.myImageView.getFitWidth() / 2);
+    turtle.myImageView.setY(turtle.myImageView.getY() - turtle.myImageView.getFitHeight() / 2);
     turtle.myImageView.setLayoutX(turtle.getMyStartXPos());
     turtle.myImageView.setLayoutY(turtle.getMyStartYPos());
 
@@ -65,11 +67,13 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public void moveTurtle(List<TurtleStatus> ts) {
       pane.getChildren().clear(); // clear complete list
-      turtle.myImageView.setVisible(turtle.getIsVisible());
-      System.out.println(turtle.getIsVisible());
-      turtle.executeState(ts);
 
-      pane.getChildren().add(turtle.myImageView);
+      turtle.executeState(ts);
+      //turtle.myImageView.setVisible(turtle.getIsVisible());
+      //System.out.println(turtle.getIsVisible());
+
+
+    pane.getChildren().add(turtle.myImageView);
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
     for(int i = 0; i < temp.size(); i++)  {

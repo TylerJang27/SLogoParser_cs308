@@ -25,11 +25,6 @@ public class TurtleView {
   private double myUpdatedXPos;
   private double myUpdatedYPos;
 
-  private double xCor;
-  private double yCor;
-  private double heading;
-  private boolean penDown;
-  private boolean showing;
 
   public Image myImage;
   public ImageView myImageView;
@@ -37,8 +32,8 @@ public class TurtleView {
   private PenView penView;
   private double myBearing;
   private boolean isVisible;
+  private boolean clearScreen;
   private String TURTLE_IMG = "view/imagesFolder/turtle.png";
-  //private PathTransition turtlePath;
 
 
 
@@ -53,119 +48,93 @@ public class TurtleView {
     myEndYPos = 250;
     myBearing = 0;
     isVisible = true;
+    clearScreen = false;
     penView = new PenView();
     myImage = new Image("/slogo/view/imagesFolder/raphael.png");
     myImageView =  new ImageView(myImage);
-    initializeQueries(myStartXPos, myStartYPos, myBearing);
-
   }
 
-  private void initializeQueries(double x, double y, double angle) {
-    xCor = x;
-    yCor = y;
-    heading = angle;
-    penDown = true;
-    showing = true;
-  }
 
   /**
    *  Executes the command that the user enters by doing the action specified in the command
    * @param t : Turtle status that holds command
    */
   public void executeState(List<TurtleStatus> t) {
-//    addPenViewLines(t);
     SequentialTransition sequentialTransition = new SequentialTransition();
     sequentialTransition.setNode(this.myImageView);
     Polyline pathLine = new Polyline();
-//    Double[] pathPoints = new Double[t.size()*2];
-    Iterator<TurtleStatus> iterator = t.iterator();
 
     int index = 0;
 
-    // directions of commands
-    // check for get trail
-    // getTrail : if getTrail is true, animate turtle -- if false, just move itd 50
-    // getPen : if true, pen down -- if false, pen up
-    // set heading, set position
-    // error handling, user-defined commands?
-
-    //TODO: TYLER's changes here:
-    //for(int i = 0; i < t.size(); i+=2) {
     for(int i = 0; i < t.size() - 1; i++) {
       index = 0;
       Double[] pathPoints = new Double[4];
       TurtleStatus start = t.get(i);
       TurtleStatus end = t.get(i + 1);
+      checkClearScreen(end);
       this.myImageView.setVisible(end.getVisible());
       if (end.getBearing() != myBearing) {
-        RotateTransition turtleRotate = new RotateTransition(Duration.millis(2500),
-            this.myImageView);
-        turtleRotate.setFromAngle(start.getBearing());
-        turtleRotate.setToAngle(end.getBearing());
-        myBearing = end.getBearing();
-        sequentialTransition.getChildren().add(turtleRotate);
+        addRotationCommand(sequentialTransition, start, end);
       }
-
-      else if (checkMovement(start, end) && end.getTrail()) {
-        addPenViewLines(start, end);
-        System.out.println("hello" + i);
-        pathPoints[index] = start.getX();
-        pathPoints[index + 1] = start.getY();
-        pathPoints[index + 2] = end.getX();
-        pathPoints[index + 3] = end.getY();
-        pathLine.getPoints().addAll(pathPoints);
-
-        PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
-                this.myImageView);
-        sequentialTransition.getChildren().add(turtlePath);
-        pathLine = new Polyline();
-
-      } else if (checkMovement(start, end) && !end.getTrail()) { //wraparound case
-        System.out.println("HELLO" + i);
-        //this.myImageView.setX(end.getX());
-        //this.myImageView.setY(end.getY());
-        pathPoints[index] = end.getX();
-        pathPoints[index + 1] = end.getY();
-        pathPoints[index + 2] = end.getX();
-        pathPoints[index + 3] = end.getY();
-        pathLine.getPoints().addAll(pathPoints);
-
-        PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
-                this.myImageView);
-        turtlePath.setDuration(new Duration(0));
-        sequentialTransition.getChildren().add(turtlePath);
-        pathLine = new Polyline();
-      } else {
-        pathPoints[index] = start.getX();
-        pathPoints[index + 1] = start.getY();
-        pathPoints[index + 2] = end.getX();
-        pathPoints[index + 3] = end.getY();
-        pathLine.getPoints().addAll(pathPoints);
-      }
-
-      xCor = myStartXPos + end.getX();
-      yCor = myStartYPos + end.getY();
-      heading = myBearing;
-      penDown = end.getPenDown();
-      showing = end.getVisible();
-
+      pathLine = getPolyline(sequentialTransition, pathLine, index, pathPoints, start, end);
     }
 
     setMyEndXPos(t.get(t.size()-1).getX());
     setMyEndYPos(t.get(t.size()-1).getY());
-//    setMyEndXPos(t.get(t.size()-1).getX());
-  //  setMyEndYPos(t.get(t.size()-1).getY());
- //   setMyUpdatedXPos(this.getMyStartXPos() + t.get(t.size() - 1).getX());
-   // setMyUpdatedYPos(this.getMyStartYPos() + t.get(t.size() - 1).getY());
 
-    /*PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
-            this.myImageView);
-    sequentialTransition.getChildren().add(turtlePath);*/
-    System.out.println(sequentialTransition);
-    System.out.println(sequentialTransition.getChildren());
-    System.out.println(sequentialTransition.getChildren().size());
     if (t.size() > 1) {
       sequentialTransition.play();
+    }
+  }
+
+  private Polyline getPolyline(SequentialTransition sequentialTransition, Polyline pathLine,
+      int index, Double[] pathPoints, TurtleStatus start, TurtleStatus end) {
+    if (checkMovement(start, end) && end.getTrail()) {
+      addPenViewLines(start, end);
+      pathLine = getPolyline(sequentialTransition, pathLine, index, pathPoints, start, end, 2500);
+
+    } else if (checkMovement(start, end) && !end.getTrail()) { //wraparound case
+      pathLine = getPolyline(sequentialTransition, pathLine, index, pathPoints, end, end, 0);
+    } else {
+      getPolyLinePoints(pathLine, index, pathPoints, start, end);
+    }
+    return pathLine;
+  }
+
+  private void getPolyLinePoints(Polyline pathLine, int index, Double[] pathPoints,
+      TurtleStatus start, TurtleStatus end) {
+    pathPoints[index] = start.getX();
+    pathPoints[index + 1] = start.getY();
+    pathPoints[index + 2] = end.getX();
+    pathPoints[index + 3] = end.getY();
+    pathLine.getPoints().addAll(pathPoints);
+  }
+
+  private Polyline getPolyline(SequentialTransition sequentialTransition, Polyline pathLine,
+      int index, Double[] pathPoints, TurtleStatus start, TurtleStatus end, int i2) {
+    getPolyLinePoints(pathLine, index, pathPoints, start, end);
+
+    PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
+        this.myImageView);
+    turtlePath.setDuration(new Duration(i2));
+    sequentialTransition.getChildren().add(turtlePath);
+    pathLine = new Polyline();
+    return pathLine;
+  }
+
+  private void addRotationCommand(SequentialTransition sequentialTransition, TurtleStatus start,
+      TurtleStatus end) {
+    RotateTransition turtleRotate = new RotateTransition(Duration.millis(2500),
+        this.myImageView);
+    turtleRotate.setFromAngle(start.getBearing());
+    turtleRotate.setToAngle(end.getBearing());
+    myBearing = end.getBearing();
+    sequentialTransition.getChildren().add(turtleRotate);
+  }
+
+  private void checkClearScreen(TurtleStatus end) {
+    if(end.getClear()) {
+      getPenView().getMyLines().clear();
     }
   }
 

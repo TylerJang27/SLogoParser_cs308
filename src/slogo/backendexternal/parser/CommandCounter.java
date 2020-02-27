@@ -19,7 +19,7 @@ public class CommandCounter {
 
   private void fillCounts(){
     counts.put("Backward", 1);
-    counts.put("ClearScreen", 1);
+    counts.put("ClearScreen", 0);
     counts.put("Forward", 1);
     counts.put("HideTurtle", 0);
     counts.put("Home", 0);

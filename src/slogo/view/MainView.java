@@ -26,32 +26,30 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   //Pane and Turtle Object
   private Pane pane;
-  private double paneWidth = 1075;
-  private double paneHeight = 600;
-  private double turtleSize = 90;
+  private final double paneWidth = 1075;
+  private final double paneHeight = 600;
+  private final double turtleSize = 90;
 
 
 
   private TurtleView turtle;
 
   public MainView() {
-
     // Get the Textfield and Toolbar in the MainView
     this.myTextFields = new TextFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setTextField(myTextFields);
 
     //Generate the initial Turtle Object
-    this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0);
-    turtle.getPenView().setMyPenColor(Color.RED);
-    turtle.myImageView.setFitWidth(turtleSize);
-    turtle.myImageView.setFitHeight(turtleSize);
-    turtle.myImageView.setX(turtle.myImageView.getX() - turtle.myImageView.getFitWidth() / 2);
-    turtle.myImageView.setY(turtle.myImageView.getY() - turtle.myImageView.getFitHeight() / 2);
-    turtle.myImageView.setLayoutX(turtle.getMyStartXPos());
-    turtle.myImageView.setLayoutY(turtle.getMyStartYPos());
+    setUpTurtle();
 
     //Set the Pane for the IDE
+    setUpPane();
+
+    this.getChildren().addAll(myToolbar, pane, myTextFields);
+  }
+
+  private void setUpPane() {
     this.pane = new Pane(turtle.myImageView);
     pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,
             CornerRadii.EMPTY, new Insets(0))));
@@ -63,23 +61,27 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     BorderStroke borderStroke = new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5));
     Border border = new Border(borderStroke);
     pane.setBorder(border);
+  }
 
-    this.getChildren().addAll(myToolbar, pane, myTextFields);
+  private void setUpTurtle() {
+    this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0);
+    turtle.getPenView().setMyPenColor(Color.RED);
+    turtle.myImageView.setFitWidth(turtleSize);
+    turtle.myImageView.setFitHeight(turtleSize);
+    turtle.myImageView.setX(turtle.myImageView.getX() - turtle.myImageView.getFitWidth() / 2);
+    turtle.myImageView.setY(turtle.myImageView.getY() - turtle.myImageView.getFitHeight() / 2);
+    turtle.myImageView.setLayoutX(turtle.getMyStartXPos());
+    turtle.myImageView.setLayoutY(turtle.getMyStartYPos());
   }
 
   public void moveTurtle(List<TurtleStatus> ts) {
-      pane.getChildren().clear(); // clear complete list
-
-      turtle.executeState(ts);
-      //turtle.myImageView.setVisible(turtle.getIsVisible());
-      //System.out.println(turtle.getIsVisible());
-
-
+    pane.getChildren().clear(); // clear complete list
+    turtle.executeState(ts);
     pane.getChildren().add(turtle.myImageView);
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
     for(int i = 0; i < temp.size(); i++)  {
-      if(!pane.getChildren().contains(temp.get(i))) { //TODO: redundant? Should be for-each?
+      if(!pane.getChildren().contains(temp.get(i))) {
         pane.getChildren().add(temp.get(i));
       }
     }

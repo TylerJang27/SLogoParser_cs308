@@ -104,7 +104,8 @@ public class TurtleView {
       }
       if (!end.getTrail()) {
         System.out.println("hello");
-        //TODO: JUMP, WITHOUT ANIMATING
+        setMyXPos(CENTER_X + end.getX());
+        setMyYPos(CENTER_Y + end.getY());
       }
     }
 

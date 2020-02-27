@@ -12,6 +12,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.web.PopupFeatures;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -66,8 +67,11 @@ public class Toolbar extends ToolBar {
   private void createMenus() {
     //Color Menus
     this.penMenu = new ColorPicker();
+    penMenu.setValue(Color.BLACK);
     penMenu.setMaxWidth(50);
+
     this.backgroundMenu = new ColorPicker();
+    backgroundMenu.setValue(Color.LIGHTGRAY);
     backgroundMenu.setMaxWidth(50);
 
     //Turtle Menu
@@ -77,7 +81,7 @@ public class Toolbar extends ToolBar {
 
     //Language Menu
     this.languageMenu = new ComboBox();
-    languageMenu.setPromptText("Choose Language");
+    languageMenu.setPromptText("Language");
     languageMenu.getItems().addAll("English", "French", "Not Turkish");
   }
 
@@ -101,14 +105,23 @@ public class Toolbar extends ToolBar {
     if(!turtleMenu.getSelectionModel().isEmpty()) {
       myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
 
+<<<<<<< HEAD
       myMainView.getTurtle().myImageView.setFitWidth(50);
       myMainView.getTurtle().myImageView.setFitHeight(50);
 
       myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyStartXPos());
       myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyStartYPos());
+=======
+      myMainView.getTurtle().myImageView.setFitWidth(myMainView.getTurtleSize());
+      myMainView.getTurtle().myImageView.setFitHeight(myMainView.getTurtleSize());
+      myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyXPos());
+      myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyYPos());
+
+      myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);
+>>>>>>> 5c492f65bbb714ae00d1978f700b1924e6dd4123
     }
 
-    myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);
+
   }
 
   private void handleHelp(ActionEvent actionEvent) {

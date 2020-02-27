@@ -80,7 +80,8 @@ public class TurtleView {
       Double[] pathPoints = new Double[4];
       TurtleStatus start = t.get(i);
       TurtleStatus end = t.get(i + 1);
-      this.isVisbile = end.getVisible();
+      this.myImageView.setVisible(end.getVisible());
+      //System.out.println(this.getIsVisible());
       if (end.getBearing() != myBearing) {
         RotateTransition turtleRotate = new RotateTransition(Duration.millis(2500),
             this.myImageView);
@@ -90,7 +91,7 @@ public class TurtleView {
         sequentialTransition.getChildren().add(turtleRotate);
       }
 
-      if (checkMovement(start, end) && end.getTrail()) {
+      else if (checkMovement(start, end) && end.getTrail()) {
         addPenViewLines(start, end);
         pathPoints[index] = start.getX();
         pathPoints[index + 1] = start.getY();
@@ -112,8 +113,8 @@ public class TurtleView {
       }
     }
 
-    setMyEndXPos(t.get(t.size()-1).getX());
-    setMyEndYPos(t.get(t.size()-1).getY());
+//    setMyEndXPos(t.get(t.size()-1).getX());
+  //  setMyEndYPos(t.get(t.size()-1).getY());
  //   setMyUpdatedXPos(this.getMyStartXPos() + t.get(t.size() - 1).getX());
    // setMyUpdatedYPos(this.getMyStartYPos() + t.get(t.size() - 1).getY());
 
@@ -270,6 +271,14 @@ public class TurtleView {
    */
   public void setMyBearing(double degrees) {
     myBearing = degrees;
+  }
+
+  /**
+   * sets bearing of turtle
+   * @param visible : new bearing of turtle
+   */
+  public void setIsVisible(boolean visible) {
+    isVisbile = visible;
   }
 
 }

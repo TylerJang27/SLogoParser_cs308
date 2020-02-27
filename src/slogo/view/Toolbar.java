@@ -91,7 +91,8 @@ public class Toolbar extends ToolBar {
     //Language Menu
     this.languageMenu = new ComboBox();
     languageMenu.setPromptText("English");
-    languageMenu.getItems().addAll("English", "French", "Not Turkish");
+    languageMenu.getItems().addAll("English", "Chinese", "French", "German", "Italian",
+        "Portuguese", "Russian", "Spanish", "Urdu");
   }
 
   private void createButtons() {

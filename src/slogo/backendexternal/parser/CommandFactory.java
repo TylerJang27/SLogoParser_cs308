@@ -20,7 +20,6 @@ import slogo.commands.controlcommands.For;
 import slogo.commands.controlcommands.If;
 import slogo.commands.controlcommands.IfElse;
 import slogo.commands.controlcommands.Repeat;
-import slogo.commands.controlcommands.Variable;
 import slogo.commands.mathcommands.ArcTangent;
 import slogo.commands.mathcommands.Cosine;
 import slogo.commands.mathcommands.Difference;
@@ -87,7 +86,7 @@ public class CommandFactory {
 
   //TODO Replace the following if else tree with reflection - will make much cleaner
 
-  public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException{
+  public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands){
     if(key.equals("Backward")){
       return new Backward(commands.get(0), X_MAX, Y_MAX, currentMode);
     }
@@ -206,21 +205,14 @@ public class CommandFactory {
       return new Or(commands.get(0), commands.get(1));
     }
     else if(key.equals("Repeat")){
+      System.out.println("Constant before repeat");
+      System.out.println(listCommands.peek());
       return new Repeat(commands.get(0), listCommands.pop());
     }
-//    else if(key.equals("DoTimes")){
-//      return new DoTimes(commands.get(0), commands.get(1), listCommands.pop());
-//    }
-//    else if(key.equals("For")){
-//      return new For(commands.get(0), commands.get(1), commands.get(2), commands.get(3), listCommands.pop());
-//    }
-    else if(key.equals("If")){
-      return new If(commands.get(0), listCommands.pop());
+    else{
+//      return functionFactory.buildFunction(key, commands, listCommands);
+      return null;
     }
-    else if(key.equals("IfElse")){
-      return new IfElse(commands.get(0), listCommands.pop(), listCommands.pop());
-    }
-    throw new InvalidCommandException("Command could not be found.");
   }
 
   public Command makeConstant(String current) {

@@ -67,6 +67,8 @@ public class Toolbar extends ToolBar {
     return commandButton;
   }
 
+  public ComboBox getLanguageBox() {return languageMenu; }
+
   /**
    * Helping methods to import menus and buttons to the toolbar
    */
@@ -88,8 +90,9 @@ public class Toolbar extends ToolBar {
 
     //Language Menu
     this.languageMenu = new ComboBox();
-    languageMenu.setPromptText("Language");
-    languageMenu.getItems().addAll("English", "French", "Not Turkish");
+    languageMenu.setPromptText("English");
+    languageMenu.getItems().addAll("English", "Chinese", "French", "German", "Italian",
+        "Portuguese", "Russian", "Spanish", "Urdu");
   }
 
   private void createButtons() {
@@ -120,8 +123,6 @@ public class Toolbar extends ToolBar {
       myMainView.getTurtle().myImageView.setX(myMainView.getTurtle().myImageView.getX() - myMainView.getTurtle().myImageView.getFitWidth() / 2);
       myMainView.getTurtle().myImageView.setY(myMainView.getTurtle().myImageView.getY() - myMainView.getTurtle().myImageView.getFitHeight() / 2);
     }
-
-
   }
 
   private void handleHelp(ActionEvent actionEvent) {
@@ -149,10 +150,6 @@ public class Toolbar extends ToolBar {
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
 
-  private void handleCommand(ActionEvent actionEvent) {
-    this.myMainView.sendCommand(textField.getText());
-    myTextFields.addCommandText(textField.getText());
-  }
 
   /** Methods for useful Getters and Setters */
 

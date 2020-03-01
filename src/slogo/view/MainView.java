@@ -12,9 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import slogo.backendexternal.TurtleStatus;
 import slogo.frontendexternal.TurtleView;
-import java.lang.Object;
-import javafx.scene.Node;
-import javafx.scene.shape.Shape;
+import slogo.view.InputFields.InputFields;
 
 /** @author Shruthi Kumar, Nevzat Sevim */
 
@@ -22,7 +20,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
-  private TextFields myTextFields;
+  private InputFields myTextFields;
 
   //Pane and Turtle Object
   private Pane pane;
@@ -36,7 +34,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public MainView() {
     // Get the Textfield and Toolbar in the MainView
-    this.myTextFields = new TextFields(this);
+    this.myTextFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setTextField(myTextFields);
 
@@ -136,7 +134,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   public Node getStyleableNode() { return null; }
 
   //Public Get Methods
-  public TextFields getTextFields(){return this.myTextFields;}
+  public InputFields getTextFields(){return this.myTextFields;}
   public Toolbar getToolBar(){return this.myToolbar;}
   public Pane getPane() {return this.pane;}
   public double getTurtleSize() {return this.turtleSize;}

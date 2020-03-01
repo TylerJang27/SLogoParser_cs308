@@ -1,4 +1,4 @@
-package slogo.view;
+package slogo.view.InputFields;
 
 import javafx.scene.layout.HBox;
 import javafx.application.Application;
@@ -11,75 +11,54 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.w3c.dom.Text;
 import slogo.frontendexternal.CommandReader;
+import slogo.view.MainView;
 
-public class TextFields extends HBox {
+public class InputFields extends HBox {
 
     private MainView myMainView;
     private ToolBar myToolBar;
 
     private CommandReader commandReader;
     private TextArea commands;
-    private TextArea variables;
     private TextArea queries;
 
+    private Console console;
     private VBox commandBox;
-    private VBox variableBox;
+    private UserDefinitions userDefinitions;
     private VBox queriesBox;
 
 
-    public TextFields(MainView mainview) {
+    public InputFields(MainView mainview) {
         setMyMainView(mainview);
+        userDefinitions = new UserDefinitions();
+        console = new Console();
+
         this.myToolBar = mainview.getToolBar();
 
-        Label comLabel = new Label("History of Commands:");
-        Label varLabel = new Label("List of Variables:");
-        Label queryLabel = new Label("Queries:");
-
-        this.commands = new TextArea();
-        this.variables = new TextArea();
+        Label queryLabel = new Label("Current Status:");
         this.queries = new TextArea();
-
-        this.commandBox = new VBox();
-        this.variableBox = new VBox();
         this.queriesBox = new VBox();
-
-        this.commandBox.getChildren().addAll(comLabel, commands);
-        this.variableBox.getChildren().addAll(varLabel, variables);
         this.queriesBox.getChildren().addAll(queryLabel, queries);
 
-        this.getChildren().addAll(commandBox, variableBox, queriesBox);
+        this.getChildren().addAll(commandBox, userDefinitions.getVBox(), queriesBox);
     }
 
-    public void addCommandText(String text){
-        commands.appendText(text + "\n");
-    }
+    public void addCommandText(){ console.addHistory(); }
     public void addVariableText(String text){
-        variables.appendText(text + "\n");
+        userDefinitions.addVariableText(text);
     }
     public void addQueriesText(Double value) { queries.appendText("Value: " + value + "\n"); }
-
-
-    public MainView getMyMainView() {
-        return myMainView;
-    }
-
-    public ToolBar getMyToolBar() {
-        return myToolBar;
-    }
 
     public TextArea getCommands() {
         return commands;
     }
 
-    public void clearCommands() { commands.clear(); }
-
-    public void clearVariables() { variables.clear(); }
-
+    public void clearCommands() { console.clear(); }
+    public void clearVariables() { userDefinitions.clear(); }
     public void clearQueries() { queries.clear(); }
 
-
     public TextArea getVariables() {
-        return variables;
+        return userDefinitions.getDefinitions();
     }
 
     public TextArea getQueries() { return queries; }
@@ -89,7 +68,7 @@ public class TextFields extends HBox {
     }
 
     public VBox getVariableBox() {
-        return variableBox;
+        return userDefinitions.getVBox();
     }
 
     public void setMyMainView(MainView mainView) {
@@ -105,7 +84,7 @@ public class TextFields extends HBox {
     }
 
     public void setVariables(TextArea newVariables) {
-        variables = newVariables;
+        userDefinitions.setArea(newVariables);
     }
 
     public void setCommandBox(VBox vBox) {
@@ -113,7 +92,7 @@ public class TextFields extends HBox {
     }
 
     public void setVariableBox(VBox vBox) {
-        variableBox = vBox;
+        userDefinitions.setVBox(vBox);
     }
 
 }

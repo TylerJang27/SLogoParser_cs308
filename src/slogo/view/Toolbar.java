@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.scene.control.*;
+import slogo.view.InputFields.InputFields;
 
 /**
  * @author Shruthi Kumar, Nevzat Sevim
@@ -29,7 +30,7 @@ public class Toolbar extends ToolBar {
 
   //Incorporate View and Text Field
   private MainView myMainView;
-  private TextFields myTextFields;
+  private InputFields myTextFields;
 
   //The Drop Down Menus Themselves
   private ColorPicker penMenu, backgroundMenu;
@@ -47,7 +48,7 @@ public class Toolbar extends ToolBar {
   public Toolbar(MainView mainview) {
     this.myMainView = mainview;
     this.myTextFields = myMainView.getTextFields();
-    textField = new TextField("Enter Command: ");
+//    textField = new TextField("Enter Command: ");
 
     createMenus();
     createButtons();
@@ -154,7 +155,7 @@ public class Toolbar extends ToolBar {
   /** Methods for useful Getters and Setters */
 
   // Public Set Methods
-  public void setTextField(TextFields tf){this.myTextFields = tf;}
+  public void setTextField(InputFields tf){this.myTextFields = tf;}
 
   // Public Get Methods
   public TextField getTextField(){ return textField; }

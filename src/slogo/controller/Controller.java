@@ -104,7 +104,7 @@ public class Controller extends Application {
       display.append(s);
       display.append("\n");
     }
-    myDisplay.getMainView().getTextFields().addCommandText(display.toString());
+    myDisplay.getMainView().getTextFields().addCommandText();
   }
 
   private void setStatus(TurtleStatus ts){

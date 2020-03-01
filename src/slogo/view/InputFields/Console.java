@@ -14,6 +14,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class Console {
+  private static final String DEFAULT_ERROR_MESSAGE = "The last command could not be recognized. "
+      + "Please check spelling and try again. Reason:";
   private static final Label comLabel = new Label("Console:");
   private VBox box;
   private TextField entry;
@@ -37,6 +39,9 @@ public class Console {
 
   public void addHistory(){
     history.add(entry.getText());
+  }
+
+  public void displayHistory(){
     ListIterator<String> iter = history.listIterator(history.size());
     box.getChildren().clear();
     addEditable();
@@ -46,7 +51,7 @@ public class Console {
     }
   }
 
-  public VBox getBox(){
+  public VBox getVBox(){
     return box;
   }
 
@@ -76,6 +81,12 @@ public class Console {
     entry.setPrefWidth(box.getWidth());
     entry.setStyle("-fx-text-fill: green");
     box.getChildren().add(entry);
+  }
+
+  public void addError(String message){
+    history.add(DEFAULT_ERROR_MESSAGE);
+    history.add(message);
+    displayHistory();
   }
 
   public void promptUser(String input){

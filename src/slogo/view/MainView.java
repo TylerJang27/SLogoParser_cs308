@@ -20,7 +20,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
-  private InputFields myTextFields;
+  private InputFields myInputFields;
 
   //Pane and Turtle Object
   private Pane pane;
@@ -28,15 +28,13 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private final double paneHeight = 600;
   private final double turtleSize = 90;
 
-
-
   private TurtleView turtle;
 
   public MainView() {
     // Get the Textfield and Toolbar in the MainView
-    this.myTextFields = new InputFields(this);
+    this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
-    this.myToolbar.setTextField(myTextFields);
+    this.myToolbar.setTextField(myInputFields);
 
     //Generate the initial Turtle Object
     setUpTurtle();
@@ -44,7 +42,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     //Set the Pane for the IDE
     setUpPane();
 
-    this.getChildren().addAll(myToolbar, pane, myTextFields);
+    this.getChildren().addAll(myToolbar, pane, myInputFields);
   }
 
   private void setUpPane() {
@@ -134,7 +132,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   public Node getStyleableNode() { return null; }
 
   //Public Get Methods
-  public InputFields getTextFields(){return this.myTextFields;}
+  public InputFields getTextFields(){return this.myInputFields;}
   public Toolbar getToolBar(){return this.myToolbar;}
   public Pane getPane() {return this.pane;}
   public double getTurtleSize() {return this.turtleSize;}

@@ -14,8 +14,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Parser {
-  private static final String DEFAULT_ERROR_MESSAGE = "The last command could not be recognized. "
-      + "Please check spelling and try again. Reason:";
   private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
   private List<String> commandHistory;
   private List<slogo.commands.Command> newCommands;
@@ -141,11 +139,6 @@ public class Parser {
       String translation = resources.getString(key);
       myCommands.put(key, Arrays.asList(translation.split("\\|")));
     }
-  }
-
-  public void addError(String message){
-    commandHistory.add(DEFAULT_ERROR_MESSAGE);
-    commandHistory.add(message);
   }
 
   public String getVariableString() {

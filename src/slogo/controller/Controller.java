@@ -22,6 +22,7 @@ import slogo.backendexternal.parser.Parser;
 import slogo.commands.Command;
 import slogo.frontendexternal.TurtleView;
 import slogo.view.Display;
+import slogo.view.InputFields.Console;
 
 public class Controller extends Application {
 
@@ -32,7 +33,7 @@ public class Controller extends Application {
   private Display myDisplay;
   private Parser myParser;
   private TurtleModel myModel;
-  private TextField input;
+  private Console console;
   private Button runButton;
   private ComboBox language;
   private TurtleStatus currentStatus;
@@ -46,24 +47,26 @@ public class Controller extends Application {
 
   @Override
   public void start(Stage currentStage) {
-    Stage myStage = new Stage();
     myDisplay = new Display();
-    input = myDisplay.getMainView().getToolBar().getTextField();
-    input.setOnKeyPressed(key -> quit(key.getCode()));
-    runButton = myDisplay.getMainView().getToolBar().getCommandButton();
-    runButton.setOnAction(event -> sendCommand(input));
-    language = myDisplay.getMainView().getToolBar().getLanguageBox();
-    language.setOnAction(event -> setLanguage(language));
-    Scene myScene = myDisplay.getScene();
     myParser = new Parser();
     myModel = new TurtleModel();
+
+    console = myDisplay.getMainView().getTextFields().getConsole();
+
+    runButton = myDisplay.getMainView().getToolBar().getCommandButton();
+    runButton.setOnAction(event -> sendCommand());
+
+    language = myDisplay.getMainView().getToolBar().getLanguageBox();
+    language.setOnAction(event -> setLanguage(language));
+
+    Scene myScene = myDisplay.getScene();
     currentStatus = INITIAL_STATUS;
-    myStage.setScene(myScene);
-    myStage.setTitle(TITLE);
-    myStage.setWidth(WIDTH);
-    myStage.setHeight(HEIGHT);
-    myStage.setResizable(false);
-    myStage.show();
+    currentStage.setScene(myScene);
+    currentStage.setTitle(TITLE);
+    currentStage.setWidth(WIDTH);
+    currentStage.setHeight(HEIGHT);
+    currentStage.setResizable(false);
+    currentStage.show();
   }
 
   private void quit(KeyCode key) {
@@ -72,39 +75,28 @@ public class Controller extends Application {
     }
   }
 
-  private void sendCommand(TextField field){
-    String input = field.getText();
+  private void sendCommand(){
     try{
-      myParser.parseLine(input);
+      myParser.parseLine(console.getText());
+      console.addHistory();
       List<Command> toSend = myParser.sendCommands();
-      System.out.println("Parser Command");
-      List<TurtleStatus> statuses = (List<TurtleStatus>) myModel
-          .executeCommands(toSend, currentStatus);
-      System.out.println("Status Size");
-      System.out.println(statuses.size());
-
+      List<TurtleStatus> statuses = myModel.executeCommands(toSend, currentStatus);
       if(statuses.size() > 1){
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);
       }
     }
     catch(Exception e){
-      myParser.addError(e.getMessage());
+      console.addError(e.getMessage());
     }
-    field.clear();
     displayHistory();
     displayVariables();
     displayQueries();
   }
 
   private void displayHistory(){
-    myDisplay.getMainView().getTextFields().clearCommands();
-    StringBuilder display = new StringBuilder();
-    for(String s : myParser.getCommandHistory()){
-      display.append(s);
-      display.append("\n");
-    }
-    myDisplay.getMainView().getTextFields().addCommandText();
+    console.clear();
+    console.displayHistory();
   }
 
   private void setStatus(TurtleStatus ts){

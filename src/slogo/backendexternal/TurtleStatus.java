@@ -61,6 +61,10 @@ public class TurtleStatus {
         this(1, 0, 0, 0, false, true, new PenModel());
     }
 
+    public TurtleStatus(int id) {
+        this(id, 0, 0, 0, false, true, new PenModel());
+    }
+
 
     public int getID(){return turtleID;}
 

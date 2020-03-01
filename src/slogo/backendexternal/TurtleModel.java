@@ -19,11 +19,14 @@ public class TurtleModel {
     //TODO: change implementation/display method/remove altogether?
     Collection<RunFunction> declaredFunctions;
 
+    Map<Integer, TurtleStatus> availableID;
+
     double lastReturn;
 
     public TurtleModel(List<Variable> vars, List<RunFunction> functions) {
         declaredVariables = vars;
         declaredFunctions = functions;
+        availableID = new HashMap<>();
     }
 
     /**
@@ -86,6 +89,31 @@ public class TurtleModel {
         }
         return Collections.unmodifiableList(statusList);
     }
+
+    public List<TurtleStatus> executeCommands(List<Command> commandList, List<Integer> turtleIDs) {
+        List<TurtleStatus> statusList = new ArrayList<>();
+        for(int id:turtleIDs) {
+            TurtleStatus ts;
+            if(!availableID.keySet().contains(id)){
+                ts = new TurtleStatus(id);
+                availableID.put(id, ts);
+            }
+            else ts = availableID.get(id);
+            
+            statusList.add(ts);
+            for (Command c : commandList) {
+                List<TurtleStatus> newStatuses = c.execute(ts);
+                if (!newStatuses.isEmpty()) {
+                    statusList.addAll(newStatuses.subList(1, Math.max(newStatuses.size(), 0)));
+                }
+                ts = statusList.get(statusList.size() - 1);
+                availableID.put(id, ts);
+                lastReturn = c.returnValue();
+            }
+        }
+        return Collections.unmodifiableList(statusList);
+    }
+
 
     /**
      * @return the return value of the last command executed.

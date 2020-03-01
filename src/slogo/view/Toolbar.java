@@ -48,7 +48,6 @@ public class Toolbar extends ToolBar {
   public Toolbar(MainView mainview) {
     this.myMainView = mainview;
     this.myTextFields = myMainView.getTextFields();
-    textField = new TextField("Enter Command: ");
 
     createMenus();
     createButtons();
@@ -58,7 +57,7 @@ public class Toolbar extends ToolBar {
     Label turtleLabel = new Label("Turtle:");
     Label languageLabel = new Label("Language:");
 
-    this.getItems().addAll(textField, commandButton, new Separator(),
+    this.getItems().addAll(commandButton, new Separator(),
                             turtleLabel, turtleMenu, penLabel, penMenu,
                             languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
                             helpButton);
@@ -97,7 +96,7 @@ public class Toolbar extends ToolBar {
   }
 
   private void createButtons() {
-    this.commandButton = new Button("Run");
+    this.commandButton = new Button("RUN");
 
     this.helpButton = new Button("?");
     helpButton.setOnAction(this:: handleHelp);
@@ -157,6 +156,4 @@ public class Toolbar extends ToolBar {
   // Public Set Methods
   public void setTextField(InputFields tf){this.myTextFields = tf;}
 
-  // Public Get Methods
-  public TextField getTextField(){ return textField; }
-}
+  }

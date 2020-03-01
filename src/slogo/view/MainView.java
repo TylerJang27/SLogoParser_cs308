@@ -10,6 +10,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import slogo.backendexternal.TurtleStatus;
 import slogo.frontendexternal.TurtleView;
 import slogo.view.InputFields.InputFields;
@@ -17,6 +18,8 @@ import slogo.view.InputFields.InputFields;
 /** @author Shruthi Kumar, Nevzat Sevim */
 
 public class MainView extends VBox implements EventHandler, MainViewAPI {
+  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth();
+  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight();
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
@@ -24,8 +27,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   //Pane and Turtle Object
   private Pane pane;
-  private final double paneWidth = 1075;
-  private final double paneHeight = 600;
+  private final double paneWidth = SCREEN_WIDTH;
+  private final double paneHeight = 2*SCREEN_HEIGHT/3.0;
   private final double turtleSize = 90;
 
   private TurtleView turtle;

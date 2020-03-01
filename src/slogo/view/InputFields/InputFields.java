@@ -7,16 +7,11 @@ import slogo.view.MainView;
 
 public class InputFields extends HBox {
 
-    private MainView myMainView;
-    private ToolBar myToolBar;
-
     private Console console;
     private UserDefinitions userDefinitions;
     private StatusView statusView;
 
     public InputFields(MainView mainview) {
-        setMyMainView(mainview);
-        this.myToolBar = mainview.getToolBar();
         userDefinitions = new UserDefinitions();
         console = new Console();
         statusView = new StatusView();
@@ -51,13 +46,13 @@ public class InputFields extends HBox {
         return userDefinitions.getVBox();
     }
 
-    public void setMyMainView(MainView mainView) {
-        myMainView = mainView;
-    }
-
-    public void setMyToolBar(ToolBar toolBar) {
-        myToolBar = toolBar;
-    }
+//    public void setMyMainView(MainView mainView) {
+//        myMainView = mainView;
+//    }
+//
+//    public void setMyToolBar(ToolBar toolBar) {
+//        myToolBar = toolBar;
+//    }
 
     public void setVariables(TextArea newVariables) {
         userDefinitions.setArea(newVariables);

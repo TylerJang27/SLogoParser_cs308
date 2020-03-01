@@ -69,34 +69,35 @@ public class Controller extends Application {
     currentStage.show();
   }
 
-  private void quit(KeyCode key) {
-    if(key == KeyCode.ESCAPE){
-      exit();
-    }
-  }
-
   private void sendCommand(){
     try{
       myParser.parseLine(console.getText());
-      console.addHistory();
       List<Command> toSend = myParser.sendCommands();
       List<TurtleStatus> statuses = myModel.executeCommands(toSend, currentStatus);
       if(statuses.size() > 1){
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);
       }
+      console.addHistory();
+      console.displayHistory();
+      displayVariables();
+      displayQueries();
     }
     catch(Exception e){
       console.addError(e.getMessage());
+      console.getEntry().setOnKeyPressed(key -> handlePrompt(key.getCode()));
     }
-    displayHistory();
-    displayVariables();
-    displayQueries();
   }
 
-  private void displayHistory(){
-    console.clear();
-    console.displayHistory();
+  private void handlePrompt(KeyCode key){
+    if(key == KeyCode.Y){
+//      sendCommand(input);
+    }
+    if(key == KeyCode.N){
+      console.displayHistory();
+      displayVariables();
+      displayQueries();
+    }
   }
 
   private void setStatus(TurtleStatus ts){

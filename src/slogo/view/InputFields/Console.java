@@ -14,22 +14,26 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class Console {
-  private static final String DEFAULT_ERROR_MESSAGE = "The last command could not be recognized. "
-      + "Please check spelling and try again. Reason:";
+  private static final String DEFAULT_ERROR_MESSAGE = "The last command could not be recognized.";
   private static final Label comLabel = new Label("Console:");
   private VBox box;
   private TextField entry;
   private ScrollPane pane;
   private List<String> history;
+  private double boxHeight;
+  private double boxWidth;
 
-  public Console(){ this(200, 300); }
+  public Console(){ this(200, 500); }
 
   public Console(double height, double width){
     history = new ArrayList<>();
     box = new VBox();
-    box.setPrefHeight(height);
-    box.setPrefWidth(width);
+    comLabel.setStyle("-fx-text-fill: white");
+    box.getChildren().add(comLabel);
+    boxHeight = height;
+    boxWidth = width;
     setDetails();
+    addEditable();
     pane = new ScrollPane(box);
   }
 
@@ -42,9 +46,9 @@ public class Console {
   }
 
   public void displayHistory(){
-    ListIterator<String> iter = history.listIterator(history.size());
-    box.getChildren().clear();
+    clear();
     addEditable();
+    ListIterator<String> iter = history.listIterator(history.size());
     while(iter.hasPrevious()){
       String past = "> " + iter.previous();
       addUneditable(past);
@@ -56,15 +60,25 @@ public class Console {
   }
 
   public void clear(){
-    box.getChildren().removeAll();
-    setDetails();
+    box.getChildren().clear();
+    box.getChildren().add(comLabel);
+  }
+
+  public void addError(String message){
+    addHistory();
+    history.add(DEFAULT_ERROR_MESSAGE);
+    entry.setText(message);
+  }
+
+  public TextField getEntry(){
+    return entry;
   }
 
   private void setDetails(){
+    box.setPrefHeight(boxHeight);
+    box.setPrefWidth(boxWidth);
     Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));
     box.setBackground(backing);
-    box.getChildren().addAll(comLabel);
-    addEditable();
   }
 
   private void addUneditable(String input){
@@ -72,6 +86,7 @@ public class Console {
     current.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
     current.setPrefWidth(box.getWidth());
     current.setStyle("-fx-text-fill: green");
+    current.setOnMouseClicked(event -> onClick(current.getText()));
     box.getChildren().add(current);
   }
 
@@ -83,12 +98,7 @@ public class Console {
     box.getChildren().add(entry);
   }
 
-  public void addError(String message){
-    history.add(DEFAULT_ERROR_MESSAGE);
-    history.add(message);
-    displayHistory();
-  }
-
-  public void promptUser(String input){
+  private void onClick(String input){
+    entry.setText(input.substring(2));
   }
 }

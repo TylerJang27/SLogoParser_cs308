@@ -12,7 +12,7 @@ public class UserDefinitions {
   public UserDefinitions(){
     variableBox = new VBox();
     variables = new TextArea();
-    variableBox.getChildren().addAll(variables, varLabel);
+    variableBox.getChildren().addAll(varLabel, variables);
   }
 
   public VBox getVBox(){

@@ -48,7 +48,7 @@ public class Toolbar extends ToolBar {
   public Toolbar(MainView mainview) {
     this.myMainView = mainview;
     this.myTextFields = myMainView.getTextFields();
-//    textField = new TextField("Enter Command: ");
+    textField = new TextField("Enter Command: ");
 
     createMenus();
     createButtons();

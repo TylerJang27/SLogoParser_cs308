@@ -23,7 +23,7 @@ public class HideTurtle implements TurtleCommand {
     public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
         ret.add(ts);
-        ret.add(new TurtleStatus(ts.getX(), ts.getY(), ts.getBearing(), true, false, ts.getPenDown(), ts.getPenColor()));
+        ret.add(new TurtleStatus(ts.getID(), ts.getX(), ts.getY(), ts.getBearing(), true, false, ts.getPenDown(), ts.getPenColor()));
         return ret;
     }
 

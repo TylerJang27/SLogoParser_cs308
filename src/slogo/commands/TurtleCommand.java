@@ -51,7 +51,7 @@ public interface TurtleCommand extends Command {
      * @return          the list of turtle statuses after moveDelta has been executed
      */
     static List<TurtleStatus> moveDelta(TurtleStatus ts, List<TurtleStatus> ret, double deltaX, double deltaY) {
-        ret.add(new TurtleStatus(ts.getX()+deltaX, ts.getY()+deltaY, ts.getBearing(),
+        ret.add(new TurtleStatus(ts.getID(), ts.getX()+deltaX, ts.getY()+deltaY, ts.getBearing(),
                 true, ts.getVisible(), ts.getPenDown(), ts.getPenColor()));
         return ret;
     }
@@ -65,7 +65,7 @@ public interface TurtleCommand extends Command {
             double y = position[1]+deltaY/steps;
             position = TurtleCommand.wrap(ts, x, y, xMax, yMax, ret);
         }
-        ret.add(new TurtleStatus(position[0],position[1],ts.getBearing(),true,ts.getVisible(),ts.getPenDown(), ts.getPenColor()));
+        ret.add(new TurtleStatus(ts.getID(), position[0],position[1],ts.getBearing(),true,ts.getVisible(),ts.getPenDown(), ts.getPenColor()));
         return ret;
     }
 
@@ -86,23 +86,23 @@ public interface TurtleCommand extends Command {
      */
     static double[] wrap(TurtleStatus ts, double x, double y, double xMax, double yMax, List<TurtleStatus> ret){
         if(x>xMax){
-            ret.add(new TurtleStatus(xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-            ret.add(new TurtleStatus(-xMax, y, ts.getBearing(), false , ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(ts.getID(), xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(ts.getID(), -xMax, y, ts.getBearing(), false , ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
             x = x - 2 * xMax;
         }
         if(x<-xMax){
-            ret.add(new TurtleStatus(-xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-            ret.add(new TurtleStatus(xMax,  y, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(ts.getID(), -xMax, y, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(ts.getID(), xMax,  y, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
             x = x + 2 * xMax;
         }
         if(y>yMax){
-            ret.add(new TurtleStatus(x, yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-            ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(ts.getID(), x, yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(ts.getID(), x, -yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
             y = y - 2 * yMax;
         }
         if(y<-yMax){
-            ret.add(new TurtleStatus(x, -yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
-            ret.add(new TurtleStatus(x, yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(ts.getID(), x, -yMax, ts.getBearing(), true, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+            ret.add(new TurtleStatus(ts.getID(), x, yMax, ts.getBearing(), false, ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
             y = y + 2 * yMax;
         }
         return new double[]{x, y};
@@ -129,7 +129,7 @@ public interface TurtleCommand extends Command {
         double y = ts.getY()+deltaY;
         x = edge(x,xMax);
         y = edge(y,yMax);
-        ret.add(new TurtleStatus(x,y, ts.getBearing(), true,ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
+        ret.add(new TurtleStatus(ts.getID(), x,y, ts.getBearing(), true,ts.getVisible(),ts.getPenDown(),ts.getPenColor()));
         return ret;
     }
 
@@ -157,7 +157,7 @@ public interface TurtleCommand extends Command {
      * @return
      */
     static List<TurtleStatus> turnDeltaHeading(TurtleStatus ts, List<TurtleStatus> ret, double deltaHeading) {
-        ret.add(new TurtleStatus(ts.getX(), ts.getY(), ts.getBearing()+deltaHeading,
+        ret.add(new TurtleStatus(ts.getID(), ts.getX(), ts.getY(), ts.getBearing()+deltaHeading,
                 false, ts.getVisible(), ts.getPenDown(), ts.getPenColor()));
         return ret;
     }

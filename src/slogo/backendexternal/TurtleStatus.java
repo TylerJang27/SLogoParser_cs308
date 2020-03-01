@@ -16,6 +16,7 @@ public class TurtleStatus {
     private PenModel penModel;
     private boolean turtleVisible;
     private boolean clear;
+    private int turtleID;
 
     /**
      * Creating turtle status with an existing penModel
@@ -27,7 +28,8 @@ public class TurtleStatus {
      * @param visible set whether the turtle is visible or hiding
      * @param penModel existing pen model that will be directly stored in turtle status
      */
-    public TurtleStatus(double xPos, double yPos, double bearing, boolean smooth, boolean visible, PenModel penModel){
+    public TurtleStatus(int id, double xPos, double yPos, double bearing, boolean smooth, boolean visible, PenModel penModel){
+        this.turtleID = id;
         this.x = xPos;
         this.y = yPos;
         this.bearing = bearing;
@@ -48,16 +50,19 @@ public class TurtleStatus {
      * @param penDown set whether the turtle leaves a trail (penDown and penColor will create a new PenModel object to store in turtle status)
      * @param penColor set the color of trail the turtle leaves (penDown and penColor will create a new PenModel object to store in turtle status)
      */
-    public TurtleStatus(double xPos, double yPos, double bearing, boolean trail, boolean visible, boolean penDown, Color penColor) {
-        this(xPos, yPos, bearing, trail, visible, new PenModel(penDown, penColor));
+    public TurtleStatus(int id, double xPos, double yPos, double bearing, boolean trail, boolean visible, boolean penDown, Color penColor) {
+        this(id, xPos, yPos, bearing, trail, visible, new PenModel(penDown, penColor));
     }
 
     /**
      * Create a default turtle status, where the turtle is located at (0,0), has a bearing of 0, and is visible
      */
     public TurtleStatus() {
-        this(0, 0, 0, false, true, new PenModel());
+        this(1, 0, 0, 0, false, true, new PenModel());
     }
+
+
+    public int getID(){return turtleID;}
 
     /**
      * @return the x value of the turtle status

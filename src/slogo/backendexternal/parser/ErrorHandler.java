@@ -5,16 +5,35 @@ import java.util.Map;
 
 public class ErrorHandler {
   private static final String PROMPT = "Did you mean %s? [y/n] ";
+  private String lastFix;
+  private String lastError;
 
   public ErrorHandler(){}
 
   public String getErrorMessage(String input, Map<String, List<String>> commands){
     String recommendation = determineCommand(input, commands);
+    lastError = input;
+    lastFix = recommendation;
     return promptUser(recommendation);
   }
 
   public String promptUser(String command){
     return String.format(PROMPT, command);
+  }
+
+  public String fixLine(String line){
+    String[] inputs = line.split(" ");
+    for(int i = 0; i < inputs.length; i++){
+      if(inputs[i].equals(lastError)){
+        inputs[i] = lastFix;
+      }
+    }
+    return String.join(" ", inputs);
+  }
+
+  public void clear(){
+    lastError = "";
+    lastFix = "";
   }
 
   private String determineCommand(String input, Map<String, List<String>> commands){

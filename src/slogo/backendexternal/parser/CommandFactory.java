@@ -61,12 +61,10 @@ public class CommandFactory {
 
   private String currentMode;
   private CommandCounter myCounts;
-  private ErrorHandler errorHandler;
 
   public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
     myCounts = new CommandCounter();
-    errorHandler = new ErrorHandler();
   }
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
@@ -241,6 +239,6 @@ public class CommandFactory {
         return key;
       }
     }
-    throw new InvalidCommandException(errorHandler.getErrorMessage(current, myCommands));
+    throw new InvalidCommandException(current);
   }
 }

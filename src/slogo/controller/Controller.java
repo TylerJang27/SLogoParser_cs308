@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
+import slogo.backendexternal.parser.ErrorHandler;
 import slogo.backendexternal.parser.Parser;
 import slogo.commands.Command;
 import slogo.frontendexternal.TurtleView;
@@ -37,6 +38,7 @@ public class Controller extends Application {
   private Button runButton;
   private ComboBox language;
   private TurtleStatus currentStatus;
+  private ErrorHandler errorHandler;
 
   /**
    * Start of the program.
@@ -49,16 +51,13 @@ public class Controller extends Application {
   public void start(Stage currentStage) {
     myDisplay = new Display();
     myParser = new Parser();
+    errorHandler = new ErrorHandler();
     myModel = new TurtleModel();
-
     console = myDisplay.getMainView().getTextFields().getConsole();
-
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
-
     language = myDisplay.getMainView().getToolBar().getLanguageBox();
     language.setOnAction(event -> setLanguage(language));
-
     Scene myScene = myDisplay.getScene();
     currentStatus = INITIAL_STATUS;
     currentStage.setScene(myScene);
@@ -84,14 +83,15 @@ public class Controller extends Application {
       displayQueries();
     }
     catch(Exception e){
-      console.addError(e.getMessage());
+      console.addError(errorHandler.getErrorMessage(e.getMessage(), myParser.getCommands()));
       console.getEntry().setOnKeyPressed(key -> handlePrompt(key.getCode()));
     }
   }
 
   private void handlePrompt(KeyCode key){
     if(key == KeyCode.Y){
-//      sendCommand(input);
+      console.getEntry().setText(errorHandler.fixLine(myParser.getLastLine()));
+      sendCommand();
     }
     if(key == KeyCode.N){
       console.displayHistory();

@@ -23,7 +23,7 @@ public class Console {
   private double boxHeight;
   private double boxWidth;
 
-  public Console(){ this(200, 500); }
+  public Console(){ this(200, 650); }
 
   public Console(double height, double width){
     history = new ArrayList<>();
@@ -68,6 +68,7 @@ public class Console {
     addHistory();
     history.add(DEFAULT_ERROR_MESSAGE);
     entry.setText(message);
+    entry.setEditable(false);
   }
 
   public TextField getEntry(){

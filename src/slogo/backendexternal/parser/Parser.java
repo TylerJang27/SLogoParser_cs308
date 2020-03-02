@@ -23,6 +23,7 @@ public class Parser {
   private FunctionFactory functionFactory;
   private Stack<Command> currentCommands;
   private Stack<String> currentComponents;
+  private String lastLine;
 
   public Parser(){ this("English");}
 
@@ -40,6 +41,8 @@ public class Parser {
 
 
   public void parseLine(String line){
+    lastLine = line;
+
     commandHistory.add(line);
 
     String[] inputs = line.split(" ");
@@ -102,17 +105,16 @@ public class Parser {
       } else if(Input.ListStart.matches(current)){
         inList = false;
         listCommands.add(currentList);
+//        currentCommand.add(currentList);
       }
 
       if(inList) {
-        currentCommand.addAll(commands);
         currentList.addAll(commands);
       }
       else{
         currentCommand.addAll(commands);
       }
     }
-
     return currentCommand;
 
   }
@@ -129,8 +131,8 @@ public class Parser {
     return false;
   }
 
-  public List<String> getCommandHistory(){
-    return commandHistory;
+  public Map<String, List<String>> getCommands(){
+    return myCommands;
   }
 
   public void setLanguage(String lang){
@@ -144,4 +146,6 @@ public class Parser {
   public String getVariableString() {
     return variableFactory.getVariableString();
   }
+
+  public String getLastLine() { return lastLine; }
 }

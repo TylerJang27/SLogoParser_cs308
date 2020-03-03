@@ -57,9 +57,9 @@ public class CommandCounter {
     counts.put("Not", 1);
     counts.put("NotEqual", 2);
     counts.put("Or", 2);
-    counts.put("Repeat", 1);
-    counts.put("If", 1);
-    counts.put("IfElse", 1);
+    counts.put("Repeat", 2);
+    counts.put("If", 2);
+    counts.put("IfElse", 3);
     counts.put("DoTimes", 2);
     counts.put("For", 4);
   }

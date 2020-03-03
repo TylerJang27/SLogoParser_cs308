@@ -10,35 +10,34 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import slogo.backendexternal.TurtleStatus;
 import slogo.frontendexternal.TurtleView;
-import java.lang.Object;
-import javafx.scene.Node;
-import javafx.scene.shape.Shape;
+import slogo.view.InputFields.InputFields;
 
 /** @author Shruthi Kumar, Nevzat Sevim */
 
 public class MainView extends VBox implements EventHandler, MainViewAPI {
+  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth();
+  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight();
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
-  private TextFields myTextFields;
+  private InputFields myInputFields;
 
   //Pane and Turtle Object
   private Pane pane;
-  private final double paneWidth = 1075;
-  private final double paneHeight = 600;
+  private final double paneWidth = SCREEN_WIDTH;
+  private final double paneHeight = 2*SCREEN_HEIGHT/3.0;
   private final double turtleSize = 90;
-
-
 
   private TurtleView turtle;
 
   public MainView() {
     // Get the Textfield and Toolbar in the MainView
-    this.myTextFields = new TextFields(this);
+    this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
-    this.myToolbar.setTextField(myTextFields);
+    this.myToolbar.setTextField(myInputFields);
 
     //Generate the initial Turtle Object
     setUpTurtle();
@@ -46,7 +45,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     //Set the Pane for the IDE
     setUpPane();
 
-    this.getChildren().addAll(myToolbar, pane, myTextFields);
+    this.getChildren().addAll(myToolbar, pane, myInputFields);
   }
 
   private void setUpPane() {
@@ -136,7 +135,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   public Node getStyleableNode() { return null; }
 
   //Public Get Methods
-  public TextFields getTextFields(){return this.myTextFields;}
+  public InputFields getTextFields(){return this.myInputFields;}
   public Toolbar getToolBar(){return this.myToolbar;}
   public Pane getPane() {return this.pane;}
   public double getTurtleSize() {return this.turtleSize;}

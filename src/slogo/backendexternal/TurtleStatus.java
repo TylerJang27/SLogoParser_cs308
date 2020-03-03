@@ -2,6 +2,8 @@ package slogo.backendexternal;
 
 import javafx.scene.paint.Color;
 
+import java.util.function.Consumer;
+
 /**
  * a "data" class that contains all the information for the turtle, including information regarding its x and y position, its bearing,
  * whether trail should be left when moved, and information of the pen used to draw the trail
@@ -17,6 +19,8 @@ public class TurtleStatus {
     private boolean turtleVisible;
     private boolean clear;
     private int turtleID;
+    private boolean con;
+    private Runnable runnable;
 
     /**
      * Creating turtle status with an existing penModel
@@ -28,7 +32,7 @@ public class TurtleStatus {
      * @param visible set whether the turtle is visible or hiding
      * @param penModel existing pen model that will be directly stored in turtle status
      */
-    public TurtleStatus(int id, double xPos, double yPos, double bearing, boolean smooth, boolean visible, PenModel penModel){
+    public TurtleStatus(int id, double xPos, double yPos, double bearing, boolean smooth, boolean visible, PenModel penModel, boolean con){
         this.turtleID = id;
         this.x = xPos;
         this.y = yPos;
@@ -37,6 +41,7 @@ public class TurtleStatus {
         this.turtleVisible = visible;
         this.penModel = penModel;
         this.clear = false;
+        this.con = con;
     }
 
     /**
@@ -50,21 +55,25 @@ public class TurtleStatus {
      * @param penDown set whether the turtle leaves a trail (penDown and penColor will create a new PenModel object to store in turtle status)
      * @param penColor set the color of trail the turtle leaves (penDown and penColor will create a new PenModel object to store in turtle status)
      */
-    public TurtleStatus(int id, double xPos, double yPos, double bearing, boolean trail, boolean visible, boolean penDown, Color penColor) {
-        this(id, xPos, yPos, bearing, trail, visible, new PenModel(penDown, penColor));
+    public TurtleStatus(int id, double xPos, double yPos, double bearing, boolean trail, boolean visible, boolean penDown, Color penColor, boolean con) {
+        this(id, xPos, yPos, bearing, trail, visible, new PenModel(penDown, penColor), con);
     }
 
     /**
      * Create a default turtle status, where the turtle is located at (0,0), has a bearing of 0, and is visible
      */
     public TurtleStatus() {
-        this(1, 0, 0, 0, false, true, new PenModel());
+        this(1, 0, 0, 0, false, true, new PenModel(), false);
     }
 
     public TurtleStatus(int id) {
-        this(id, 0, 0, 0, false, true, new PenModel());
+        this(id, 0, 0, 0, false, true, new PenModel(), false);
     }
 
+
+    public TurtleStatus(TurtleStatus ts, boolean con){
+        this(ts.getID(), ts.getX(), ts.getY(), ts.getBearing(), ts.getTrail(), ts.getVisible(), ts.getPenDown(), ts.getPenColor(), con);
+    }
 
     public int getID(){return turtleID;}
 
@@ -131,6 +140,20 @@ public class TurtleStatus {
      * @return whether or not the screen should be cleared
      */
     public boolean getClear() { return clear; }
+
+
+
+    public boolean hasRunnable(){return con;}
+
+    public void setRunnable(Runnable runnable){
+        this.runnable = runnable;
+    }
+
+    public void modify(){
+        runnable.run();
+    }
+
+
 
     /**
      * @return a string that summarizes the information in this turtle status, including the x location, y location,

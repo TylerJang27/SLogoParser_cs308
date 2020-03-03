@@ -99,7 +99,7 @@ public class TurtleModel {
                 availableID.put(id, ts);
             }
             else ts = availableID.get(id);
-            
+
             statusList.add(ts);
             for (Command c : commandList) {
                 List<TurtleStatus> newStatuses = c.execute(ts);

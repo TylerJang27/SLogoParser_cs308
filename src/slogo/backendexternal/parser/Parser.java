@@ -14,8 +14,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Parser {
-  private static final String DEFAULT_ERROR_MESSAGE = "The last command could not be recognized. "
-      + "Please check spelling and try again. Reason:";
   private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
   private List<String> commandHistory;
   private List<slogo.commands.Command> newCommands;
@@ -25,6 +23,7 @@ public class Parser {
   private FunctionFactory functionFactory;
   private Stack<Command> currentCommands;
   private Stack<String> currentComponents;
+  private String lastLine;
 
   public Parser(){ this("English");}
 
@@ -42,6 +41,8 @@ public class Parser {
 
 
   public void parseLine(String line){
+    lastLine = line;
+
     commandHistory.add(line);
 
     String[] inputs = line.split(" ");
@@ -104,17 +105,16 @@ public class Parser {
       } else if(Input.ListStart.matches(current)){
         inList = false;
         listCommands.add(currentList);
+//        currentCommand.add(currentList);
       }
 
       if(inList) {
-        currentCommand.addAll(commands);
         currentList.addAll(commands);
       }
       else{
         currentCommand.addAll(commands);
       }
     }
-
     return currentCommand;
 
   }
@@ -131,8 +131,8 @@ public class Parser {
     return false;
   }
 
-  public List<String> getCommandHistory(){
-    return commandHistory;
+  public Map<String, List<String>> getCommands(){
+    return myCommands;
   }
 
   public void setLanguage(String lang){
@@ -143,12 +143,9 @@ public class Parser {
     }
   }
 
-  public void addError(String message){
-    commandHistory.add(DEFAULT_ERROR_MESSAGE);
-    commandHistory.add(message);
-  }
-
   public String getVariableString() {
     return variableFactory.getVariableString();
   }
+
+  public String getLastLine() { return lastLine; }
 }

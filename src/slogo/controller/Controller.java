@@ -1,27 +1,18 @@
 package slogo.controller;
 
 
-import static javafx.application.Platform.exit;
-
 import java.util.List;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
-import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.backendexternal.parser.ErrorHandler;
 import slogo.backendexternal.parser.Parser;
 import slogo.commands.Command;
-import slogo.frontendexternal.TurtleView;
 import slogo.view.Display;
 import slogo.view.InputFields.Console;
 

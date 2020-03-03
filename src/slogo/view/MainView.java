@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
 import javafx.geometry.Insets;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.event.Event;
@@ -23,11 +25,14 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
   private TextFields myTextFields;
+  private TabPane tabPane;
 
   //Pane and Turtle Object
   private Pane pane;
-  private final double paneWidth = 1075;
-  private final double paneHeight = 600;
+  private final double paneWidth = 1000;
+  private final double paneHeight = 525;
+  private final double tabWidth = 1000;
+  private final double tabHeight = 525;
   private final double turtleSize = 90;
 
 
@@ -40,11 +45,13 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setTextField(myTextFields);
 
+
     //Generate the initial Turtle Object
     setUpTurtle();
 
     //Set the Pane for the IDE
     setUpPane();
+
 
     this.getChildren().addAll(myToolbar, pane, myTextFields);
   }

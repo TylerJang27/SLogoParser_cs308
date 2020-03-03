@@ -47,6 +47,7 @@ public class Controller extends Application {
   @Override
   public void start(Stage currentStage) {
     Stage myStage = new Stage();
+
     myDisplay = new Display();
     input = myDisplay.getMainView().getToolBar().getTextField();
     input.setOnKeyPressed(key -> quit(key.getCode()));

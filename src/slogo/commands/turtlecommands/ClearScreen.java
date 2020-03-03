@@ -29,7 +29,7 @@ public class ClearScreen implements TurtleCommand {
     public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = go.execute(ts);
         TurtleStatus last = ret.get(ret.size()-1);
-        TurtleStatus next = new TurtleStatus(last.getID(), last.getX(), last.getY(), 0.0, false, last.getVisible(), last.getPenDown(), last.getPenColor());
+        TurtleStatus next = new TurtleStatus(last.getID(), last.getX(), last.getY(), 0.0, false, last.getVisible(), last.getPenDown(), last.getPenColor(), false);
         next.setClear();
         ret.add(next);
         return ret;

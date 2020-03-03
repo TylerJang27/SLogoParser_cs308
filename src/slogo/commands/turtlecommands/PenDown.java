@@ -23,7 +23,7 @@ public class PenDown implements TurtleCommand {
     public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
         ret.add(ts);
-        ret.add(new TurtleStatus(ts.getID(), ts.getX(), ts.getY(), ts.getBearing(), true, ts.getVisible(), true, ts.getPenColor()));
+        ret.add(new TurtleStatus(ts.getID(), ts.getX(), ts.getY(), ts.getBearing(), true, ts.getVisible(), true, ts.getPenColor(), false));
         return (ret);
     }
 

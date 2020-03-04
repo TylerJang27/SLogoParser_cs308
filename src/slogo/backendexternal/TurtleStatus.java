@@ -15,7 +15,7 @@ public class TurtleStatus {
     private double y;
     private double bearing;
     private boolean leavesTrail;
-    private PenModel penModel;
+    private boolean penDown;
     private boolean turtleVisible;
     private boolean clear;
     private int turtleID;
@@ -30,49 +30,34 @@ public class TurtleStatus {
      * @param bearing set the bearing (degrees turned away from north) of the turtle status
      * @param smooth set whether there should be a line connecting this and the previous turtle status
      * @param visible set whether the turtle is visible or hiding
-     * @param penModel existing pen model that will be directly stored in turtle status
      */
-    public TurtleStatus(int id, double xPos, double yPos, double bearing, boolean smooth, boolean visible, PenModel penModel, boolean con){
+    public TurtleStatus(int id, double xPos, double yPos, double bearing, boolean smooth, boolean visible, boolean penDown){
         this.turtleID = id;
         this.x = xPos;
         this.y = yPos;
         this.bearing = bearing;
         this.leavesTrail = smooth;
         this.turtleVisible = visible;
-        this.penModel = penModel;
+        this.penDown = penDown;
         this.clear = false;
-        this.con = con;
+        this.con = false;
     }
 
-    /**
-     * Create turtle status using the inputs
-     *
-     * @param xPos sets the x value of turtle status
-     * @param yPos sets the y value of turtle status
-     * @param bearing set the bearing (degrees turned away from north) of the turtle status
-     * @param trail set whether there should be a line connecting this and the previous turtle status
-     * @param visible set whether the turtle is visible or hiding
-     * @param penDown set whether the turtle leaves a trail (penDown and penColor will create a new PenModel object to store in turtle status)
-     * @param penColor set the color of trail the turtle leaves (penDown and penColor will create a new PenModel object to store in turtle status)
-     */
-    public TurtleStatus(int id, double xPos, double yPos, double bearing, boolean trail, boolean visible, boolean penDown, Color penColor, boolean con) {
-        this(id, xPos, yPos, bearing, trail, visible, new PenModel(penDown, penColor), con);
-    }
 
     /**
      * Create a default turtle status, where the turtle is located at (0,0), has a bearing of 0, and is visible
      */
     public TurtleStatus() {
-        this(1, 0, 0, 0, false, true, new PenModel(), false);
+        this(1, 0, 0, 0, false, true, true);
     }
 
     public TurtleStatus(int id) {
-        this(id, 0, 0, 0, false, true, new PenModel(), false);
+        this(id, 0, 0, 0, false, true, true);
     }
 
 
-    public TurtleStatus(TurtleStatus ts, boolean con){
-        this(ts.getID(), ts.getX(), ts.getY(), ts.getBearing(), ts.getTrail(), ts.getVisible(), ts.getPenDown(), ts.getPenColor(), con);
+    public TurtleStatus(TurtleStatus ts){
+        this(ts.getID(), ts.getX(), ts.getY(), ts.getBearing(), ts.getTrail(), ts.getVisible(), ts.getPenDown());
     }
 
     public int getID(){return turtleID;}
@@ -109,7 +94,7 @@ public class TurtleStatus {
     /**
      * @return true if pen is put down (thus turtle leaves trails) and false if pen is up (turtle leaves no trail)
      */
-    public boolean getPenDown() { return penModel.getPenDown(); }
+    public boolean getPenDown() { return penDown; }
 
     /**
      * The value of penDraw is determined by both the smooth value and the penDown value
@@ -119,12 +104,8 @@ public class TurtleStatus {
      *
      * @return if a line should be drawn between the previous turtle status and this turtle status
      */
-    public boolean getPenDraw() { return leavesTrail && penModel.getPenDown(); } //USED BY THE FRONTEND
+    public boolean getPenDraw() { return leavesTrail && penDown; } //USED BY THE FRONTEND
 
-    /**
-     * @return the color of the penModel used by this turtle status
-     */
-    public Color getPenColor() { return penModel.getPenColor(); }
 
     /**
      * @return whether the turtle is visible or hiding
@@ -146,6 +127,7 @@ public class TurtleStatus {
     public boolean hasRunnable(){return con;}
 
     public void setRunnable(Runnable runnable){
+        this.con = true;
         this.runnable = runnable;
     }
 
@@ -163,6 +145,6 @@ public class TurtleStatus {
      */
     @Override
     public String toString() {
-        return String.format("%f, %f \t %f \t%b \t%b \t%b \t%s", x, y, bearing, leavesTrail, turtleVisible, penModel.getPenDown(), getPenColor());
+        return String.format("%f, %f \t %f \t%b \t%b \t%b \t%b", x, y, bearing, leavesTrail, turtleVisible, penDown, con);
     }
 }

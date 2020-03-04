@@ -20,6 +20,8 @@ import slogo.view.InputFields.InputFields;
 public class MainView extends VBox implements EventHandler, MainViewAPI {
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth();
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight();
+  //2*SCREEN_HEIGHT/3.0
+  //SCREEN_WIDTH
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
@@ -27,11 +29,12 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   //Pane and Turtle Object
   private Pane pane;
-  private final double paneWidth = SCREEN_WIDTH;
-  private final double paneHeight = 2*SCREEN_HEIGHT/3.0;
+  private final double paneWidth = 1000;
+  private final double paneHeight = 500;
   private final double turtleSize = 90;
 
   private TurtleView turtle;
+  private TurtleStatus turtleStatus;
 
   public MainView() {
     // Get the Textfield and Toolbar in the MainView
@@ -77,6 +80,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     pane.getChildren().clear(); // clear complete list
     turtle.executeState(ts);
     pane.getChildren().add(turtle.myImageView);
+    this.turtleStatus = ts.get(ts.size() - 1);
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
     for(int i = 0; i < temp.size(); i++)  {
@@ -139,5 +143,6 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   public Toolbar getToolBar(){return this.myToolbar;}
   public Pane getPane() {return this.pane;}
   public double getTurtleSize() {return this.turtleSize;}
+  public TurtleStatus getTurtleStatus() {return this.turtleStatus;}
 
 }

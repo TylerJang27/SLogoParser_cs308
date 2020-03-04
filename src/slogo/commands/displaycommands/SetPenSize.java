@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class SetShape implements DisplayCommand {
+public class SetPenSize implements DisplayCommand {
 
-    private Consumer<Integer> con;
+    private Consumer<Double> con;
     private Command arg1;
     private double returnVal;
 
-    public SetShape(Command argA, Consumer<Integer> consumer){
+    public SetPenSize(Command argA, Consumer<Double> consumer){
         arg1 = argA;
         con = consumer;
     }
@@ -23,7 +23,13 @@ public class SetShape implements DisplayCommand {
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
-        returnVal = DisplayCommand.indexAndAddRunnable(ret, arg1, ts, con);
+        ret.addAll(arg1.execute(ts));
+
+        returnVal = arg1.returnValue();
+        TurtleStatus t = new TurtleStatus(ret.get(ret.size()-1));
+        t.setRunnable(() -> con.accept(returnVal));
+
+        ret.add(t);
         return ret;
     }
 

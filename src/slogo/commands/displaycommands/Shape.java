@@ -7,24 +7,22 @@ import slogo.commands.DisplayCommand;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
-public class SetShape implements DisplayCommand {
+public class Shape implements DisplayCommand {
 
-    private Consumer<Integer> con;
-    private Command arg1;
+    private Supplier<Integer> sup;
     private double returnVal;
 
-    public SetShape(Command argA, Consumer<Integer> consumer){
-        arg1 = argA;
-        con = consumer;
+    public Shape(Supplier<Integer> sup){
+        this.sup = sup;
     }
 
 
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
-        List<TurtleStatus> ret = new ArrayList<>();
-        returnVal = DisplayCommand.indexAndAddRunnable(ret, arg1, ts, con);
-        return ret;
+        returnVal=sup.get();
+        return List.of(ts);
     }
 
     @Override

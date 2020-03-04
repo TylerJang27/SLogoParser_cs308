@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class SetPenColor implements DisplayCommand {
+public class SetShape implements DisplayCommand {
 
     private Consumer<Integer> con;
     private Command arg1;
     private double returnVal;
 
-    public SetPenColor(Command argA, Consumer<Integer> consumer){
+    public SetShape(Command argA, Consumer<Integer> consumer){
         arg1 = argA;
         con = consumer;
     }

@@ -1,20 +1,17 @@
 package slogo.commands.displaycommands;
 
 import slogo.backendexternal.TurtleStatus;
-import slogo.commands.Command;
 import slogo.commands.DisplayCommand;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class Shape implements DisplayCommand {
+public class PenColor implements DisplayCommand {
 
     private Supplier<Integer> sup;
     private double returnVal;
 
-    public Shape(Supplier<Integer> sup){
+    public PenColor(Supplier<Integer> sup){
         this.sup = sup;
     }
 

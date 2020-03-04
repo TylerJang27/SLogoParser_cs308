@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class SetBackGround implements DisplayCommand {
+public class SetPenColor implements DisplayCommand {
 
     private Consumer<Integer> con;
     private Command arg1;
     private double returnVal;
 
-    public SetBackGround(Command argA, Consumer<Integer> consumer){
+    public SetPenColor(Command argA, Consumer<Integer> consumer){
         arg1 = argA;
         con = consumer;
     }
@@ -23,14 +23,7 @@ public class SetBackGround implements DisplayCommand {
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
-        ret.addAll(arg1.execute(ts));
-        returnVal = arg1.returnValue();
-
-
-        TurtleStatus t = new TurtleStatus(ret.get(ret.size()-1), true);
-        t.setRunnable(() -> con.accept((int)returnVal));
-
-        ret.add(t);
+        returnVal = DisplayCommand.indexAndAddRunnable(ret, arg1, ts, con);
         return ret;
     }
 

@@ -56,6 +56,9 @@ public class Toolbar extends ToolBar {
     Label backgroundLabel = new Label("Background:");
     Label turtleLabel = new Label("Turtle:");
     Label languageLabel = new Label("Language:");
+    this.setMinSize(1200.0, 40.0);
+    //this.setMinSize(400.0, 40.0);
+
 
     this.getItems().addAll(commandButton, new Separator(),
                             turtleLabel, turtleMenu, penLabel, penMenu,
@@ -103,6 +106,7 @@ public class Toolbar extends ToolBar {
 
     this.changesButton = new Button("Apply");
     changesButton.setOnAction(this::handleChanges);
+
   }
 
   /** Methods that define the function of each Button */
@@ -149,6 +153,7 @@ public class Toolbar extends ToolBar {
 
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
+
 
 
   /** Methods for useful Getters and Setters */

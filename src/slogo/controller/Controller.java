@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.KeyCode;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
@@ -20,8 +21,8 @@ public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
   private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-  private static final int WIDTH = 1075;
-  private static final int HEIGHT = 758;
+  private static final int WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
+  private static final int HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
   private Display myDisplay;
   private Parser myParser;
   private TurtleModel myModel;
@@ -30,6 +31,7 @@ public class Controller extends Application {
   private ComboBox language;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
+  private Button addTabButton;
 
   /**
    * Start of the program.
@@ -49,6 +51,8 @@ public class Controller extends Application {
     runButton.setOnAction(event -> sendCommand());
     language = myDisplay.getMainView().getToolBar().getLanguageBox();
     language.setOnAction(event -> setLanguage(language));
+    addTabButton = myDisplay.getAddTabButton();
+    addTabButton.setOnAction(event -> addTab());
     Scene myScene = myDisplay.getScene();
     currentStatus = INITIAL_STATUS;
     currentStage.setScene(myScene);
@@ -57,6 +61,10 @@ public class Controller extends Application {
     currentStage.setHeight(HEIGHT);
     currentStage.setResizable(false);
     currentStage.show();
+  }
+
+  private void addTab() {
+    myDisplay.addTab();
   }
 
   private void sendCommand(){

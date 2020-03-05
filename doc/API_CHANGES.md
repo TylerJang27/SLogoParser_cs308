@@ -87,70 +87,68 @@ The goal of the external API on the backend will be to communicate with the fron
     	 cleaner and more compact - were previously to be included in the Parser, or in TurtleModel, but added to the 
     	 Parser API.
     	 
-    Used in Parser API:
-    1a. CommandFactory
-        Builds commands based on input from Parser
-        public CommandFactory(Map<String, List<String>> commands)
-          
-        Returns a command after determining parameters, and a call to buildCommand
-        public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException
-          
-        Uses a constructor of the name of the key and inputs from make command to call the declaredConstructor and return a Command
-        public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException
-          
-        Returns a new constant based on the current value
-        public Command makeConstant(String current) 
+   Used in Parser API:
+   
+   A. CommandFactory
+   * Builds commands based on input from Parser
+        * public CommandFactory(Map<String, List<String>> commands)
+   * Returns a command after determining parameters, and a call to buildCommand
+        * public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException
         
-        Changes mode based on user input so that commands execute according to current mode.
-        public void setMode(String mode)
+   * Uses a constructor of the name of the key and inputs from make command to call the declaredConstructor and return a Command
+        * public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException
         
-    1b. VariableFactory
-        Returns variables if previously defined, else makes new variables
-        public VariableFactory()
-        
-        Returns a makeVariable from the given command, variable from map of variables
-        public MakeVariable makeVariable(Command previous)
-        
-        Returns true if the variable has been previously handled/created, else creates variable (puts in local map)
-        public boolean handleVariable(String current)
-        
-        Returns variable from local map
-        public Variable getVariable(String varName)
-        
-        Returns a new make variable to define a previous variable with the new given command
-        public MakeVariable setVariable(Command command)
-        
-        Returns a string representation of a variable to its value for display
-        public String getVariableString()
-        
-    1c. FunctionFactory
-        Builds functions and returns runFunctions if previously defined
-        public FunctionFactory(Map<String, List<String>> commands)
-        
-        Returns true if a function of a given name has been previously defined
-        public boolean hasFunction(String funcName)
-        
-        Returns a RunFuction for a predetermined Function that has been made
-        public RunFunction runFunction(String funcName, Stack<Command> commands)
-        
-        Returns a MakeUserInstruction from the given components
-        public MakeUserInstruction handleFunction(Stack<String> components)
-        
-        Returns a Function from the given components to be used in a MakeUserInstruction
-        public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands)
-        
-    1d. Translator
-        Changes the internal mappings of commands to their representation in the new language
-        public void SetLanguage(String language)
-        
-        Returns the Map of current commands to their representation in the current language
-        public Map<String, List<String>> getCommands()
-        
-        Returns the translated version of a given command from the current language to the new language entered
-        public String translateCommand(String command, String language)
-        
-    
-
+   * Returns a new constant based on the current value
+        * public Command makeConstant(String current) 
+      
+   * Changes mode based on user input so that commands execute according to current mode.
+        * public void setMode(String mode)
+      
+  B. VariableFactory
+   * Returns variables if previously defined, else makes new variables
+        * public VariableFactory()
+      
+   * Returns a makeVariable from the given command, variable from map of variables
+        * public MakeVariable makeVariable(Command previous)
+      
+   * Returns true if the variable has been previously handled/created, else creates variable (puts in local map)
+        * public boolean handleVariable(String current)
+      
+   * Returns variable from local map
+        * public Variable getVariable(String varName)
+      
+   * Returns a new make variable to define a previous variable with the new given command
+        * public MakeVariable setVariable(Command command)
+      
+   * Returns a string representation of a variable to its value for display
+        * public String getVariableString()
+       
+  C. FunctionFactory
+   * Builds functions and returns runFunctions if previously defined
+        * public FunctionFactory(Map<String, List<String>> commands)
+      
+   * Returns true if a function of a given name has been previously defined
+        * public boolean hasFunction(String funcName)
+      
+   * Returns a RunFuction for a predetermined Function that has been made
+        * public RunFunction runFunction(String funcName, Stack<Command> commands)
+      
+   * Returns a MakeUserInstruction from the given components
+        * public MakeUserInstruction handleFunction(Stack<String> components)
+      
+   * Returns a Function from the given components to be used in a MakeUserInstruction
+        * public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands)
+      
+  D. Translator
+   * Changes the internal mappings of commands to their representation in the new language
+        * public void SetLanguage(String language)
+      
+   * Returns the Map of current commands to their representation in the current language
+        * public Map<String, List<String>> getCommands()
+      
+   * Returns the translated version of a given command from the current language to the new language entered
+        * public String translateCommand(String command, String language)
+      
 2. TurtleManager *[RENAMED]* 
     Used for modeling the motion of the turtle on the back-end, by executing Commands.
 	- Collection<String> getVariables() *[REMOVED]*

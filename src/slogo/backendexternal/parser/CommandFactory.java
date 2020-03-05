@@ -66,6 +66,7 @@ public class CommandFactory {
   private CommandCounter myCounts;
   private Map<String, String> myCommands = new HashMap<>();
   private List<String> myMovementCommands;
+  private Map<String, Integer> myControlCommands;
 
   public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
@@ -75,6 +76,10 @@ public class CommandFactory {
       myCommands.put(key, resources.getString(key));
     }
     myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
+    var resources2 = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "ControlCommand");
+    for(String key:resources2.keySet()){
+      myControlCommands.put(key, Integer.parseInt(resources2.getString(key)));
+    }
   }
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
@@ -103,12 +108,10 @@ public class CommandFactory {
 
       for(int i = 0; i<myCounts.getCount(key); i++) obj.add(commands.get(i));
       if(myMovementCommands.contains(key)) obj.add(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
-      if(key.equals("Repeat")||key.equals("If")||key.equals("IfElse")){
-        obj.add(listCommands.pop());
-      }
-      if(key.equals("IfElse")) obj.add(listCommands.pop());
-      Object[] objArray = obj.toArray();
+      if(myControlCommands.keySet().contains(key)) for(int i = 0; i<myControlCommands.get(key); i++) obj.add(listCommands.pop());
 
+
+      Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
       return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
 

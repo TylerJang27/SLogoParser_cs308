@@ -45,7 +45,10 @@ public class Controller extends Application {
     myDisplay = new Display();
     myParser = new Parser();
     errorHandler = new ErrorHandler();
+
     myModel = new TurtleModel();
+    setUpTurtle();
+    /*
     console = myDisplay.getMainView().getTextFields().getConsole();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
@@ -53,8 +56,12 @@ public class Controller extends Application {
     language.setOnAction(event -> setLanguage(language));
     addTabButton = myDisplay.getAddTabButton();
     addTabButton.setOnAction(event -> addTab());
-    Scene myScene = myDisplay.getScene();
     currentStatus = INITIAL_STATUS;
+
+     */
+    addTabButton = myDisplay.getAddTabButton();
+    addTabButton.setOnAction(event -> addTab());
+    Scene myScene = myDisplay.getScene();
     currentStage.setScene(myScene);
     currentStage.setTitle(TITLE);
     currentStage.setWidth(WIDTH);
@@ -65,6 +72,16 @@ public class Controller extends Application {
 
   private void addTab() {
     myDisplay.addTab();
+  }
+
+  private void setUpTurtle() {
+    console = myDisplay.getMainView().getTextFields().getConsole();
+    runButton = myDisplay.getMainView().getToolBar().getCommandButton();
+    runButton.setOnAction(event -> sendCommand());
+    language = myDisplay.getMainView().getToolBar().getLanguageBox();
+    language.setOnAction(event -> setLanguage(language));
+
+    currentStatus = INITIAL_STATUS;
   }
 
   private void sendCommand(){

@@ -25,7 +25,6 @@ public class TurtleView {
   private double myUpdatedXPos;
   private double myUpdatedYPos;
 
-
   public Image myImage;
   public ImageView myImageView;
 

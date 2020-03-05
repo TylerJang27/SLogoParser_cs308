@@ -34,6 +34,10 @@ public class Display {
   private List<MainView> myMainViewList;
   private Button addTabButton;
   private SingleSelectionModel<Tab> selectionModel;
+  private ResourceBundle buttonBundle;
+  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
+  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
+
 
   private int tabNo;
 
@@ -44,25 +48,34 @@ public class Display {
     buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
     myMainViewList = new ArrayList<>();
     addTabButton = new Button(buttonBundle.getString("AddTab"));
-    anchorPane = new AnchorPane();
+
     vBox = new VBox();
     vBox.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    anchorPane.setMaxSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    anchorPane.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 
     BorderStroke borderStroke = new BorderStroke(Color.DARKBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5));
     Border border = new Border(borderStroke);
-    anchorPane.setBorder(border);
 
     myMainView = new MainView();
     tab.setGraphic(myMainView);
     tab.setClosable(false);
     tabPane.getTabs().addAll(tab);
+//<<<<<<< HEAD
+//    tabPane.setTabMaxHeight(TAB_HEIGHT);
+//    tabPane.setTabMaxWidth(TAB_WIDTH);
+//    tabPane.setTabMinHeight(TAB_HEIGHT);
+//    tabPane.setTabMinWidth(TAB_WIDTH);
+////
+////    anchorPane.setTopAnchor(addTabButton, 10.0);
+////    anchorPane.setLeftAnchor(addTabButton, 5.0);
+////
+////    anchorPane.setTopAnchor(tabPane, 40.0);
+////    anchorPane.setLeftAnchor(tabPane, 5.0);
 
-//
-//    anchorPane.setTopAnchor(addTabButton, 10.0);
-//    anchorPane.setLeftAnchor(addTabButton, 5.0);
-//
+//    //anchorPane.getChildren().addAll(addTabButton, tabPane);
+//    vBox.getChildren().addAll(addTabButton, tabPane);
+//=======
+
 //    anchorPane.setTopAnchor(tabPane, 40.0);
 //    anchorPane.setLeftAnchor(tabPane, 5.0);
 
@@ -75,10 +88,10 @@ public class Display {
     tabPane.setTabMinHeight(760);
     tabPane.setTabMinWidth(1040);
 
-    selectionModel = tabPane.getSelectionModel();
+    //selectionModel = tabPane.getSelectionModel();
 
     vBox.setAlignment(Pos.CENTER);
-    vBox.getChildren().addAll(addTabButton,tabPane);
+    //vBox.getChildren().addAll(addTabButton,tabPane);
 
     myScene = new Scene(vBox);
   }
@@ -107,7 +120,7 @@ public class Display {
     Tab newTab = new Tab("SLogo " + tabNo);
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);
-    selectionModel.select(newTab);
+    //selectionModel.select(newTab);
   }
 
 }

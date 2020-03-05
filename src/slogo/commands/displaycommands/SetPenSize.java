@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class SetPenSize implements DisplayCommand {
-
+    public static final int NUM_ARGS = 1;
     private Consumer<Double> con;
     private Command arg1;
     private double returnVal;

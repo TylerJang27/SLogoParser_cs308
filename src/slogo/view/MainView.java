@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import slogo.backendexternal.TurtleStatus;
 import slogo.frontendexternal.TurtleView;
+import slogo.frontendexternal.TurtleViewManager;
 import slogo.view.InputFields.InputFields;
 
 /** @author Shruthi Kumar, Nevzat Sevim */
@@ -37,6 +38,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private Insets insets = new Insets(5.0);
 
   private TurtleView turtle;
+  //private TurtleViewManager turtle;
   private TurtleStatus turtleStatus;
 
   public MainView() {

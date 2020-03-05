@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -33,12 +34,25 @@ public class Toolbar extends ToolBar {
 
   //The Drop Down Menus Themselves
   private ColorPicker penMenu, backgroundMenu;
-  private ComboBox languageMenu, turtleMenu;
+  private ComboBox languageMenu, turtleMenu, modeMenu;
 
   //The Buttons
-  private Button commandButton, helpButton, changesButton, TabButton;
+  private Button commandButton, helpButton, changesButton;
+  TextField textField;
+
+  //Timeline Inputs
+  private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle, modeBundle;
+
+
 
   public Toolbar(MainView mainview) {
+    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
+    labelBundle = ResourceBundle.getBundle("slogo.view.resources.labels");
+    languageBundle = ResourceBundle.getBundle("slogo.view.resources.languages");
+    turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
+    modeBundle = ResourceBundle.getBundle("slogo.view.resources.modes");
+
+
     this.myMainView = mainview;
 
     this.setMaxSize(1010.0, 40.0);
@@ -48,16 +62,19 @@ public class Toolbar extends ToolBar {
     createMenus();
     createButtons();
 
-    Label penLabel = new Label("Pen:");
-    Label backgroundLabel = new Label("Background:");
-    Label turtleLabel = new Label("Turtle:");
-    Label languageLabel = new Label("Language:");
+    Label penLabel = new Label(labelBundle.getString("PenLabel"));
+    Label backgroundLabel = new Label(labelBundle.getString("BackgroundLabel"));
+    Label turtleLabel = new Label(labelBundle.getString("TurtleLabel"));
+    Label languageLabel = new Label(labelBundle.getString("LanguageLabel"));
+    this.setMinSize(1200.0, 40.0);
+    //this.setMinSize(400.0, 40.0);
+
 
     this.getItems().addAll(TabButton, new Separator(),
                             commandButton, new Separator(),
                             turtleLabel, turtleMenu, penLabel, penMenu,
                             languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
-                            helpButton);
+                            modeMenu, helpButton);
   }
 
   public Button getCommandButton(){
@@ -66,7 +83,11 @@ public class Toolbar extends ToolBar {
 
   public ComboBox getLanguageBox() {return languageMenu; }
 
-  /** Helping methods to import menus and buttons to the toolbar*/
+  public ComboBox getModeMenu(){ return modeMenu; }
+
+  /**
+   * Helping methods to import menus and buttons to the toolbar
+   */
 
   private void createMenus() {
     //Color Menus
@@ -81,24 +102,37 @@ public class Toolbar extends ToolBar {
     //Turtle Menu
     this.turtleMenu = new ComboBox();
     turtleMenu.setPromptText("raphael");
-    turtleMenu.getItems().addAll("mickey", "raphael", "turtle");
+    turtleMenu.getItems().addAll(turtleSkinBundle.getString("Mickey"),
+        turtleSkinBundle.getString("Raphael"),
+        turtleSkinBundle.getString("Turtle"));
 
     //Language Menu
     this.languageMenu = new ComboBox();
     languageMenu.setPromptText("English");
-    languageMenu.getItems().addAll("English", "Chinese", "French", "German", "Italian",
-        "Portuguese", "Russian", "Spanish", "Urdu");
+    languageMenu.getItems().addAll(languageBundle.getString("English"),
+        languageBundle.getString("Chinese"),
+        languageBundle.getString("French"),
+        languageBundle.getString("German"),
+        languageBundle.getString("Italian"),
+        languageBundle.getString("Portuguese"),
+        languageBundle.getString("Russian"),
+        languageBundle.getString("Spanish"),
+        languageBundle.getString("Urdu"));
+
+    this.modeMenu = new ComboBox();
+    modeMenu.setPromptText("Toroidal");
+    modeMenu.getItems().addAll(modeBundle.getString("Toroidal"),
+        modeBundle.getString("Normal"),
+        modeBundle.getString("Edge"));
   }
 
   private void createButtons() {
-    this.commandButton = new Button("RUN");
+    this.commandButton = new Button(buttonBundle.getString("Run"));
 
-    this.TabButton = new Button("Add Tab");
-
-    this.helpButton = new Button("?");
+    this.helpButton = new Button(buttonBundle.getString("Help"));
     helpButton.setOnAction(this:: handleHelp);
 
-    this.changesButton = new Button("Apply");
+    this.changesButton = new Button(buttonBundle.getString("ApplyLabel"));
     changesButton.setOnAction(this::handleChanges);
   }
 
@@ -159,8 +193,9 @@ public class Toolbar extends ToolBar {
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
 
-  public Button getAddTabButton() { return TabButton; }
-  public ColorPicker getPenMenu() {return penMenu;}
-  public ColorPicker getBackgroundMenu() {return penMenu;}
+  /** Methods for useful Getters and Setters */
 
-}
+  // Public Set Methods
+  public void setTextField(InputFields tf){this.myTextFields = tf;}
+
+  }

@@ -4,25 +4,25 @@ package slogo.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.parser.ErrorHandler;
 import slogo.backendexternal.parser.Parser;
 import slogo.backendexternal.parser.Translator;
 import slogo.commands.Command;
-import slogo.frontendexternal.Turtle;
 import slogo.view.Display;
 import slogo.view.InputFields.Console;
+import slogo.view.InputFields.MoveArrows;
+import slogo.view.InputFields.UserDefinitions;
 import slogo.view.MainView;
 
 public class Controller extends Application {
@@ -38,19 +38,22 @@ public class Controller extends Application {
   private TurtleModel myModel;
   private Translator translator;
   private Console console;
+  private UserDefinitions userDefinitions;
   private Button runButton;
   private ComboBox language;
+  private ComboBox modeMenu;
+  private MoveArrows arrows;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
 
   private Map<MainView, TurtleModel> mainViewTurtleModelMap;
+  private List<Tab> tabs;
+  private Translator translator;
 
   /**
    * Start of the program.
    */
-  public static void main(String[] args) {
-    launch(args);
-  }
+  public static void main(String[] args) { launch(args); }
 
   @Override
   public void start(Stage currentStage) {
@@ -59,14 +62,14 @@ public class Controller extends Application {
     myParser = new Parser(translator);
     myParser.setDisplay(myDisplay);
     errorHandler = new ErrorHandler();
+    translator = new Translator();
     mainViewTurtleModelMap = new HashMap<MainView, TurtleModel>();
-
-
+    setTabs();
+    //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
     myModel = new TurtleModel();
-    setUpTurtle();
-
-    Button TabButton = myDisplay.getMainView().getToolBar().getAddTabButton();
-    TabButton.setOnAction(event -> addTab());
+    setListeners(tabs.get(0));
+    addTabButton = myDisplay.getAddTabButton();
+    addTabButton.setOnAction(event -> addTab());
     Scene myScene = myDisplay.getScene();
 
     currentStage.setScene(myScene);
@@ -75,50 +78,46 @@ public class Controller extends Application {
     currentStage.setHeight(800);
     currentStage.setResizable(false);
     currentStage.show();
-
-    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
-      try {
-        step();
-      } catch (Exception ex) {
-        ex.printStackTrace();
-      }
-    });
-    Timeline animation = new Timeline();
-    animation.setCycleCount(Timeline.INDEFINITE);
-    animation.getKeyFrames().add(frame);
-    animation.play();
   }
 
-  private void step() {
-    switchTurtle();
+  private void setTabs() {
+    tabs = myDisplay.getTabPane().getTabs();
+    for(Tab tab : tabs){
+      tab.setOnSelectionChanged(event -> setListeners(tab));
+    }
   }
 
   private void addTab() {
     myDisplay.addTab();
-    Button TabButton = myDisplay.getMainView().getToolBar().getAddTabButton();
-    TabButton.setOnAction(event -> addTab());
-    setUpTurtle();
+    setTabs();
   }
 
-  private void switchTurtle() {
+  private void setListeners(Tab tab) {
+    currentStatus = INITIAL_STATUS; //TODO GET CURRENT STATUS FROM FRONT END
     console = myDisplay.getMainView().getTextFields().getConsole();
+    userDefinitions = myDisplay.getMainView().getTextFields().getUserDefinitions();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
     language = myDisplay.getMainView().getToolBar().getLanguageBox();
     language.setOnAction(event -> setLanguage(language));
+    modeMenu = myDisplay.getMainView().getToolBar().getModeMenu();
+    modeMenu.setOnAction(event -> setMode(modeMenu));
+    arrows = myDisplay.getMainView().getTextFields().getMoveArrows();
+    for(Button arrow : arrows.getButtons()){
+      arrow.setOnAction(event -> moveTurtle(arrow, arrows.getIncrement()));
+    }
   }
 
-  private void setUpTurtle() {
-    System.out.println(myDisplay.getMainView());
-    switchTurtle();
-    currentStatus = INITIAL_STATUS;
+  private void moveTurtle(Button arrow, double increment) {
+    //MOVE TURTLE DISTANCE BASED ON WHICH ARROW CLICKED, INCREMENT IS AMOUNT TO MOVE BYlk
   }
+
 
   private void sendCommand(){
     try{
       myParser.parseLine(console.getText());
       List<Command> toSend = myParser.sendCommands();
-      List<TurtleStatus> statuses = myModel.executeCommands(toSend, currentStatus);
+      List<TurtleStatus> statuses = myModel.executeCommands(toSend);
       if(statuses.size() > 1){
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);
@@ -162,6 +161,14 @@ public class Controller extends Application {
   }
 
   private void setLanguage(ComboBox language){
+    String newLanguage = language.getValue().toString();
+    console.translateHistory(translator, newLanguage);
+    userDefinitions.translateDefinitions(translator, newLanguage);
+    translator.setLanguage(newLanguage);
     myParser.setLanguage(translator);
+  }
+
+  private void setMode(ComboBox menu){
+    myParser.setMode(menu.getValue().toString());
   }
 }

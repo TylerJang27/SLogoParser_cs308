@@ -2,9 +2,11 @@ package slogo.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.application.Application;
+import java.util.ResourceBundle;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -14,7 +16,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 /**
  * @author Shruthi Kumar, Nevzat Sevim
@@ -23,14 +24,35 @@ public class Display {
   private Scene myScene;
   private MainView myMainView;
   private TabPane tabPane = new TabPane();
-  private Tab tab = new Tab("Main Tab");
-  SingleSelectionModel<Tab> selectionModel;
-  private int tabNo;
+  private Tab tab = new Tab("SLogo");
+  private Tab tab2 = new Tab("SLogo");
+  private List<MainView> myMainViewList;
+  private Button addTabButton; // = new Button("Add Tab");
+  private AnchorPane anchorPane;
+  private VBox vBox;// = new VBox;
 
+  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
+  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
+  public static final double TAB_WIDTH = SCREEN_WIDTH - 100;
+  public static final double TAB_HEIGHT = SCREEN_HEIGHT - 100;
+
+  private ResourceBundle buttonBundle;
 
   public Display() {
-    tabNo = 1;
-    selectionModel = tabPane.getSelectionModel();
+    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
+
+    myMainViewList = new ArrayList<>();
+    addTabButton = new Button(buttonBundle.getString("AddTab"));
+    anchorPane = new AnchorPane();
+    vBox = new VBox();
+    vBox.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    anchorPane.setMaxSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    anchorPane.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    BorderStroke borderStroke = new BorderStroke(Color.DARKBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5));
+    Border border = new Border(borderStroke);
+    anchorPane.setBorder(border);
+
 
     myMainView = new MainView();
     tab.setGraphic(myMainView);
@@ -58,6 +80,13 @@ public class Display {
     Tab tab = tabPane.getSelectionModel().getSelectedItem();
     return (MainView) tab.getGraphic();
   }
+
+  public Button getAddTabButton(){ return addTabButton; }
+
+  public TabPane getTabPane() {
+    return tabPane;
+  }
+
 
   public void addTab() {
     tabNo++;

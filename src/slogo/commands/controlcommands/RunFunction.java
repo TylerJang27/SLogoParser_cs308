@@ -6,6 +6,8 @@ import slogo.commands.Command;
 import slogo.commands.ControlCommand;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Class that implements ControlCommand, used to call/execute a function, assigning it values to its variables.
@@ -22,6 +24,8 @@ public class RunFunction implements ControlCommand {
 
     private double myVal;
 
+    private Consumer<List<Integer>> idConsumer;
+    private Supplier<List<Integer>> idSupplier;
     private List<Command> myValues;
     private Function myFunction;
 
@@ -30,12 +34,16 @@ public class RunFunction implements ControlCommand {
      *
      * @param builtFunction             the function to be called/executed.
      * @param variableValues            the values to assign to builtFunction's variables.
+     * @param consumer                  Consumer for modifying the activeTurtles in TurtleModel.
+     * @param supplier                  Supplier for retrieving the activeTurtles in TurtleModel.
      * @throws InvalidCommandException  if the number of values does not equal the number of variables.
      */
-    public RunFunction(Function builtFunction, List<Command> variableValues) throws InvalidCommandException {
+    public RunFunction(Function builtFunction, List<Command> variableValues, Consumer<List<Integer>> consumer, Supplier<List<Integer>> supplier) throws InvalidCommandException {
         myFunction = builtFunction;
         myValues = variableValues;
-        if (myValues.size() != myFunction.getNumVars()) {
+        idConsumer = consumer;
+        idSupplier = supplier;
+        if (myValues.size() > myFunction.getNumVars()) {
             //TODO Dennis: I would like to grab this from the resource files for the error name, but
             // I am unsure how to do so without overextending my bounds. Do you think you could look into this?
             throw new InvalidCommandException(BAD_FUNCTION_CALL);
@@ -51,14 +59,18 @@ public class RunFunction implements ControlCommand {
      */
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
+        List<Integer> previousIds = idSupplier.get();
         List<TurtleStatus> ret = new ArrayList<>();
 
         for (int k = 0; k < myValues.size(); k ++) {
             Command c = myValues.get(k);
-            double val = ControlCommand.executeAndExtractValue(c, ts, ret);
+            double val = Command.executeAndExtractValue(c, ts, ret);
+            ts = ret.get(ret.size() - 1);
             myFunction.setVariableValue(k, val);
         }
-        myVal = ControlCommand.executeAndExtractValue(myFunction, ts, ret);
+        myVal = Command.executeAndExtractValue(myFunction, ts, ret);
+        idConsumer.accept(previousIds); //TODO: ACCOUNT FOR IF THESE COMMANDS MODIFY THE MAP
+        //TODO: ADD IN GET THE TURTLESTATUS FOR THE NEW ACTIVE
         return ret;
     }
 

@@ -8,6 +8,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import slogo.backendexternal.parser.Translator;
 
 public class UserDefinitions {
   private static final Label varLabel = new Label("List of Variables:");
@@ -45,4 +46,16 @@ public class UserDefinitions {
   public TextArea getDefinitions(){ return variables; }
 
   public void setArea(TextArea definitions){ variables = definitions; }
+
+  public void translateDefinitions(Translator translator, String newLanguage) {
+    variables.clear();
+    for(String line : variables.getText().split("\n")){
+      StringBuilder translatedLine = new StringBuilder();
+      for(String command : line.split(" ")){
+        translatedLine.append(translator.translateCommand(command, newLanguage));
+        translatedLine.append(" ");
+      }
+      addVariableText(translatedLine.toString());
+    }
+  }
 }

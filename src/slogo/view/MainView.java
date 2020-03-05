@@ -95,13 +95,6 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     pane.getChildren().clear(); // clear complete list
     pane.getChildren().add(turtle.myImageView);
 
-    /* PROLLY NEED TO FIX OBJECT CASTING
-    for(Object temp : ((List) turtleManager.getTurtleViews())) {
-      pane.getChildren().add(((TurtleView) temp).getMyImageView());
-    }
-
-    turtleManager.execute(ts);
-     */
 
     turtle.executeState(ts);
     this.turtleStatus = ts.get(ts.size() - 1);

@@ -40,15 +40,11 @@ public class Toolbar extends ToolBar {
   //The Buttons
 
   private Button commandButton, helpButton, changesButton;
-  TextField textField;
 
   //Timeline Inputs
   private static final int FRAMES_PER_SECOND = 60;
   private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
   private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle;
-
-
-  //private Button commandButton, helpButton, changesButton, TabButton;
 
 
   public Toolbar(MainView mainview) {
@@ -57,22 +53,19 @@ public class Toolbar extends ToolBar {
     languageBundle = ResourceBundle.getBundle("slogo.view.resources.languages");
     turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
 
-
     this.myMainView = mainview;
     this.myTextFields = myMainView.getTextFields();
 
     createMenus();
     createButtons();
 
-
     Label penLabel = new Label(labelBundle.getString("PenLabel"));
     Label backgroundLabel = new Label(labelBundle.getString("BackgroundLabel"));
     Label turtleLabel = new Label(labelBundle.getString("TurtleLabel"));
     Label languageLabel = new Label(labelBundle.getString("LanguageLabel"));
-    this.setMinSize(1200.0, 40.0);
-    //this.setMinSize(400.0, 40.0);
-
-
+    this.setMinSize(1010.0, 40.0);
+    this.setMaxSize(1010.0, 40.0);
+    this.setPrefSize(1010.0, 40.0);
 
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,

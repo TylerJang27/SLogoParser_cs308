@@ -77,9 +77,6 @@ The goal of the external API on the backend will be to communicate with the fron
   
   * Returns the history of variables to be displayed by the controller.
     * public String getVariableString() *[ADDED]* Moved from turtle model after the implementation of the Variable Factory
-
-  * Returns formalized version of a command, throws exception if the command cannot be found.
-    * public String validateCommand(String command) *[ADDED]*
 	 
    *[ADDED]*
 	 Note: The following components to Parser were not originally planned, but were implemented internally
@@ -211,16 +208,18 @@ The goal of the external API on the backend will be to communicate with the fron
     Returns a Map of any variables created by a command?s execution, to be read and forwarded to a variable explorer if desired.
 
 2. Parser throws InvalidCommandError
-    
-    The hub of the back end that takes Strings and turns them into Commands and TurtleStatus instances.
-	- void validateCommand(String s) throws InvalidCommandError
-    
-    Checks if a given command is recognized as a possible command. If not, throws error.
-	- Collection<TurtleStatus> parseCommands(Collection<String> commandStrings)
-    
-    Takes in a collection of String commands and converts them into a Collection of TurtleStatus instances.
-    Catches and handles invalid command errors by not executing commands and returning to Controller with the error, which in turn will update the GUI
 
+   * Takes in a collection of String commands and converts them into a Collection of TurtleStatus instances. Catches and handles invalid command errors by not 
+   executing commands and returning to Controller with the error, which in turn will update the GUI. *[ALTERED]* Now returns Command instances, which are turned into 
+   turtle statuses by the model.
+   
+    
+  * Returns formalized version of a command, throws exception if the command cannot be found.
+    * public String validateCommand(String command) throws InvalidCommandError *[ALTERED]* now returns key if validated
+    
+  * Iterates over each of the individual parts of the command and returns Command objects based on the input if they can be found.
+    * public Stack<Command> parseComponents(Stack<String> components) throws InvalidCommandException *[SAME]*
+    
 
 
 

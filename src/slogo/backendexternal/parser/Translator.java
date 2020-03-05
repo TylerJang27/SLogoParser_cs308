@@ -20,7 +20,7 @@ public class Translator {
     currentCommands = this.setLanguage(language);
   }
 
-  public Map getCurrentCommands(){ return currentCommands; }
+  public Map<String, List<String>> getCurrentCommands(){ return currentCommands; }
 
   public Map<String, List<String>> setLanguage(String language){
     Map<String, List<String>> translatedCommands = new HashMap<String, List<String>>();

@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Screen;
@@ -48,7 +49,7 @@ public class Controller extends Application {
   private ErrorHandler errorHandler;
   private Button addTabButton;
   private Map<MainView, TurtleModel> mainViewTurtleModelMap;
-  private TabPane tabs;
+  private List<Tab> tabs;
   private Translator translator;
 
   /**
@@ -63,19 +64,10 @@ public class Controller extends Application {
     errorHandler = new ErrorHandler();
     translator = new Translator();
     mainViewTurtleModelMap = new HashMap<MainView, TurtleModel>();
+    setTabs();
     //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
     myModel = new TurtleModel();
-    setUpTurtle();
-    /*
-    console = myDisplay.getMainView().getTextFields().getConsole();
-    runButton = myDisplay.getMainView().getToolBar().getCommandButton();
-    runButton.setOnAction(event -> sendCommand());
-    language = myDisplay.getMainView().getToolBar().getLanguageBox();
-    language.setOnAction(event -> setLanguage(language));
-    addTabButton = myDisplay.getAddTabButton();
-    addTabButton.setOnAction(event -> addTab());
-    currentStatus = INITIAL_STATUS;
-     */
+    setListeners(tabs.get(0));
     addTabButton = myDisplay.getAddTabButton();
     addTabButton.setOnAction(event -> addTab());
     Scene myScene = myDisplay.getScene();
@@ -85,21 +77,22 @@ public class Controller extends Application {
     currentStage.setHeight(HEIGHT);
     currentStage.setResizable(false);
     currentStage.show();
+  }
 
-//    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> { step(); });
-
-//    Timeline animation = new Timeline();
-//    animation.setCycleCount(Timeline.INDEFINITE);
-//    animation.getKeyFrames().add(frame);
-//    animation.play();
+  private void setTabs() {
+    tabs = myDisplay.getTabPane().getTabs();
+    for(Tab tab : tabs){
+      tab.setOnSelectionChanged(event -> setListeners(tab));
+    }
   }
 
   private void addTab() {
     myDisplay.addTab();
-    setUpTurtle();
+    setTabs();
   }
 
-  private void setListeners() {
+  private void setListeners(Tab tab) {
+    currentStatus = INITIAL_STATUS; //TODO GET CURRENT STATUS FROM FRONT END
     console = myDisplay.getMainView().getTextFields().getConsole();
     userDefinitions = myDisplay.getMainView().getTextFields().getUserDefinitions();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
@@ -115,15 +108,9 @@ public class Controller extends Application {
   }
 
   private void moveTurtle(Button arrow, double increment) {
-    //MOVE TURTLE DISTANCE BASED ON WHICH ARROW CLICKED, INCREMENT IS AMOUNT TO MOVE BY
+    //MOVE TURTLE DISTANCE BASED ON WHICH ARROW CLICKED, INCREMENT IS AMOUNT TO MOVE BYlk
   }
 
-  private void setUpTurtle() {
-    System.out.println(myDisplay.getMainView());
-    setListeners();
-//    switchTurtle();
-    currentStatus = INITIAL_STATUS;
-  }
 
   private void sendCommand(){
     try{

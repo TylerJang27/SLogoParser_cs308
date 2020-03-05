@@ -23,12 +23,12 @@ public class Parser {
 
   public Parser(Translator translator){
     myCommands = translator.getCurrentCommands();
-    newCommands = new ArrayList<Command>();
-    commandHistory = new ArrayList<String>();
+    newCommands = new ArrayList<>();
+    commandHistory = new ArrayList<>();
     commandFactory = new CommandFactory(myCommands);
     variableFactory = new VariableFactory();
     functionFactory = new FunctionFactory(myCommands);
-    currentCommands = new Stack<Command>();
+    currentCommands = new Stack<>();
     currentComponents = new Stack<>();
   }
 

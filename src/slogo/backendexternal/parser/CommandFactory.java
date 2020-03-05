@@ -112,7 +112,7 @@ public class CommandFactory {
       if(key.equals("IfElse")) obj.add(listCommands.pop());
       Object[] objArray = obj.toArray();
 
-      
+
       Class<?> params[] = findParameter(objArray);
       return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
 

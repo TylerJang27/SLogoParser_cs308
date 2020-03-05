@@ -3,6 +3,8 @@ package slogo.backendexternal.parser;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
@@ -101,26 +103,6 @@ public class CommandFactory {
   private int getCount(String command){
     return counts.get(command);
   }
-
-
-  private Class<?>[] findParameter(Object[] objArray){
-    Class<?> params[] = new Class[objArray.length];
-    for (int i = 0; i < objArray.length; i++) {
-      if (objArray[i] instanceof Double) {
-        params[i] = Double.TYPE;
-      } else if (objArray[i] instanceof String) {
-        params[i] = String.class;
-      } else if (objArray[i] instanceof Command) {
-        params[i] = Command.class;
-      } else if (objArray[i] instanceof List) {
-        params[i] = List.class;
-      } else if (objArray[i] instanceof Consumer) {
-        params[i] = Consumer.class;
-      }
-    }
-    return params;
-  }
-
 
 
   private Class<?>[] findParameter(Object[] objArray){

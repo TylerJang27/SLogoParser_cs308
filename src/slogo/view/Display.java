@@ -41,11 +41,24 @@ public class Display {
 
     myMainViewList = new ArrayList<>();
     addTabButton = new Button("Add Tab");
+    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
+    myMainViewList = new ArrayList<>();
+    addTabButton = new Button(buttonBundle.getString("AddTab"));
+    anchorPane = new AnchorPane();
+    vBox = new VBox();
+    vBox.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    anchorPane.setMaxSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    anchorPane.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    BorderStroke borderStroke = new BorderStroke(Color.DARKBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5));
+    Border border = new Border(borderStroke);
+    anchorPane.setBorder(border);
 
     myMainView = new MainView();
     tab.setGraphic(myMainView);
     tab.setClosable(false);
     tabPane.getTabs().addAll(tab);
+<<<<<<< HEAD
 //<<<<<<< HEAD
 //    tabPane.setTabMaxHeight(TAB_HEIGHT);
 //    tabPane.setTabMaxWidth(TAB_WIDTH);
@@ -57,11 +70,24 @@ public class Display {
 ////
 ////    anchorPane.setTopAnchor(tabPane, 40.0);
 ////    anchorPane.setLeftAnchor(tabPane, 5.0);
+=======
+
+>>>>>>> 3c7aa5857699fec5403828f17bf0720fb67e44e3
 //
 //
+<<<<<<< HEAD
 //    //anchorPane.getChildren().addAll(addTabButton, tabPane);
 //    vBox.getChildren().addAll(addTabButton, tabPane);
 //=======
+=======
+//    anchorPane.setTopAnchor(tabPane, 40.0);
+//    anchorPane.setLeftAnchor(tabPane, 5.0);
+
+
+    //anchorPane.getChildren().addAll(addTabButton, tabPane);
+    vBox.getChildren().addAll(addTabButton, tabPane);
+
+>>>>>>> 3c7aa5857699fec5403828f17bf0720fb67e44e3
     tabPane.setTabMaxHeight(760);
     tabPane.setTabMaxWidth(1040);
     tabPane.setTabMinHeight(760);

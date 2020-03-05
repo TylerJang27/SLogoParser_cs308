@@ -30,6 +30,7 @@ public class TurtleViewManager {
       TurtleStatus end = ts.get(i);
       int currID = 1; //end.getID(); /** TO DO: Update with correct method from TS */
       turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY));
+      turtleStatusMap.putIfAbsent(currID, new TurtleStatus());
       TurtleView tempTurtle = turtleViewMap.get(currID); /** TO DO: Update with correct method from TS */
       TurtleStatus start = turtleStatusMap.get(currID);
       tempTurtle.executeState(start, end);
@@ -42,7 +43,7 @@ public class TurtleViewManager {
 
   /** Update with correct IDs */
   public void initializeTurtleViews(int numTurtles) {
-    for(int i = 2; i < numTurtles; i++) {
+    for(int i = 1; i <= numTurtles; i++) {
       turtleViewMap.put(i, new TurtleView(startX, startY));
       TurtleView tempTurtle = turtleViewMap.get(i);
       tempTurtle.setUpMyImageView();

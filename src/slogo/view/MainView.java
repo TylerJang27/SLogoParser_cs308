@@ -84,7 +84,7 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
   private void setUpTurtles(int numTurtles) {
     this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0);
     //turtleManager.setPenView(1, Color.BLACK); /** to do: update with correct ID*/
-    this.turtleManager.initializeTurtleViews(numTurtles);
+    this.turtleManager.initializeTurtleViews(1);
   }
 
   private void setUpTurtle() {

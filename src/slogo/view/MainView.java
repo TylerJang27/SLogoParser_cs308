@@ -33,10 +33,12 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
   private Pane pane;
   private final double paneWidth = SCREEN_WIDTH + 100;
   private final double paneHeight = 2*SCREEN_HEIGHT/4.0;
+
   private final double turtleSize = 90;
   private Insets insets = new Insets(5.0);
 
   private TurtleView turtle;
+  private TurtleStatus turtleStatus;
 
   public MainView() {
     // Get the Textfield and Toolbar in the MainView
@@ -92,6 +94,7 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
     pane.getChildren().clear(); // clear complete list
     turtle.executeState(ts);
     pane.getChildren().add(turtle.myImageView);
+    this.turtleStatus = ts.get(ts.size() - 1);
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
     for(int i = 0; i < temp.size(); i++)  {
@@ -147,5 +150,6 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
   public Toolbar getToolBar(){return this.myToolbar;}
   public Pane getPane() {return this.pane;}
   public double getTurtleSize() {return this.turtleSize;}
+  public TurtleStatus getTurtleStatus() {return this.turtleStatus;}
 
 }

@@ -9,6 +9,9 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+
+import java.awt.*;
+
 public class StatusView {
   private static final Label statusLabel = new Label("Current Status:");
 
@@ -43,5 +46,16 @@ public class StatusView {
 
   public void clear() { status.clear(); }
 
-  public void addStatusText(Double value) { status.appendText("Value: " + value + "\n"); }
+  public void addStatusText(Double turtleX, Double turtleY, Double turtleAngle, Color penColor, Boolean penDown) {
+    status.appendText("Active Turtle:" + "name" + "\n");
+    status.appendText("Turtle X: " + turtleX + "\n");
+    status.appendText("Turtle Y: " + turtleY + "\n");
+    status.appendText("Turtle Angle: " + turtleAngle + "\n");
+
+    status.appendText("\n");
+
+    status.appendText("Pen DOWN: " + penDown + "\n");
+    status.appendText("Pen Color: " + penColor + "\n");
+
+  }
 }

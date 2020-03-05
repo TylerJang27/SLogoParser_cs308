@@ -3,6 +3,7 @@ package slogo.view.InputFields;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import slogo.backendexternal.TurtleStatus;
 import slogo.view.MainView;
 
 public class InputFields extends HBox {
@@ -10,8 +11,10 @@ public class InputFields extends HBox {
     private Console console;
     private UserDefinitions userDefinitions;
     private StatusView statusView;
+    private MainView mw;
 
     public InputFields(MainView mainview) {
+        this.mw = mainview;
         userDefinitions = new UserDefinitions();
         console = new Console();
         statusView = new StatusView();
@@ -21,7 +24,12 @@ public class InputFields extends HBox {
     public void addVariableText(String text){
         userDefinitions.addVariableText(text);
     }
-    public void addQueriesText(Double value) { statusView.addStatusText(value); }
+
+
+    public void addQueriesText() {
+        TurtleStatus ts = mw.getTurtleStatus();
+        statusView.addStatusText(ts.getX(),-ts.getY(),ts.getBearing(),mw.getTurtle().getPenView().getMyPenColor(),ts.getPenDown());
+    }
 
     public String getCommands() {
         return console.getText();

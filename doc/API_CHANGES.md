@@ -9,7 +9,7 @@ The goal of the internal front end API will be to construct various components o
 The external API on the front end should be responsible for sending the command to the backend side. This will allow the backend side to use the command to move the turtle. The external API on the front end will be contained in the CommandLine class, which will not only read in commands with readCommands(), but will store commands until they are run, and upon the run it will send commands as strings to the controller. Thus the primary goal of taking in and handling user input, then sending it to the user is achieved.
 
 ### Backend Internal API:
-The goal of the internal API on the back end is to facilitate the conversion of Strings representing commands into TurtleStatus instances. This will be accomplished by first parsing the Strings into Command implementation instances, which can then be executed by the TurtleModel to update its status and create these TurtleStatus instances. The front end should not need to know how this processing is handled internally, it just needs to know how to convert TurtleStatus instances into meaningful visual updates.
+The goal of the internal API on the back end is to facilitate the conversion of Strings representing commands into TurtleStatus instances. This will be accomplished by first parsing the Strings into Command implementation instances, which can then be ?executed? by the TurtleModel to update its status and create these TurtleStatus instances. The front end should not need to know how this processing is handled internally, it just needs to know how to convert TurtleStatus instances into meaningful visual updates.
 
 ### Backend External API:
 The goal of the external API on the backend will be to communicate with the frontend visualization so that the GUI reflects calculations and changes made on the backend. Much of these commands for the backend will be contained in the TurtleModel, which will necessary have to communicate to the Controller the resulting TurtleStatus instances from the parsing of the command in the Parser and executing the command in the BackendInternalAPI. The Backend external API will also have to communicate to the front end whether or not a command is valid - meaning that error handling will result in communication between the front and back end via the external API.
@@ -77,9 +77,6 @@ The goal of the external API on the backend will be to communicate with the fron
   
   * Returns the history of variables to be displayed by the controller.
     * public String getVariableString() *[ADDED]* Moved from turtle model after the implementation of the Variable Factory
-
-  * Returns formalized version of a command, throws exception if the command cannot be found.
-    * public String validateCommand(String command) *[ADDED]*
 	 
    *[ADDED]*
 	 Note: The following components to Parser were not originally planned, but were implemented internally
@@ -87,121 +84,89 @@ The goal of the external API on the backend will be to communicate with the fron
     	 cleaner and more compact - were previously to be included in the Parser, or in TurtleModel, but added to the 
     	 Parser API.
     	 
-   Used in Parser API:
-   
-   A. CommandFactory
-   * Builds commands based on input from Parser
-        * public CommandFactory(Map<String, List<String>> commands)
-   * Returns a command after determining parameters, and a call to buildCommand
-        * public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException
+    Used in Parser API:
+    1a. CommandFactory
+        Builds commands based on input from Parser
+        public CommandFactory(Map<String, List<String>> commands)
+          
+        Returns a command after determining parameters, and a call to buildCommand
+        public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException
+          
+        Uses a constructor of the name of the key and inputs from make command to call the declaredConstructor and return a Command
+        public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException
+          
+        Returns a new constant based on the current value
+        public Command makeConstant(String current) 
         
-   * Uses a constructor of the name of the key and inputs from make command to call the declaredConstructor and return a Command
-        * public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException
+        Changes mode based on user input so that commands execute according to current mode.
+        public void setMode(String mode)
         
-   * Returns a new constant based on the current value
-        * public Command makeConstant(String current) 
-      
-   * Changes mode based on user input so that commands execute according to current mode.
-        * public void setMode(String mode)
-      
-  B. VariableFactory
-   * Returns variables if previously defined, else makes new variables
-        * public VariableFactory()
-      
-   * Returns a makeVariable from the given command, variable from map of variables
-        * public MakeVariable makeVariable(Command previous)
-      
-   * Returns true if the variable has been previously handled/created, else creates variable (puts in local map)
-        * public boolean handleVariable(String current)
-      
-   * Returns variable from local map
-        * public Variable getVariable(String varName)
-      
-   * Returns a new make variable to define a previous variable with the new given command
-        * public MakeVariable setVariable(Command command)
-      
-   * Returns a string representation of a variable to its value for display
-        * public String getVariableString()
-       
-  C. FunctionFactory
-   * Builds functions and returns runFunctions if previously defined
-        * public FunctionFactory(Map<String, List<String>> commands)
-      
-   * Returns true if a function of a given name has been previously defined
-        * public boolean hasFunction(String funcName)
-      
-   * Returns a RunFuction for a predetermined Function that has been made
-        * public RunFunction runFunction(String funcName, Stack<Command> commands)
-      
-   * Returns a MakeUserInstruction from the given components
-        * public MakeUserInstruction handleFunction(Stack<String> components)
-      
-   * Returns a Function from the given components to be used in a MakeUserInstruction
-        * public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands)
-      
-  D. Translator
-   * Changes the internal mappings of commands to their representation in the new language
-        * public void SetLanguage(String language)
-      
-   * Returns the Map of current commands to their representation in the current language
-        * public Map<String, List<String>> getCommands()
-      
-   * Returns the translated version of a given command from the current language to the new language entered
-        * public String translateCommand(String command, String language)
-      
-2. TurtleManager *[RENAMED]* 
-    Used for modeling the motion of the turtle on the back-end, by executing Commands.
+    1b. VariableFactory
+        Returns variables if previously defined, else makes new variables
+        public VariableFactory()
+        
+        Returns a makeVariable from the given command, variable from map of variables
+        public MakeVariable makeVariable(Command previous)
+        
+        Returns true if the variable has been previously handled/created, else creates variable (puts in local map)
+        public boolean handleVariable(String current)
+        
+        Returns variable from local map
+        public Variable getVariable(String varName)
+        
+        Returns a new make variable to define a previous variable with the new given command
+        public MakeVariable setVariable(Command command)
+        
+        Returns a string representation of a variable to its value for display
+        public String getVariableString()
+        
+    1c. FunctionFactory
+        Builds functions and returns runFunctions if previously defined
+        public FunctionFactory(Map<String, List<String>> commands)
+        
+        Returns true if a function of a given name has been previously defined
+        public boolean hasFunction(String funcName)
+        
+        Returns a RunFuction for a predetermined Function that has been made
+        public RunFunction runFunction(String funcName, Stack<Command> commands)
+        
+        Returns a MakeUserInstruction from the given components
+        public MakeUserInstruction handleFunction(Stack<String> components)
+        
+        Returns a Function from the given components to be used in a MakeUserInstruction
+        public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands)
+        
+    1d. Translator
+        Changes the internal mappings of commands to their representation in the new language
+        public void SetLanguage(String language)
+        
+        Returns the Map of current commands to their representation in the current language
+        public Map<String, List<String>> getCommands()
+        
+        Returns the translated version of a given command from the current language to the new language entered
+        public String translateCommand(String command, String language)
+        
+
+
+2. TurtleModel 
+    Used for modeling the motion of the turtle on the back-end, by ?executing? Commands.
 	- Collection<String> getVariables() *[REMOVED]*
 	
 	Returns a Collection of the defined variables for this runtime environment.
-	*[This functionality was moved to the Parser section of the backend]*
-	- void clearVariables() *[REMOVED]*
+	- void clearVariables()
 	
     Clears all variable previously defined by user
-    *[This functionality was moved to the Parser section of the backend]*
-	- Collection<NestedCommand> getFunctions() *[REMOVED]*
+	- Collection<NestedCommand> getFunctions()
 	
 	Returns a Collection of the defined functions for this runtime environment.
-    - TurtleStatus createStatus(Command c) *[REMOVED]*
+    - TurtleStatus createStatus(Command c)
 
-    Parses a singular command to return a TurtleStatus instance by calling Command's execute method.
-    *[This functionality was moved to the TurtleManifest section of the backend]*
-	- List<TurtleStatus> executeCommands(List<Command> c) *[MODIFIED]*
+    Parses a singular command to return a TurtleStatus instance by calling Command?s execute method.
+	- Collection<TurtleStatus> updateStatus(Collection<Command> c) *[RENAMED]*
     
-    Takes in a List of Commands commands and converts them into a List of Command implementation instances by executing them. 	
-    *[Changed the name and converted Collections to Lists]*
-    - double getLastReturn() *[ADDED]*
-    
-    Returns the value of the last executed command.
+    Takes in a collection of String commands and converts them into a Collection of Command implementation instances. 	
 
-3. TurtleManifest *[ADDED]*
-    Account for different turtle IDs, storing the TurtleStatus instances associated with the most recent status of each ID.
-    - void initialize() *[ADDED]*
-    
-    Resets all the turtles to only include a singular turtle at the default status.
-    - void setActiveTurtles(List<Integer> turtles), setActiveTurtles(Integer turtle) *[ADDED]*
-    
-    Sets the List of active turtles for each command to run. Initializes new turtles for each ID if necessary.
-    - void makeActiveTurtle(Integer turtle) *[ADDED]*
-    
-    Sets the active turtle ID for current commands to retrieve.
-    - List<Integer> getActiveTurtles() *[ADDED]*
-    
-    Retrieves the list of active turtles.
-    - Integer getActiveTurtle() *[ADDED]*
-    
-    Retrieves the singular active turtle.
-    - TurtleStatus getTurtleState(Integer k) *[ADDED]*
-    
-    Retrieves the TurtleStatus instance associated with the specified turtle.
-    - List<Integer> getAvailableTurtles() *[ADDED]*
-    
-    Retrieves the IDs associated with all the turtles that have been created.
-    -void updateTurtleState(Integer id, TurtleStatus ts) *[ADDED]*
-    
-    Updates the TurtleStatus associated with the given ID.
-
-4. Interface Command
+3. Interface Command
     Used for defining norms for commands to execute to create new TurtleStatus instances. Each command must implement this interface to provide its own functionality.
 	- TurtleStatus execute (TurtleStatus ts)
 
@@ -210,7 +175,7 @@ The goal of the external API on the backend will be to communicate with the fron
 	
 	Returns the value that results from executing some commands.
 
-5. Interface NestedCommand implements Command
+4. Interface NestedCommand implements Command
     Used for defining commands that may have nested components, such as loops, conditionals, or functions.
 	- Collection<Command> getChildren()
     
@@ -222,67 +187,40 @@ The goal of the external API on the backend will be to communicate with the fron
 ### External Back-End
 1. TurtleStatus
     
-    A data class for storing information about a turtle's status, to be returned from the back end and used for updating the front end's visualization.
+    A data class for storing information about a turtle?s status, to be returned from the back end and used for updating the front end?s visualization.
     - int getX()
 	
-	Returns the int for the turtle's x-direction.
+	Returns the int for the turtle?s x-direction.
 	- int getY()
 	
-	Returns the int for the turtle's y-direction.
+	Returns the int for the turtle?s y-direction.
 	- int getBearing()
 	
-	Returns the int for the turtle's direction, starting North and going clockwise.
-	- boolean getTrail() *[RENAMED]*
+	Returns the int for the turtle?s direction, starting North and going clockwise.
+	- boolean getSmooth()
     
     Returns whether or not the line should be drawn smoothly, with animation, or in a single step.
-    - boolean getPenDown() *[ADDED]*
-    
-    Returns whether the pen should be down for the given TurtleStatus instance.
-    - boolean getPenDraw() *[ADDED]*
-    
-    Returns whether the pen should draw a line connecting the previous and current points.
-	- boolean getVisible() *[ADDED]*
-	
-	Returns whether the turtle is visible or hiding.
-	- void setClear() *[ADDED]*
-	
-	Sets whether the screen should be cleared when the TurtleStatus is done being processed.
-	- boolean hasRunnable() *[ADDED]*
-	
-	Returns whether or not this TurtleStatus instance carries a runnable functional interface.
-	- void setRunnable() *[ADDED]*
-	
-	Sets this TurtleStatus instance's runnable functional interface.
-	- void modify() *[ADDED]*
-	
-	Calls this TurtleStatus instance's runnable's run() method.
-	- void clearVar() *[REMOVED]*
+	- void clearVar()
 	
 	Clears the stored variables
-	*[TurtleStatus does not hold variable information.]*
-	- Map<String,Number> getVars() *[REMOVED]*
+	- Map<String,Number> getVars()
     
-    Returns a Map of any variables created by a command's execution, to be read and forwarded to a variable explorer if desired.
-    *[TurtleStatus does not hold variable information.]*
-    
+    Returns a Map of any variables created by a command?s execution, to be read and forwarded to a variable explorer if desired.
+
 2. Parser throws InvalidCommandError
+
+   * Takes in a collection of String commands and converts them into a Collection of TurtleStatus instances. Catches and handles invalid command errors by not 
+   executing commands and returning to Controller with the error, which in turn will update the GUI. *[ALTERED]* Now returns Command instances, which are turned into 
+   turtle statuses by the model.
+   
     
-    The hub of the back end that takes Strings and turns them into Commands and TurtleStatus instances.
-	- void validateCommand(String s) throws InvalidCommandError
+  * Returns formalized version of a command, throws exception if the command cannot be found.
+    * public String validateCommand(String command) throws InvalidCommandError *[ALTERED]* now returns key if validated
     
-    Checks if a given command is recognized as a possible command. If not, throws error.
-	- Collection<TurtleStatus> parseCommands(Collection<String> commandStrings)
+  * Iterates over each of the individual parts of the command and returns Command objects based on the input if they can be found.
+    * public Stack<Command> parseComponents(Stack<String> components) throws InvalidCommandException *[SAME]*
     
-    Takes in a collection of String commands and converts them into a Collection of TurtleStatus instances.
-    Catches and handles invalid command errors by not executing commands and returning to Controller with the error, which in turn will update the GUI
 
 
-## Reflection
 
-The API changes made so far have been to compensate for our team's under-engineering of some components of the design. For example, we did not expect TurtleStatus to include as much information as it does now, and we also expected TurtleModel (now TurtleManager and TurtleManifest) to have more responsibilites. On the frontend, the Views were also likewise divided up into smaller classes with more delegation. 
 
-Most of these changes have been relatively minor and have been thoroughly communicated across the team so that the team members' code could be adjusted accordingly to compensate. These changes have nevertheless stuck to our original pipeline, and our general interface for Commands, Parser, and Views.
-
-These changes are for the better, and in dealing with the different challenges of Complete, we have made our program more flexible, rather than more rigid.
-
-As we finish the project, the next significant changes include adjusting parts of the pipeline for multiple turtle IDs, and increasing communication between the frontend and the controller, as well as the controller and the backend. Neverthless, this can be accomplished largely within the bounds of our existing APIs and will require minimal adjustments to these existing methods. 

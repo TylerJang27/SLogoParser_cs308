@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class SetBackGround implements DisplayCommand {
+    public static final int NUM_ARGS = 1;
 
     private Consumer<Integer> con;
     private Command arg1;

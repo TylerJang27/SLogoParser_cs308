@@ -55,10 +55,10 @@ public class RunFunction implements ControlCommand {
 
         for (int k = 0; k < myValues.size(); k ++) {
             Command c = myValues.get(k);
-            double val = ControlCommand.executeAndExtractValue(c, ts, ret);
+            double val = Command.executeAndExtractValue(c, ts, ret);
             myFunction.setVariableValue(k, val);
         }
-        myVal = ControlCommand.executeAndExtractValue(myFunction, ts, ret);
+        myVal = Command.executeAndExtractValue(myFunction, ts, ret);
         return ret;
     }
 

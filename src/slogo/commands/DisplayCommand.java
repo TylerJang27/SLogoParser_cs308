@@ -11,6 +11,8 @@ import java.util.function.Consumer;
  * Date is returned from the most recent TurtleStatus instance.
  *
  * All implementations of this interface should have 0 arguments in their constructors.
+ *
+ * @author Lucy Gu
  */
 public interface DisplayCommand extends Command {
 

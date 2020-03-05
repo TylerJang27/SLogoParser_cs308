@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Class used to execute the Commands produced by Parser. This class then returns a List of TurtleStatus instances.
  *
- * @author Tyler Jang
+ * @author Tyler Jang, Lucy Gu
  */
     //TODO: REFACTOR OUT TURTLEMANAGER
 public class TurtleModel {

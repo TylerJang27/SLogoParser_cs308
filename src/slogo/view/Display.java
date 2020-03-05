@@ -46,32 +46,31 @@ public class Display {
     tab.setGraphic(myMainView);
     tab.setClosable(false);
     tabPane.getTabs().addAll(tab);
-<<<<<<< HEAD
-    tabPane.setTabMaxHeight(TAB_HEIGHT);
-    tabPane.setTabMaxWidth(TAB_WIDTH);
-    tabPane.setTabMinHeight(TAB_HEIGHT);
-    tabPane.setTabMinWidth(TAB_WIDTH);
+//<<<<<<< HEAD
+//    tabPane.setTabMaxHeight(TAB_HEIGHT);
+//    tabPane.setTabMaxWidth(TAB_WIDTH);
+//    tabPane.setTabMinHeight(TAB_HEIGHT);
+//    tabPane.setTabMinWidth(TAB_WIDTH);
+////
+////    anchorPane.setTopAnchor(addTabButton, 10.0);
+////    anchorPane.setLeftAnchor(addTabButton, 5.0);
+////
+////    anchorPane.setTopAnchor(tabPane, 40.0);
+////    anchorPane.setLeftAnchor(tabPane, 5.0);
 //
-//    anchorPane.setTopAnchor(addTabButton, 10.0);
-//    anchorPane.setLeftAnchor(addTabButton, 5.0);
 //
-//    anchorPane.setTopAnchor(tabPane, 40.0);
-//    anchorPane.setLeftAnchor(tabPane, 5.0);
-
-
-    //anchorPane.getChildren().addAll(addTabButton, tabPane);
-    vBox.getChildren().addAll(addTabButton, tabPane);
-=======
+//    //anchorPane.getChildren().addAll(addTabButton, tabPane);
+//    vBox.getChildren().addAll(addTabButton, tabPane);
+//=======
     tabPane.setTabMaxHeight(760);
     tabPane.setTabMaxWidth(1040);
     tabPane.setTabMinHeight(760);
     tabPane.setTabMinWidth(1040);
 
-    selectionModel = tabPane.getSelectionModel();
+    //selectionModel = tabPane.getSelectionModel();
 
     vBox.setAlignment(Pos.CENTER);
     vBox.getChildren().addAll(addTabButton,tabPane);
->>>>>>> 388c7dee85da004a2b3c17ea27415fb54263063f
 
     myScene = new Scene(vBox);
   }
@@ -100,7 +99,7 @@ public class Display {
     Tab newTab = new Tab("SLogo " + tabNo);
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);
-    selectionModel.select(newTab);
+    //selectionModel.select(newTab);
   }
 
 }

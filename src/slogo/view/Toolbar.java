@@ -109,17 +109,28 @@ public class Toolbar extends ToolBar {
     this.myMainView.getPane().setBackground(new Background(new BackgroundFill(backgroundMenu.getValue(), CornerRadii.EMPTY, new Insets(0))));
     this.myMainView.getTurtle().getPenView().setMyPenColor(penMenu.getValue());
 
+    double x1 = myMainView.getTurtle().myImageView.getLayoutX();
+    double y1 = myMainView.getTurtle().myImageView.getLayoutY();
+
+    double x2 = myMainView.getTurtle().myImageView.getX();
+    double y2 = myMainView.getTurtle().myImageView.getY();
+
+    System.out.println(y1);
+
     if(!turtleMenu.getSelectionModel().isEmpty()) {
       myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
 
-      myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyStartXPos());
-      myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyStartYPos());
+      myMainView.getTurtle().myImageView.setLayoutX(x1);
+      myMainView.getTurtle().myImageView.setLayoutY(y1);
+      myMainView.getTurtle().myImageView.setRotate(myMainView.getTurtle().getMyBearing());
+
       myMainView.getTurtle().myImageView.setFitWidth(myMainView.getTurtleSize());
       myMainView.getTurtle().myImageView.setFitHeight(myMainView.getTurtleSize());
 
+      myMainView.getTurtle().myImageView.setX(x2);
+      myMainView.getTurtle().myImageView.setY(y2);
       myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);
-      myMainView.getTurtle().myImageView.setX(myMainView.getTurtle().myImageView.getX() - myMainView.getTurtle().myImageView.getFitWidth() / 2);
-      myMainView.getTurtle().myImageView.setY(myMainView.getTurtle().myImageView.getY() - myMainView.getTurtle().myImageView.getFitHeight() / 2);
+
     }
   }
 
@@ -149,4 +160,7 @@ public class Toolbar extends ToolBar {
   }
 
   public Button getAddTabButton() { return TabButton; }
+  public ColorPicker getPenMenu() {return penMenu;}
+  public ColorPicker getBackgroundMenu() {return penMenu;}
+
 }

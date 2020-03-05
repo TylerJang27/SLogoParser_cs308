@@ -17,7 +17,7 @@ public class CommandFactory {
   private static final double Y_MAX = 250;
 
   private String currentMode;
-  private CommandCounter myCounts;
+  //private CommandCounter myCounts;
   private Map<String, String> myCommands = new HashMap<>();
   private List<String> myMovementCommands;
   private Map<String, Integer> counts = new HashMap<>();
@@ -26,7 +26,8 @@ public class CommandFactory {
 
   public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
-    myCounts = new CommandCounter();
+    //myCounts = new CommandCounter();
+    fillCounts();
     setGeneralCommands();
     setMovementCommands();
     setControlCommands();
@@ -81,8 +82,8 @@ public class CommandFactory {
     try {
       List<Object> obj = new ArrayList<>();
 
-      for (int i = 0; i < myCounts.getCount(key); i++) obj.add(commands.get(i));
-      if (myMovementCommands.contains(key)) obj.add(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
+      for (int i = 0; i < getCount(key); i++) obj.add(commands.get(i));
+      if (myMovementCommands.contains(key)) obj.addAll(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
       if (myControlCommands.keySet().contains(key)) for (int i = 0; i < myControlCommands.get(key); i++) obj.add(listCommands.pop());
 
 
@@ -105,6 +106,8 @@ public class CommandFactory {
 
       Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
+
+      for(Object o:objArray) System.out.println(o);
       return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
 
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -157,6 +160,8 @@ public class CommandFactory {
         params[i] = Consumer.class;
       } else if (objArray[i] instanceof Supplier) {
         params[i] = Supplier.class;
+      }else if (objArray[i] instanceof Runnable) {
+        params[i] = Runnable.class;
       }
     }
     return params;

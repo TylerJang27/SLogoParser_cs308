@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class PenColor implements DisplayCommand {
-
+    public static final int NUM_ARGS = 0;
     private Supplier<Integer> sup;
     private double returnVal;
 

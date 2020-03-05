@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class SerPalette implements DisplayCommand {
+public class SetPalette implements DisplayCommand {
 
     private Consumer<int[]> con;
     private Command arg1;
@@ -17,7 +17,7 @@ public class SerPalette implements DisplayCommand {
     private Command arg4;
     private double returnVal;
 
-    public SerPalette(Command argA, Command argB, Command argC, Command argD, Consumer<int[]> consumer){
+    public SetPalette(Command argA, Command argB, Command argC, Command argD, Consumer<int[]> consumer){
         arg1 = argA;
         arg2 = argB;
         arg3 = argC;

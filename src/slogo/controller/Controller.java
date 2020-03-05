@@ -4,8 +4,6 @@ package slogo.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,7 +12,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.parser.ErrorHandler;
@@ -23,6 +20,7 @@ import slogo.backendexternal.parser.Translator;
 import slogo.commands.Command;
 import slogo.view.Display;
 import slogo.view.InputFields.Console;
+import slogo.view.InputFields.MoveArrows;
 import slogo.view.InputFields.UserDefinitions;
 import slogo.view.MainView;
 
@@ -45,6 +43,7 @@ public class Controller extends Application {
   private Button runButton;
   private ComboBox language;
   private ComboBox modeMenu;
+  private MoveArrows arrows;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
   private Button addTabButton;
@@ -65,10 +64,8 @@ public class Controller extends Application {
     translator = new Translator();
     mainViewTurtleModelMap = new HashMap<MainView, TurtleModel>();
     //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
-
     myModel = new TurtleModel();
     setUpTurtle();
-
     /*
     console = myDisplay.getMainView().getTextFields().getConsole();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
@@ -79,7 +76,6 @@ public class Controller extends Application {
     addTabButton.setOnAction(event -> addTab());
     currentStatus = INITIAL_STATUS;
      */
-
     addTabButton = myDisplay.getAddTabButton();
     addTabButton.setOnAction(event -> addTab());
     Scene myScene = myDisplay.getScene();
@@ -103,7 +99,7 @@ public class Controller extends Application {
     setUpTurtle();
   }
 
-  private void setTab() {
+  private void setListeners() {
     console = myDisplay.getMainView().getTextFields().getConsole();
     userDefinitions = myDisplay.getMainView().getTextFields().getUserDefinitions();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
@@ -112,11 +108,19 @@ public class Controller extends Application {
     language.setOnAction(event -> setLanguage(language));
     modeMenu = myDisplay.getMainView().getToolBar().getModeMenu();
     modeMenu.setOnAction(event -> setMode(modeMenu));
+    arrows = myDisplay.getMainView().getTextFields().getMoveArrows();
+    for(Button arrow : arrows.getButtons()){
+      arrow.setOnAction(event -> moveTurtle(arrow, arrows.getIncrement()));
+    }
+  }
+
+  private void moveTurtle(Button arrow, double increment) {
+    //MOVE TURTLE DISTANCE BASED ON WHICH ARROW CLICKED, INCREMENT IS AMOUNT TO MOVE BY
   }
 
   private void setUpTurtle() {
     System.out.println(myDisplay.getMainView());
-    setTab();
+    setListeners();
 //    switchTurtle();
     currentStatus = INITIAL_STATUS;
   }

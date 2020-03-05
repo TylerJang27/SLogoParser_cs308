@@ -18,7 +18,7 @@ public class Turtle {
   }
 
   public void execute(List<TurtleStatus> ts) {
-
+    
   }
 
 

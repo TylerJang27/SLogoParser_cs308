@@ -30,24 +30,20 @@ public class Toolbar extends ToolBar {
 
   //Incorporate View and Text Field
   private MainView myMainView;
-  private Display myDisplay;
-
 
   //The Drop Down Menus Themselves
   private ColorPicker penMenu, backgroundMenu;
   private ComboBox languageMenu, turtleMenu;
 
   //The Buttons
-  private Button commandButton, helpButton, changesButton, addTabButton;
-  TextField textField;
+  private Button commandButton, helpButton, changesButton, TabButton;
 
-  //Timeline Inputs
-  private static final int FRAMES_PER_SECOND = 60;
-  private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
-
-
-  public Toolbar(MainView mainview, Display display) {
+  public Toolbar(MainView mainview) {
     this.myMainView = mainview;
+
+    this.setMaxSize(1010.0, 40.0);
+    this.setMinSize(1010.0, 40.0);
+    this.setPrefSize(1010.0, 40.0);
 
     createMenus();
     createButtons();
@@ -56,11 +52,9 @@ public class Toolbar extends ToolBar {
     Label backgroundLabel = new Label("Background:");
     Label turtleLabel = new Label("Turtle:");
     Label languageLabel = new Label("Language:");
-    this.setMinSize(1200.0, 40.0);
-    //this.setMinSize(400.0, 40.0);
 
-
-    this.getItems().addAll(addTabButton, commandButton, new Separator(),
+    this.getItems().addAll(TabButton, new Separator(),
+                            commandButton, new Separator(),
                             turtleLabel, turtleMenu, penLabel, penMenu,
                             languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
                             helpButton);
@@ -72,9 +66,7 @@ public class Toolbar extends ToolBar {
 
   public ComboBox getLanguageBox() {return languageMenu; }
 
-  /**
-   * Helping methods to import menus and buttons to the toolbar
-   */
+  /** Helping methods to import menus and buttons to the toolbar*/
 
   private void createMenus() {
     //Color Menus
@@ -101,16 +93,14 @@ public class Toolbar extends ToolBar {
   private void createButtons() {
     this.commandButton = new Button("RUN");
 
-    this.addTabButton = new Button("Add Tab");
+    this.TabButton = new Button("Add Tab");
 
     this.helpButton = new Button("?");
     helpButton.setOnAction(this:: handleHelp);
 
     this.changesButton = new Button("Apply");
     changesButton.setOnAction(this::handleChanges);
-
   }
-
 
 
   /** Methods that define the function of each Button */
@@ -132,10 +122,6 @@ public class Toolbar extends ToolBar {
       myMainView.getTurtle().myImageView.setY(myMainView.getTurtle().myImageView.getY() - myMainView.getTurtle().myImageView.getFitHeight() / 2);
     }
   }
-
-  //private void handleTab(ActionEvent actionEvent) {
-  //  this.myDisplay.addTab();
-  //}
 
   private void handleHelp(ActionEvent actionEvent) {
     WebView wv = new WebView();
@@ -162,7 +148,5 @@ public class Toolbar extends ToolBar {
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
 
-  public Button getAddTabButton() {
-    return addTabButton;
-  }
+  public Button getAddTabButton() { return TabButton; }
 }

@@ -28,11 +28,8 @@ public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
   private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-  private static final int WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
-  private static final int HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
   public static final int FRAMES_PER_SECOND = 60;
   public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-  public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
 
   private Display myDisplay;
@@ -43,7 +40,7 @@ public class Controller extends Application {
   private ComboBox language;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
-  private Button addTabButton;
+
   private Map<MainView, TurtleModel> mainViewTurtleModelMap;
 
   /**
@@ -59,31 +56,19 @@ public class Controller extends Application {
     myParser = new Parser();
     errorHandler = new ErrorHandler();
     mainViewTurtleModelMap = new HashMap<MainView, TurtleModel>();
-    //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
 
 
     myModel = new TurtleModel();
     setUpTurtle();
 
-
-    /*
-    console = myDisplay.getMainView().getTextFields().getConsole();
-    runButton = myDisplay.getMainView().getToolBar().getCommandButton();
-    runButton.setOnAction(event -> sendCommand());
-    language = myDisplay.getMainView().getToolBar().getLanguageBox();
-    language.setOnAction(event -> setLanguage(language));
-    addTabButton = myDisplay.getAddTabButton();
-    addTabButton.setOnAction(event -> addTab());
-    currentStatus = INITIAL_STATUS;
-     */
-
-    addTabButton = myDisplay.getMainView().getToolBar().getAddTabButton();
-    addTabButton.setOnAction(event -> addTab());
+    Button TabButton = myDisplay.getMainView().getToolBar().getAddTabButton();
+    TabButton.setOnAction(event -> addTab());
     Scene myScene = myDisplay.getScene();
+
     currentStage.setScene(myScene);
     currentStage.setTitle(TITLE);
-    currentStage.setWidth(WIDTH);
-    currentStage.setHeight(HEIGHT);
+    currentStage.setWidth(1070);
+    currentStage.setHeight(800);
     currentStage.setResizable(false);
     currentStage.show();
 
@@ -106,6 +91,8 @@ public class Controller extends Application {
 
   private void addTab() {
     myDisplay.addTab();
+    Button TabButton = myDisplay.getMainView().getToolBar().getAddTabButton();
+    TabButton.setOnAction(event -> addTab());
     setUpTurtle();
   }
 

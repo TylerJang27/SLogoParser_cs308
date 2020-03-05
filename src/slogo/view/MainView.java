@@ -20,10 +20,9 @@ import slogo.view.InputFields.InputFields;
 
 /** @author Shruthi Kumar, Nevzat Sevim */
 
-public class MainView extends BorderPane implements EventHandler, MainViewAPI {
+public class MainView extends VBox implements EventHandler, MainViewAPI {
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 300;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 300;
-
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
@@ -31,8 +30,8 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
 
   //Pane and Turtle Object
   private Pane pane;
-  private final double paneWidth = SCREEN_WIDTH + 100;
-  private final double paneHeight = 2*SCREEN_HEIGHT/4.0;
+  private final double paneWidth = 1010;
+  private final double paneHeight = 510;
 
   private final double turtleSize = 90;
   private Insets insets = new Insets(5.0);
@@ -40,14 +39,14 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
   private TurtleView turtle;
   private TurtleStatus turtleStatus;
 
-  public MainView(Display display) {
+  public MainView() {
     // Get the Textfield and Toolbar in the MainView
     System.out.println("WIDTH: " + SCREEN_WIDTH);
     System.out.println("height: " + SCREEN_HEIGHT);
     this.myInputFields = new InputFields(this);
-    this.myToolbar = new Toolbar(this, display);
+    this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(insets);
-    //this.pane.setAlignment(Pos.TOP_LEFT);
+
 
     //Generate the initial Turtle Object
     setUpTurtle();
@@ -55,13 +54,8 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
     //Set the Pane for the IDE
     setUpPane();
 
-    this.setTop(myToolbar);
+    this.getChildren().addAll(myToolbar,pane,myInputFields);
     this.setPadding(new Insets(10.0));
-    this.setLeft(pane);
-
-    this.setBottom(myInputFields);
-
-    //this.getChildren().addAll(myToolbar, pane, myInputFields);
   }
 
   private void setUpPane() {

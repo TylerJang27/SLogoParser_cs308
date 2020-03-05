@@ -27,8 +27,11 @@ public class StatusView {
 
 
   private void setDetails(){
-    status.setMinHeight(200);
-    status.setMinWidth(400);
+
+    status.setMaxSize(300,200);
+    status.setMinSize(300,200);
+    status.setPrefSize(300,200);
+
     Background backing = new Background(new BackgroundFill(
         Color.BLACK, new CornerRadii(0), new Insets(0)));
     //statusBox.setBackground(backing);

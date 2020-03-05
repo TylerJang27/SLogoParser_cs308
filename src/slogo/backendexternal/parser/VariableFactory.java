@@ -1,8 +1,6 @@
 package slogo.backendexternal.parser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import slogo.commands.Command;
@@ -49,7 +47,7 @@ public class VariableFactory {
   public String getVariableString(){
     StringBuilder ret = new StringBuilder();
     for(String key : variableMap.keySet()){
-      ret.append(key + " ");
+      ret.append(key + " -> ");
       ret.append(variableMap.get(key).returnValue());
       ret.append("\n");
     }

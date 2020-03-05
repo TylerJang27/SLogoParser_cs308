@@ -130,4 +130,6 @@ public class Parser {
   public void setLanguage(Translator translator) {
     myCommands = translator.getCurrentCommands();
   }
+
+  public String getLastLine() { return lastLine; }
 }

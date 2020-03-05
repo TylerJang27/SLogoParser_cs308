@@ -11,6 +11,7 @@ public class InputFields extends HBox {
     private Console console;
     private UserDefinitions userDefinitions;
     private StatusView statusView;
+    private MoveArrows moveArrows;
     private MainView mw;
 
     public InputFields(MainView mainview) {
@@ -19,7 +20,8 @@ public class InputFields extends HBox {
         userDefinitions = new UserDefinitions();
         console = new Console();
         statusView = new StatusView();
-        this.getChildren().addAll(console.getVBox(), userDefinitions.getVBox(), statusView.getVBox());
+        moveArrows = new MoveArrows(100, 10);
+        this.getChildren().addAll(console.getVBox(), userDefinitions.getVBox(), statusView.getVBox(), moveArrows.getVBox());
     }
 
     public void addVariableText(String text){
@@ -41,6 +43,7 @@ public class InputFields extends HBox {
 
     public Console getConsole(){return console;}
     public UserDefinitions getUserDefinitions(){return userDefinitions; }
+    public MoveArrows getMoveArrows(){ return moveArrows;}
     public TextArea getVariables() {
         return userDefinitions.getDefinitions();
     }

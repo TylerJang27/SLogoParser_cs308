@@ -12,6 +12,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import slogo.backendexternal.parser.Translator;
 
 public class Console {
   private static final String DEFAULT_ERROR_MESSAGE = "The last command could not be recognized.";
@@ -103,5 +104,21 @@ public class Console {
 
   private void onClick(String input){
     entry.setText(input.substring(2));
+  }
+
+  public void translateHistory(Translator translator, String newLanguage) {
+    clear();
+    addEditable();
+    ListIterator<String> iter = history.listIterator(history.size());
+    while(iter.hasPrevious()){
+      StringBuilder translatedLine = new StringBuilder();
+      for(String command : iter.previous().split(" ")){
+        System.out.println(command);
+        translatedLine.append(translator.translateCommand(command, newLanguage));
+        translatedLine.append(" ");
+      }
+      String past = "> " + translatedLine.toString();
+      addUneditable(past);
+    }
   }
 }

@@ -47,15 +47,18 @@ public class IfElse implements ControlCommand {
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
         List<TurtleStatus> ret = new ArrayList<>();
-        double exprVal = ControlCommand.executeAndExtractValue(conditionExpr, ts, ret);
+        double exprVal = Command.executeAndExtractValue(conditionExpr, ts, ret);
+        ts = ret.get(ret.size() - 1);
 
         if (exprVal != ELSE_CASE) {
             for (Command c: trueCommandList) {
-                myVal = ControlCommand.executeAndExtractValue(c, ts, ret);
+                myVal = Command.executeAndExtractValue(c, ts, ret);
+                ts = ret.get(ret.size() - 1);
             }
         } else {
             for (Command c: falseCommandList) {
-                myVal = ControlCommand.executeAndExtractValue(c, ts, ret);
+                myVal = Command.executeAndExtractValue(c, ts, ret);
+                ts = ret.get(ret.size() - 1);
             }
         }
         return ret;

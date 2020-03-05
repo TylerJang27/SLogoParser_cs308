@@ -5,7 +5,8 @@ import slogo.backendexternal.TurtleStatus;
 import java.util.List;
 
 /**
- * Interface for instances of Math Commands, extending the overarching Command interface
+ * Interface for instances of Math Commands, extending the overarching Command interface.
+ *
  * @author Lucy Gu
  */
 public interface MathCommand extends Command {

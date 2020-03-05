@@ -22,8 +22,8 @@ public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
   private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-  private static final int WIDTH = 1075;
-  private static final int HEIGHT = 758;
+  private static final int WIDTH = 1000;
+  private static final int HEIGHT = 750;
   private Display myDisplay;
   private Parser myParser;
   private TurtleModel myModel;
@@ -103,7 +103,7 @@ public class Controller extends Application {
 
   private void displayQueries() {
     myDisplay.getMainView().getTextFields().clearQueries();
-    myDisplay.getMainView().getTextFields().addQueriesText(myModel.getLastReturn());
+    myDisplay.getMainView().getTextFields().addQueriesText();
   }
 
   private void setLanguage(ComboBox language){

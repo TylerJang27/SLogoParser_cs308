@@ -34,6 +34,8 @@ public class RunFunction implements ControlCommand {
      *
      * @param builtFunction             the function to be called/executed.
      * @param variableValues            the values to assign to builtFunction's variables.
+     * @param consumer                  Consumer for modifying the activeTurtles in TurtleModel.
+     * @param supplier                  Supplier for retrieving the activeTurtles in TurtleModel.
      * @throws InvalidCommandException  if the number of values does not equal the number of variables.
      */
     public RunFunction(Function builtFunction, List<Command> variableValues, Consumer<List<Integer>> consumer, Supplier<List<Integer>> supplier) throws InvalidCommandException {

@@ -24,8 +24,8 @@ public class Tell implements IdCommand {
     /**
      * Constructor for Tell. Takes 1 argument.
      *
-     * @param ids Commands representing the different commands to set turtle IDs
-     * @param consumer Consumer for modifying the activeTurtles in TurtleModel
+     * @param ids Commands representing the different commands to set turtle IDs.
+     * @param consumer Consumer for modifying the activeTurtles in TurtleModel.
      */
     public Tell(List<Command> ids, Consumer<List<Integer>> consumer) {
         args = ids;

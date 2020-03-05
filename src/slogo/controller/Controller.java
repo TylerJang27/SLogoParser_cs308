@@ -4,6 +4,8 @@ package slogo.controller;
 import static javafx.application.Platform.exit;
 
 import java.util.List;
+import java.util.function.Consumer;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -40,9 +42,7 @@ public class Controller extends Application {
   /**
    * Start of the program.
    */
-  public static void main(String[] args) {
-    launch(args);
-  }
+  public static void main(String[] args) { launch(args); }
 
   @Override
   public void start(Stage currentStage) {

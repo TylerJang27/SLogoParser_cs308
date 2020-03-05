@@ -59,8 +59,8 @@ public class Parser {
 
   }
 
-  public List<slogo.commands.Command> sendCommands(){
-    List<slogo.commands.Command> toSend = new ArrayList<>(newCommands);
+  public List<Command> sendCommands(){
+    List<Command> toSend = new ArrayList<>(newCommands);
     newCommands.clear();
     return toSend;
   }

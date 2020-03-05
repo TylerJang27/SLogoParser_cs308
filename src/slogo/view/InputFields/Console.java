@@ -23,7 +23,7 @@ public class Console {
   private double boxHeight;
   private double boxWidth;
 
-  public Console(){ this(200, 400); }
+  public Console(){ this(200, 410); }
 
   public Console(double height, double width){
     history = new ArrayList<>();

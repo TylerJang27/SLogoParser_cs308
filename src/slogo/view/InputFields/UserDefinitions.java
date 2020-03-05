@@ -22,8 +22,9 @@ public class UserDefinitions {
   }
 
   private void setDetails(){
-    variables.setMinHeight(200);
-    variables.setMinWidth(400);
+    variables.setMaxSize(300,200);
+    variables.setMinSize(300,200);
+    variables.setPrefSize(300,200);
     Background backing = new Background(new BackgroundFill(
         Color.BLACK, new CornerRadii(0), new Insets(0)));
     //statusBox.setBackground(backing);

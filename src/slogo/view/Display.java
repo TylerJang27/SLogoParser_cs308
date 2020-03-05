@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -26,8 +23,8 @@ import javafx.stage.Stage;
 public class Display {
   private Scene myScene;
   private MainView myMainView;
-  private MainView myMainView2;
   private TabPane tabPane = new TabPane();
+<<<<<<< HEAD
   private Tab tab = new Tab("SLogo");
   private Tab tab2 = new Tab("SLogo");
   private List<MainView> myMainViewList;
@@ -57,30 +54,29 @@ public class Display {
     Border border = new Border(borderStroke);
     anchorPane.setBorder(border);
 
+=======
+  private Tab tab = new Tab("Main Tab");
+  SingleSelectionModel<Tab> selectionModel;
+  private int tabNo;
+
+
+  public Display() {
+    tabNo = 1;
+    selectionModel = tabPane.getSelectionModel();
+>>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
 
     myMainView = new MainView();
-    myMainView2 = new MainView();
     tab.setGraphic(myMainView);
-//    tab.set
-    //tab2.setGraphic(myMainView2);
+    tab.setClosable(false);
+
     tabPane.getTabs().addAll(tab);
-    //tabPane.setLayoutX(10.0);
-    tabPane.setTabMaxHeight(TAB_HEIGHT);
-    tabPane.setTabMaxWidth(TAB_WIDTH);
-    tabPane.setTabMinHeight(TAB_HEIGHT);
-    tabPane.setTabMinWidth(TAB_WIDTH);
 
-    anchorPane.setTopAnchor(addTabButton, 10.0);
-    anchorPane.setLeftAnchor(addTabButton, 10.0);
+    tabPane.setTabMaxHeight(750);
+    tabPane.setTabMaxWidth(1040);
+    tabPane.setTabMinHeight(750);
+    tabPane.setTabMinWidth(1040);
 
-    anchorPane.setTopAnchor(tabPane, 40.0);
-    anchorPane.setLeftAnchor(tabPane, 10.0);
-
-
-    anchorPane.getChildren().addAll(addTabButton, tabPane);
-    vBox.getChildren().addAll(addTabButton, tabPane);
-
-    myScene = new Scene(vBox, SCREEN_WIDTH, SCREEN_HEIGHT);
+    myScene = new Scene(tabPane);
   }
 
 
@@ -96,17 +92,13 @@ public class Display {
     return (MainView) tab.getGraphic();
   }
 
-  public Button getAddTabButton() {
-    return addTabButton;
-  }
   public void addTab() {
+    tabNo++;
     MainView newMainView = new MainView();
-    Tab newTab = new Tab("SLogo");
+    Tab newTab = new Tab("SLogo " + tabNo);
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);
+    selectionModel.select(newTab);
   }
 
-  public void removeTab() {
-
-  }
 }

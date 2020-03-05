@@ -1,59 +1,20 @@
 package slogo.backendexternal.parser;
 
+<<<<<<< HEAD
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
 
+=======
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.function.Consumer;
+>>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
 import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
-import slogo.commands.booleancommands.And;
-import slogo.commands.booleancommands.Equal;
-import slogo.commands.booleancommands.GreaterThan;
-import slogo.commands.booleancommands.LessThan;
-import slogo.commands.booleancommands.Not;
-import slogo.commands.booleancommands.NotEqual;
-import slogo.commands.booleancommands.Or;
 import slogo.commands.controlcommands.Constant;
-import slogo.commands.controlcommands.DoTimes;
-import slogo.commands.controlcommands.For;
-import slogo.commands.controlcommands.If;
-import slogo.commands.controlcommands.IfElse;
-import slogo.commands.controlcommands.Repeat;
-import slogo.commands.controlcommands.Variable;
-import slogo.commands.mathcommands.ArcTangent;
-import slogo.commands.mathcommands.Cosine;
-import slogo.commands.mathcommands.Difference;
-import slogo.commands.mathcommands.Minus;
-import slogo.commands.mathcommands.NaturalLog;
-import slogo.commands.mathcommands.Pi;
-import slogo.commands.mathcommands.Power;
-import slogo.commands.mathcommands.Product;
-import slogo.commands.mathcommands.Quotient;
-import slogo.commands.mathcommands.Rand;
-import slogo.commands.mathcommands.Remainder;
-import slogo.commands.mathcommands.Sine;
-import slogo.commands.mathcommands.Sum;
-import slogo.commands.mathcommands.Tangent;
-import slogo.commands.queriescommands.Heading;
-import slogo.commands.queriescommands.IsPenDown;
-import slogo.commands.queriescommands.IsShowing;
-import slogo.commands.queriescommands.XCoordinate;
-import slogo.commands.queriescommands.YCoordinate;
-import slogo.commands.turtlecommands.Backward;
-import slogo.commands.turtlecommands.ClearScreen;
-import slogo.commands.turtlecommands.Forward;
-import slogo.commands.turtlecommands.HideTurtle;
-import slogo.commands.turtlecommands.Home;
-import slogo.commands.turtlecommands.Left;
-import slogo.commands.turtlecommands.PenDown;
-import slogo.commands.turtlecommands.PenUp;
-import slogo.commands.turtlecommands.Right;
-import slogo.commands.turtlecommands.SetHeading;
-import slogo.commands.turtlecommands.SetPosition;
-import slogo.commands.turtlecommands.SetTowards;
-import slogo.commands.turtlecommands.ShowTurtle;
 
 public class CommandFactory {
 
@@ -61,6 +22,7 @@ public class CommandFactory {
   private static final double Y_MAX = 250;
 
   private String currentMode;
+<<<<<<< HEAD
   private CommandCounter myCounts;
   private Map<String, String> myCommands = new HashMap<>();
   private List<String> myMovementCommands;
@@ -68,18 +30,30 @@ public class CommandFactory {
   public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
     myCounts = new CommandCounter();
+=======
+  private Map<String, String> myCommands = new HashMap<>();
+  private List<String> myMovementCommands;
+  private Map<String, Integer> counts;
+
+  public CommandFactory(Map<String, List<String>> commands){
+    currentMode = "toroidal";
+>>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
     var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandFactory");
     for(String key:resources.keySet()){
       myCommands.put(key, resources.getString(key));
     }
     myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
+<<<<<<< HEAD
+=======
+    fillCounts();
+>>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
   }
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
     System.out.println(previous.size());
-    int count = myCounts.getCount(formalCommand);
+    int count = getCount(formalCommand);
 
     if(previous.size() < count){
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
@@ -100,7 +74,11 @@ public class CommandFactory {
       Class<?> c = Class.forName(myCommands.get(key));
       List<Object> obj = new ArrayList<>();
 
+<<<<<<< HEAD
       for(int i = 0; i<myCounts.getCount(key); i++) obj.add(commands.get(i));
+=======
+      for(int i = 0; i<getCount(key); i++) obj.add(commands.get(i));
+>>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
       if(myMovementCommands.contains(key)){
         obj.add(X_MAX);
         obj.add(Y_MAX);
@@ -116,6 +94,7 @@ public class CommandFactory {
       Class<?> params[] = findParameter(objArray);
       return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
 
+<<<<<<< HEAD
 
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
       throw new InvalidCommandException("Command could not be found.");
@@ -255,13 +234,16 @@ public class CommandFactory {
 //      return new IfElse(commands.get(0), listCommands.pop(), listCommands.pop());
 //    }
 //    throw new InvalidCommandException("Command could not be found.");
+=======
+    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+      throw new InvalidCommandException("Command could not be found.");
+    }
+>>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
   }
 
   public Command makeConstant(String current) {
     return new Constant(Integer.parseInt(current));
   }
-
-  //TODO: WILL IT ALWAYS BE AN INTEGER?
 
   public void setMode(String mode){
     currentMode = mode;
@@ -276,6 +258,20 @@ public class CommandFactory {
     throw new InvalidCommandException(current);
   }
 
+<<<<<<< HEAD
+=======
+  private void fillCounts(){
+    counts = new HashMap<>();
+    var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandCounter");
+    for(String key:resources.keySet()){
+      counts.put(key, Integer.parseInt(resources.getString(key)));
+    }
+  }
+
+  private int getCount(String command){
+    return counts.get(command);
+  }
+>>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
 
 
   private Class<?>[] findParameter(Object[] objArray){

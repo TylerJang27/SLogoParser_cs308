@@ -40,13 +40,12 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
   private TurtleView turtle;
   private TurtleStatus turtleStatus;
 
-  public MainView() {
+  public MainView(Display display) {
     // Get the Textfield and Toolbar in the MainView
     System.out.println("WIDTH: " + SCREEN_WIDTH);
     System.out.println("height: " + SCREEN_HEIGHT);
     this.myInputFields = new InputFields(this);
-    this.myToolbar = new Toolbar(this);
-    this.myToolbar.setTextField(myInputFields);
+    this.myToolbar = new Toolbar(this, display);
     this.myToolbar.setPadding(insets);
     //this.pane.setAlignment(Pos.TOP_LEFT);
 

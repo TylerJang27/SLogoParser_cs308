@@ -77,7 +77,7 @@ public class Controller extends Application {
     currentStatus = INITIAL_STATUS;
      */
 
-    addTabButton = myDisplay.getAddTabButton();
+    addTabButton = myDisplay.getMainView().getToolBar().getAddTabButton();
     addTabButton.setOnAction(event -> addTab());
     Scene myScene = myDisplay.getScene();
     currentStage.setScene(myScene);

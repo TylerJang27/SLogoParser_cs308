@@ -25,25 +25,18 @@ import javafx.stage.Stage;
 public class Display {
   private Scene myScene;
   private MainView myMainView;
-  private MainView myMainView2;
   private TabPane tabPane = new TabPane();
   private Tab tab = new Tab("SLogo");
-  private Tab tab2 = new Tab("SLogo");
-  private List<MainView> myMainViewList;
-  private Button addTabButton; // = new Button("Add Tab");
+  //private Button addTabButton;
   private AnchorPane anchorPane;
-  private VBox vBox;// = new VBox;
+  private VBox vBox;
 
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
   public static final double TAB_WIDTH = SCREEN_WIDTH - 100;
   public static final double TAB_HEIGHT = SCREEN_HEIGHT - 100;
 
-
-
   public Display() {
-    myMainViewList = new ArrayList<>();
-    addTabButton = new Button("Add Tab");
     anchorPane = new AnchorPane();
     vBox = new VBox();
     vBox.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -55,27 +48,24 @@ public class Display {
     anchorPane.setBorder(border);
 
 
-    myMainView = new MainView();
-    myMainView2 = new MainView();
+    myMainView = new MainView(this);
     tab.setGraphic(myMainView);
-//    tab.set
-    //tab2.setGraphic(myMainView2);
+
     tabPane.getTabs().addAll(tab);
-    //tabPane.setLayoutX(10.0);
+
     tabPane.setTabMaxHeight(TAB_HEIGHT);
     tabPane.setTabMaxWidth(TAB_WIDTH);
     tabPane.setTabMinHeight(TAB_HEIGHT);
     tabPane.setTabMinWidth(TAB_WIDTH);
 
-    anchorPane.setTopAnchor(addTabButton, 10.0);
-    anchorPane.setLeftAnchor(addTabButton, 10.0);
+
 
     anchorPane.setTopAnchor(tabPane, 40.0);
     anchorPane.setLeftAnchor(tabPane, 10.0);
 
 
-    anchorPane.getChildren().addAll(addTabButton, tabPane);
-    vBox.getChildren().addAll(addTabButton, tabPane);
+    anchorPane.getChildren().addAll(tabPane);
+    vBox.getChildren().addAll(tabPane);
 
     myScene = new Scene(vBox, SCREEN_WIDTH, SCREEN_HEIGHT);
   }
@@ -93,17 +83,12 @@ public class Display {
     return (MainView) tab.getGraphic();
   }
 
-  public Button getAddTabButton() {
-    return addTabButton;
-  }
+
   public void addTab() {
-    MainView newMainView = new MainView();
+    MainView newMainView = new MainView(this);
     Tab newTab = new Tab("SLogo");
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);
   }
 
-  public void removeTab() {
-
-  }
 }

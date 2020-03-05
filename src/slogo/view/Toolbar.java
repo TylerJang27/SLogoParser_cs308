@@ -30,14 +30,15 @@ public class Toolbar extends ToolBar {
 
   //Incorporate View and Text Field
   private MainView myMainView;
-  private InputFields myTextFields;
+  private Display myDisplay;
+
 
   //The Drop Down Menus Themselves
   private ColorPicker penMenu, backgroundMenu;
   private ComboBox languageMenu, turtleMenu;
 
   //The Buttons
-  private Button commandButton, helpButton, changesButton;
+  private Button commandButton, helpButton, changesButton, addTabButton;
   TextField textField;
 
   //Timeline Inputs
@@ -45,9 +46,8 @@ public class Toolbar extends ToolBar {
   private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
 
 
-  public Toolbar(MainView mainview) {
+  public Toolbar(MainView mainview, Display display) {
     this.myMainView = mainview;
-    this.myTextFields = myMainView.getTextFields();
 
     createMenus();
     createButtons();
@@ -60,7 +60,7 @@ public class Toolbar extends ToolBar {
     //this.setMinSize(400.0, 40.0);
 
 
-    this.getItems().addAll(commandButton, new Separator(),
+    this.getItems().addAll(addTabButton, commandButton, new Separator(),
                             turtleLabel, turtleMenu, penLabel, penMenu,
                             languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
                             helpButton);
@@ -101,6 +101,8 @@ public class Toolbar extends ToolBar {
   private void createButtons() {
     this.commandButton = new Button("RUN");
 
+    this.addTabButton = new Button("Add Tab");
+
     this.helpButton = new Button("?");
     helpButton.setOnAction(this:: handleHelp);
 
@@ -108,6 +110,8 @@ public class Toolbar extends ToolBar {
     changesButton.setOnAction(this::handleChanges);
 
   }
+
+
 
   /** Methods that define the function of each Button */
   private void handleChanges(ActionEvent actionEvent) {
@@ -128,6 +132,10 @@ public class Toolbar extends ToolBar {
       myMainView.getTurtle().myImageView.setY(myMainView.getTurtle().myImageView.getY() - myMainView.getTurtle().myImageView.getFitHeight() / 2);
     }
   }
+
+  //private void handleTab(ActionEvent actionEvent) {
+  //  this.myDisplay.addTab();
+  //}
 
   private void handleHelp(ActionEvent actionEvent) {
     WebView wv = new WebView();
@@ -154,11 +162,7 @@ public class Toolbar extends ToolBar {
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
 
-
-
-  /** Methods for useful Getters and Setters */
-
-  // Public Set Methods
-  public void setTextField(InputFields tf){this.myTextFields = tf;}
-
+  public Button getAddTabButton() {
+    return addTabButton;
   }
+}

@@ -57,51 +57,97 @@ The goal of the external API on the backend will be to communicate with the fron
 ### Internal Back-End
 1. Parser
 
+  * Parses a singular command String, which may include multiple commands, and returns their parsed output as a Collection of one or more commands.
+    * public void parseLine(String line) *[SAME]*
+  
+  * Returns the current list of commands to Controller to be sent to be executed in TurtleModel/TurtleStatus
+    * public List<slogo.commands.Command> sendCommands() *[SAME]*
+  
+  * Iterates over each of the individual parts of the command and returns Command objects based on the input if they can be found.
+    * public Stack<Command> parseComponents(Stack<String> components) throws InvalidCommandException 
+  
+  * Returns a list of the strings input by the user to display as a history and allow for user interaction
+    * public List<String> getCommandHistory() *[REMOVED]* Decided that it would be easiest to store this in the console where it is displayed.
+  
+  * Sets the language for the commands to be read in as.
+    * public void setLanguage(String lang) *[ALTERED]* Now takes in a translator object which can pass in the translated commands to be used.
+  
+  * Adds the error message with information to the user to Controller to be shownin the conosle.
+    * public void addError(String message) *[ADDED]* Created to implement more advanced error handling that returns the default message as well as prompt user to correct input
+  
+  * Returns the history of variables to be displayed by the controller.
+    * public String getVariableString() *[ADDED]* Moved from turtle model after the implementation of the Variable Factory
 
-  public void parseLine(String line)
-  public List<slogo.commands.Command> sendCommands()
-  public Stack<Command> parseComponents(Stack<String> components) throws InvalidCommandException 
-  public List<String> getCommandHistory()
-  public void setLanguage(String lang)
-  public void addError(String message)
-  public String getVariableString() 
-
-    Parses a singular command String, which may include multiple commands, and returns their parsed output as a Collection of one or more commands.
-	- Collection<Command> parseLine(String s) *[SAME]* (Note: refactoring in process with reflection)
-	
-	Returns formalized version of a command, throws exception if the command cannot be found.
-	 - String validateCommand(String command) *[ADDED]*
+  * Returns formalized version of a command, throws exception if the command cannot be found.
+    * public String validateCommand(String command) *[ADDED]*
 	 
+   *[ADDED]*
 	 Note: The following components to Parser were not originally planned, but were implemented internally
-	 when it became clear that it would make the division of labor clearer to the user, and make the Parser API
-	 cleaner and more compact.
-	*[ADDED]*
+    	 when it became clear that it would make the division of labor clearer to the user, and make the Parser API
+    	 cleaner and more compact - were previously to be included in the Parser, or in TurtleModel, but added to the 
+    	 Parser API.
+    	 
     Used in Parser API:
     1a. CommandFactory
-        Returns
-        Command makeCommand
-          public CommandFactory(Map<String, List<String>> commands)
-          public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException
-          public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException
-          public Command makeConstant(String current) 
-          public void setMode(String mode)
+        Builds commands based on input from Parser
+        public CommandFactory(Map<String, List<String>> commands)
+          
+        Returns a command after determining parameters, and a call to buildCommand
+        public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException
+          
+        Uses a constructor of the name of the key and inputs from make command to call the declaredConstructor and return a Command
+        public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException
+          
+        Returns a new constant based on the current value
+        public Command makeConstant(String current) 
+        
+        Changes mode based on user input so that commands execute according to current mode.
+        public void setMode(String mode)
+        
     1b. VariableFactory
-        Variable makeVariable
-          public VariableFactory()
-          public MakeVariable makeVariable(Command previous)
-          public boolean handleVariable(String current)
-          public Variable getVariable(String varName)
-          public MakeVariable setVariable(Command command)
-          public String getVariableString()
+        Returns variables if previously defined, else makes new variables
+        public VariableFactory()
+        
+        Returns a makeVariable from the given command, variable from map of variables
+        public MakeVariable makeVariable(Command previous)
+        
+        Returns true if the variable has been previously handled/created, else creates variable (puts in local map)
+        public boolean handleVariable(String current)
+        
+        Returns variable from local map
+        public Variable getVariable(String varName)
+        
+        Returns a new make variable to define a previous variable with the new given command
+        public MakeVariable setVariable(Command command)
+        
+        Returns a string representation of a variable to its value for display
+        public String getVariableString()
+        
     1c. FunctionFactory
-        Function makeFunction
-      public FunctionFactory(Map<String, List<String>> commands)
-      public boolean hasFunction(String funcName)
-      public RunFunction runFunction(String funcName, Stack<Command> commands)
-      public MakeUserInstruction handleFunction(Stack<String> components)
-      public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands)
+        Builds functions and returns runFunctions if previously defined
+        public FunctionFactory(Map<String, List<String>> commands)
+        
+        Returns true if a function of a given name has been previously defined
+        public boolean hasFunction(String funcName)
+        
+        Returns a RunFuction for a predetermined Function that has been made
+        public RunFunction runFunction(String funcName, Stack<Command> commands)
+        
+        Returns a MakeUserInstruction from the given components
+        public MakeUserInstruction handleFunction(Stack<String> components)
+        
+        Returns a Function from the given components to be used in a MakeUserInstruction
+        public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands)
+        
     1d. Translator
-        void SetLanguage
+        Changes the internal mappings of commands to their representation in the new language
+        public void SetLanguage(String language)
+        
+        Returns the Map of current commands to their representation in the current language
+        public Map<String, List<String>> getCommands()
+        
+        Returns the translated version of a given command from the current language to the new language entered
+        public String translateCommand(String command, String language)
         
     
 

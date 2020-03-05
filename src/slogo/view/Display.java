@@ -40,7 +40,6 @@ public class Display {
 
   public Display() {
     buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
-
     myMainViewList = new ArrayList<>();
     addTabButton = new Button(buttonBundle.getString("AddTab"));
     anchorPane = new AnchorPane();
@@ -52,7 +51,6 @@ public class Display {
     BorderStroke borderStroke = new BorderStroke(Color.DARKBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5));
     Border border = new Border(borderStroke);
     anchorPane.setBorder(border);
-
 
     myMainView = new MainView();
     myMainView2 = new MainView();

@@ -18,6 +18,7 @@ import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.parser.ErrorHandler;
 import slogo.backendexternal.parser.Parser;
+import slogo.backendexternal.parser.Translator;
 import slogo.commands.Command;
 import slogo.frontendexternal.Turtle;
 import slogo.view.Display;
@@ -35,6 +36,7 @@ public class Controller extends Application {
   private Display myDisplay;
   private Parser myParser;
   private TurtleModel myModel;
+  private Translator translator;
   private Console console;
   private Button runButton;
   private ComboBox language;
@@ -53,7 +55,8 @@ public class Controller extends Application {
   @Override
   public void start(Stage currentStage) {
     myDisplay = new Display();
-    myParser = new Parser();
+    translator = new Translator();
+    myParser = new Parser(translator);
     errorHandler = new ErrorHandler();
     mainViewTurtleModelMap = new HashMap<MainView, TurtleModel>();
 
@@ -158,6 +161,6 @@ public class Controller extends Application {
   }
 
   private void setLanguage(ComboBox language){
-    myParser.setLanguage(language.getValue().toString());
+    myParser.setLanguage(translator);
   }
 }

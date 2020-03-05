@@ -39,7 +39,7 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
   private Insets insets = new Insets(5.0);
 
   private TurtleView turtle;
-  //private TurtleViewManager turtle;
+  private TurtleViewManager turtleManager;
   private TurtleStatus turtleStatus;
 
   public MainView() {
@@ -81,9 +81,15 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
     pane.setBorder(border);
   }
 
+  private void setUpTurtles(int numTurtles) {
+    this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0);
+    //turtleManager.setPenView(1, Color.BLACK); /** to do: update with correct ID*/
+    this.turtleManager.initializeTurtleViews(numTurtles);
+  }
+
   private void setUpTurtle() {
     this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0);
-    turtle.getPenView().setMyPenColor(Color.RED);
+    turtle.getPenView().setMyPenColor(Color.BLACK);
     turtle.myImageView.setFitWidth(turtleSize);
     turtle.myImageView.setFitHeight(turtleSize);
     turtle.myImageView.setX(turtle.myImageView.getX() - turtle.myImageView.getFitWidth() / 2);
@@ -94,11 +100,23 @@ public class MainView extends BorderPane implements EventHandler, MainViewAPI {
 
   public void moveTurtle(List<TurtleStatus> ts) {
     pane.getChildren().clear(); // clear complete list
-    turtle.executeState(ts);
     pane.getChildren().add(turtle.myImageView);
+
+    /* PROLLY NEED TO FIX OBJECT CASTING
+    for(Object temp : ((List) turtleManager.getTurtleViews())) {
+      pane.getChildren().add(((TurtleView) temp).getMyImageView());
+    }
+
+    turtleManager.execute(ts);
+     */
+
+    turtle.executeState(ts);
     this.turtleStatus = ts.get(ts.size() - 1);
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
+//    List<Line> temp = (ArrayList) turtleManager.getMyLines();
+
+
     for(int i = 0; i < temp.size(); i++)  {
       if(!pane.getChildren().contains(temp.get(i))) {
         pane.getChildren().add(temp.get(i));

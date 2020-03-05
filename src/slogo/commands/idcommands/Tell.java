@@ -22,7 +22,7 @@ public class Tell implements IdCommand {
     private double lastId;
 
     /**
-     * Constructor for Tell. Takes 1 argument.
+     * Constructor for Tell. Takes 1 command argument.
      *
      * @param ids Commands representing the different commands to set turtle IDs.
      * @param consumer Consumer for modifying the activeTurtles in TurtleModel.

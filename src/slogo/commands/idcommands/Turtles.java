@@ -6,27 +6,27 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * Class that implements IdCommand, used to query the active turtle.
+ * Class that implements IdCommand, used to query the number of created turtles.
  *
  * @author Tyler Jang
  */
-public class ID implements IdCommand {
+public class Turtles implements IdCommand {
     public static final int NUM_ARGS = 0;
     private Supplier<Integer> supp;
 
-    private double activeID;
+    private double numTurtles;
 
     /**
-     * Constructor for ID. Takes 0 command arguments.
+     * Constructor for Turtles. Takes 0 command arguments.
      *
-     * @param supplier Supplier for retrieving the active turtle in TurtleModel.
+     * @param supplier Supplier for retrieving the number of created turtles in TurtleModel.
      */
-    public ID(Supplier<Integer> supplier) {
+    public Turtles(Supplier<Integer> supplier) {
         supp = supplier;
     }
 
     /**
-     * Executes the ID instance, retrieving the active turtle.
+     * Executes the Tell instance, retrieving the number of turtles.
      *
      * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
      *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
@@ -34,17 +34,17 @@ public class ID implements IdCommand {
      */
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
-        activeID = supp.get();
+        numTurtles = supp.get();
         return List.of(ts);
     }
 
     /**
-     * Retrieves the value returned by ID's execution, the active turtle ID.
+     * Retrieves the value returned by Turtle's execution, the number of turtles.
      *
-     * @return the active turtle's ID.
+     * @return the number of turtles.
      */
     @Override
     public double returnValue() {
-        return activeID;
+        return numTurtles;
     }
 }

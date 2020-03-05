@@ -3,9 +3,10 @@ package slogo.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -15,7 +16,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 /**
  * @author Shruthi Kumar, Nevzat Sevim
@@ -23,10 +23,10 @@ import javafx.stage.Stage;
 public class Display {
   private Scene myScene;
   private MainView myMainView;
+  private MainView myMainView2;
   private TabPane tabPane = new TabPane();
-<<<<<<< HEAD
+
   private Tab tab = new Tab("SLogo");
-  private Tab tab2 = new Tab("SLogo");
   private List<MainView> myMainViewList;
   private Button addTabButton; // = new Button("Add Tab");
   private AnchorPane anchorPane;
@@ -54,7 +54,7 @@ public class Display {
     Border border = new Border(borderStroke);
     anchorPane.setBorder(border);
 
-=======
+/*
   private Tab tab = new Tab("Main Tab");
   SingleSelectionModel<Tab> selectionModel;
   private int tabNo;
@@ -62,21 +62,32 @@ public class Display {
 
   public Display() {
     tabNo = 1;
+    /*
     selectionModel = tabPane.getSelectionModel();
->>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
+
+     */
+
 
     myMainView = new MainView();
+    myMainView2 = new MainView();
     tab.setGraphic(myMainView);
-    tab.setClosable(false);
-
     tabPane.getTabs().addAll(tab);
+    tabPane.setTabMaxHeight(TAB_HEIGHT);
+    tabPane.setTabMaxWidth(TAB_WIDTH);
+    tabPane.setTabMinHeight(TAB_HEIGHT);
+    tabPane.setTabMinWidth(TAB_WIDTH);
 
-    tabPane.setTabMaxHeight(750);
-    tabPane.setTabMaxWidth(1040);
-    tabPane.setTabMinHeight(750);
-    tabPane.setTabMinWidth(1040);
+    anchorPane.setTopAnchor(addTabButton, 10.0);
+    anchorPane.setLeftAnchor(addTabButton, 5.0);
 
-    myScene = new Scene(tabPane);
+    anchorPane.setTopAnchor(tabPane, 40.0);
+    anchorPane.setLeftAnchor(tabPane, 5.0);
+
+
+    anchorPane.getChildren().addAll(addTabButton, tabPane);
+    vBox.getChildren().addAll(addTabButton, tabPane);
+
+    myScene = new Scene(vBox, SCREEN_WIDTH, SCREEN_HEIGHT);
   }
 
 
@@ -87,18 +98,21 @@ public class Display {
     return myScene;
   }
 
+  public TabPane getTabPane(){ return tabPane; }
+
   public MainView getMainView(){
     Tab tab = tabPane.getSelectionModel().getSelectedItem();
     return (MainView) tab.getGraphic();
   }
 
+  public Button getAddTabButton() {
+    return addTabButton;
+  }
   public void addTab() {
-    tabNo++;
     MainView newMainView = new MainView();
-    Tab newTab = new Tab("SLogo " + tabNo);
+    Tab newTab = new Tab("SLogo");
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);
-    selectionModel.select(newTab);
   }
 
 }

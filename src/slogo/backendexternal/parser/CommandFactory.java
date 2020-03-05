@@ -1,16 +1,8 @@
 package slogo.backendexternal.parser;
 
-<<<<<<< HEAD
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
-
-=======
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.function.Consumer;
->>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
 import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
@@ -22,31 +14,18 @@ public class CommandFactory {
   private static final double Y_MAX = 250;
 
   private String currentMode;
-<<<<<<< HEAD
-  private CommandCounter myCounts;
-  private Map<String, String> myCommands = new HashMap<>();
-  private List<String> myMovementCommands;
-
-  public CommandFactory(Map<String, List<String>> commands){
-    currentMode = "toroidal";
-    myCounts = new CommandCounter();
-=======
   private Map<String, String> myCommands = new HashMap<>();
   private List<String> myMovementCommands;
   private Map<String, Integer> counts;
 
   public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
->>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
     var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandFactory");
     for(String key:resources.keySet()){
       myCommands.put(key, resources.getString(key));
     }
     myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
-<<<<<<< HEAD
-=======
     fillCounts();
->>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
   }
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
@@ -74,11 +53,7 @@ public class CommandFactory {
       Class<?> c = Class.forName(myCommands.get(key));
       List<Object> obj = new ArrayList<>();
 
-<<<<<<< HEAD
-      for(int i = 0; i<myCounts.getCount(key); i++) obj.add(commands.get(i));
-=======
       for(int i = 0; i<getCount(key); i++) obj.add(commands.get(i));
->>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
       if(myMovementCommands.contains(key)){
         obj.add(X_MAX);
         obj.add(Y_MAX);
@@ -93,152 +68,9 @@ public class CommandFactory {
 
       Class<?> params[] = findParameter(objArray);
       return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
-
-<<<<<<< HEAD
-
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
       throw new InvalidCommandException("Command could not be found.");
     }
-
-
-//    if(key.equals("Backward")){
-//      return new Backward(commands.get(0), X_MAX, Y_MAX, currentMode);
-//    }
-//    else if(key.equals("ClearScreen")){
-//      return new ClearScreen(X_MAX, Y_MAX, currentMode);
-//    }
-//    else if(key.equals("Forward")){
-//      return new Forward(commands.get(0), X_MAX, Y_MAX, currentMode);
-//    }
-//    else if(key.equals("HideTurtle")){
-//      return new HideTurtle();
-//    }
-//    else if(key.equals("Home")){
-//      return new Home(X_MAX, Y_MAX, currentMode);
-//    }
-//    else if(key.equals("Left")){
-//      return new Left(commands.get(0));
-//    }
-//    else if(key.equals("PenDown")){
-//      return new PenDown();
-//    }
-//    else if(key.equals("PenUp")){
-//      return new PenUp();
-//    }
-//    else if(key.equals("Right")){
-//      return new Right(commands.get(0));
-//    }
-//    else if(key.equals("SetHeading")){
-//      return new SetHeading(commands.get(0));
-//    }
-//    else if(key.equals("SetPosition")){
-//      return new SetPosition(commands.get(0), commands.get(1), X_MAX, Y_MAX, currentMode);
-//    }
-//    else if(key.equals("SetTowards")){
-//      return new SetTowards(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("ShowTurtle")){
-//      return new ShowTurtle();
-//    }
-//    else if(key.equals("Heading")){
-//      return new Heading();
-//    }
-//    else if(key.equals("IsPenDown")){
-//      return new IsPenDown();
-//    }
-//    else if(key.equals("IsShowing")){
-//      return new IsShowing();
-//    }
-//    else if(key.equals("XCoordinate")){
-//      return new XCoordinate();
-//    }
-//    else if(key.equals("YCoordinate")){
-//      return new YCoordinate();
-//    }
-//    else if(key.equals("ArcTangenet")){
-//      return new ArcTangent(commands.get(0));
-//    }
-//    else if(key.equals("Cosine")){
-//      return new Cosine(commands.get(0));
-//    }
-//    else if(key.equals("Difference")){
-//      return new Difference(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("Minus")){
-//      return new Minus(commands.get(0));
-//    }
-//    else if(key.equals("NaturalLog")){
-//      return new NaturalLog(commands.get(0));
-//    }
-//    else if(key.equals("Pi")){
-//      return new Pi();
-//    }
-//    else if(key.equals("Power")){
-//      return new Power(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("Product")){
-//      return new Product(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("Quotient")){
-//      return new Quotient(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("Rand")){
-//      return new Rand(commands.get(0));
-//    }
-//    else if(key.equals("Remainder")){
-//      return new Remainder(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("Sine")){
-//      return new Sine(commands.get(0));
-//    }
-//    else if(key.equals("Sum")){
-//      return new Sum(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("Tangent")){
-//      return new Tangent(commands.get(0));
-//    }
-//    else if(key.equals("And")){
-//      return new And(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("Equal")){
-//      return new Equal(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("GreaterThan")){
-//      return new GreaterThan(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("LessThan")){
-//      return new LessThan(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("Not")){
-//      return new Not(commands.get(0));
-//    }
-//    else if(key.equals("NotEqual")){
-//      return new NotEqual(commands.get(0),commands.get(1));
-//    }
-//    else if(key.equals("Or")){
-//      return new Or(commands.get(0), commands.get(1));
-//    }
-//    else if(key.equals("Repeat")){
-//      return new Repeat(commands.get(0), listCommands.pop());
-//    }
-////    else if(key.equals("DoTimes")){
-////      return new DoTimes(commands.get(0), commands.get(1), listCommands.pop());
-////    }
-////    else if(key.equals("For")){
-////      return new For(commands.get(0), commands.get(1), commands.get(2), commands.get(3), listCommands.pop());
-////    }
-//    else if(key.equals("If")){
-//      return new If(commands.get(0), listCommands.pop());
-//    }
-//    else if(key.equals("IfElse")){
-//      return new IfElse(commands.get(0), listCommands.pop(), listCommands.pop());
-//    }
-//    throw new InvalidCommandException("Command could not be found.");
-=======
-    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-      throw new InvalidCommandException("Command could not be found.");
-    }
->>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
   }
 
   public Command makeConstant(String current) {
@@ -258,8 +90,6 @@ public class CommandFactory {
     throw new InvalidCommandException(current);
   }
 
-<<<<<<< HEAD
-=======
   private void fillCounts(){
     counts = new HashMap<>();
     var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandCounter");
@@ -271,8 +101,6 @@ public class CommandFactory {
   private int getCount(String command){
     return counts.get(command);
   }
->>>>>>> 1276ca207805f21cbc6b06866078f49459ba8b6f
-
 
   private Class<?>[] findParameter(Object[] objArray){
     Class<?> params[] = new Class[objArray.length];

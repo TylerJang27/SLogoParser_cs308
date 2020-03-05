@@ -40,7 +40,7 @@ public class XMLReader {
   }
 
   public MainView getMainView(String fname) {
-    File dataFile = new File(fname);
+    return null; //File dataFile = new File(fname);
   }
 
   private void readBasic(Element root) {

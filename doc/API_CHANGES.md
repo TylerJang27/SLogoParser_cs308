@@ -80,10 +80,54 @@ The goal of the external API on the backend will be to communicate with the fron
 
 ### Internal Back-End
 1. Parser
-    Used for parsing Strings into Commands.
-	- Collection<Command> parseLine(String s)
-    
+
+
+  public void parseLine(String line)
+  public List<slogo.commands.Command> sendCommands()
+  public Stack<Command> parseComponents(Stack<String> components) throws InvalidCommandException 
+  public List<String> getCommandHistory()
+  public void setLanguage(String lang)
+  public void addError(String message)
+  public String getVariableString() 
+
     Parses a singular command String, which may include multiple commands, and returns their parsed output as a Collection of one or more commands.
+	- Collection<Command> parseLine(String s) *[SAME]* (Note: refactoring in process with reflection)
+	
+	Returns formalized version of a command, throws exception if the command cannot be found.
+	 - String validateCommand(String command) *[ADDED]*
+	 
+	 Note: The following components to Parser were not originally planned, but were implemented internally
+	 when it became clear that it would make the division of labor clearer to the user, and make the Parser API
+	 cleaner and more compact.
+	*[ADDED]*
+    Used in Parser API:
+    1a. CommandFactory
+        Returns
+        Command makeCommand
+          public CommandFactory(Map<String, List<String>> commands)
+          public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException
+          public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException
+          public Command makeConstant(String current) 
+          public void setMode(String mode)
+    1b. VariableFactory
+        Variable makeVariable
+          public VariableFactory()
+          public MakeVariable makeVariable(Command previous)
+          public boolean handleVariable(String current)
+          public Variable getVariable(String varName)
+          public MakeVariable setVariable(Command command)
+          public String getVariableString()
+    1c. FunctionFactory
+        Function makeFunction
+      public FunctionFactory(Map<String, List<String>> commands)
+      public boolean hasFunction(String funcName)
+      public RunFunction runFunction(String funcName, Stack<Command> commands)
+      public MakeUserInstruction handleFunction(Stack<String> components)
+      public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands)
+    1d. Translator
+        void SetLanguage
+        
+    
 
 2. TurtleModel 
     Used for modeling the motion of the turtle on the back-end, by ?executing? Commands.

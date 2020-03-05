@@ -35,7 +35,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private final double paneHeight = 510;
 
   private final double turtleSize = 90;
-  private Insets insets = new Insets(5.0);
+  private Insets insets = new Insets(0);
 
   private TurtleView turtle;
   private TurtleViewManager turtleManager;
@@ -63,7 +63,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private void setUpPane() {
     this.pane = new Pane(turtle.myImageView);
     pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,
-            CornerRadii.EMPTY, insets)));
+            CornerRadii.EMPTY, new Insets(0))));
 
     pane.setMaxSize(paneWidth, paneHeight);
     pane.setMinSize(paneWidth, paneHeight);

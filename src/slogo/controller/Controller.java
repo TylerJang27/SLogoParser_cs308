@@ -9,9 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
@@ -36,7 +34,6 @@ public class Controller extends Application {
   private Display myDisplay;
   private Parser myParser;
   private TurtleModel myModel;
-  private Translator translator;
   private Console console;
   private UserDefinitions userDefinitions;
   private Button runButton;
@@ -45,7 +42,7 @@ public class Controller extends Application {
   private MoveArrows arrows;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
-
+  private Button addTabButton;
   private Map<MainView, TurtleModel> mainViewTurtleModelMap;
   private List<Tab> tabs;
   private Translator translator;
@@ -100,8 +97,8 @@ public class Controller extends Application {
     runButton.setOnAction(event -> sendCommand());
     language = myDisplay.getMainView().getToolBar().getLanguageBox();
     language.setOnAction(event -> setLanguage(language));
-    modeMenu = myDisplay.getMainView().getToolBar().getModeMenu();
-    modeMenu.setOnAction(event -> setMode(modeMenu));
+//    modeMenu = myDisplay.getMainView().getToolBar().getModeMenu();
+//    modeMenu.setOnAction(event -> setMode(modeMenu));
     arrows = myDisplay.getMainView().getTextFields().getMoveArrows();
     for(Button arrow : arrows.getButtons()){
       arrow.setOnAction(event -> moveTurtle(arrow, arrows.getIncrement()));

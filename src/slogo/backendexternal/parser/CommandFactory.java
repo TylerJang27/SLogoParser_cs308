@@ -61,14 +61,10 @@ public class CommandFactory {
 
   private String currentMode;
   private CommandCounter myCounts;
-  private FunctionFactory functionFactory;
-  private Map<String, List<String>> myCommands;
 
   public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
     myCounts = new CommandCounter();
-    myCommands = commands;
-//    functionFactory = new FunctionFactory(myCommands);
   }
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
@@ -243,6 +239,6 @@ public class CommandFactory {
         return key;
       }
     }
-    throw new InvalidCommandException(String.format("The command %s could not be found", current));
+    throw new InvalidCommandException(current);
   }
 }

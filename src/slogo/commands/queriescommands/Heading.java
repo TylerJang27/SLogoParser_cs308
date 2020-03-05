@@ -3,7 +3,6 @@ package slogo.commands.queriescommands;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.QueriesCommand;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

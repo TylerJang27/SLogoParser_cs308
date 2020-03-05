@@ -48,9 +48,7 @@ public class Controller extends Application {
   /**
    * Start of the program.
    */
-  public static void main(String[] args) {
-    launch(args);
-  }
+  public static void main(String[] args) { launch(args); }
 
   @Override
   public void start(Stage currentStage) {
@@ -126,7 +124,7 @@ public class Controller extends Application {
     try{
       myParser.parseLine(console.getText());
       List<Command> toSend = myParser.sendCommands();
-      List<TurtleStatus> statuses = myModel.executeCommands(toSend, currentStatus);
+      List<TurtleStatus> statuses = myModel.executeCommands(toSend);
       if(statuses.size() > 1){
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);

@@ -57,6 +57,7 @@ public class Controller extends Application {
     myDisplay = new Display();
     translator = new Translator();
     myParser = new Parser(translator);
+    myParser.setDisplay(myDisplay);
     errorHandler = new ErrorHandler();
     mainViewTurtleModelMap = new HashMap<MainView, TurtleModel>();
 

@@ -138,6 +138,9 @@ public class TurtleView {
       getPenView().getMyLines().clear();
     }
   }
+  public void clearScreen() {
+      getPenView().getMyLines().clear();
+  }
 
 
   private boolean checkMovement(TurtleStatus start, TurtleStatus end) {

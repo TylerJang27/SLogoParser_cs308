@@ -9,6 +9,7 @@ import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 import slogo.commands.controlcommands.Constant;
+import slogo.view.Display;
 
 public class CommandFactory {
 
@@ -19,24 +20,42 @@ public class CommandFactory {
   private CommandCounter myCounts;
   private Map<String, String> myCommands = new HashMap<>();
   private List<String> myMovementCommands;
-  private Map<String, Integer> counts;
-  private Map<String, Integer> myControlCommands;
+  private Map<String, Integer> counts = new HashMap<>();
+  private Map<String, Integer> myControlCommands = new HashMap<>();
+  private Display myDisplay;
 
   public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
     myCounts = new CommandCounter();
-    var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandFactory");
-    for(String key:resources.keySet()){
-      myCommands.put(key, resources.getString(key));
-    }
-    myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
+    setGeneralCommands();
+    setMovementCommands();
+    setControlCommands();
+  }
+
+
+  private void setControlCommands(){
     var resources2 = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "ControlCommand");
     for(String key:resources2.keySet()){
       myControlCommands.put(key, Integer.parseInt(resources2.getString(key)));
     }
   }
 
-  
+  private void setGeneralCommands(){
+    var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandFactory");
+    for(String key:resources.keySet()){
+      myCommands.put(key, resources.getString(key));
+    }
+  }
+  private void setMovementCommands(){
+    myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
+  }
+
+  public void setDisplay(Display display){
+    myDisplay = display;
+  }
+
+
+
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
@@ -65,6 +84,23 @@ public class CommandFactory {
       for (int i = 0; i < myCounts.getCount(key); i++) obj.add(commands.get(i));
       if (myMovementCommands.contains(key)) obj.add(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
       if (myControlCommands.keySet().contains(key)) for (int i = 0; i < myControlCommands.get(key); i++) obj.add(listCommands.pop());
+
+
+      if(key.equals("ClearScreen")){
+        Runnable r = ()-> {
+          try {
+            myDisplay.getMainView().getTurtle().getClass().getDeclaredMethod("clearScreen");
+          } catch (NoSuchMethodException e) {
+            throw new InvalidCommandException("Command could not be found.");
+          }
+        };
+        obj.add(r);
+      }
+
+
+
+
+
 
 
       Object[] objArray = obj.toArray();

@@ -2,6 +2,7 @@ package slogo.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -39,11 +40,13 @@ public class Display {
   public static final double TAB_WIDTH = SCREEN_WIDTH - 100;
   public static final double TAB_HEIGHT = SCREEN_HEIGHT - 100;
 
-
+  private ResourceBundle buttonBundle;
 
   public Display() {
+    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
+
     myMainViewList = new ArrayList<>();
-    addTabButton = new Button("Add Tab");
+    addTabButton = new Button(buttonBundle.getString("AddTab"));
     anchorPane = new AnchorPane();
     vBox = new VBox();
     vBox.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);

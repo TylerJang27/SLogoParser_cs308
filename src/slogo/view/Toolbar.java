@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -43,19 +44,27 @@ public class Toolbar extends ToolBar {
   //Timeline Inputs
   private static final int FRAMES_PER_SECOND = 60;
   private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
+  private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle;
+
 
 
   public Toolbar(MainView mainview) {
+    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
+    labelBundle = ResourceBundle.getBundle("slogo.view.resources.labels");
+    languageBundle = ResourceBundle.getBundle("slogo.view.resources.languages");
+    turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
+
+
     this.myMainView = mainview;
     this.myTextFields = myMainView.getTextFields();
 
     createMenus();
     createButtons();
 
-    Label penLabel = new Label("Pen:");
-    Label backgroundLabel = new Label("Background:");
-    Label turtleLabel = new Label("Turtle:");
-    Label languageLabel = new Label("Language:");
+    Label penLabel = new Label(labelBundle.getString("PenLabel"));
+    Label backgroundLabel = new Label(labelBundle.getString("BackgroundLabel"));
+    Label turtleLabel = new Label(labelBundle.getString("TurtleLabel"));
+    Label languageLabel = new Label(labelBundle.getString("LanguageLabel"));
     this.setMinSize(1200.0, 40.0);
     //this.setMinSize(400.0, 40.0);
 
@@ -89,22 +98,31 @@ public class Toolbar extends ToolBar {
     //Turtle Menu
     this.turtleMenu = new ComboBox();
     turtleMenu.setPromptText("raphael");
-    turtleMenu.getItems().addAll("mickey", "raphael", "turtle");
+    turtleMenu.getItems().addAll(turtleSkinBundle.getString("Mickey"),
+        turtleSkinBundle.getString("Raphael"),
+        turtleSkinBundle.getString("Turtle"));
 
     //Language Menu
     this.languageMenu = new ComboBox();
     languageMenu.setPromptText("English");
-    languageMenu.getItems().addAll("English", "Chinese", "French", "German", "Italian",
-        "Portuguese", "Russian", "Spanish", "Urdu");
+    languageMenu.getItems().addAll(languageBundle.getString("English"),
+        languageBundle.getString("Chinese"),
+        languageBundle.getString("French"),
+        languageBundle.getString("German"),
+        languageBundle.getString("Italian"),
+        languageBundle.getString("Portuguese"),
+        languageBundle.getString("Russian"),
+        languageBundle.getString("Spanish"),
+        languageBundle.getString("Urdu"));
   }
 
   private void createButtons() {
-    this.commandButton = new Button("RUN");
+    this.commandButton = new Button(buttonBundle.getString("Run"));
 
-    this.helpButton = new Button("?");
+    this.helpButton = new Button(buttonBundle.getString("Help"));
     helpButton.setOnAction(this:: handleHelp);
 
-    this.changesButton = new Button("Apply");
+    this.changesButton = new Button(buttonBundle.getString("ApplyLabel"));
     changesButton.setOnAction(this::handleChanges);
 
   }

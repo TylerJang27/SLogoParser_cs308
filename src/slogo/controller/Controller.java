@@ -19,7 +19,6 @@ import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.parser.ErrorHandler;
 import slogo.backendexternal.parser.Parser;
 import slogo.commands.Command;
-import slogo.frontendexternal.Turtle;
 import slogo.view.Display;
 import slogo.view.InputFields.Console;
 import slogo.view.MainView;

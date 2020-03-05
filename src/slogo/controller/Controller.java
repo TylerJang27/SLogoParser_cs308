@@ -29,16 +29,14 @@ public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
   private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-  private static final int WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
-  private static final int HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
   public static final int FRAMES_PER_SECOND = 60;
   public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-  public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
 
   private Display myDisplay;
   private Parser myParser;
   private TurtleModel myModel;
+  private Translator translator;
   private Console console;
   private UserDefinitions userDefinitions;
   private Button runButton;
@@ -47,7 +45,7 @@ public class Controller extends Application {
   private MoveArrows arrows;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
-  private Button addTabButton;
+
   private Map<MainView, TurtleModel> mainViewTurtleModelMap;
   private List<Tab> tabs;
   private Translator translator;
@@ -60,7 +58,8 @@ public class Controller extends Application {
   @Override
   public void start(Stage currentStage) {
     myDisplay = new Display();
-    myParser = new Parser();
+    translator = new Translator();
+    myParser = new Parser(translator);
     errorHandler = new ErrorHandler();
     translator = new Translator();
     mainViewTurtleModelMap = new HashMap<MainView, TurtleModel>();
@@ -71,10 +70,11 @@ public class Controller extends Application {
     addTabButton = myDisplay.getAddTabButton();
     addTabButton.setOnAction(event -> addTab());
     Scene myScene = myDisplay.getScene();
+
     currentStage.setScene(myScene);
     currentStage.setTitle(TITLE);
-    currentStage.setWidth(WIDTH);
-    currentStage.setHeight(HEIGHT);
+    currentStage.setWidth(1070);
+    currentStage.setHeight(800);
     currentStage.setResizable(false);
     currentStage.show();
   }

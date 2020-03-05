@@ -41,8 +41,8 @@ public class TurtleView {
   public TurtleView(double x, double y) {
     myStartXPos = x;
     myStartYPos = y;
-    myEndXPos = 150;
-    myEndYPos = 250;
+    myEndXPos = 0;
+    myEndYPos = 0;
     myBearing = 0;
     isVisible = true;
     clearScreen = false;
@@ -79,7 +79,9 @@ public class TurtleView {
     }
 
     setMyEndXPos(t.get(t.size()-1).getX());
+
     setMyEndYPos(t.get(t.size()-1).getY());
+
 
     if (t.size() > 1) {
       sequentialTransition.play();

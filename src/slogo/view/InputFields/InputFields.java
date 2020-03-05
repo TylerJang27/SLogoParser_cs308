@@ -16,6 +16,7 @@ public class InputFields extends HBox {
 
     public InputFields(MainView mainview) {
         this.mw = mainview;
+
         userDefinitions = new UserDefinitions();
         console = new Console();
         statusView = new StatusView();

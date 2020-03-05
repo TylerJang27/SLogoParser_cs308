@@ -35,21 +35,15 @@ public class Parser {
 
   public void parseLine(String line){
     lastLine = line;
-
     commandHistory.add(line);
-
     String[] inputs = line.split(" ");
-
     for(String input : inputs){
       currentComponents.push(input);
     }
-
     currentCommands.addAll(parseComponents(currentComponents));
-
     while(currentCommands.size() > 0){
       newCommands.add(currentCommands.pop());
     }
-
   }
 
   public List<Command> sendCommands(){

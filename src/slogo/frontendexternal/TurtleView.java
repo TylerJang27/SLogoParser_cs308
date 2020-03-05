@@ -189,7 +189,8 @@ public class TurtleView {
   }
 
   private void addPenViewLines(TurtleStatus start, TurtleStatus end) {
-      if(end.getPenDown()) {
+    this.penView.setPenDown(end.getPenDown());
+    if(end.getPenDown()) {
         this.penView.updateMyLines(this.getMyStartXPos() + start.getX(), this.getMyStartYPos() + start.getY(), this.getMyStartXPos() + end.getX(), this.getMyStartYPos() + end.getY());
       }
   }

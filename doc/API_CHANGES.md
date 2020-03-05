@@ -18,24 +18,48 @@ The goal of the external API on the backend will be to communicate with the fron
 ## API
 ### Internal Front-End
 1. TurtleView
-    - Void executeStatus(TurtleStatus t)
-    
+    - Void executeStatus(TurtleStatus t) 
+ 
     Executes the command that the user enters by doing the action specified in the command
-    - Void updateX(int x), updateY(int y)
+    - Void updateX(int x), updateY(int y) [renamed to setMyStartXPos() and setMyStartYPos()]
     
     Updates the value of the x and y positions of the turtle as it moves
-    - Void updateBearing(int degrees)
+    - Void updateBearing(int degrees) [renamed to setMyBearing()]
     
     Updates the current direction of the turtle by given degree increment
-    - Void changeSkin(String filename)
+    - Void changeSkin(String filename) [renamed to setImageView()]
     
     Changes image used for turtle
-    - Void draw(Point start, Point end)
+    - Void draw(Point start, Point end) [renamed addPenViewLines()]
     
-    Draws a line that is visible on UI from starting point to ending point on a straight line
-    - Void penUp(), penDown()
+    Draws a line that is visible on UI from starting point to ending point on a straight line. Does this for all commands given through GUI
+    - Void penUp(), penDown() [NOT IN TurtleView - MOVED TO NEW CLASS CALLED PenView]
     
     Changes whether or not draw() is called when turtle moves
+    
+[CHANGES FOR BASIC/COMPLETE: added PenView]
+
+
+2. PenView
+- Void setPenDown() [ADDED]
+    
+    Changes whether or not draw() is called when turtle moves
+- Void updateMyLines() [ADDED]
+    
+    Updates the pen lines to be drawn on the pane
+
+- List getLines() [ADDED]
+
+    Returns the list of lines that need to be drawn 
+
+- Color getPenColor [ADDED]
+
+    Returns the pen color
+
+- Void setPenColor [ADDED]
+
+    Sets the pen color 
+
 
 ### External Front-End
 1. CommandLine

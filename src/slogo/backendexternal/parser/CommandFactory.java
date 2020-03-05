@@ -36,6 +36,8 @@ public class CommandFactory {
     }
   }
 
+  
+
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
@@ -62,8 +64,7 @@ public class CommandFactory {
 
       for (int i = 0; i < myCounts.getCount(key); i++) obj.add(commands.get(i));
       if (myMovementCommands.contains(key)) obj.add(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
-      if (myControlCommands.keySet().contains(key))
-        for (int i = 0; i < myControlCommands.get(key); i++) obj.add(listCommands.pop());
+      if (myControlCommands.keySet().contains(key)) for (int i = 0; i < myControlCommands.get(key); i++) obj.add(listCommands.pop());
 
 
       Object[] objArray = obj.toArray();

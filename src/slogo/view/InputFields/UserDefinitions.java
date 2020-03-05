@@ -52,6 +52,7 @@ public class UserDefinitions {
       StringBuilder translatedLine = new StringBuilder();
       for(String command : line.split(" ")){
         translatedLine.append(translator.translateCommand(command, newLanguage));
+        translatedLine.append(" ");
       }
       addVariableText(translatedLine.toString());
     }

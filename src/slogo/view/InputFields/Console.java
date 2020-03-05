@@ -113,7 +113,9 @@ public class Console {
     while(iter.hasPrevious()){
       StringBuilder translatedLine = new StringBuilder();
       for(String command : iter.previous().split(" ")){
+        System.out.println(command);
         translatedLine.append(translator.translateCommand(command, newLanguage));
+        translatedLine.append(" ");
       }
       String past = "> " + translatedLine.toString();
       addUneditable(past);

@@ -23,7 +23,7 @@ public class Translator {
   public Map getCurrentCommands(){ return currentCommands; }
 
   public Map<String, List<String>> setLanguage(String language){
-    Map translatedCommands = new HashMap<String, List<String>>();
+    Map<String, List<String>> translatedCommands = new HashMap<String, List<String>>();
     ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + language);
     for (String key : Collections.list(resources.getKeys())) {
       String translation = resources.getString(key);

@@ -23,9 +23,9 @@ import javafx.stage.Screen;
 public class Display {
   private Scene myScene;
   private MainView myMainView;
+  private MainView myMainView2;
   private TabPane tabPane = new TabPane();
   private Tab tab = new Tab("SLogo");
-  private Tab tab2 = new Tab("SLogo");
   private List<MainView> myMainViewList;
   private Button addTabButton; // = new Button("Add Tab");
   private AnchorPane anchorPane;
@@ -55,17 +55,25 @@ public class Display {
 
 
     myMainView = new MainView();
+    myMainView2 = new MainView();
     tab.setGraphic(myMainView);
-    tab.setClosable(false);
-
     tabPane.getTabs().addAll(tab);
+    tabPane.setTabMaxHeight(TAB_HEIGHT);
+    tabPane.setTabMaxWidth(TAB_WIDTH);
+    tabPane.setTabMinHeight(TAB_HEIGHT);
+    tabPane.setTabMinWidth(TAB_WIDTH);
 
-    tabPane.setTabMaxHeight(750);
-    tabPane.setTabMaxWidth(1040);
-    tabPane.setTabMinHeight(750);
-    tabPane.setTabMinWidth(1040);
+    anchorPane.setTopAnchor(addTabButton, 10.0);
+    anchorPane.setLeftAnchor(addTabButton, 10.0);
 
-    myScene = new Scene(tabPane);
+    anchorPane.setTopAnchor(tabPane, 40.0);
+    anchorPane.setLeftAnchor(tabPane, 10.0);
+
+
+    anchorPane.getChildren().addAll(addTabButton, tabPane);
+    vBox.getChildren().addAll(addTabButton, tabPane);
+
+    myScene = new Scene(vBox, SCREEN_WIDTH, SCREEN_HEIGHT);
   }
 
 
@@ -76,25 +84,21 @@ public class Display {
     return myScene;
   }
 
+  public TabPane getTabPane(){ return tabPane; }
+
   public MainView getMainView(){
     Tab tab = tabPane.getSelectionModel().getSelectedItem();
     return (MainView) tab.getGraphic();
   }
 
-  public Button getAddTabButton(){ return addTabButton; }
-
-  public TabPane getTabPane() {
-    return tabPane;
+  public Button getAddTabButton() {
+    return addTabButton;
   }
-
-
   public void addTab() {
-    tabNo++;
     MainView newMainView = new MainView();
-    Tab newTab = new Tab("SLogo " + tabNo);
+    Tab newTab = new Tab("SLogo");
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);
-    selectionModel.select(newTab);
   }
 
 }

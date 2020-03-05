@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.event.Event;
@@ -13,15 +16,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import slogo.backendexternal.TurtleStatus;
 import slogo.frontendexternal.TurtleView;
+import slogo.frontendexternal.TurtleViewManager;
 import slogo.view.InputFields.InputFields;
 
 /** @author Shruthi Kumar, Nevzat Sevim */
 
-public class MainView extends VBox implements EventHandler, MainViewAPI {
-  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth();
-  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight();
-  //2*SCREEN_HEIGHT/3.0
-  //SCREEN_WIDTH
+public class MainView extends BorderPane implements EventHandler, MainViewAPI {
+  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 300;
+  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 300;
+
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
@@ -29,18 +32,25 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   //Pane and Turtle Object
   private Pane pane;
-  private final double paneWidth = 1000;
-  private final double paneHeight = 500;
+  private final double paneWidth = SCREEN_WIDTH + 100;
+  private final double paneHeight = 2*SCREEN_HEIGHT/4.0;
+
   private final double turtleSize = 90;
+  private Insets insets = new Insets(5.0);
 
   private TurtleView turtle;
+  //private TurtleViewManager turtle;
   private TurtleStatus turtleStatus;
 
   public MainView() {
     // Get the Textfield and Toolbar in the MainView
+    System.out.println("WIDTH: " + SCREEN_WIDTH);
+    System.out.println("height: " + SCREEN_HEIGHT);
     this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setTextField(myInputFields);
+    this.myToolbar.setPadding(insets);
+    //this.pane.setAlignment(Pos.TOP_LEFT);
 
     //Generate the initial Turtle Object
     setUpTurtle();
@@ -48,13 +58,19 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     //Set the Pane for the IDE
     setUpPane();
 
-    this.getChildren().addAll(myToolbar, pane, myInputFields);
+    this.setTop(myToolbar);
+    this.setPadding(new Insets(10.0));
+    this.setLeft(pane);
+
+    this.setBottom(myInputFields);
+
+    //this.getChildren().addAll(myToolbar, pane, myInputFields);
   }
 
   private void setUpPane() {
     this.pane = new Pane(turtle.myImageView);
     pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,
-            CornerRadii.EMPTY, new Insets(0))));
+            CornerRadii.EMPTY, insets)));
 
     pane.setMaxSize(paneWidth, paneHeight);
     pane.setMinSize(paneWidth, paneHeight);
@@ -88,13 +104,6 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
         pane.getChildren().add(temp.get(i));
       }
     }
-  }
-
-  public void resetPane() {
-   // this.getChildren().get(turtle);
-    //turtle.getPenView().getMyLines().clear(); // remember first item
-    //pane.getChildren().clear(); // clear complete list
-    //pane.getChildren().add(obj);
   }
 
   public TurtleView getTurtle() {

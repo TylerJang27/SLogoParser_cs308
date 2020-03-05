@@ -1,9 +1,6 @@
 package slogo.frontendexternal;
 
-import java.util.Iterator;
 import java.util.List;
-
-import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
@@ -25,7 +22,6 @@ public class TurtleView {
   private double myUpdatedXPos;
   private double myUpdatedYPos;
 
-
   public Image myImage;
   public ImageView myImageView;
 
@@ -33,6 +29,7 @@ public class TurtleView {
   private double myBearing;
   private boolean isVisible;
   private boolean clearScreen;
+  private boolean isActive;
   private String TURTLE_IMG = "view/imagesFolder/turtle.png";
 
 
@@ -49,6 +46,8 @@ public class TurtleView {
     myBearing = 0;
     isVisible = true;
     clearScreen = false;
+    isActive = true;
+
     penView = new PenView();
     myImage = new Image("/slogo/view/imagesFolder/raphael.png");
     myImageView =  new ImageView(myImage);
@@ -76,7 +75,7 @@ public class TurtleView {
       if (end.getBearing() != myBearing) {
         addRotationCommand(sequentialTransition, start, end);
       }
-      pathLine = getPolyline(sequentialTransition, pathLine, index, pathPoints, start, end);
+      pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
     }
 
     setMyEndXPos(t.get(t.size()-1).getX());
@@ -85,9 +84,28 @@ public class TurtleView {
     if (t.size() > 1) {
       sequentialTransition.play();
     }
+
+
+    /*
+    SequentialTransition sequentialTransition = new SequentialTransition();
+    sequentialTransition.setNode(this.myImageView);
+    Polyline pathLine = new Polyline();
+
+    int index = 0;
+      Double[] pathPoints = new Double[4];
+      checkClearScreen(end);
+      this.myImageView.setVisible(end.getVisible());
+      if (end.getBearing() != myBearing) {
+        addRotationCommand(sequentialTransition, start, end);
+      }
+      pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
+      sequentialTransition.play();
+
+     */
+
   }
 
-  private Polyline getPolyline(SequentialTransition sequentialTransition, Polyline pathLine,
+  private Polyline getTurtleTrail(SequentialTransition sequentialTransition, Polyline pathLine,
       int index, Double[] pathPoints, TurtleStatus start, TurtleStatus end) {
     if (checkMovement(start, end) && end.getTrail()) {
       addPenViewLines(start, end);
@@ -96,23 +114,23 @@ public class TurtleView {
     } else if (checkMovement(start, end) && !end.getTrail()) { //wraparound case
       pathLine = getPolyline(sequentialTransition, pathLine, index, pathPoints, end, end, 0);
     } else {
-      getPolyLinePoints(pathLine, index, pathPoints, start, end);
+      getPolyLinePoints(pathLine, pathPoints, start, end);
     }
     return pathLine;
   }
 
-  private void getPolyLinePoints(Polyline pathLine, int index, Double[] pathPoints,
+  private void getPolyLinePoints(Polyline pathLine, Double[] pathPoints,
       TurtleStatus start, TurtleStatus end) {
-    pathPoints[index] = start.getX();
-    pathPoints[index + 1] = start.getY();
-    pathPoints[index + 2] = end.getX();
-    pathPoints[index + 3] = end.getY();
+    pathPoints[0] = start.getX();
+    pathPoints[1] = start.getY();
+    pathPoints[2] = end.getX();
+    pathPoints[3] = end.getY();
     pathLine.getPoints().addAll(pathPoints);
   }
 
   private Polyline getPolyline(SequentialTransition sequentialTransition, Polyline pathLine,
       int index, Double[] pathPoints, TurtleStatus start, TurtleStatus end, int i2) {
-    getPolyLinePoints(pathLine, index, pathPoints, start, end);
+    getPolyLinePoints(pathLine, pathPoints, start, end);
 
     PathTransition turtlePath = new PathTransition(Duration.millis(2500), pathLine,
         this.myImageView);

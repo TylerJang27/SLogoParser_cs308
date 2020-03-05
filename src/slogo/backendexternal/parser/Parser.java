@@ -4,17 +4,11 @@ import java.util.Iterator;
 import java.util.Stack;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 public class Parser {
-  private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
   private List<String> commandHistory;
   private List<slogo.commands.Command> newCommands;
   private Map<String, List<String>> myCommands;
@@ -25,52 +19,43 @@ public class Parser {
   private Stack<String> currentComponents;
   private String lastLine;
 
-  public Parser(){ this("English");}
+  public Parser(){ this(new Translator());}
 
-  public Parser(String language){
-    myCommands = new HashMap<String, List<String>>();
-    setLanguage(language);
-    newCommands = new ArrayList<Command>();
-    commandHistory = new ArrayList<String>();
+  public Parser(Translator translator){
+    myCommands = translator.getCurrentCommands();
+    newCommands = new ArrayList<>();
+    commandHistory = new ArrayList<>();
     commandFactory = new CommandFactory(myCommands);
     variableFactory = new VariableFactory();
     functionFactory = new FunctionFactory(myCommands);
-    currentCommands = new Stack<Command>();
+    currentCommands = new Stack<>();
     currentComponents = new Stack<>();
   }
 
 
   public void parseLine(String line){
     lastLine = line;
-
     commandHistory.add(line);
-
     String[] inputs = line.split(" ");
-
     for(String input : inputs){
       currentComponents.push(input);
     }
-
     currentCommands.addAll(parseComponents(currentComponents));
-
     while(currentCommands.size() > 0){
       newCommands.add(currentCommands.pop());
     }
-
   }
 
-  public List<slogo.commands.Command> sendCommands(){
-    List<slogo.commands.Command> toSend = new ArrayList<>(newCommands);
+  public List<Command> sendCommands(){
+    List<Command> toSend = new ArrayList<>(newCommands);
     newCommands.clear();
     return toSend;
   }
 
   public Stack<Command> parseComponents(Stack<String> components) throws InvalidCommandException {
-
     Stack<Command> currentCommand = new Stack<>();
     Stack<List<Command>> listCommands = new Stack<>();
     List<Command> currentList = new ArrayList<>();
-
     boolean inList = false;
     while (components.size() > 0) {
       Stack<Command> commands = new Stack<>();
@@ -116,7 +101,6 @@ public class Parser {
       }
     }
     return currentCommand;
-
   }
 
   private boolean checkFunction(Stack<String> components) {
@@ -135,17 +119,15 @@ public class Parser {
     return myCommands;
   }
 
-  public void setLanguage(String lang){
-    ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + lang);
-    for (String key : Collections.list(resources.getKeys())) {
-      String translation = resources.getString(key);
-      myCommands.put(key, Arrays.asList(translation.split("\\|")));
-    }
-  }
-
   public String getVariableString() {
     return variableFactory.getVariableString();
   }
 
   public String getLastLine() { return lastLine; }
+
+  public void setMode(String mode){ commandFactory.setMode(mode); }
+
+  public void setLanguage(Translator translator) {
+    myCommands = translator.getCurrentCommands();
+  }
 }

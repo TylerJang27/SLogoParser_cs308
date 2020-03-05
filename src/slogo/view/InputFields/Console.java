@@ -23,7 +23,7 @@ public class Console {
   private double boxHeight;
   private double boxWidth;
 
-  public Console(){ this(200, 650); }
+  public Console(){ this(200, 410); }
 
   public Console(double height, double width){
     history = new ArrayList<>();
@@ -76,8 +76,10 @@ public class Console {
   }
 
   private void setDetails(){
-    box.setPrefHeight(boxHeight);
-    box.setPrefWidth(boxWidth);
+    box.setMinHeight(boxHeight);
+    box.setMinWidth(boxWidth);
+    System.out.println("WIDTH: " + box.getWidth());
+    System.out.println("height: " + box.getHeight());
     Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));
     box.setBackground(backing);
   }

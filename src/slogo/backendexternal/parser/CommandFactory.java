@@ -1,10 +1,8 @@
 package slogo.backendexternal.parser;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
-
 import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
@@ -70,7 +68,6 @@ public class CommandFactory {
 
       Class<?> params[] = findParameter(objArray);
       return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
-
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
       throw new InvalidCommandException("Command could not be found.");
     }
@@ -104,7 +101,6 @@ public class CommandFactory {
   private int getCount(String command){
     return counts.get(command);
   }
-
 
   private Class<?>[] findParameter(Object[] objArray){
     Class<?> params[] = new Class[objArray.length];

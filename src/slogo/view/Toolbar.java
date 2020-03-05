@@ -38,8 +38,8 @@ public class Toolbar extends ToolBar {
   private ComboBox languageMenu, turtleMenu;
 
   //The Buttons
+
   private Button commandButton, helpButton, changesButton;
-  TextField textField;
 
   //Timeline Inputs
   private static final int FRAMES_PER_SECOND = 60;
@@ -47,13 +47,11 @@ public class Toolbar extends ToolBar {
   private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle;
 
 
-
   public Toolbar(MainView mainview) {
     buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
     labelBundle = ResourceBundle.getBundle("slogo.view.resources.labels");
     languageBundle = ResourceBundle.getBundle("slogo.view.resources.languages");
     turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
-
 
     this.myMainView = mainview;
     this.myTextFields = myMainView.getTextFields();
@@ -65,9 +63,9 @@ public class Toolbar extends ToolBar {
     Label backgroundLabel = new Label(labelBundle.getString("BackgroundLabel"));
     Label turtleLabel = new Label(labelBundle.getString("TurtleLabel"));
     Label languageLabel = new Label(labelBundle.getString("LanguageLabel"));
-    this.setMinSize(1200.0, 40.0);
-    //this.setMinSize(400.0, 40.0);
-
+    this.setMinSize(1010.0, 40.0);
+    this.setMaxSize(1010.0, 40.0);
+    this.setPrefSize(1010.0, 40.0);
 
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,
@@ -118,6 +116,7 @@ public class Toolbar extends ToolBar {
 
   private void createButtons() {
     this.commandButton = new Button(buttonBundle.getString("Run"));
+
 
     this.helpButton = new Button(buttonBundle.getString("Help"));
     helpButton.setOnAction(this:: handleHelp);

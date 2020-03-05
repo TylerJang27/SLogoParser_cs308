@@ -31,20 +31,20 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   //Pane and Turtle Object
   private Pane pane;
-  private final double paneWidth = 1010;
+  private final double paneWidth = 990;
   private final double paneHeight = 510;
 
   private final double turtleSize = 90;
-  private Insets insets = new Insets(5.0);
+  private Insets insets = new Insets(0);
 
   private TurtleView turtle;
-  //private TurtleViewManager turtle;
+  private TurtleViewManager turtleManager;
   private TurtleStatus turtleStatus;
+
+
 
   public MainView() {
     // Get the Textfield and Toolbar in the MainView
-    System.out.println("WIDTH: " + SCREEN_WIDTH);
-    System.out.println("height: " + SCREEN_HEIGHT);
     this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(insets);
@@ -60,10 +60,19 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.setPadding(new Insets(10.0));
   }
 
+  public MainView(Color backgroundColor, Color penColor, int numTurtle, String turtleImageName, String codeFileName) {
+    this.myInputFields = new InputFields(this);
+    this.myToolbar = new Toolbar(this);
+    this.myToolbar.setPadding(insets);
+
+    setUpTurtle();
+
+  }
+
   private void setUpPane() {
     this.pane = new Pane(turtle.myImageView);
     pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,
-            CornerRadii.EMPTY, insets)));
+            CornerRadii.EMPTY, new Insets(0))));
 
     pane.setMaxSize(paneWidth, paneHeight);
     pane.setMinSize(paneWidth, paneHeight);
@@ -74,9 +83,15 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     pane.setBorder(border);
   }
 
+  private void setUpTurtles(int numTurtles) {
+    this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0);
+    //turtleManager.setPenView(1, Color.BLACK); /** to do: update with correct ID*/
+    this.turtleManager.initializeTurtleViews(1);
+  }
+
   private void setUpTurtle() {
-    this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0);
-    turtle.getPenView().setMyPenColor(Color.RED);
+    this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0, "raphael.png");
+    turtle.getPenView().setMyPenColor(Color.BLACK);
     turtle.myImageView.setFitWidth(turtleSize);
     turtle.myImageView.setFitHeight(turtleSize);
     turtle.myImageView.setX(turtle.myImageView.getX() - turtle.myImageView.getFitWidth() / 2);
@@ -87,11 +102,16 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public void moveTurtle(List<TurtleStatus> ts) {
     pane.getChildren().clear(); // clear complete list
-    turtle.executeState(ts);
     pane.getChildren().add(turtle.myImageView);
+
+
+    turtle.executeState(ts);
     this.turtleStatus = ts.get(ts.size() - 1);
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
+//    List<Line> temp = (ArrayList) turtleManager.getMyLines();
+
+
     for(int i = 0; i < temp.size(); i++)  {
       if(!pane.getChildren().contains(temp.get(i))) {
         pane.getChildren().add(temp.get(i));

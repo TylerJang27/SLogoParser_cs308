@@ -3,8 +3,11 @@ package slogo.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -23,22 +26,21 @@ import javafx.stage.Screen;
 public class Display {
   private Scene myScene;
   private MainView myMainView;
-  private MainView myMainView2;
+
   private TabPane tabPane = new TabPane();
-  private Tab tab = new Tab("SLogo");
+  private Tab tab = new Tab("SLogo 0");
+  private VBox vBox = new VBox();
+
   private List<MainView> myMainViewList;
-  private Button addTabButton; // = new Button("Add Tab");
-  private AnchorPane anchorPane;
-  private VBox vBox;// = new VBox;
+  private Button addTabButton;
+  private SingleSelectionModel<Tab> selectionModel;
 
-  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
-  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
-  public static final double TAB_WIDTH = SCREEN_WIDTH - 100;
-  public static final double TAB_HEIGHT = SCREEN_HEIGHT - 100;
-
-  private ResourceBundle buttonBundle;
+  private int tabNo;
 
   public Display() {
+
+    myMainViewList = new ArrayList<>();
+    addTabButton = new Button("Add Tab");
     buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
     myMainViewList = new ArrayList<>();
     addTabButton = new Button(buttonBundle.getString("AddTab"));
@@ -53,25 +55,32 @@ public class Display {
     anchorPane.setBorder(border);
 
     myMainView = new MainView();
-    myMainView2 = new MainView();
     tab.setGraphic(myMainView);
+    tab.setClosable(false);
     tabPane.getTabs().addAll(tab);
-    tabPane.setTabMaxHeight(TAB_HEIGHT);
-    tabPane.setTabMaxWidth(TAB_WIDTH);
-    tabPane.setTabMinHeight(TAB_HEIGHT);
-    tabPane.setTabMinWidth(TAB_WIDTH);
 
-    anchorPane.setTopAnchor(addTabButton, 10.0);
-    anchorPane.setLeftAnchor(addTabButton, 10.0);
-
-    anchorPane.setTopAnchor(tabPane, 40.0);
-    anchorPane.setLeftAnchor(tabPane, 10.0);
+//
+//    anchorPane.setTopAnchor(addTabButton, 10.0);
+//    anchorPane.setLeftAnchor(addTabButton, 5.0);
+//
+//    anchorPane.setTopAnchor(tabPane, 40.0);
+//    anchorPane.setLeftAnchor(tabPane, 5.0);
 
 
-    anchorPane.getChildren().addAll(addTabButton, tabPane);
+    //anchorPane.getChildren().addAll(addTabButton, tabPane);
     vBox.getChildren().addAll(addTabButton, tabPane);
 
-    myScene = new Scene(vBox, SCREEN_WIDTH, SCREEN_HEIGHT);
+    tabPane.setTabMaxHeight(760);
+    tabPane.setTabMaxWidth(1040);
+    tabPane.setTabMinHeight(760);
+    tabPane.setTabMinWidth(1040);
+
+    selectionModel = tabPane.getSelectionModel();
+
+    vBox.setAlignment(Pos.CENTER);
+    vBox.getChildren().addAll(addTabButton,tabPane);
+
+    myScene = new Scene(vBox);
   }
 
 
@@ -93,10 +102,12 @@ public class Display {
     return addTabButton;
   }
   public void addTab() {
+    tabNo++;
     MainView newMainView = new MainView();
-    Tab newTab = new Tab("SLogo");
+    Tab newTab = new Tab("SLogo " + tabNo);
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);
+    selectionModel.select(newTab);
   }
 
 }

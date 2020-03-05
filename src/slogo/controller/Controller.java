@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -18,9 +19,11 @@ import slogo.backendexternal.TurtleModel;
 import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.parser.ErrorHandler;
 import slogo.backendexternal.parser.Parser;
+import slogo.backendexternal.parser.Translator;
 import slogo.commands.Command;
 import slogo.view.Display;
 import slogo.view.InputFields.Console;
+import slogo.view.InputFields.UserDefinitions;
 import slogo.view.MainView;
 
 public class Controller extends Application {
@@ -38,6 +41,7 @@ public class Controller extends Application {
   private Parser myParser;
   private TurtleModel myModel;
   private Console console;
+  private UserDefinitions userDefinitions;
   private Button runButton;
   private ComboBox language;
   private ComboBox modeMenu;
@@ -45,6 +49,8 @@ public class Controller extends Application {
   private ErrorHandler errorHandler;
   private Button addTabButton;
   private Map<MainView, TurtleModel> mainViewTurtleModelMap;
+  private TabPane tabs;
+  private Translator translator;
 
   /**
    * Start of the program.
@@ -59,10 +65,8 @@ public class Controller extends Application {
     mainViewTurtleModelMap = new HashMap<MainView, TurtleModel>();
     //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
 
-
     myModel = new TurtleModel();
     setUpTurtle();
-
 
     /*
     console = myDisplay.getMainView().getTextFields().getConsole();
@@ -100,6 +104,7 @@ public class Controller extends Application {
 
   private void setTab() {
     console = myDisplay.getMainView().getTextFields().getConsole();
+    userDefinitions = myDisplay.getMainView().getTextFields().getUserDefinitions();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
     language = myDisplay.getMainView().getToolBar().getLanguageBox();
@@ -163,7 +168,11 @@ public class Controller extends Application {
   }
 
   private void setLanguage(ComboBox language){
-    myParser.setLanguage(language.getValue().toString());
+    String newLanguage = language.getValue().toString();
+    console.translateHistory(translator, newLanguage);
+    userDefinitions.translateDefinitions(translator, newLanguage);
+    translator.setLanguage(newLanguage);
+    myParser.setLanguage(translator);
   }
 
   private void setMode(ComboBox menu){

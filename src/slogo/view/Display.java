@@ -3,12 +3,10 @@ package slogo.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -18,7 +16,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 /**
  * @author Shruthi Kumar, Nevzat Sevim
@@ -96,9 +93,13 @@ public class Display {
     return (MainView) tab.getGraphic();
   }
 
-  public Button getAddTabButton() {
-    return addTabButton;
+  public Button getAddTabButton(){ return addTabButton; }
+
+  public TabPane getTabPane() {
+    return tabPane;
   }
+
+
   public void addTab() {
     MainView newMainView = new MainView();
     Tab newTab = new Tab("SLogo");

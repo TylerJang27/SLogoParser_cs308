@@ -4,17 +4,11 @@ import java.util.Iterator;
 import java.util.Stack;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 public class Parser {
-  private static final String RESOURCES_PACKAGE = Parser.class.getPackageName() + ".resources.";
   private List<String> commandHistory;
   private List<slogo.commands.Command> newCommands;
   private Map<String, List<String>> myCommands;
@@ -25,11 +19,10 @@ public class Parser {
   private Stack<String> currentComponents;
   private String lastLine;
 
-  public Parser(){ this("English");}
+  public Parser(){ this(new Translator());}
 
-  public Parser(String language){
-    myCommands = new HashMap<String, List<String>>();
-    setLanguage(language);
+  public Parser(Translator translator){
+    myCommands = translator.getCurrentCommands();
     newCommands = new ArrayList<Command>();
     commandHistory = new ArrayList<String>();
     commandFactory = new CommandFactory(myCommands);
@@ -132,14 +125,6 @@ public class Parser {
     return myCommands;
   }
 
-  public void setLanguage(String lang){
-    ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + lang);
-    for (String key : Collections.list(resources.getKeys())) {
-      String translation = resources.getString(key);
-      myCommands.put(key, Arrays.asList(translation.split("\\|")));
-    }
-  }
-
   public String getVariableString() {
     return variableFactory.getVariableString();
   }
@@ -147,4 +132,8 @@ public class Parser {
   public String getLastLine() { return lastLine; }
 
   public void setMode(String mode){ commandFactory.setMode(mode); }
+
+  public void setLanguage(Translator translator) {
+    myCommands = translator.getCurrentCommands();
+  }
 }

@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.logging.XMLFormatter;
 
 import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
@@ -97,25 +99,18 @@ public class CommandFactory {
 
   public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException{
     try {
-      Class<?> c = Class.forName(myCommands.get(key));
       List<Object> obj = new ArrayList<>();
 
       for(int i = 0; i<myCounts.getCount(key); i++) obj.add(commands.get(i));
-      if(myMovementCommands.contains(key)){
-        obj.add(X_MAX);
-        obj.add(Y_MAX);
-        obj.add(currentMode);
-      }
+      if(myMovementCommands.contains(key)) obj.add(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
       if(key.equals("Repeat")||key.equals("If")||key.equals("IfElse")){
         obj.add(listCommands.pop());
       }
       if(key.equals("IfElse")) obj.add(listCommands.pop());
       Object[] objArray = obj.toArray();
 
-
       Class<?> params[] = findParameter(objArray);
-      return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
-
+      return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
 
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
       throw new InvalidCommandException("Command could not be found.");
@@ -291,6 +286,8 @@ public class CommandFactory {
         params[i] = List.class;
       } else if (objArray[i] instanceof Consumer) {
         params[i] = Consumer.class;
+      } else if (objArray[i] instanceof Supplier) {
+        params[i] = Supplier.class;
       }
     }
     return params;

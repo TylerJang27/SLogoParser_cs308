@@ -60,7 +60,7 @@ public interface TurtleCommand extends Command {
     static List<TurtleStatus> moveDeltaWrap(TurtleStatus ts, List<TurtleStatus> ret, double deltaX, double deltaY, double xMax, double yMax) {
         double steps = Math.sqrt(Math.pow(deltaX,2)+Math.pow(deltaY,2));
         double[] position = {ts.getX(),ts.getY()};
-        for(int i = 0; i<steps; i++){
+        for(int i = 0; i<(int)steps; i++){
             double x = position[0]+deltaX/steps;
             double y = position[1]+deltaY/steps;
             position = TurtleCommand.wrap(ts, x, y, xMax, yMax, ret);

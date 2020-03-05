@@ -16,11 +16,12 @@ public class TurtleViewManager {
   private double startX;
   private double startY;
   private List<Line> penViewLines;
+  private final String picFileName = "raphael";
 
   public TurtleViewManager(double x, double y) {
     startX = x;
     startY = y;
-    turtleViewMap.put(1, new TurtleView(startX, startY));
+    turtleViewMap.put(1, new TurtleView(startX, startY, "raphael.png"));
     turtleStatusMap.put(1, null);
     penViewLines = new ArrayList<Line>();
   }
@@ -29,7 +30,7 @@ public class TurtleViewManager {
     for(int i = 0; i < ts.size(); i++) {
       TurtleStatus end = ts.get(i);
       int currID = 1; //end.getID(); /** TO DO: Update with correct method from TS */
-      turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY));
+      turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY, picFileName));
       turtleStatusMap.putIfAbsent(currID, new TurtleStatus());
       TurtleView tempTurtle = turtleViewMap.get(currID); /** TO DO: Update with correct method from TS */
       TurtleStatus start = turtleStatusMap.get(currID);
@@ -44,7 +45,7 @@ public class TurtleViewManager {
   /** Update with correct IDs */
   public void initializeTurtleViews(int numTurtles) {
     for(int i = 1; i <= numTurtles; i++) {
-      turtleViewMap.put(i, new TurtleView(startX, startY));
+      turtleViewMap.put(i, new TurtleView(startX, startY, picFileName));
       TurtleView tempTurtle = turtleViewMap.get(i);
       tempTurtle.setUpMyImageView();
     }
@@ -63,7 +64,7 @@ public class TurtleViewManager {
 
 
   public void addTurtle(int newID) {
-    turtleViewMap.put(newID, new TurtleView(startX, startY));
+    turtleViewMap.put(newID, new TurtleView(startX, startY, picFileName));
   }
 
   public void removeTurtle(int newID) {

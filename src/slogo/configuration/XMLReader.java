@@ -40,7 +40,10 @@ public class XMLReader {
   }
 
   public MainView getMainView(String fname) {
-    return null; //File dataFile = new File(fname);
+    File dataFile = new File(fname);
+    Element root = getRootElement(dataFile);
+    readBasic(root);
+    return new MainView();
   }
 
   private void readBasic(Element root) {
@@ -72,6 +75,13 @@ public class XMLReader {
     }
   }
 
+  private String getAttribute (Element e, String attributeName) {
+    return e.getAttribute(attributeName);
+  }
+
+  private boolean isValidFile (Element root, String type) {
+    return getAttribute(root, TYPE_ATTRIBUTE).equals(type);
+  }
 
   // boilerplate code needed to make a documentBuilder
   private DocumentBuilder getDocumentBuilder()  {

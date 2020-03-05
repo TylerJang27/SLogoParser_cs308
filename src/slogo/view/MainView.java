@@ -31,7 +31,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   //Pane and Turtle Object
   private Pane pane;
-  private final double paneWidth = 1010;
+  private final double paneWidth = 990;
   private final double paneHeight = 510;
 
   private final double turtleSize = 90;
@@ -41,10 +41,10 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private TurtleViewManager turtleManager;
   private TurtleStatus turtleStatus;
 
+
+
   public MainView() {
     // Get the Textfield and Toolbar in the MainView
-    System.out.println("WIDTH: " + SCREEN_WIDTH);
-    System.out.println("height: " + SCREEN_HEIGHT);
     this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(insets);
@@ -58,6 +58,15 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
     this.getChildren().addAll(myToolbar,pane,myInputFields);
     this.setPadding(new Insets(10.0));
+  }
+
+  public MainView(Color backgroundColor, Color penColor, int numTurtle, String turtleImageName, String codeFileName) {
+    this.myInputFields = new InputFields(this);
+    this.myToolbar = new Toolbar(this);
+    this.myToolbar.setPadding(insets);
+
+    setUpTurtle();
+
   }
 
   private void setUpPane() {
@@ -81,7 +90,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   private void setUpTurtle() {
-    this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0);
+    this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0, "raphael.png");
     turtle.getPenView().setMyPenColor(Color.BLACK);
     turtle.myImageView.setFitWidth(turtleSize);
     turtle.myImageView.setFitHeight(turtleSize);

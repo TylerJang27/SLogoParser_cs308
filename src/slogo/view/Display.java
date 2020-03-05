@@ -76,15 +76,15 @@ public class Display {
     tabPane.setTabMaxWidth(TAB_WIDTH);
     tabPane.setTabMinHeight(TAB_HEIGHT);
     tabPane.setTabMinWidth(TAB_WIDTH);
+//
+//    anchorPane.setTopAnchor(addTabButton, 10.0);
+//    anchorPane.setLeftAnchor(addTabButton, 5.0);
+//
+//    anchorPane.setTopAnchor(tabPane, 40.0);
+//    anchorPane.setLeftAnchor(tabPane, 5.0);
 
-    anchorPane.setTopAnchor(addTabButton, 10.0);
-    anchorPane.setLeftAnchor(addTabButton, 5.0);
 
-    anchorPane.setTopAnchor(tabPane, 40.0);
-    anchorPane.setLeftAnchor(tabPane, 5.0);
-
-
-    anchorPane.getChildren().addAll(addTabButton, tabPane);
+    //anchorPane.getChildren().addAll(addTabButton, tabPane);
     vBox.getChildren().addAll(addTabButton, tabPane);
 
     myScene = new Scene(vBox, SCREEN_WIDTH, SCREEN_HEIGHT);

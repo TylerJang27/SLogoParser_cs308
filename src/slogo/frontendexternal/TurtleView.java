@@ -41,7 +41,7 @@ public class TurtleView {
    * Constructor for TurtleView object
    */
 
-  public TurtleView(double x, double y) {
+  public TurtleView(double x, double y, String picFileName) {
     myStartXPos = x;
     myStartYPos = y;
     myEndXPos = 0;
@@ -52,7 +52,7 @@ public class TurtleView {
     isActive = true;
 
     penView = new PenView();
-    myImage = new Image("/slogo/view/imagesFolder/raphael.png");
+    myImage = new Image("/slogo/view/imagesFolder/" + picFileName);
     myImageView =  new ImageView(myImage);
   }
 

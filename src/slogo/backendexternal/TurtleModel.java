@@ -32,7 +32,7 @@ public class TurtleModel {
         initializeNewTurtle(1);
         activeTurtles = new ArrayList<>();
         activeTurtles.add(1);
-        setActiveTurtles(1);
+        setActiveTurtles(Arrays.asList(1));
     }
 
     /**
@@ -63,10 +63,10 @@ public class TurtleModel {
      *
      * @param turtle singular turtle to update activeTurtles
      */
-    public void setActiveTurtles(Integer turtle) {
-        setActiveTurtles(turtle);
-        setActiveTurtles(List.of(turtle));
-    }
+//    public void setActiveTurtles(Integer turtle) {
+//        setActiveTurtles(turtle);
+//        setActiveTurtles(List.of(turtle));
+//    }
 
     /**
      * Returns an unmodifiable copy of the List of active turtles
@@ -146,7 +146,7 @@ public class TurtleModel {
         for (Command c: commandList) {
             List<Integer> myActives = List.copyOf(getActiveTurtles());
             for (Integer turtleID : myActives) {
-                setActiveTurtles(turtleID);
+                setActiveTurtles(Arrays.asList(turtleID));
                 TurtleStatus status = getTurtleState(turtleID);
                 statusList.add(status);
 

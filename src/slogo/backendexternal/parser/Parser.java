@@ -66,11 +66,9 @@ public class Parser {
   }
 
   public Stack<Command> parseComponents(Stack<String> components) throws InvalidCommandException {
-
     Stack<Command> currentCommand = new Stack<>();
     Stack<List<Command>> listCommands = new Stack<>();
     List<Command> currentList = new ArrayList<>();
-
     boolean inList = false;
     while (components.size() > 0) {
       Stack<Command> commands = new Stack<>();
@@ -116,7 +114,6 @@ public class Parser {
       }
     }
     return currentCommand;
-
   }
 
   private boolean checkFunction(Stack<String> components) {

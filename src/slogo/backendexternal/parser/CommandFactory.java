@@ -61,25 +61,25 @@ public class CommandFactory {
   private static final double Y_MAX = 250;
 
   private String currentMode;
-  private CommandCounter myCounts;
   private Map<String, String> myCommands = new HashMap<>();
   private List<String> myMovementCommands;
+  private Map<String, Integer> counts;
 
   public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
-    myCounts = new CommandCounter();
     var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandFactory");
     for(String key:resources.keySet()){
       myCommands.put(key, resources.getString(key));
     }
     myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
+    fillCounts();
   }
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
     System.out.println(previous.size());
-    int count = myCounts.getCount(formalCommand);
+    int count = getCount(formalCommand);
 
     if(previous.size() < count){
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
@@ -100,7 +100,7 @@ public class CommandFactory {
       Class<?> c = Class.forName(myCommands.get(key));
       List<Object> obj = new ArrayList<>();
 
-      for(int i = 0; i<myCounts.getCount(key); i++) obj.add(commands.get(i));
+      for(int i = 0; i<getCount(key); i++) obj.add(commands.get(i));
       if(myMovementCommands.contains(key)){
         obj.add(X_MAX);
         obj.add(Y_MAX);
@@ -116,12 +116,9 @@ public class CommandFactory {
       Class<?> params[] = findParameter(objArray);
       return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
 
-
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
       throw new InvalidCommandException("Command could not be found.");
     }
-
-
 //    if(key.equals("Backward")){
 //      return new Backward(commands.get(0), X_MAX, Y_MAX, currentMode);
 //    }
@@ -276,6 +273,17 @@ public class CommandFactory {
     throw new InvalidCommandException(current);
   }
 
+  private void fillCounts(){
+    counts = new HashMap<>();
+    var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandCounter");
+    for(String key:resources.keySet()){
+      counts.put(key, Integer.parseInt(resources.getString(key)));
+    }
+  }
+
+  private int getCount(String command){
+    return counts.get(command);
+  }
 
 
   private Class<?>[] findParameter(Object[] objArray){

@@ -145,4 +145,6 @@ public class Parser {
   }
 
   public String getLastLine() { return lastLine; }
+
+  public void setMode(String mode){ commandFactory.setMode(mode); }
 }

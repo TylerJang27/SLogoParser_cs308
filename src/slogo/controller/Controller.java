@@ -40,6 +40,7 @@ public class Controller extends Application {
   private Console console;
   private Button runButton;
   private ComboBox language;
+  private ComboBox modeMenu;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
   private Button addTabButton;
@@ -84,21 +85,12 @@ public class Controller extends Application {
     currentStage.setResizable(false);
     currentStage.show();
 
-    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
-      try {
-        step();
-      } catch (Exception ex) {
-        ex.printStackTrace();
-      }
-    });
-    Timeline animation = new Timeline();
-    animation.setCycleCount(Timeline.INDEFINITE);
-    animation.getKeyFrames().add(frame);
-    animation.play();
-  }
+//    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> { step(); });
 
-  private void step() {
-    switchTurtle();
+//    Timeline animation = new Timeline();
+//    animation.setCycleCount(Timeline.INDEFINITE);
+//    animation.getKeyFrames().add(frame);
+//    animation.play();
   }
 
   private void addTab() {
@@ -106,17 +98,20 @@ public class Controller extends Application {
     setUpTurtle();
   }
 
-  private void switchTurtle() {
+  private void setTab() {
     console = myDisplay.getMainView().getTextFields().getConsole();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
     language = myDisplay.getMainView().getToolBar().getLanguageBox();
     language.setOnAction(event -> setLanguage(language));
+    modeMenu = myDisplay.getMainView().getToolBar().getModeMenu();
+    modeMenu.setOnAction(event -> setMode(modeMenu));
   }
 
   private void setUpTurtle() {
     System.out.println(myDisplay.getMainView());
-    switchTurtle();
+    setTab();
+//    switchTurtle();
     currentStatus = INITIAL_STATUS;
   }
 
@@ -169,5 +164,9 @@ public class Controller extends Application {
 
   private void setLanguage(ComboBox language){
     myParser.setLanguage(language.getValue().toString());
+  }
+
+  private void setMode(ComboBox menu){
+    myParser.setMode(menu.getValue().toString());
   }
 }

@@ -35,16 +35,14 @@ public class Toolbar extends ToolBar {
 
   //The Drop Down Menus Themselves
   private ColorPicker penMenu, backgroundMenu;
-  private ComboBox languageMenu, turtleMenu;
+  private ComboBox languageMenu, turtleMenu, modeMenu;
 
   //The Buttons
   private Button commandButton, helpButton, changesButton;
   TextField textField;
 
   //Timeline Inputs
-  private static final int FRAMES_PER_SECOND = 60;
-  private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
-  private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle;
+  private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle, modeBundle;
 
 
 
@@ -53,6 +51,7 @@ public class Toolbar extends ToolBar {
     labelBundle = ResourceBundle.getBundle("slogo.view.resources.labels");
     languageBundle = ResourceBundle.getBundle("slogo.view.resources.languages");
     turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
+    modeBundle = ResourceBundle.getBundle("slogo.view.resources.modes");
 
 
     this.myMainView = mainview;
@@ -72,7 +71,7 @@ public class Toolbar extends ToolBar {
     this.getItems().addAll(commandButton, new Separator(),
                             turtleLabel, turtleMenu, penLabel, penMenu,
                             languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
-                            helpButton);
+                            modeMenu, helpButton);
   }
 
   public Button getCommandButton(){
@@ -80,6 +79,8 @@ public class Toolbar extends ToolBar {
   }
 
   public ComboBox getLanguageBox() {return languageMenu; }
+
+  public ComboBox getModeMenu(){ return modeMenu; }
 
   /**
    * Helping methods to import menus and buttons to the toolbar
@@ -114,6 +115,12 @@ public class Toolbar extends ToolBar {
         languageBundle.getString("Russian"),
         languageBundle.getString("Spanish"),
         languageBundle.getString("Urdu"));
+
+    this.modeMenu = new ComboBox();
+    modeMenu.setPromptText("Toroidal");
+    modeMenu.getItems().addAll(modeBundle.getString("Toroidal"),
+        modeBundle.getString("Normal"),
+        modeBundle.getString("Edge"));
   }
 
   private void createButtons() {
@@ -171,8 +178,6 @@ public class Toolbar extends ToolBar {
 
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
-
-
 
   /** Methods for useful Getters and Setters */
 

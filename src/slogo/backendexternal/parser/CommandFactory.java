@@ -258,8 +258,6 @@ public class CommandFactory {
     return new Constant(Integer.parseInt(current));
   }
 
-  //TODO: WILL IT ALWAYS BE AN INTEGER?
-
   public void setMode(String mode){
     currentMode = mode;
   }

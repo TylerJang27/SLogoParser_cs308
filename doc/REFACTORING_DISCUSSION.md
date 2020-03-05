@@ -14,3 +14,7 @@
  4. Other reflection covered by Parser, FunctionFactory, and VariableFactory are **in progress**.
  5. Specific requirements for different commands' constructors will be specified in properties files and is **in progress**.
  6. Other parameters for Shy arguments to different commands' constructors will be specified by lambda files and properties files and are **in progress**.
+
+## Other
+ 1. A few magic values, along with reading exceptions from hard-coded Strings instead of properties files, are being removed, **in progress**.
+ 2. Extraneous imports are still being removed, **in progress**.

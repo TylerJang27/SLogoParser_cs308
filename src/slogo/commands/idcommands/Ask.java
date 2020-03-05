@@ -73,10 +73,10 @@ public class Ask implements IdCommand {
         idConsumer.accept(ids);
         for (Integer id: ids) {
             idSetter.accept(id);
-            TurtleStatus status = statusSupplier.get();
+            ts = statusSupplier.get();
             for (Command c: commands) {
-                lastResult = Command.executeAndExtractValue(c, status, ret);
-                status = ret.get(ret.size() - 1);
+                lastResult = Command.executeAndExtractValue(c, ts, ret);
+                ts = ret.get(ret.size() - 1);
             } //TODO: TEST FOR NESTED TELLS
         }
         idConsumer.accept(previousIds);
@@ -89,7 +89,7 @@ public class Ask implements IdCommand {
     /**
      * Retrieves the value returned by Asks's execution, the last executed command's return value.
      *
-     * @return the turtle's ID.
+     * @return the last command's return value.
      */
     @Override
     public double returnValue() {

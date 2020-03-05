@@ -78,6 +78,7 @@ public class Function implements ControlCommand {
         List<TurtleStatus> ret = new ArrayList<>();
         for (Command c: myCommands) {
             myVal = Command.executeAndExtractValue(c, ts, ret);
+            ts = ret.get(ret.size() - 1);
         }
         return ret;
     }

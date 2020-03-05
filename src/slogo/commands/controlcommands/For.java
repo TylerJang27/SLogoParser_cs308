@@ -59,6 +59,7 @@ public class For implements ControlCommand {
         List<TurtleStatus> ret = new ArrayList<>();
         varCounter.setVal(Command.executeAndExtractValue(varMin, ts, ret));
         double cap = Command.executeAndExtractValue(varMax, ts, ret);
+        ts = ret.get(ret.size() - 1);
 
         int counter = 0;
         while (varCounter.returnValue() < cap) {
@@ -68,8 +69,10 @@ public class For implements ControlCommand {
             }
             for (Command c: commandsToExecute) {
                 myVal = Command.executeAndExtractValue(c, ts, ret);
+                ts = ret.get(ret.size() - 1);
             }
             double incr = Command.executeAndExtractValue(varIncr, ts, ret);
+            ts = ret.get(ret.size() - 1);
             varCounter.setVal(varCounter.returnValue() + incr);
             counter ++;
         }

@@ -6,6 +6,8 @@ import java.util.*;
 
 /**
  * Class used to execute the Commands produced by Parser. This class then returns a List of TurtleStatus instances.
+ *
+ * @author Tyler Jang
  */
     //TODO: REFACTOR OUT TURTLEMANAGER
 public class TurtleModel {
@@ -30,6 +32,7 @@ public class TurtleModel {
         initializeNewTurtle(1);
         activeTurtles = new ArrayList<>();
         activeTurtles.add(1);
+        setActiveTurtles(1);
     }
 
     /**
@@ -61,7 +64,8 @@ public class TurtleModel {
      * @param turtle singular turtle to update activeTurtles
      */
     public void setActiveTurtles(Integer turtle) {
-
+        setActiveTurtles(turtle);
+        setActiveTurtles(List.of(turtle));
     }
 
     /**
@@ -140,8 +144,9 @@ public class TurtleModel {
         List<TurtleStatus> statusList = new ArrayList<>();
 
         for (Command c: commandList) {
-            List<Integer> myActives = List.copyOf(activeTurtles);
+            List<Integer> myActives = List.copyOf(getActiveTurtles());
             for (Integer turtleID : myActives) {
+                setActiveTurtles(turtleID);
                 TurtleStatus status = getTurtleState(turtleID);
                 statusList.add(status);
 

@@ -189,6 +189,12 @@ The goal of the external API on the backend will be to communicate with the fron
     Catches and handles invalid command errors by not executing commands and returning to Controller with the error, which in turn will update the GUI
 
 
+## Reflection
 
+The API changes made so far have been to compensate for our team's under-engineering of some components of the design. For example, we did not expect TurtleStatus to include as much information as it does now, and we also expected TurtleModel (now TurtleManager and TurtleManifest) to have more responsibilites. On the frontend, the Views were also likewise divided up into smaller classes with more delegation. 
 
+Most of these changes have been relatively minor and have been thoroughly communicated across the team so that the team members' code could be adjusted accordingly to compensate. These changes have nevertheless stuck to our original pipeline, and our general interface for Commands, Parser, and Views.
 
+These changes are for the better, and in dealing with the different challenges of Complete, we have made our program more flexible, rather than more rigid.
+
+As we finish the project, the next significant changes include adjusting parts of the pipeline for multiple turtle IDs, and increasing communication between the frontend and the controller, as well as the controller and the backend. Neverthless, this can be accomplished largely within the bounds of our existing APIs and will require minimal adjustments to these existing methods. 

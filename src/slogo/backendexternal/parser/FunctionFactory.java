@@ -45,7 +45,8 @@ public class FunctionFactory {
     while(variableValues.size() < func.getNumVars()){
       variableValues.add(commands.pop());
     }
-    return new RunFunction(functionMap.get(funcName), variableValues);
+    //TODO: GIVE SUPPLIER AND CONSUMER
+    return new RunFunction(functionMap.get(funcName), variableValues, null, null);
   }
 
   public MakeUserInstruction handleFunction(Stack<String> components){

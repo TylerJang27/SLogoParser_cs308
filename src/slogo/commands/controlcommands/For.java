@@ -57,8 +57,9 @@ public class For implements ControlCommand {
         //TODO: DETERMINE IF THIS IS APPROPRIATE/REQUIRED
 
         List<TurtleStatus> ret = new ArrayList<>();
-        varCounter.setVal(ControlCommand.executeAndExtractValue(varMin, ts, ret));
-        double cap = ControlCommand.executeAndExtractValue(varMax, ts, ret);
+        varCounter.setVal(Command.executeAndExtractValue(varMin, ts, ret));
+        double cap = Command.executeAndExtractValue(varMax, ts, ret);
+        ts = ret.get(ret.size() - 1);
 
         int counter = 0;
         while (varCounter.returnValue() < cap) {
@@ -67,9 +68,11 @@ public class For implements ControlCommand {
                 throw new InvalidCommandException(BAD_INFINITE_LOOP);
             }
             for (Command c: commandsToExecute) {
-                myVal = ControlCommand.executeAndExtractValue(c, ts, ret);
+                myVal = Command.executeAndExtractValue(c, ts, ret);
+                ts = ret.get(ret.size() - 1);
             }
-            double incr = ControlCommand.executeAndExtractValue(varIncr, ts, ret);
+            double incr = Command.executeAndExtractValue(varIncr, ts, ret);
+            ts = ret.get(ret.size() - 1);
             varCounter.setVal(varCounter.returnValue() + incr);
             counter ++;
         }

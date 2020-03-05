@@ -17,8 +17,8 @@ import java.util.function.Supplier;
  */
 public class Tell implements IdCommand {
     public static final int NUM_ARGS = 1;
-    private Consumer<List<Integer>> con;
-    private Supplier<TurtleStatus> supp;
+    private Consumer<List<Integer>> idConsumer;
+    private Supplier<TurtleStatus> statusSupplier;
     private List<Command> args;
 
     private double lastId;
@@ -35,8 +35,8 @@ public class Tell implements IdCommand {
         if (ids.isEmpty()) {
             args = List.of(new Constant(1));
         }
-        con = consumer;
-        supp = supplier;
+        idConsumer = consumer;
+        statusSupplier = supplier;
     }
 
     /**
@@ -53,9 +53,9 @@ public class Tell implements IdCommand {
         for (Command c: args) {
             ids.add((int)Command.executeAndExtractValue(c, ts, ret));
         }
-        con.accept(ids);
-        lastId = ids.get(ids.size() - 1);
-        ret.add(supp.get());
+        idConsumer.accept(ids);
+        lastId = ids.get(ids.size() - 1); //TODO: ACCOUNT FOR IF THESE COMMANDS MODIFY THE MAP
+        ret.add(statusSupplier.get()); //TODO: ADJUST FOR DUPLICATION?
         return ret;
     }
 

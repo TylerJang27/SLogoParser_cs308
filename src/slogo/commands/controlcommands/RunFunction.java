@@ -24,8 +24,8 @@ public class RunFunction implements ControlCommand {
 
     private double myVal;
 
-    private Consumer<List<Integer>> con;
-    private Supplier<List<Integer>> supp;
+    private Consumer<List<Integer>> idConsumer;
+    private Supplier<List<Integer>> idSupplier;
     private List<Command> myValues;
     private Function myFunction;
 
@@ -41,8 +41,8 @@ public class RunFunction implements ControlCommand {
     public RunFunction(Function builtFunction, List<Command> variableValues, Consumer<List<Integer>> consumer, Supplier<List<Integer>> supplier) throws InvalidCommandException {
         myFunction = builtFunction;
         myValues = variableValues;
-        con = consumer;
-        supp = supplier;
+        idConsumer = consumer;
+        idSupplier = supplier;
         if (myValues.size() > myFunction.getNumVars()) {
             //TODO Dennis: I would like to grab this from the resource files for the error name, but
             // I am unsure how to do so without overextending my bounds. Do you think you could look into this?
@@ -59,7 +59,7 @@ public class RunFunction implements ControlCommand {
      */
     @Override
     public List<TurtleStatus> execute(TurtleStatus ts) {
-        List<Integer> previousIds = supp.get();
+        List<Integer> previousIds = idSupplier.get();
         List<TurtleStatus> ret = new ArrayList<>();
 
         for (int k = 0; k < myValues.size(); k ++) {
@@ -68,7 +68,8 @@ public class RunFunction implements ControlCommand {
             myFunction.setVariableValue(k, val);
         }
         myVal = Command.executeAndExtractValue(myFunction, ts, ret);
-        con.accept(previousIds);
+        idConsumer.accept(previousIds); //TODO: ACCOUNT FOR IF THESE COMMANDS MODIFY THE MAP
+        //TODO: ADD IN GET THE TURTLESTATUS FOR THE NEW ACTIVE
         return ret;
     }
 

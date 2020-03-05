@@ -2,7 +2,6 @@ package slogo.controller;
 
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -63,7 +62,7 @@ public class Controller extends Application {
     try{
       myParser.parseLine(console.getText());
       List<Command> toSend = myParser.sendCommands();
-      List<TurtleStatus> statuses = myModel.executeCommands(toSend, currentStatus);
+      List<TurtleStatus> statuses = myModel.executeCommands(toSend);
       if(statuses.size() > 1){
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);

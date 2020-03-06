@@ -15,9 +15,11 @@ public class ClearScreen implements TurtleCommand {
     public static final int NUM_ARGS = 0;
 
     private TurtleCommand go;
+    private Runnable runnable;
 
-    public ClearScreen(double xMax, double yMax, String mode){
+    public ClearScreen(double xMax, double yMax, String mode, Runnable runnable){
         go = new Home(xMax,yMax,mode);
+        this.runnable = runnable;
         //TODO: NEED ADDITIONAL PARAMETER QUALIFYING AS A RESET:
         //Could add a null to a collection of TurtleStatus, stuff, which the front
         //could interpret as remove everything and go from there
@@ -32,6 +34,7 @@ public class ClearScreen implements TurtleCommand {
         TurtleStatus last = ret.get(ret.size()-1);
         TurtleStatus next = new TurtleStatus(last.getID(), last.getX(), last.getY(), 0.0, false, last.getVisible(), last.getPenDown());
         next.setClear();
+        next.setRunnable(()->runnable.run());
         ret.add(next);
         return ret;
     }

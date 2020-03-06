@@ -28,7 +28,6 @@ public class InputFields extends HBox {
         userDefinitions.addVariableText(text);
     }
 
-
     public void addQueriesText() {
         TurtleStatus ts = mw.getTurtleStatus();
         //TODO: TYLER FIX: mw.getTurtle()); is null

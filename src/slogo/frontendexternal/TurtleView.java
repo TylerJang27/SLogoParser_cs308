@@ -92,7 +92,7 @@ public class TurtleView {
     Polyline pathLine = new Polyline();
 
     int index = 0;
-
+    if(t.get(index).hasRunnable()) t.get(index).modify();
     for(int i = 0; i < t.size() - 1; i++) {
       index = 0;
       Double[] pathPoints = new Double[4];
@@ -100,9 +100,11 @@ public class TurtleView {
       TurtleStatus end = t.get(i + 1);
       checkClearScreen(end);
       this.myImageView.setVisible(end.getVisible());
+
       if (end.getBearing() != myBearing) {
         addRotationCommand(sequentialTransition, start, end);
       }
+      if(end.hasRunnable()) end.modify();
       pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
     }
 
@@ -184,6 +186,9 @@ public class TurtleView {
     if(end.getClear()) {
       getPenView().getMyLines().clear();
     }
+  }
+  public void clearScreen() {
+      getPenView().getMyLines().clear();
   }
 
 

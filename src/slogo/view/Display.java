@@ -38,7 +38,6 @@ public class Display {
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
 
-
   private int tabNo;
 
   public Display() {

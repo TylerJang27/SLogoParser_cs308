@@ -28,7 +28,6 @@ public class InputFields extends HBox {
         userDefinitions.addVariableText(text);
     }
 
-
     public void addQueriesText() {
         TurtleStatus ts = mw.getTurtleStatus();
         statusView.addStatusText(ts.getX(),-ts.getY(),ts.getBearing(),mw.getTurtle().getPenView().getMyPenColor(),ts.getPenDown());

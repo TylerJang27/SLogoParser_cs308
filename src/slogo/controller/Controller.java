@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import slogo.backendexternal.TurtleModel;
@@ -27,10 +28,6 @@ public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
   private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-  public static final int FRAMES_PER_SECOND = 60;
-  public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-
-
   private Display myDisplay;
   private Parser myParser;
   private TurtleModel myModel;
@@ -47,6 +44,7 @@ public class Controller extends Application {
   private List<Tab> tabs;
   private Translator translator;
   private Tab currentTab;
+  private MainView mainView;
 
   /**
    * Start of the program.
@@ -63,13 +61,12 @@ public class Controller extends Application {
     translator = new Translator();
     tabTurtleModelMap = new HashMap<Tab, TurtleModel>();
     setTabs();
-    //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
+    changeOnWrite();
     myModel = getModel(tabs.get(0));
     setListeners(tabs.get(0));
     addTabButton = myDisplay.getAddTabButton();
     addTabButton.setOnAction(event -> addTab());
     Scene myScene = myDisplay.getScene();
-
     currentStage.setScene(myScene);
     currentStage.setTitle(TITLE);
     currentStage.setWidth(1070);
@@ -78,6 +75,7 @@ public class Controller extends Application {
     currentStage.show();
   }
 
+
   private void setTabs() {
     tabs = myDisplay.getTabPane().getTabs();
     for(Tab tab : tabs){
@@ -85,9 +83,18 @@ public class Controller extends Application {
     }
   }
 
+  private void changeOnWrite(){
+    for(Tab tab : tabs){
+      MainView tabMainView = (MainView) tab.getGraphic();
+      TextField tabConsole = tabMainView.getTextFields().getConsole().getEntry();
+      tabConsole.setOnMouseClicked(event -> setListeners(tab));
+    }
+  }
+
   private void addTab() {
     myDisplay.addTab();
     setTabs();
+    changeOnWrite();
   }
 
   private TurtleModel getModel(Tab tab) {
@@ -96,17 +103,18 @@ public class Controller extends Application {
   }
 
   private void setListeners(Tab tab) {
-    currentStatus = INITIAL_STATUS; //TODO GET CURRENT STATUS FROM FRONT END
-    myModel = getModel(tab);
-    console = myDisplay.getMainView().getTextFields().getConsole();
-    userDefinitions = myDisplay.getMainView().getTextFields().getUserDefinitions();
-    runButton = myDisplay.getMainView().getToolBar().getCommandButton();
+    currentTab = tab;
+    myModel = getModel(currentTab);
+    mainView = (MainView) currentTab.getGraphic();
+    console = mainView.getTextFields().getConsole();
+    userDefinitions = mainView.getTextFields().getUserDefinitions();
+    runButton = mainView.getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
-    language = myDisplay.getMainView().getToolBar().getLanguageBox();
+    language = mainView.getToolBar().getLanguageBox();
     language.setOnAction(event -> setLanguage(language));
-//    modeMenu = myDisplay.getMainView().getToolBar().getModeMenu();
-//    modeMenu.setOnAction(event -> setMode(modeMenu));
-    arrows = myDisplay.getMainView().getTextFields().getMoveArrows();
+    modeMenu = mainView.getToolBar().getModeMenu();
+    modeMenu.setOnAction(event -> setMode(modeMenu));
+    arrows = mainView.getTextFields().getMoveArrows();
     for(Button arrow : arrows.getButtons()){
       arrow.setOnAction(event -> moveTurtle(arrow, arrows.getIncrement()));
     }
@@ -158,7 +166,6 @@ public class Controller extends Application {
     myDisplay.getMainView().getTextFields().clearVariables();
     myDisplay.getMainView().getTextFields().addVariableText(myParser.getVariableString());
   }
-
 
   private void displayQueries() {
     myDisplay.getMainView().getTextFields().clearQueries();

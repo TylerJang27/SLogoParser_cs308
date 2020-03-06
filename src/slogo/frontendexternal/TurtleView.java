@@ -32,7 +32,7 @@ public class TurtleView {
   private boolean clearScreen;
   private boolean isActive;
   private String TURTLE_IMG = "view/imagesFolder/turtle.png";
-  private final double turtleSize = 77;
+  private final double turtleSize = 90;
 
 
 

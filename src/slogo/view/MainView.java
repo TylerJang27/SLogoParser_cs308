@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.event.Event;
@@ -24,6 +25,7 @@ import slogo.view.InputFields.InputFields;
 public class MainView extends VBox implements EventHandler, MainViewAPI {
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 300;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 300;
+  public static final String DATA_TYPE = "layout";
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
@@ -102,14 +104,15 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public void moveTurtle(List<TurtleStatus> ts) {
     pane.getChildren().clear(); // clear complete list
+    //pane.getChildren().addAll(turtleManager.getImageViews());
     pane.getChildren().add(turtle.myImageView);
 
-
     turtle.executeState(ts);
+    //turtleManager.execute(ts);
     this.turtleStatus = ts.get(ts.size() - 1);
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
-//    List<Line> temp = (ArrayList) turtleManager.getMyLines();
+    // List<Line> temp = (ArrayList) turtleManager.getMyLines();
 
 
     for(int i = 0; i < temp.size(); i++)  {
@@ -121,6 +124,23 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public TurtleView getTurtle() {
     return turtle;
+  }
+
+  public TurtleViewManager getTurtles() {
+    return turtleManager;
+  }
+
+  public void setImageViewLayouts() {
+    for(ImageView temp : turtleManager.getImageViews()) {
+      temp.setLayoutX(turtleManager.getStartX());
+      temp.setLayoutY(turtleManager.getStartY());
+      temp.setFitWidth(turtleSize);
+      temp.setFitHeight(turtleSize);
+    }
+  }
+
+  public void setPaneImageViews() {
+
   }
 
   @Override
@@ -159,6 +179,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   @Override
   public Node getStyleableNode() { return null; }
+
+  public Color getBackgroundColor() {
+    return Color.BLACK;
+    //return pane.getBackground().getC;
+  }
 
   //Public Get Methods
   public InputFields getTextFields(){return this.myInputFields;}

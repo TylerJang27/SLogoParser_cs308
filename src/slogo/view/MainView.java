@@ -25,7 +25,7 @@ import slogo.view.InputFields.InputFields;
 public class MainView extends VBox implements EventHandler, MainViewAPI {
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 300;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 300;
-  public static final String DATA_TYPE = "layout";
+  public static final String DATA_TYPE = "sim";
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
@@ -35,6 +35,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private Pane pane;
   private final double paneWidth = 990;
   private final double paneHeight = 510;
+
+  private Color defaultBackgroundColor;
+  private Color defaultPenColor;
+  private int defaultNumTurtles;
+  private String defaultTurtleFileName;
 
   private final double turtleSize = 90;
   private Insets insets = new Insets(0);
@@ -50,7 +55,10 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(new Insets(0));
-
+    defaultBackgroundColor = Color.LIGHTGRAY;
+    defaultPenColor = Color.BLACK;
+    defaultNumTurtles = 1;
+    defaultTurtleFileName = "raphael.png";
 
     //Generate the initial Turtle Object
     setUpTurtles(1);
@@ -64,18 +72,31 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   public MainView(Color backgroundColor, Color penColor, int numTurtle, String turtleImageName, String codeFileName) {
+    defaultBackgroundColor = backgroundColor;
+    defaultPenColor = penColor;
+    defaultNumTurtles = numTurtle;
+    defaultTurtleFileName = turtleImageName;
+    // Get the Textfield and Toolbar in the MainView
     this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
-    this.myToolbar.setPadding(insets);
+    this.myToolbar.setPadding(new Insets(0));
 
-    this.turtleStatus = new TurtleStatus(1);
-    setUpTurtle();
+
+    //Generate the initial Turtle Object
+    setUpTurtles(1);
+
+    //Set the Pane for the IDE
+    setUpPane();
+
+    this.getChildren().addAll(myToolbar,pane,myInputFields);
+    //this.setPadding(new Insets(0.0));
+    this.setAlignment(Pos.TOP_LEFT);
 
   }
 
   private void setUpPane() {
     this.pane = new Pane(turtleManager.getImageViews().get(0));
-    pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,
+    pane.setBackground(new Background(new BackgroundFill(defaultBackgroundColor,
             CornerRadii.EMPTY, new Insets(0))));
 
     pane.setMaxSize(paneWidth, paneHeight);
@@ -89,8 +110,9 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   private void setUpTurtles(int numTurtles) {
     this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0);
+    this.turtleManager.setAllPenViewColors(defaultPenColor);
     //turtleManager.setPenView(1, Color.BLACK); /** to do: update with correct ID*/
-    this.turtleManager.initializeTurtleViews(1);
+    this.turtleManager.initializeTurtleViews(numTurtles);
     this.turtle = turtleManager.getTurtle(1);
   }
 

@@ -97,9 +97,11 @@ public class Display {
     return addTabFromPreferences;
   }
 
-  public void addTab() {
+  public void addTab(MainView newMainView) {
     tabNo++;
-    MainView newMainView = new MainView();
+    if(newMainView == null) {
+      newMainView = new MainView();
+    }
     Tab newTab = new Tab("SLogo " + tabNo);
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);

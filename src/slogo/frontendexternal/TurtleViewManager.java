@@ -93,6 +93,12 @@ public class TurtleViewManager {
     turtleViewMap.get(ID).getPenView().setMyPenColor(color);
   }
 
+  public void setAllPenViewColors(Color color) {
+    for(Map.Entry<Integer, TurtleView> temp : turtleViewMap.entrySet()) {
+      temp.getValue().getPenView().setMyPenColor(color);
+    }
+  }
+
   public List<Line> getMyLines() {
     return penViewLines;
   }

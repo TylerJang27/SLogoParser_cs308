@@ -1,15 +1,19 @@
 package slogo.controller;
 
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.input.KeyCode;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import slogo.backendexternal.TurtleManager;
 import slogo.backendexternal.TurtleStatus;
@@ -17,10 +21,13 @@ import slogo.backendexternal.parser.ErrorHandler;
 import slogo.backendexternal.parser.Parser;
 import slogo.backendexternal.parser.Translator;
 import slogo.commands.Command;
+import slogo.configuration.XMLException;
+import slogo.configuration.XMLReader;
 import slogo.view.Display;
 import slogo.view.InputFields.Console;
 import slogo.view.InputFields.MoveArrows;
 import slogo.view.InputFields.UserDefinitions;
+import slogo.view.MainView;
 
 public class Controller extends Application {
 
@@ -41,11 +48,14 @@ public class Controller extends Application {
   private MoveArrows arrows;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
-  private Button addTabButton;
+  private Button addTabButton, addTabPreferencesButton;
   private Map<Tab, TurtleManager> tabTurtleModelMap;
   private List<Tab> tabs;
   private Translator translator;
   private Tab currentTab;
+  public static final String DATA_FILE_EXTENSION = "*.xml";
+  public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
+
 
   /**
    * Start of the program.
@@ -66,6 +76,8 @@ public class Controller extends Application {
     setListeners(tabs.get(0));
     addTabButton = myDisplay.getAddTabButton();
     addTabButton.setOnAction(event -> addTab());
+    addTabPreferencesButton = myDisplay.getAddTabFromPreferencesButton();
+    addTabPreferencesButton.setOnAction(event -> uploadNewFile());
     Scene myScene = myDisplay.getScene();
 
     currentStage.setScene(myScene);
@@ -76,6 +88,32 @@ public class Controller extends Application {
     currentStage.show();
   }
 
+  private void uploadNewFile() {
+     readFileSimulation(new Stage());
+  }
+
+  public void readFileSimulation(Stage primaryStage) {
+    File dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
+    while(dataFile != null) {
+      try {
+        XMLReader reader = new XMLReader("media");
+        myDisplay.addTab(reader.getMainView(dataFile.getPath()));
+        setTabs();
+        primaryStage.close();
+      }
+      catch (XMLException e) {
+        showMessage(AlertType.ERROR, e.getMessage());
+      }
+      dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
+    }
+    primaryStage.close();
+  }
+
+
+  private void showMessage (AlertType type, String message) {
+    new Alert(type, message).showAndWait();
+  }
+
   private void setTabs() {
     tabs = myDisplay.getTabPane().getTabs();
     for(Tab tab : tabs){
@@ -84,7 +122,7 @@ public class Controller extends Application {
   }
 
   private void addTab() {
-    myDisplay.addTab();
+    myDisplay.addTab(null);
     setTabs();
   }
 
@@ -173,5 +211,14 @@ public class Controller extends Application {
 
   private void setMode(ComboBox menu){
     myParser.setMode(menu.getValue().toString());
+  }
+
+  private static FileChooser makeChooser (String extensionAccepted) {
+    FileChooser result = new FileChooser();
+    result.setTitle("Open Data File");
+    // pick a reasonable place to start searching for files
+    result.setInitialDirectory(new File(System.getProperty("user.dir")));
+    result.getExtensionFilters().setAll(new FileChooser.ExtensionFilter("Text Files", extensionAccepted));
+    return result;
   }
 }

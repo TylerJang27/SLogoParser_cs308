@@ -1,6 +1,7 @@
 package slogo.backendexternal.parser;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -22,6 +23,10 @@ public class CommandFactory {
   private Map<String, Integer> counts = new HashMap<>();
   private Map<String, Integer> myControlCommands = new HashMap<>();
   private Display myDisplay;
+  private List<String> mySupplierCommands;
+  private List<String> myRunnableCommands;
+  private List<String> myConsumerCommands;
+
 
   public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
@@ -30,6 +35,7 @@ public class CommandFactory {
     setGeneralCommands();
     setMovementCommands();
     setControlCommands();
+    setSRCCommands();
   }
 
 
@@ -48,6 +54,12 @@ public class CommandFactory {
   }
   private void setMovementCommands(){
     myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
+  }
+
+  private void setSRCCommands(){
+    myConsumerCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "ConsumerCommand").getKeys());
+    myRunnableCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "RunnableCommand").getKeys());
+    mySupplierCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "SupplierCommand").getKeys());
   }
 
   public void setDisplay(Display display){
@@ -86,21 +98,21 @@ public class CommandFactory {
       if (myControlCommands.keySet().contains(key)) for (int i = 0; i < myControlCommands.get(key); i++) obj.add(listCommands.pop());
 
 
-      if(key.equals("ClearScreen")){
-        Runnable r = ()-> {
+      if(myRunnableCommands.contains(key)) {
+        Runnable z = () -> {
           try {
-            myDisplay.getMainView().getTurtle().getClass().getDeclaredMethod("clearScreen");
+            this.getClass().getDeclaredMethod(key);
           } catch (NoSuchMethodException e) {
             throw new InvalidCommandException("Command could not be found.");
           }
         };
-        obj.add(r);
+        obj.add(z);
       }
 
-
-
-
-
+//      if(mySupplierCommands.contains(key)) {
+//        Supplier<Integer> z = ()->this.getClass().getDeclaredMethod(key);
+//        obj.add(z);
+//      }
 
 
       Object[] objArray = obj.toArray();
@@ -164,4 +176,25 @@ public class CommandFactory {
     }
     return params;
   }
+
+  private void ClearScreen(){
+    Runnable r = ()-> {
+      try {
+        myDisplay.getMainView().getTurtle().getClass().getDeclaredMethod("clearScreen");
+      } catch (NoSuchMethodException e) {
+        throw new InvalidCommandException("Command could not be found.");
+      }
+    };
+    r.run();
+  }
+
+//  private Integer PenColor(){
+//    Supplier<Integer> r = myDisplay.getMainView().getToolBar().getClass()::getPenColor;
+//    return r.get();
+//  }
+//
+//  private Integer Shape(){
+//    Supplier<Integer> r = myDisplay.getMainView().getToolBar().getClass()::getShape;
+//    return r.get();
+//  }
 }

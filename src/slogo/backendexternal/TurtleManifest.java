@@ -82,7 +82,7 @@ public class TurtleManifest {
      */
     private void initializeNewTurtle(Integer id) {
         if (!availableTurtles.containsKey(id)) {
-            availableTurtles.put(id, new TurtleStatus());
+            availableTurtles.put(id, new TurtleStatus(id));
         }
     }
 

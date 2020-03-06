@@ -1,6 +1,10 @@
 package slogo.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.animation.SequentialTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -21,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.scene.control.*;
+import slogo.frontendexternal.TurtleView;
 import slogo.view.InputFields.InputFields;
 
 /**
@@ -116,9 +121,14 @@ public class Toolbar extends ToolBar {
     this.myMainView.getTurtle().getPenView().setMyPenColor(penMenu.getValue());
 
     if (!turtleMenu.getSelectionModel().isEmpty()) {
-      myMainView.getTurtles().setImageViews(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
+      String url = "/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png";
+      myMainView.getTurtles().setImageViews(new ImageView(new Image("" + url)));
       myMainView.setImageViewLayouts();
       myMainView.setPaneImageViews();
+
+      //TODO: REMOVE THIS FAILED ATTEMPT TO CORRECT POSITIONS BELOW
+      myMainView.getTurtles().correctPositions().play();
+      myMainView.updateViewLocation();
     }
   }
 

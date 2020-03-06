@@ -108,6 +108,14 @@ public class CommandFactory {
       runnableAdd(key, obj);
       consumerAdd(key, obj);
       supplierAdd(key, obj);
+      if (key.equals("Tell")) {
+        if (listCommands.isEmpty()) {
+          obj.clear();
+          obj.add(List.of(commands.get(0)));
+        } else {
+          obj.add(listCommands.pop());
+        }
+      }
 
       System.out.println(key);
 

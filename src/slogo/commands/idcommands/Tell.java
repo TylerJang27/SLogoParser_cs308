@@ -7,6 +7,7 @@ import slogo.commands.IdCommand;
 import slogo.commands.controlcommands.Constant;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -48,7 +49,9 @@ public class Tell implements IdCommand {
             ids.add((int)Command.executeAndExtractValue(c, manifest, ret));
         }
 
+        Collections.reverse(ids);
         manifest.setActiveTurtles(ids);
+        manifest.makeActiveTurtle(ids.get(0));
         lastId = ids.get(ids.size() - 1);
         ret.add(manifest.getActiveState());
         return ret;

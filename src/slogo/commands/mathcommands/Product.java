@@ -3,6 +3,7 @@ import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.MathCommand;
+import slogo.commands.controlcommands.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class Product implements MathCommand {
         List<TurtleStatus> ret = new ArrayList<>();
         double[] val = MathCommand.twoArgOperation(ret, manifest, arg1, arg2);
         returnVal = val[0]*val[1];
+        System.out.println(returnVal);
         return ret;
     }
 

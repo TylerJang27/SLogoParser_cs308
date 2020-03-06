@@ -40,6 +40,7 @@ public class TurtleViewManager {
       TurtleStatus end = ts.get(i);
       int currID = end.getID();
       turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY, picFileName));
+      turtleViewMap.get(currID).setUpMyImageView();
       turtleStatusMap.putIfAbsent(currID, new TurtleStatus(currID));
       TurtleView tempTurtle = turtleViewMap.get(currID);
       TurtleStatus start = turtleStatusMap.get(currID);

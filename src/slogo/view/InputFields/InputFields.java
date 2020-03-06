@@ -13,15 +13,20 @@ public class InputFields extends HBox {
     private StatusView statusView;
     private MoveArrows moveArrows;
     private MainView mw;
+    private double width;
 
     public InputFields(MainView mainview) {
         this.mw = mainview;
-
-        userDefinitions = new UserDefinitions();
-        console = new Console();
-        statusView = new StatusView();
+        this.width = mw.getWidth();
+//        console = new Console(width/3);
+//        userDefinitions = new UserDefinitions(2*width/9);
+//        statusView = new StatusView(2*width/9);
+//        moveArrows = new MoveArrows(2*width/9, 10);
+        console = new Console(300);
+        userDefinitions = new UserDefinitions(300);
+        statusView = new StatusView(300);
         moveArrows = new MoveArrows(100, 10);
-        this.getChildren().addAll(console.getVBox(), userDefinitions.getVBox(), statusView.getVBox(), moveArrows.getVBox());
+        this.getChildren().addAll(console.getVBox(), userDefinitions.getVBox(), moveArrows.getVBox(), statusView.getVBox());
     }
 
     public void addVariableText(String text){
@@ -51,29 +56,13 @@ public class InputFields extends HBox {
 
     public TextArea getQueries() { return statusView.getStatus(); }
 
-//    public VBox getCommandBox() {
-//        return commandBox;
-//    }
-
     public VBox getVariableBox() {
         return userDefinitions.getVBox();
     }
 
-//    public void setMyMainView(MainView mainView) {
-//        myMainView = mainView;
-//    }
-//
-//    public void setMyToolBar(ToolBar toolBar) {
-//        myToolBar = toolBar;
-//    }
-
     public void setVariables(TextArea newVariables) {
         userDefinitions.setArea(newVariables);
     }
-
-//    public void setCommandBox(VBox vBox) {
-//        commandBox = vBox;
-//    }
 
     public void setVariableBox(VBox vBox) {
         userDefinitions.setVBox(vBox);

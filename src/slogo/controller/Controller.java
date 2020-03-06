@@ -74,7 +74,6 @@ public class Controller extends Application {
     currentStage.show();
   }
 
-
   private void setTabs() {
     tabs = myDisplay.getTabPane().getTabs();
     for(Tab tab : tabs){
@@ -120,7 +119,9 @@ public class Controller extends Application {
   }
 
   private void moveTurtle(Button arrow, double increment) {
-    //MOVE TURTLE DISTANCE BASED ON WHICH ARROW CLICKED, INCREMENT IS AMOUNT TO MOVE BYlk
+    System.out.println(arrow.getId());
+    console.setText(arrow.getId() + " " + increment);
+    sendCommand();
   }
 
 

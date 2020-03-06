@@ -50,8 +50,10 @@ public class TurtleManager {
         List<TurtleStatus> statusList = new ArrayList<>();
 
         for (Command c: commandList) {
+            System.out.println(c);
             List<Integer> myActives = myManifest.getAllActiveTurtles();
             for (Integer turtleID : myActives) {
+                System.out.println(turtleID + "cry");
                 myManifest.setActiveTurtles(Arrays.asList(turtleID));
                 myManifest.makeActiveTurtle(turtleID);
 

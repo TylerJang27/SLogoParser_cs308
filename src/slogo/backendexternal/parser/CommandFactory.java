@@ -75,16 +75,17 @@ public class CommandFactory {
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
-    System.out.println(formalCommand);
-    System.out.println("size:" + (previous.size()+listCommands.size()));
     int count = getCount(formalCommand);
-    System.out.println(count);
-    if(previous.size()+listCommands.size() < count){
+
+    if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
     while(commands.size() < count){
       if(previous.size() > 0){
         commands.add(previous.pop());
+      }
+      else{
+        break;
       }
     }
     return buildCommand(formalCommand, commands, listCommands);

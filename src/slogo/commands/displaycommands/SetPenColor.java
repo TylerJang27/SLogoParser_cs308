@@ -24,6 +24,7 @@ public class SetPenColor implements DisplayCommand {
     @Override
     public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
+        //TODO: BUG: NEED TO UPDATE IN THE BACKEND
         returnVal = DisplayCommand.indexAndAddRunnable(ret, arg1, manifest, con);
         return ret;
     }

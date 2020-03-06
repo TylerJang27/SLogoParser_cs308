@@ -31,7 +31,8 @@ public class InputFields extends HBox {
 
     public void addQueriesText() {
         TurtleStatus ts = mw.getTurtleStatus();
-        //TODO: TYLER FIX: mw.getTurtle());
+        //TODO: TYLER FIX: mw.getTurtle()); is null
+        System.out.println(ts);
         statusView.addStatusText(ts.getID(), ts.getX(),-ts.getY(),ts.getBearing(),mw.getTurtle().getPenView().getMyPenColor(),ts.getPenDown());
     }
 

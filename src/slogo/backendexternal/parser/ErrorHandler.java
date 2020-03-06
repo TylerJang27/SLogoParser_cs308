@@ -51,6 +51,7 @@ public class ErrorHandler {
     return closest;
   }
 
+  //TODO: HANDLE CASE OF NO INPUT
   private int getDistance(String input, String command){
     int inputLen = input.length();
     int commandLen = command.length();

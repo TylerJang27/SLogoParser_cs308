@@ -49,7 +49,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     // Get the Textfield and Toolbar in the MainView
     this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
-    this.myToolbar.setPadding(insets);
+    this.myToolbar.setPadding(new Insets(0));
 
 
     //Generate the initial Turtle Object
@@ -59,7 +59,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     setUpPane();
 
     this.getChildren().addAll(myToolbar,pane,myInputFields);
-    this.setPadding(new Insets(10.0));
+    //this.setPadding(new Insets(0.0));
+    this.setAlignment(Pos.TOP_LEFT);
   }
 
   public MainView(Color backgroundColor, Color penColor, int numTurtle, String turtleImageName, String codeFileName) {
@@ -67,6 +68,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(insets);
 
+    this.turtleStatus = new TurtleStatus(1);
     setUpTurtle();
 
   }
@@ -89,6 +91,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0);
     //turtleManager.setPenView(1, Color.BLACK); /** to do: update with correct ID*/
     this.turtleManager.initializeTurtleViews(1);
+    this.turtle = turtleManager.getTurtle(1);
   }
 
   private void setUpTurtle() {

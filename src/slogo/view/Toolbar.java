@@ -116,16 +116,18 @@ public class Toolbar extends ToolBar {
     this.myMainView.getTurtle().getPenView().setMyPenColor(penMenu.getValue());
 
     if (!turtleMenu.getSelectionModel().isEmpty()) {
-      myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
-      //myMainView.getTurtles().setImageViews(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
+      //myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
+      myMainView.getTurtles().setImageViews(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
 
 
-      //myMainView.setImageViewLayouts();
+      myMainView.setImageViewLayouts();
+
+      /*
       myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyStartXPos());
       myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyStartYPos());
       myMainView.getTurtle().myImageView.setFitWidth(myMainView.getTurtleSize());
       myMainView.getTurtle().myImageView.setFitHeight(myMainView.getTurtleSize());
-
+       */
 
       myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);
       myMainView.getTurtle().myImageView.setX(myMainView.getTurtle().myImageView.getX() - myMainView.getTurtle().myImageView.getFitWidth() / 2);

@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javafx.animation.SequentialTransition;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -33,17 +35,19 @@ public class TurtleViewManager {
   }
 
   public void execute(List<TurtleStatus> ts) {
+    SequentialTransition seq = new SequentialTransition();
     for(int i = 0; i < ts.size(); i++) {
       TurtleStatus end = ts.get(i);
       int currID = end.getID();
       turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY, picFileName));
-      turtleStatusMap.putIfAbsent(currID, new TurtleStatus());
+      turtleStatusMap.putIfAbsent(currID, new TurtleStatus(currID));
       TurtleView tempTurtle = turtleViewMap.get(currID);
       TurtleStatus start = turtleStatusMap.get(currID);
-      tempTurtle.executeState(start, end);
+      tempTurtle.executeState(seq, start, end);
       turtleStatusMap.put(currID, end);
       penViewLines.addAll(tempTurtle.getPenView().getMyLines());
     }
+    seq.play();
 
   }
 

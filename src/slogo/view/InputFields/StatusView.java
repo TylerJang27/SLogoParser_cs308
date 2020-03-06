@@ -49,8 +49,9 @@ public class StatusView {
 
   public void clear() { status.clear(); }
 
-  public void addStatusText(Double turtleX, Double turtleY, Double turtleAngle, Color penColor, Boolean penDown) {
-    status.appendText("Active Turtle:" + "name" + "\n");
+  //TODO: tYLER FIX THIS
+  public void addStatusText(int id, Double turtleX, Double turtleY, Double turtleAngle, Color penColor, Boolean penDown) {
+    status.appendText("Active Turtle: " + id + "\n");
     status.appendText("Turtle X: " + turtleX + "\n");
     status.appendText("Turtle Y: " + turtleY + "\n");
     status.appendText("Turtle Angle: " + turtleAngle + "\n");

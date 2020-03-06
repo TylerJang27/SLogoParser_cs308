@@ -54,13 +54,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(new Insets(0));
-<<<<<<< HEAD
     defaultBackgroundColor = Color.LIGHTGRAY;
     defaultPenColor = Color.BLACK;
     defaultNumTurtles = 1;
     defaultTurtleFileName = "raphael.png";
-=======
->>>>>>> 5dccb89bd9a14ae3a39fa6dfbff7923436187847
+
 
     //Generate the initial Turtle Object
     setUpTurtles(1);
@@ -100,7 +98,6 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(new Insets(0));
 
-<<<<<<< HEAD
 
     //Generate the initial Turtle Object
     setUpTurtles(numTurtle);
@@ -111,10 +108,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.getChildren().addAll(myToolbar,pane,myInputFields);
     //this.setPadding(new Insets(0.0));
     this.setAlignment(Pos.TOP_LEFT);
-=======
     this.turtleStatus = new TurtleStatus(1);
     //setUpTurtle();
->>>>>>> 5dccb89bd9a14ae3a39fa6dfbff7923436187847
   }
 
   private void setUpPane() {

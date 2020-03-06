@@ -33,11 +33,8 @@ public class TurtleView {
   private boolean isActive;
   private String TURTLE_IMG_DEFAULT_PATH = "slogo/view/imagesFolder";
   private final double turtleSize = 90;
-<<<<<<< HEAD
   private String turtleUrlPath;
 
-=======
->>>>>>> 5dccb89bd9a14ae3a39fa6dfbff7923436187847
 
   /**
    * Constructor for TurtleView object

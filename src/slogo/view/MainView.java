@@ -143,7 +143,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   public void setPaneImageViews() {
-
+    for(int i = 0; i < turtleManager.getImageViews().size(); i++)
+    pane.getChildren().set(i, turtleManager.getImageViews().get(i));
   }
 
   @Override

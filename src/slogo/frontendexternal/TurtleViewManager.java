@@ -72,7 +72,9 @@ public class TurtleViewManager {
     return turtleViewMap.values();
   }
 
-
+  public void resetLine(){
+    penViewLines = new ArrayList<Line>();
+  }
 
   public void addTurtle(int newID) {
     turtleViewMap.put(newID, new TurtleView(startX, startY, picFileName));

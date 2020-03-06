@@ -187,8 +187,14 @@ public class TurtleView {
       getPenView().getMyLines().clear();
     }
   }
+
+
   public void clearScreen() {
-      getPenView().getMyLines().clear();
+    System.out.println("cleared screen?");
+    System.out.println(getPenView().getMyLines().size());
+    getPenView().getMyLines().clear();
+    System.out.println(getPenView().getMyLines().size());
+    System.out.println("Cleared??");
   }
 
 

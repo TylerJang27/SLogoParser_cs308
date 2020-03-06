@@ -132,8 +132,8 @@ public class TurtleStatus {
     }
 
     public void modify(){
-//        System.out.println("modify");
-//        System.out.println(runnable);
+        System.out.println("modify");
+        System.out.println(runnable);
         runnable.run();
     }
 

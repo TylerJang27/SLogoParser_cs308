@@ -10,6 +10,7 @@ import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 import slogo.commands.controlcommands.Constant;
+import slogo.frontendexternal.TurtleView;
 import slogo.view.MainView;
 
 public class CommandFactory {
@@ -120,11 +121,12 @@ public class CommandFactory {
   }
 
   private void runnableAdd(String key, List<Object> obj){
+    System.out.println(key + "runnableAdding");
     if(myRunnableCommands.contains(key)) {
       Runnable z = () -> {
         try {
-          this.getClass().getDeclaredMethod(key);
-        } catch (NoSuchMethodException e) {
+          this.getClass().getDeclaredMethod(key).invoke(this);
+        } catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
           throw new InvalidCommandException("Command could not be found.");
         }
       };
@@ -219,14 +221,9 @@ public class CommandFactory {
   }
 
   private void ClearScreen(){
-    Runnable r = ()-> {
-      try {
-        myMainView.getTurtle().getClass().getDeclaredMethod("clearScreen");
-      } catch (NoSuchMethodException e) {
-        throw new InvalidCommandException("Command could not be found.");
-      }
-    };
-    r.run();
+    myMainView.getTurtles().getMyLines().clear();
+    myMainView.getTurtle().clearScreen();
+    //for(TurtleView t : myMainView.getTurtles().getTurtleViews()) t.clearScreen();
   }
 
 

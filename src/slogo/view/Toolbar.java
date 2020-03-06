@@ -1,17 +1,12 @@
 package slogo.view;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ResourceBundle;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -43,10 +38,8 @@ public class Toolbar extends ToolBar {
   private ComboBox languageMenu, turtleMenu;
 
   //The Buttons
-
   private Button commandButton, helpButton, changesButton;
   private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle;
-
 
   public Toolbar(MainView mainview) {
     buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
@@ -64,6 +57,7 @@ public class Toolbar extends ToolBar {
     Label backgroundLabel = new Label(labelBundle.getString("BackgroundLabel"));
     Label turtleLabel = new Label(labelBundle.getString("TurtleLabel"));
     Label languageLabel = new Label(labelBundle.getString("LanguageLabel"));
+
     this.setMinSize(1010.0, 40.0);
     this.setMaxSize(1010.0, 40.0);
     this.setPrefSize(1010.0, 40.0);
@@ -74,15 +68,7 @@ public class Toolbar extends ToolBar {
         helpButton);
   }
 
-  public Button getCommandButton(){
-    return commandButton;
-  }
-
-  public ComboBox getLanguageBox() {return languageMenu; }
-
-  /**
-   * Helping methods to import menus and buttons to the toolbar
-   */
+  /** Helping methods to import menus and buttons to the toolbar*/
 
   private void createMenus() {
     //Color Menus
@@ -118,13 +104,11 @@ public class Toolbar extends ToolBar {
   private void createButtons() {
     this.commandButton = new Button(buttonBundle.getString("Run"));
 
-
     this.helpButton = new Button(buttonBundle.getString("Help"));
     helpButton.setOnAction(this:: handleHelp);
 
     this.changesButton = new Button(buttonBundle.getString("ApplyLabel"));
     changesButton.setOnAction(this::handleChanges);
-
   }
 
   private void applyChanges () {
@@ -175,9 +159,33 @@ public class Toolbar extends ToolBar {
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
 
+  /** Public Set Methods Called Directly from the Console */
+
   public void setBackground(int i){
     ObservableList<Color> colorList = backgroundMenu.getCustomColors();
     backgroundMenu.setValue(colorList.get(i));
     applyChanges();
   }
+
+  public void setPenColor(int i){
+    ObservableList<Color> colorList = penMenu.getCustomColors();
+    penMenu.setValue(colorList.get(i));
+    applyChanges();
+  }
+
+  public void setShape(int i){
+    languageMenu.getSelectionModel().select(i);
+    applyChanges();
+  }
+
+  /** Public Get Methods */
+
+  public Button getCommandButton(){ return commandButton; }
+
+  public ComboBox getLanguageBox() {return languageMenu; }
+
+  public int getPenColor() { return backgroundMenu.getCustomColors().indexOf(backgroundMenu.getValue()); }
+
+  public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}
+
 }

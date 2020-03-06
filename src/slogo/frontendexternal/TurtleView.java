@@ -75,6 +75,7 @@ public class TurtleView {
     pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
 
     //if (t.size() > 1) {
+    //sequentialTransition.setRate(1);
       sequentialTransition.play(); /** If executing one at a time, move this to a play method and have sequential as global var*/
     //}
 

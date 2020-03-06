@@ -91,7 +91,9 @@ public class CommandFactory {
     return buildCommand(formalCommand, commands, listCommands);
   }
 
-  //TODO Replace the following if else tree with reflection - will make much cleaner
+
+
+
 
   public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException {
     System.out.println(key);
@@ -102,55 +104,62 @@ public class CommandFactory {
       if (myMovementCommands.contains(key)) obj.addAll(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
       if (myControlCommands.keySet().contains(key)) for (int i = 0; i < myControlCommands.get(key); i++) obj.add(listCommands.pop());
 
-      if(myRunnableCommands.contains(key)) {
-        Runnable z = () -> {
-          try {
-            this.getClass().getDeclaredMethod(key);
-          } catch (NoSuchMethodException e) {
-            throw new InvalidCommandException("Command could not be found.");
-          }
-        };
-        obj.add(z);
-      }
-
-
-      if(myConsumerCommands.keySet().contains(key)){
-        System.out.println(key);
-        Class<?> p[] = new Class<?>[myConsumerCommands.get(key)];
-        Arrays.fill(p, Integer.TYPE);
-        Consumer<Integer> z = index -> {
-          try {
-            this.getClass().getDeclaredMethod(key, p).invoke(this, index);
-          }
-          catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
-            throw new InvalidCommandException("Command could not be found.");
-          }
-        };
-        obj.add(z);
-      }
-
-      if(mySupplierCommands.contains(key)) {
-        Supplier<Integer> z = ()-> {
-          try {
-            return (Integer) this.getClass().getDeclaredMethod(key).invoke(this);
-          } catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
-            System.out.println("????");
-            throw new InvalidCommandException("Command could not be found.");
-          }
-        };
-        obj.add(z);
-      }
-
+      runnableAdd(key, obj);
+      consumerAdd(key, obj);
+      supplierAdd(key, obj);
 
       Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
       return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
-
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-      System.out.println("fail");
       throw new InvalidCommandException("Command could not be found.");
     }
   }
+
+  private void runnableAdd(String key, List<Object> obj){
+    if(myRunnableCommands.contains(key)) {
+      Runnable z = () -> {
+        try {
+          this.getClass().getDeclaredMethod(key);
+        } catch (NoSuchMethodException e) {
+          throw new InvalidCommandException("Command could not be found.");
+        }
+      };
+      obj.add(z);
+    }
+  }
+
+  private void consumerAdd(String key, List<Object> obj){
+    if(myConsumerCommands.keySet().contains(key)){
+      System.out.println(key);
+      Class<?> p[] = new Class<?>[myConsumerCommands.get(key)];
+      Arrays.fill(p, Integer.TYPE);
+      Consumer<Integer> z = index -> {
+        try {
+          this.getClass().getDeclaredMethod(key, p).invoke(this, index);
+        }
+        catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
+          throw new InvalidCommandException("Command could not be found.");
+        }
+      };
+      obj.add(z);
+    }
+  }
+
+  private void supplierAdd(String key, List<Object> obj){
+    if(mySupplierCommands.contains(key)) {
+      Supplier<Integer> z = ()-> {
+        try {
+          return (Integer) this.getClass().getDeclaredMethod(key).invoke(this);
+        } catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
+          System.out.println("????");
+          throw new InvalidCommandException("Command could not be found.");
+        }
+      };
+      obj.add(z);
+    }
+  }
+
 
   public Command makeConstant(String current) {
     return new Constant(Integer.parseInt(current));
@@ -217,15 +226,7 @@ public class CommandFactory {
     r.run();
   }
 
-//  private Integer PenColor(){
-//    Supplier<Integer> r = myDisplay.getMainView().getToolBar().getClass()::getPenColor;
-//    return r.get();
-//  }
-//
-//  private Integer Shape(){
-//    Supplier<Integer> r = myDisplay.getMainView().getToolBar().getClass()::getShape;
-//    return r.get();
-//  }
+
 
 
   private void SetBackground(int index){
@@ -244,10 +245,17 @@ public class CommandFactory {
   }
 
   private int GetPenColor(){
-    System.out.println("getpencolor");
     int i = myMainView.getToolBar().getPenColor();
     System.out.println(i);
     return i;
+  }
+
+  private int GetShape(){
+    return myMainView.getToolBar().getTurtleShape();
+  }
+
+  private void SetPalette(int index, int r, int g, int b){
+    //myMainView.getToolBar().setPalette(index, r, g, b);
   }
 }
 

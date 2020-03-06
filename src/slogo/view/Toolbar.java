@@ -183,7 +183,7 @@ public class Toolbar extends ToolBar {
   public ComboBox getLanguageBox() {return languageMenu; }
 
   public int getPenColor() {
-    return backgroundMenu.getCustomColors().indexOf(backgroundMenu.getValue());
+    return penMenu.getCustomColors().indexOf(penMenu.getValue());
   }
 
   public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}

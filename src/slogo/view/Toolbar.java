@@ -31,18 +31,20 @@ public class Toolbar extends ToolBar {
 
   //Incorporate View and Text Field
   private MainView myMainView;
+  private InputFields myTextFields;
 
   //The Drop Down Menus Themselves
   private ColorPicker penMenu, backgroundMenu;
-  private ComboBox languageMenu, turtleMenu, modeMenu;
+  private ComboBox languageMenu, turtleMenu;
 
   //The Buttons
+
   private Button commandButton, helpButton, changesButton;
-  TextField textField;
 
   //Timeline Inputs
-  private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle, modeBundle;
-
+  private static final int FRAMES_PER_SECOND = 60;
+  private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
+  private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle;
 
 
   public Toolbar(MainView mainview) {
@@ -50,14 +52,9 @@ public class Toolbar extends ToolBar {
     labelBundle = ResourceBundle.getBundle("slogo.view.resources.labels");
     languageBundle = ResourceBundle.getBundle("slogo.view.resources.languages");
     turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
-    modeBundle = ResourceBundle.getBundle("slogo.view.resources.modes");
-
 
     this.myMainView = mainview;
-
-    this.setMaxSize(1010.0, 40.0);
-    this.setMinSize(1010.0, 40.0);
-    this.setPrefSize(1010.0, 40.0);
+    this.myTextFields = myMainView.getTextFields();
 
     createMenus();
     createButtons();
@@ -66,15 +63,14 @@ public class Toolbar extends ToolBar {
     Label backgroundLabel = new Label(labelBundle.getString("BackgroundLabel"));
     Label turtleLabel = new Label(labelBundle.getString("TurtleLabel"));
     Label languageLabel = new Label(labelBundle.getString("LanguageLabel"));
-    this.setMinSize(1200.0, 40.0);
-    //this.setMinSize(400.0, 40.0);
+    this.setMinSize(1010.0, 40.0);
+    this.setMaxSize(1010.0, 40.0);
+    this.setPrefSize(1010.0, 40.0);
 
-
-    this.getItems().addAll(TabButton, new Separator(),
-                            commandButton, new Separator(),
-                            turtleLabel, turtleMenu, penLabel, penMenu,
-                            languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
-                            modeMenu, helpButton);
+    this.getItems().addAll(commandButton, new Separator(),
+        turtleLabel, turtleMenu, penLabel, penMenu,
+        languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
+        helpButton);
   }
 
   public Button getCommandButton(){
@@ -82,8 +78,6 @@ public class Toolbar extends ToolBar {
   }
 
   public ComboBox getLanguageBox() {return languageMenu; }
-
-  public ComboBox getModeMenu(){ return modeMenu; }
 
   /**
    * Helping methods to import menus and buttons to the toolbar
@@ -118,24 +112,19 @@ public class Toolbar extends ToolBar {
         languageBundle.getString("Russian"),
         languageBundle.getString("Spanish"),
         languageBundle.getString("Urdu"));
-
-    this.modeMenu = new ComboBox();
-    modeMenu.setPromptText("Toroidal");
-    modeMenu.getItems().addAll(modeBundle.getString("Toroidal"),
-        modeBundle.getString("Normal"),
-        modeBundle.getString("Edge"));
   }
 
   private void createButtons() {
     this.commandButton = new Button(buttonBundle.getString("Run"));
+
 
     this.helpButton = new Button(buttonBundle.getString("Help"));
     helpButton.setOnAction(this:: handleHelp);
 
     this.changesButton = new Button(buttonBundle.getString("ApplyLabel"));
     changesButton.setOnAction(this::handleChanges);
-  }
 
+  }
 
   /** Methods that define the function of each Button */
   private void handleChanges(ActionEvent actionEvent) {
@@ -143,28 +132,17 @@ public class Toolbar extends ToolBar {
     this.myMainView.getPane().setBackground(new Background(new BackgroundFill(backgroundMenu.getValue(), CornerRadii.EMPTY, new Insets(0))));
     this.myMainView.getTurtle().getPenView().setMyPenColor(penMenu.getValue());
 
-    double x1 = myMainView.getTurtle().myImageView.getLayoutX();
-    double y1 = myMainView.getTurtle().myImageView.getLayoutY();
-
-    double x2 = myMainView.getTurtle().myImageView.getX();
-    double y2 = myMainView.getTurtle().myImageView.getY();
-
-    System.out.println(y1);
-
     if(!turtleMenu.getSelectionModel().isEmpty()) {
       myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
 
-      myMainView.getTurtle().myImageView.setLayoutX(x1);
-      myMainView.getTurtle().myImageView.setLayoutY(y1);
-      myMainView.getTurtle().myImageView.setRotate(myMainView.getTurtle().getMyBearing());
-
+      myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyStartXPos());
+      myMainView.getTurtle().myImageView.setLayoutY(myMainView.getTurtle().getMyStartYPos());
       myMainView.getTurtle().myImageView.setFitWidth(myMainView.getTurtleSize());
       myMainView.getTurtle().myImageView.setFitHeight(myMainView.getTurtleSize());
 
-      myMainView.getTurtle().myImageView.setX(x2);
-      myMainView.getTurtle().myImageView.setY(y2);
       myMainView.getPane().getChildren().set(0, myMainView.getTurtle().myImageView);
-
+      myMainView.getTurtle().myImageView.setX(myMainView.getTurtle().myImageView.getX() - myMainView.getTurtle().myImageView.getFitWidth() / 2);
+      myMainView.getTurtle().myImageView.setY(myMainView.getTurtle().myImageView.getY() - myMainView.getTurtle().myImageView.getFitHeight() / 2);
     }
   }
 
@@ -193,9 +171,11 @@ public class Toolbar extends ToolBar {
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
 
+
+
   /** Methods for useful Getters and Setters */
 
   // Public Set Methods
   public void setTextField(InputFields tf){this.myTextFields = tf;}
 
-  }
+}

@@ -54,8 +54,7 @@ public class TurtleView {
     penView = new PenView();
     myImage = new Image("/slogo/view/imagesFolder/raphael.png");
     myImageView =  new ImageView(myImage);
-    myImageView.setFitWidth(turtleSize);
-    myImageView.setFitHeight(turtleSize);
+    setUpMyImageView();
     //System.out.println(myImageView);
   }
 

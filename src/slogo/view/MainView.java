@@ -24,6 +24,7 @@ import slogo.view.InputFields.InputFields;
 public class MainView extends VBox implements EventHandler, MainViewAPI {
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 300;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 300;
+  public static final String DATA_TYPE = "layout";
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
@@ -159,6 +160,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   @Override
   public Node getStyleableNode() { return null; }
+
+  public Color getBackgroundColor() {
+    return Color.BLACK;
+    //return pane.getBackground().getC;
+  }
 
   //Public Get Methods
   public InputFields getTextFields(){return this.myInputFields;}

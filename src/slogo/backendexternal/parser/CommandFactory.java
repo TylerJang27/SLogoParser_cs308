@@ -10,7 +10,7 @@ import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 import slogo.commands.controlcommands.Constant;
-import slogo.view.Display;
+import slogo.view.MainView;
 
 public class CommandFactory {
 
@@ -22,7 +22,7 @@ public class CommandFactory {
   private List<String> myMovementCommands;
   private Map<String, Integer> counts = new HashMap<>();
   private Map<String, Integer> myControlCommands = new HashMap<>();
-  private Display myDisplay;
+  private MainView myMainView;
   private List<String> mySupplierCommands;
   private List<String> myRunnableCommands;
   private Map<String, Integer> myConsumerCommands = new HashMap<>();
@@ -65,8 +65,8 @@ public class CommandFactory {
     mySupplierCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "SupplierCommand").getKeys());
   }
 
-  public void setDisplay(Display display){
-    myDisplay = display;
+  public void setView(MainView mv){
+    myMainView = mv;
   }
 
 
@@ -203,7 +203,7 @@ public class CommandFactory {
   private void ClearScreen(){
     Runnable r = ()-> {
       try {
-        myDisplay.getMainView().getTurtle().getClass().getDeclaredMethod("clearScreen");
+        myMainView.getTurtle().getClass().getDeclaredMethod("clearScreen");
       } catch (NoSuchMethodException e) {
         throw new InvalidCommandException("Command could not be found.");
       }
@@ -223,6 +223,6 @@ public class CommandFactory {
 
 
   private void SetBackground(int index){
-    myDisplay.getMainView().getToolBar().setBackground(index);
+    myMainView.getToolBar().setBackground(index);
   }
 }

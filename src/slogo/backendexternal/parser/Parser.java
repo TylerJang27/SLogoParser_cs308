@@ -5,6 +5,7 @@ import java.util.Stack;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 import slogo.view.Display;
+import slogo.view.MainView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,5 +135,5 @@ public class Parser {
     myCommands = translator.getCurrentCommands();
   }
 
-  public void setDisplay(Display d){commandFactory.setDisplay(d);}
+  public void setView(MainView d){commandFactory.setView(d);}
 }

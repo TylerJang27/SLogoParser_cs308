@@ -68,7 +68,6 @@ public class CommandFactory {
 
       if (key.equals("Tell")) {
         if (listCommands.isEmpty()) {
-          System.out.println(commands.get(0));
           obj.clear();
           obj.add(List.of(commands.get(0)));
         } else {

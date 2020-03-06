@@ -37,14 +37,11 @@ public class Parser {
     lastLine = line;
     commandHistory.add(line);
     String[] inputs = line.split(" ");
-    System.out.println(inputs.length);
     for(String input : inputs){
       currentComponents.push(input);
     }
-    System.out.println("yeet1");
     currentCommands.addAll(parseComponents(currentComponents));
     while(currentCommands.size() > 0){
-      System.out.println("yeet2");
       newCommands.add(currentCommands.pop());
     }
   }

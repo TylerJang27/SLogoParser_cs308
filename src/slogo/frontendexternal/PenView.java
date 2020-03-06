@@ -16,39 +16,39 @@ public class PenView {
   private SimpleBooleanProperty isDown;
   private Color myPenColor;
   private double myLineThickness;
-  private double myXPos;
-  private double myYPos;
+//  private double myXPos;
+//  private double myYPos;
   private List<Line> myLines;
 
   /**
    * Constructor for pen view
    */
-  public PenView() {
+  public PenView(Color color) {
     isDown = new SimpleBooleanProperty(false);
-    myPenColor = Color.BLACK;
+    myPenColor = color;
     myLineThickness = .5;
     myLines = new ArrayList<>();
   }
+//
+//  /**
+//   * Constructor for pen view
+//   */
+//  public PenView(boolean down, Point start, Point end) {
+//    isDown = new SimpleBooleanProperty(down);
+//    myLineThickness = .5;
+//    myLines = new ArrayList<>();
+//  }
 
-  /**
-   * Constructor for pen view
-   */
-  public PenView(boolean down, Point start, Point end) {
-    isDown = new SimpleBooleanProperty(down);
-    myLineThickness = .5;
-    myLines = new ArrayList<>();
-  }
-
-  /**
-   * Draws the pen trail
-   * @param start: starting point of trail
-   * @param end: end point of trail
-   */
-  public void drawTrail(Point start, Point end) {
-    Line penTrail = new Line(start.getX(), start.getY(), end.getX(), end.getY());
-    penTrail.setStroke(Color.BLACK);
-    penTrail.setStrokeWidth(myLineThickness);
-  }
+//  /**
+//   * Draws the pen trail
+//   * @param start: starting point of trail
+//   * @param end: end point of trail
+//   */
+//  public void drawTrail(Point start, Point end) {
+//    Line penTrail = new Line(start.getX(), start.getY(), end.getX(), end.getY());
+//    penTrail.setStroke(Color.BLACK);
+//    penTrail.setStrokeWidth(myLineThickness);
+//  }
 
   //getPenDraw();
 
@@ -85,37 +85,37 @@ public class PenView {
     this.myLineThickness = lineThickness;
   }
 
-  /**
-   * Returns x position of pen
-   * @return myXPos : x position of pen
-   */
-  public double getMyXPos() {
-    return myXPos;
-  }
-
-  /**
-   * Sets x position of pen
-   * @param xPos : x position of pen
-   */
-  public void setMyXPos(int xPos) {
-    myXPos = xPos;
-  }
-
-  /**
-   * Returns y position of pen
-   * @return myYPos : y position of pen
-   */
-  public double getMyYPos() {
-    return myYPos;
-  }
-
-  /**
-   * Sets y position of pen
-   * @param yPos : y position of pen
-   */
-  public void setMyYPos(int yPos) {
-    myYPos = yPos;
-  }
+//  /**
+//   * Returns x position of pen
+//   * @return myXPos : x position of pen
+//   */
+//  public double getMyXPos() {
+//    return myXPos;
+//  }
+//
+//  /**
+//   * Sets x position of pen
+//   * @param xPos : x position of pen
+//   */
+//  public void setMyXPos(int xPos) {
+//    myXPos = xPos;
+//  }
+//
+//  /**
+//   * Returns y position of pen
+//   * @return myYPos : y position of pen
+//   */
+//  public double getMyYPos() {
+//    return myYPos;
+//  }
+//
+//  /**
+//   * Sets y position of pen
+//   * @param yPos : y position of pen
+//   */
+//  public void setMyYPos(int yPos) {
+//    myYPos = yPos;
+//  }
 
   /**
    * Returns current pen color

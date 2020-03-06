@@ -69,7 +69,6 @@ public class Display {
     tabPane.setTabMinWidth(1050);
 
     vBox.setAlignment(Pos.TOP_CENTER);
-    //addTabFromPreferences.setAlignment(Pos.TOP_LEFT);
 
     myScene = new Scene(vBox);
   }

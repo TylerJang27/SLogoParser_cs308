@@ -25,7 +25,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.scene.control.*;
+//<<<<<<< HEAD
+import javax.xml.parsers.ParserConfigurationException;
+import slogo.configuration.XMLException;
+import slogo.configuration.XMLWriter;
+//=======
 import slogo.frontendexternal.TurtleView;
+//>>>>>>> bc01223582cc31514fb0bf74813f8a6807de2f38
 import slogo.view.InputFields.InputFields;
 
 /**
@@ -43,7 +49,7 @@ public class Toolbar extends ToolBar {
   private ComboBox languageMenu, turtleMenu;
 
   //The Buttons
-  private Button commandButton, helpButton, changesButton;
+  private Button commandButton, helpButton, changesButton, savePrefButton;
   private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle;
 
   public Toolbar(MainView mainview) {
@@ -69,8 +75,8 @@ public class Toolbar extends ToolBar {
 
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,
-        languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
-        helpButton);
+        languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton,
+        savePrefButton, new Separator(), helpButton);
   }
 
   /** Helping methods to import menus and buttons to the toolbar*/
@@ -114,14 +120,18 @@ public class Toolbar extends ToolBar {
 
     this.changesButton = new Button(buttonBundle.getString("ApplyLabel"));
     changesButton.setOnAction(this::handleChanges);
+
+    this.savePrefButton = new Button(buttonBundle.getString("SavePref"));
+    savePrefButton.setOnAction(this::writeOutTab);
   }
 
   private void applyChanges () {
-    this.myMainView.getPane().setBackground(new Background(new BackgroundFill(backgroundMenu.getValue(), CornerRadii.EMPTY, new Insets(0))));
-    this.myMainView.getTurtle().getPenView().setMyPenColor(penMenu.getValue());
+    this.myMainView.setBackgroundColor(backgroundMenu.getValue());
+    this.myMainView.setPenColor(penMenu.getValue());
 
     if (!turtleMenu.getSelectionModel().isEmpty()) {
       String url = "/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png";
+      myMainView.setTurtleFileName(turtleMenu.getValue().toString());
       myMainView.getTurtles().setImageViews(new ImageView(new Image("" + url)));
       myMainView.setImageViewLayouts();
       myMainView.setPaneImageViews();
@@ -162,6 +172,17 @@ public class Toolbar extends ToolBar {
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
 
+  private void writeOutTab(ActionEvent actionEvent) {
+    try{
+      XMLWriter writer = new XMLWriter(myMainView);
+      writer.outputFile();
+    } catch (XMLException | ParserConfigurationException e) {
+      throw new XMLException("Couldn't parse workspace");
+    } catch(Exception e) {
+      throw new XMLException("Couldn't write file");
+    }
+
+  }
   /** Public Set Methods Called Directly from the Console */
 
   public void setBackground(int i){

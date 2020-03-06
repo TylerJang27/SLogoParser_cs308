@@ -79,6 +79,8 @@ public class Console {
   private void setDetails(){
     box.setMinHeight(boxHeight);
     box.setMinWidth(boxWidth);
+    box.setMaxHeight(boxHeight);
+    box.setMaxWidth(boxWidth);
     System.out.println("WIDTH: " + box.getWidth());
     System.out.println("height: " + box.getHeight());
     Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));

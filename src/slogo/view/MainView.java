@@ -23,7 +23,7 @@ import slogo.view.InputFields.InputFields;
 
 /** @author Shruthi Kumar, Nevzat Sevim */
 
-public class MainView extends VBox implements EventHandler, MainViewAPI {
+public class MainView extends VBox implements EventHandler {
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 300;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 300;
   public static final String DATA_TYPE = "sim";
@@ -41,6 +41,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private Color defaultPenColor;
   private int defaultNumTurtles;
   private String defaultTurtleFileName;
+  private String defaultCodeFileName;
 
   private final double turtleSize = 90;
   private Insets insets = new Insets(0);
@@ -59,7 +60,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     defaultBackgroundColor = Color.LIGHTGRAY;
     defaultPenColor = Color.BLACK;
     defaultNumTurtles = 1;
-    defaultTurtleFileName = "raphael.png";
+    defaultTurtleFileName = "raphael";
+    defaultCodeFileName = "blank";
 
 
     //Generate the initial Turtle Object
@@ -70,7 +72,6 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     setUpPane();
 
     this.getChildren().addAll(myToolbar,pane,myInputFields);
-    //this.setPadding(new Insets(0.0));
     this.setAlignment(Pos.TOP_LEFT);
 
     this.pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -95,11 +96,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     defaultPenColor = penColor;
     defaultNumTurtles = numTurtle;
     defaultTurtleFileName = turtleImageName;
+    defaultCodeFileName = codeFileName;
     // Get the Textfield and Toolbar in the MainView
     this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(new Insets(0));
-
 
     //Generate the initial Turtle Object
     setUpTurtles(numTurtle);
@@ -108,10 +109,8 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     setUpPane();
 
     this.getChildren().addAll(myToolbar,pane,myInputFields);
-    //this.setPadding(new Insets(0.0));
     this.setAlignment(Pos.TOP_LEFT);
     this.turtleStatus = new TurtleStatus(1);
-    //setUpTurtle();
   }
 
   private void setUpPane() {
@@ -129,31 +128,27 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   private void setUpTurtles(int numTurtles) {
-    this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0, defaultTurtleFileName);
+    this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0, defaultTurtleFileName, defaultPenColor);
     this.turtleManager.setAllPenViewColors(defaultPenColor);
-    //turtleManager.setPenView(1, Color.BLACK); /** to do: update with correct ID*/
     this.turtleManager.initializeTurtleViews(numTurtles);
     this.turtle = turtleManager.getTurtle(1);
   }
 
-  /*private void setUpTurtle() {
-    this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0, "raphael.png");
-    turtle.getPenView().setMyPenColor(Color.BLACK);
-    turtle.myImageView.setFitWidth(turtleSize);
-    turtle.myImageView.setFitHeight(turtleSize);
-    turtle.myImageView.setX(turtle.myImageView.getX() - turtle.myImageView.getFitWidth() / 2);
-    turtle.myImageView.setY(turtle.myImageView.getY() - turtle.myImageView.getFitHeight() / 2);
-    turtle.myImageView.setLayoutX(turtle.getMyStartXPos());
-    turtle.myImageView.setLayoutY(turtle.getMyStartYPos());
-  } */
 
   public void moveTurtle(List<TurtleStatus> ts) {
     if (!ts.isEmpty()) {
+//<<<<<<< HEAD
+//      pane.getChildren().clear(); // clear complete list
+//      pane.getChildren().addAll(turtleManager.getImageViews());
+//=======
+//>>>>>>> bc01223582cc31514fb0bf74813f8a6807de2f38
 
-      //turtle.executeState(ts);
       turtleManager.execute(ts);
       this.turtleStatus = ts.get(ts.size() - 1);
 
+//<<<<<<< HEAD
+//      List<Line> temp = (ArrayList) turtleManager.getMyLines();
+//=======
       updateViewLocation();
     }
   }
@@ -165,6 +160,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
     //List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
     List<Line> temp = (ArrayList) turtleManager.getMyLines();
+//>>>>>>> bc01223582cc31514fb0bf74813f8a6807de2f38
 
 
     for (int i = 0; i < temp.size(); i++) {
@@ -191,9 +187,13 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
       temp.setLayoutY(turtleManager.getStartY());
       temp.setFitWidth(turtleSize);
       temp.setFitHeight(turtleSize);
+<<<<<<< HEAD
+
+=======
     }*/
     for (TurtleView tv: turtleManager.getTurtleViews()) {
       tv.setUpMyImageView();
+//>>>>>>> bc01223582cc31514fb0bf74813f8a6807de2f38
     }
   }
 
@@ -203,53 +203,84 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     }
   }
 
+  public void setBackgroundColor(Color newColor) {
+    this.pane.setBackground(new Background(new BackgroundFill(newColor, CornerRadii.EMPTY, new Insets(0))));
+    defaultBackgroundColor = newColor;
+  }
+
+  public void setPenColor(Color newColor) {
+    this.turtleManager.setAllPenViewColors(newColor);
+    defaultPenColor = newColor;
+  }
+
+  public void setTurtleFileName(String name) {
+    defaultCodeFileName = name;
+  }
+
+
   @Override
   public void handle(Event event) { }
 
-  @Override
-  public String readCommand() {
-    return "";
+//  @Override
+//  public String readCommand() {
+//    return "";
+//  }
+//
+//  @Override
+//  public void sendCommand(String command) { }
+//
+//  @Override
+//  public int sendUpdates() {
+//    return 0;
+//  }
+//
+//  @Override
+//  public void changeLanguage(int choice) { }
+//
+//  @Override
+//  public Collection<TurtleStatus> getCommands() { return null; }
+//
+//  @Override
+//  public void updatePastCommands() { }
+//
+//  @Override
+//  public void clearCommands() { }
+//
+//  @Override
+//  public void resetCommands() { }
+//
+//  @Override
+//  public void setSkin(int choice) { }
+//
+//  @Override
+//  public Node getStyleableNode() { return null; }
+
+  public Color getDefaultBackgroundColor() {
+    return defaultBackgroundColor;
   }
 
-  @Override
-  public void sendCommand(String command) { }
-
-  @Override
-  public int sendUpdates() {
-    return 0;
+  public Color getDefaultPenColor() {
+    return defaultPenColor;
   }
 
-  @Override
-  public void changeLanguage(int choice) { }
+  public int getDefaultNumTurtles() {
+    return turtleManager.getTurtleViews().size();
+  }
 
-  @Override
-  public Collection<TurtleStatus> getCommands() { return null; }
+  public String getDefaultTurtleFileName() {
+    return defaultTurtleFileName;
+  }
 
-  @Override
-  public void updatePastCommands() { }
-
-  @Override
-  public void clearCommands() { }
-
-  @Override
-  public void resetCommands() { }
-
-  @Override
-  public void setSkin(int choice) { }
-
-  @Override
-  public Node getStyleableNode() { return null; }
-
-  public Color getBackgroundColor() {
-    return Color.BLACK;
-    //return pane.getBackground().getC;
+  public String getDefaultCodeFileName() {
+    return defaultCodeFileName;
   }
 
   //Public Get Methods
   public InputFields getTextFields(){return this.myInputFields;}
   public Toolbar getToolBar(){return this.myToolbar;}
-  public Pane getPane() {return this.pane;}
-  public double getTurtleSize() {return this.turtleSize;}
+  //public Pane getPane() {return this.pane;}
+  //public double getTurtleSize() {return this.turtleSize;}
   public TurtleStatus getTurtleStatus() {return this.turtleStatus;}
+
 
 }

@@ -12,16 +12,12 @@ import javafx.util.Duration;
 import slogo.backendexternal.TurtleStatus;
 
 /**
- * Creates TurtleView
- * @author Shruthi Kumar
+ * Creates TurtleViewg
+ * @author Shruthi Kumar, Tyler Jang
  */
 public class TurtleView {
   private double myStartXPos;
   private double myStartYPos;
-  private double myEndXPos;
-  private double myEndYPos;
-  private double myUpdatedXPos;
-  private double myUpdatedYPos;
 
   public Image myImage;
   public ImageView myImageView;
@@ -38,27 +34,35 @@ public class TurtleView {
 
   /**
    * Constructor for TurtleView object
+   * @param x : x position of turtle
+   * @param y : y position of turtle
+   * @param picFileName : name of turtle image
+   * @param color : color of pen
+   *
    */
-
-  public TurtleView(double x, double y, String picFileName) {
+  public TurtleView(double x, double y, String picFileName, Color color) {
     myStartXPos = x;
     myStartYPos = y;
-    myEndXPos = 0;
-    myEndYPos = 0;
+
     myBearing = 0;
     isVisible = true;
     clearScreen = false;
     isActive = true;
 
     penView = new PenView();
-    turtleUrlPath = TURTLE_IMG_DEFAULT_PATH + "/" + picFileName;
+    turtleUrlPath = TURTLE_IMG_DEFAULT_PATH + "/" + picFileName + ".png";
     myImage = new Image("" + turtleUrlPath);
     myImageView =  new ImageView(myImage);
     setUpMyImageView();
-    //System.out.println(myImageView);
   }
 
 
+  /**
+   * Executes each turtle status
+   * @param sequentialTransition the transition to be played
+   * @param start starting turtle status
+   * @param end ending turtle status
+   */
   public void executeState(SequentialTransition sequentialTransition, TurtleStatus start, TurtleStatus end) {
     //SequentialTransition sequentialTransition = new SequentialTransition();
     if(isActive) {
@@ -79,6 +83,93 @@ public class TurtleView {
       pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
 
     }
+  }
+
+
+  /**
+   * Gets x position of turtle
+   * @return myXPos : x position
+   */
+  public double getMyStartXPos() {
+    return myStartXPos;
+  }
+
+  /**
+   * Gets y position of turtle
+   * @return myYPos : y position
+   */
+  public double getMyStartYPos() {
+    return myStartYPos;
+  }
+
+  /**
+   * Returns whether or not the turtle is active
+   * @return isActive : T/F whether turtle is active
+   */
+  public boolean getIsActive() {return isActive;}
+
+
+  /**
+   * Gets ImageView of turtle
+   * @return myImageView : image view of turtle
+   */
+  public ImageView getMyImageView() {
+    return myImageView;
+  }
+
+  /**
+   * Gets the PenView
+   * @return penView
+   */
+  public PenView getPenView() {
+    return penView;
+  }
+
+  /**
+   * sets image view of turtle
+   * @param imageView : image view of turtle
+   */
+
+  public void setImageView(ImageView imageView) {
+    myImageView = imageView;
+  }
+
+
+  /**
+   * sets bearing of turtle
+   * @param degrees : new bearing of turtle
+   */
+  public void setMyBearing(double degrees) {
+    myBearing = degrees;
+  }
+
+  /**
+   * sets bearing of turtle
+   * @param visible : new bearing of turtle
+   */
+  public void setIsVisible(boolean visible) {
+    isVisible = visible;
+  }
+
+  /**
+   * sets bearing of turtle
+   * @param active : new bearing of turtle
+   */
+  public void setIsActive(boolean active) {
+    isActive = active;
+  }
+
+  /**
+   * Sets up the layout of the current turtle image view
+   */
+  public void setUpMyImageView() {
+    this.getPenView().setMyPenColor(penView.getMyPenColor());
+    this.myImageView.setFitWidth(turtleSize);
+    this.myImageView.setFitHeight(turtleSize);
+    this.myImageView.setX(this.myImageView.getX() - this.myImageView.getFitWidth() / 2);
+    this.myImageView.setY(this.myImageView.getY() - this.myImageView.getFitHeight() / 2);
+    this.myImageView.setLayoutX(this.getMyStartXPos());
+    this.myImageView.setLayoutY(this.getMyStartYPos());
   }
 
   private Polyline getTurtleTrail(SequentialTransition sequentialTransition, Polyline pathLine,
@@ -122,7 +213,7 @@ public class TurtleView {
         this.myImageView);
     turtleRotate.setFromAngle(start.getBearing());
     turtleRotate.setToAngle(end.getBearing());
-    myBearing = end.getBearing();
+    setMyBearing(end.getBearing());
     sequentialTransition.getChildren().add(turtleRotate);
   }
 
@@ -137,7 +228,6 @@ public class TurtleView {
     getPenView().getMyLines().clear();
   }
 
-
   private boolean checkMovement(TurtleStatus start, TurtleStatus end) {
     return start.getX() != end.getX() || start.getY() != end.getY();
   }
@@ -149,173 +239,5 @@ public class TurtleView {
       }
   }
 
-  /**
-   * Gets x position of turtle
-   * @return myXPos : x position
-   */
-  public double getMyStartXPos() {
-    return myStartXPos;
-  }
-
-  /**
-   * Gets y position of turtle
-   * @return myYPos : y position
-   */
-  public double getMyStartYPos() {
-    return myStartYPos;
-  }
-
-  /**
-   * Gets x position of turtle
-   * @return myXPos : x position
-   */
-  public double getMyUpdatedXPos() {
-    return myUpdatedXPos;
-  }
-
-  /**
-   * Gets y position of turtle
-   * @return myYPos : y position
-   */
-  public double getMyUpdatedYPos() {
-    return myUpdatedYPos;
-  }
-
-  /**
-   * Gets x position of turtle
-   * @return myXPos : x position
-   */
-  public double getMyEndXPos() {
-    return myEndXPos;
-  }
-
-  /**
-   * Gets y position of turtle
-   * @return myYPos : y position
-   */
-  public double getMyEndYPos() {
-    return myEndYPos;
-  }
-
-
-  public boolean getIsActive() {return isActive;}
-
-
-  /**
-   * Gets ImageView of turtle
-   * @return myImageView : image view of turtle
-   */
-  public ImageView getMyImageView() {
-    return myImageView;
-  }
-
-  /**
-   * Gets bearing of turtle
-   * @return  : image view of turtle
-   */
-  public double getMyBearing() {
-    return myBearing;
-  }
-
-  public PenView getPenView() {
-    return penView;
-  }
-
-  public boolean getIsVisible() {
-    return isVisible;
-  }
-
-  /**
-   * sets x position of turtle
-   * @param xPos : x position
-   */
-  public void setMyStartXPos(double xPos) {
-    myStartXPos = xPos;
-  }
-
-  /**
-   * sets y position of turtle
-   * @param yPos : y position
-   */
-  public void setMyStartYPos(double yPos) {
-    myStartYPos = yPos;
-  }
-
-  /**
-   * sets x position of turtle
-   * @param xPos : x position
-   */
-  public void setMyUpdatedXPos(double xPos) {
-    myUpdatedXPos = xPos;
-  }
-
-  /**
-   * sets y position of turtle
-   * @param yPos : y position
-   */
-  public void setMyUpdatedYPos(double yPos) {
-    myUpdatedYPos = yPos;
-  }
-
-  /**
-   * sets x position of turtle
-   * @param xPos : x position
-   */
-  public void setMyEndXPos(double xPos) {
-    myEndXPos = xPos;
-  }
-
-  /**
-   * sets y position of turtle
-   * @param yPos : y position
-   */
-  public void setMyEndYPos(double yPos) {
-    myEndYPos = yPos;
-  }
-
-  /**
-   * sets image view of turtle
-   * @param imageView : image view of turtle
-   */
-
-  public void setImageView(ImageView imageView) {
-    myImageView = imageView;
-  }
-
-
-
-  /**
-   * sets bearing of turtle
-   * @param degrees : new bearing of turtle
-   */
-  public void setMyBearing(double degrees) {
-    myBearing = degrees;
-  }
-
-  /**
-   * sets bearing of turtle
-   * @param visible : new bearing of turtle
-   */
-  public void setIsVisible(boolean visible) {
-    isVisible = visible;
-  }
-
-  /**
-   * sets bearing of turtle
-   * @param active : new bearing of turtle
-   */
-  public void setIsActive(boolean active) {
-    isActive = active;
-  }
-
-  public void setUpMyImageView() {
-    this.getPenView().setMyPenColor(Color.BLACK);
-    this.myImageView.setFitWidth(turtleSize);
-    this.myImageView.setFitHeight(turtleSize);
-    this.myImageView.setX(this.myImageView.getX() - this.myImageView.getFitWidth() / 2);
-    this.myImageView.setY(this.myImageView.getY() - this.myImageView.getFitHeight() / 2);
-    this.myImageView.setLayoutX(this.getMyStartXPos());
-    this.myImageView.setLayoutY(this.getMyStartYPos());
-  }
 
 }

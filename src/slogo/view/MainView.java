@@ -67,6 +67,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(insets);
 
+    this.turtleStatus = new TurtleStatus(1);
     setUpTurtle();
 
   }
@@ -89,6 +90,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0);
     //turtleManager.setPenView(1, Color.BLACK); /** to do: update with correct ID*/
     this.turtleManager.initializeTurtleViews(1);
+    this.turtle = turtleManager.getTurtle(1);
   }
 
   private void setUpTurtle() {

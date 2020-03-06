@@ -33,13 +33,15 @@ public class TurtleViewManager {
   }
 
   public void execute(List<TurtleStatus> ts) {
+    System.out.println("size" + ts.size());
     for(int i = 0; i < ts.size(); i++) {
       TurtleStatus end = ts.get(i);
       int currID = end.getID();
       turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY, picFileName));
-      turtleStatusMap.putIfAbsent(currID, new TurtleStatus());
+      turtleStatusMap.putIfAbsent(currID, new TurtleStatus(currID));
       TurtleView tempTurtle = turtleViewMap.get(currID);
       TurtleStatus start = turtleStatusMap.get(currID);
+      System.out.println(i);
       tempTurtle.executeState(start, end);
       turtleStatusMap.put(currID, end);
       penViewLines.addAll(tempTurtle.getPenView().getMyLines());

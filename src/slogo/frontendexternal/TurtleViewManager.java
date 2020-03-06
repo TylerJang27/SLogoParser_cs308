@@ -21,14 +21,16 @@ public class TurtleViewManager {
   private List<Line> penViewLines;
   private List<ImageView> turtleImageViewList;
   private final String turtlePicFileName;
+  private Color penColor;
 
-  public TurtleViewManager(double x, double y, String picFileName) {
+  public TurtleViewManager(double x, double y, String picFileName, Color color) {
     startX = x;
     startY = y;
     turtlePicFileName = picFileName;
+    penColor = color;
     turtleViewMap = new HashMap<Integer, TurtleView>();
     turtleStatusMap = new HashMap<Integer, TurtleStatus>();
-    turtleViewMap.put(1, new TurtleView(startX, startY, picFileName));
+    turtleViewMap.put(1, new TurtleView(startX, startY, picFileName, penColor));
     //turtleStatusMap.put(1, new TurtleStatus());
     turtleImageViewList = new ArrayList<ImageView>();
     penViewLines = new ArrayList<Line>();
@@ -39,7 +41,7 @@ public class TurtleViewManager {
     for(int i = 0; i < ts.size(); i++) {
       TurtleStatus end = ts.get(i);
       int currID = end.getID();
-      turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY, turtlePicFileName));
+      turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY, turtlePicFileName, penColor));
       turtleStatusMap.putIfAbsent(currID, new TurtleStatus(currID));
       TurtleView tempTurtle = turtleViewMap.get(currID);
       TurtleStatus start = turtleStatusMap.get(currID);
@@ -55,12 +57,10 @@ public class TurtleViewManager {
   /** Update with correct IDs */
   public void initializeTurtleViews(int numTurtles) {
     for(int i = 1; i <= numTurtles; i++) {
-      turtleViewMap.put(i, new TurtleView(startX, startY, turtlePicFileName));
+      turtleViewMap.put(i, new TurtleView(startX, startY, turtlePicFileName, penColor));
       turtleStatusMap.putIfAbsent(i, new TurtleStatus(i));
     }
   }
-
-
 
   public TurtleView getTurtle(int id) {
     return turtleViewMap.get(id);
@@ -72,13 +72,13 @@ public class TurtleViewManager {
 
 
 
-  public void addTurtle(int newID) {
-    turtleViewMap.put(newID, new TurtleView(startX, startY, turtlePicFileName));
-  }
+//  public void addTurtle(int newID) {
+//    turtleViewMap.put(newID, new TurtleView(startX, startY, turtlePicFileName));
+//  }
 
-  public void removeTurtle(int newID) {
-    turtleViewMap.remove(newID);
-  }
+//  public void removeTurtle(int newID) {
+//    turtleViewMap.remove(newID);
+//  }
 
   public double getStartX() {
     return startX;

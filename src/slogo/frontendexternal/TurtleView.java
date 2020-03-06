@@ -13,15 +13,11 @@ import slogo.backendexternal.TurtleStatus;
 
 /**
  * Creates TurtleView
- * @author Shruthi Kumar
+ * @author Shruthi Kumar, Tyler Jang
  */
 public class TurtleView {
   private double myStartXPos;
   private double myStartYPos;
-  private double myEndXPos;
-  private double myEndYPos;
-  private double myUpdatedXPos;
-  private double myUpdatedYPos;
 
   public Image myImage;
   public ImageView myImageView;
@@ -40,22 +36,20 @@ public class TurtleView {
    * Constructor for TurtleView object
    */
 
-  public TurtleView(double x, double y, String picFileName) {
+  public TurtleView(double x, double y, String picFileName, Color color) {
     myStartXPos = x;
     myStartYPos = y;
-    myEndXPos = 0;
-    myEndYPos = 0;
+
     myBearing = 0;
     isVisible = true;
     clearScreen = false;
     isActive = true;
 
-    penView = new PenView();
-    turtleUrlPath = TURTLE_IMG_DEFAULT_PATH + "/" + picFileName;
+    penView = new PenView(color);
+    turtleUrlPath = TURTLE_IMG_DEFAULT_PATH + "/" + picFileName + ".png";
     myImage = new Image("" + turtleUrlPath);
     myImageView =  new ImageView(myImage);
     setUpMyImageView();
-    //System.out.println(myImageView);
   }
 
 
@@ -129,7 +123,6 @@ public class TurtleView {
     }
   }
 
-
   private boolean checkMovement(TurtleStatus start, TurtleStatus end) {
     return start.getX() != end.getX() || start.getY() != end.getY();
   }
@@ -157,38 +150,6 @@ public class TurtleView {
     return myStartYPos;
   }
 
-  /**
-   * Gets x position of turtle
-   * @return myXPos : x position
-   */
-  public double getMyUpdatedXPos() {
-    return myUpdatedXPos;
-  }
-
-  /**
-   * Gets y position of turtle
-   * @return myYPos : y position
-   */
-  public double getMyUpdatedYPos() {
-    return myUpdatedYPos;
-  }
-
-  /**
-   * Gets x position of turtle
-   * @return myXPos : x position
-   */
-  public double getMyEndXPos() {
-    return myEndXPos;
-  }
-
-  /**
-   * Gets y position of turtle
-   * @return myYPos : y position
-   */
-  public double getMyEndYPos() {
-    return myEndYPos;
-  }
-
 
   public boolean getIsActive() {return isActive;}
 
@@ -201,68 +162,8 @@ public class TurtleView {
     return myImageView;
   }
 
-  /**
-   * Gets bearing of turtle
-   * @return  : image view of turtle
-   */
-  public double getMyBearing() {
-    return myBearing;
-  }
-
   public PenView getPenView() {
     return penView;
-  }
-
-  public boolean getIsVisible() {
-    return isVisible;
-  }
-
-  /**
-   * sets x position of turtle
-   * @param xPos : x position
-   */
-  public void setMyStartXPos(double xPos) {
-    myStartXPos = xPos;
-  }
-
-  /**
-   * sets y position of turtle
-   * @param yPos : y position
-   */
-  public void setMyStartYPos(double yPos) {
-    myStartYPos = yPos;
-  }
-
-  /**
-   * sets x position of turtle
-   * @param xPos : x position
-   */
-  public void setMyUpdatedXPos(double xPos) {
-    myUpdatedXPos = xPos;
-  }
-
-  /**
-   * sets y position of turtle
-   * @param yPos : y position
-   */
-  public void setMyUpdatedYPos(double yPos) {
-    myUpdatedYPos = yPos;
-  }
-
-  /**
-   * sets x position of turtle
-   * @param xPos : x position
-   */
-  public void setMyEndXPos(double xPos) {
-    myEndXPos = xPos;
-  }
-
-  /**
-   * sets y position of turtle
-   * @param yPos : y position
-   */
-  public void setMyEndYPos(double yPos) {
-    myEndYPos = yPos;
   }
 
   /**
@@ -301,7 +202,7 @@ public class TurtleView {
   }
 
   public void setUpMyImageView() {
-    this.getPenView().setMyPenColor(Color.BLACK);
+    this.getPenView().setMyPenColor(penView.getMyPenColor());
     this.myImageView.setFitWidth(turtleSize);
     this.myImageView.setFitHeight(turtleSize);
     this.myImageView.setX(this.myImageView.getX() - this.myImageView.getFitWidth() / 2);

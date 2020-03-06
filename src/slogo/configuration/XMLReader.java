@@ -54,7 +54,7 @@ public class XMLReader {
       backgroundColor = Color.web(getTextValue(root, "background"));
       penColor = Color.web(getTextValue(root, "pen"));
       numTurtles = Integer.parseInt(getTextValue(root, "numTurtles"));
-      turtleImageName = getTextValue(root, "turtleName") + ".png";
+      turtleImageName = getTextValue(root, "turtleName");
       codeFileName = getTextValue(root, "fileName");
     }
     catch (NumberFormatException e) {

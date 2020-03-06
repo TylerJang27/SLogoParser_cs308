@@ -100,7 +100,6 @@ public class MainView extends VBox implements EventHandler {
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(new Insets(0));
 
-
     //Generate the initial Turtle Object
     setUpTurtles(numTurtle);
 

@@ -101,9 +101,6 @@ public class Controller extends Application {
         myDisplay.addTab(reader.getMainView(dataFile.getPath()));
         setTabs();
         return;
-        //dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
-
-       // primaryStage.close();
       }
       catch (XMLException e) {
         showMessage(AlertType.ERROR, e.getMessage());

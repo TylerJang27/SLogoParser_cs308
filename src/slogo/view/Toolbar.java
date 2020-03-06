@@ -208,10 +208,6 @@ public class Toolbar extends ToolBar {
 
   /** Public Get Methods */
 
-  public Button getCommandButton(){ return commandButton; }
-
-  public ComboBox getLanguageBox() {return languageMenu; }
-
   public int getPenColor() { return backgroundMenu.getCustomColors().indexOf(backgroundMenu.getValue()); }
 
   public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}

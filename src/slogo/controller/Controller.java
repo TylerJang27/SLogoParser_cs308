@@ -22,6 +22,7 @@ import slogo.view.Display;
 import slogo.view.InputFields.Console;
 import slogo.view.InputFields.MoveArrows;
 import slogo.view.InputFields.UserDefinitions;
+import slogo.view.MainView;
 
 public class Controller extends Application {
 
@@ -55,7 +56,6 @@ public class Controller extends Application {
     myDisplay = new Display();
     translator = new Translator();
     myParser = new Parser(translator);
-    myParser.setDisplay(myDisplay);
     errorHandler = new ErrorHandler();
     translator = new Translator();
     tabTurtleModelMap = new HashMap<Tab, TurtleManager>();
@@ -126,15 +126,9 @@ public class Controller extends Application {
 
   private void sendCommand(){
     try{
-      //System.out.println(console.getText());
       myParser.parseLine(console.getText());
-      System.out.println("help me");
       List<Command> toSend = myParser.sendCommands();
-      System.out.println(toSend);
       List<TurtleStatus> statuses = myModel.executeCommands(toSend);
-      for (TurtleStatus ts: statuses) {
-        System.out.println(ts);
-      }
       if(statuses.size() > 0){
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);
@@ -145,7 +139,6 @@ public class Controller extends Application {
       displayQueries();
     }
     catch(Exception e){
-      e.printStackTrace();
       console.addError(errorHandler.getErrorMessage(e.getMessage(), myParser.getCommands()));
       console.getEntry().setOnKeyPressed(key -> handlePrompt(key.getCode()));
     }

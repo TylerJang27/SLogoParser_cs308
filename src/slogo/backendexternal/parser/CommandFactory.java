@@ -79,7 +79,6 @@ public class CommandFactory {
       Class<?> params[] = findParameter(objArray);
       return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
     } catch (InvalidCommandException | NoSuchMethodException | ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-      e.printStackTrace();
       throw new InvalidCommandException(e, "Command could not be found.");
     }
   }

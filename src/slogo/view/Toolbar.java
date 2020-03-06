@@ -177,6 +177,8 @@ public class Toolbar extends ToolBar {
 
   public void setBackground(int i){
     ObservableList<Color> colorList = backgroundMenu.getCustomColors();
+    if(colorList.size()<=0) return;
+    if(i>=colorList.size()) i = colorList.size()-1;
     backgroundMenu.setValue(colorList.get(i));
     applyChanges();
   }

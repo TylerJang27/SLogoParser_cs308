@@ -25,7 +25,7 @@ public class CommandFactory {
   private Display myDisplay;
   private List<String> mySupplierCommands;
   private List<String> myRunnableCommands;
-  private List<String> myConsumerCommands;
+  private Map<String, Integer> myConsumerCommands = new HashMap<>();
 
 
   public CommandFactory(Map<String, List<String>> commands){
@@ -57,7 +57,10 @@ public class CommandFactory {
   }
 
   private void setSRCCommands(){
-    myConsumerCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "ConsumerCommand").getKeys());
+    var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "ConsumerCommand");
+    for(String key:resources.keySet()){
+      myConsumerCommands.put(key, Integer.parseInt(resources.getString(key)));
+    }
     myRunnableCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "RunnableCommand").getKeys());
     mySupplierCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "SupplierCommand").getKeys());
   }
@@ -72,13 +75,13 @@ public class CommandFactory {
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
-    System.out.println(previous.size());
+    System.out.println(formalCommand);
+    System.out.println("size:" + (previous.size()+listCommands.size()));
     int count = getCount(formalCommand);
-
-    if(previous.size() < count){
+    System.out.println(count);
+    if(previous.size()+listCommands.size() < count){
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
-
     while(commands.size() < count){
       if(previous.size() > 0){
         commands.add(previous.pop());
@@ -90,6 +93,7 @@ public class CommandFactory {
   //TODO Replace the following if else tree with reflection - will make much cleaner
 
   public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException {
+    System.out.println(key);
     try {
       List<Object> obj = new ArrayList<>();
 
@@ -109,6 +113,21 @@ public class CommandFactory {
         obj.add(z);
       }
 
+
+      if(myConsumerCommands.keySet().contains(key)){
+        Class<?> p[] = new Class<?>[myConsumerCommands.get(key)];
+        Arrays.fill(p, Integer.TYPE);
+        Consumer<Integer> z = index -> {
+          try {
+            this.getClass().getDeclaredMethod(key, p).invoke(this, index);
+          }
+          catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
+            throw new InvalidCommandException("Command could not be found.");
+          }
+        };
+        obj.add(z);
+      }
+
 //      if(mySupplierCommands.contains(key)) {
 //        Supplier<Integer> z = ()->this.getClass().getDeclaredMethod(key);
 //        obj.add(z);
@@ -117,11 +136,12 @@ public class CommandFactory {
 
       Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
-
       for(Object o:objArray) System.out.println(o);
+      for(Class<?> o:params) System.out.println(o);
       return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
 
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+      System.out.println("fail");
       throw new InvalidCommandException("Command could not be found.");
     }
   }
@@ -173,6 +193,9 @@ public class CommandFactory {
       }else if (objArray[i] instanceof Runnable) {
         params[i] = Runnable.class;
       }
+      else if (objArray[i] instanceof Collection) {
+        params[i] = Collection.class;
+      }
     }
     return params;
   }
@@ -197,4 +220,9 @@ public class CommandFactory {
 //    Supplier<Integer> r = myDisplay.getMainView().getToolBar().getClass()::getShape;
 //    return r.get();
 //  }
+
+
+  private void SetBackground(int index){
+    myDisplay.getMainView().getToolBar().setBackground(index);
+  }
 }

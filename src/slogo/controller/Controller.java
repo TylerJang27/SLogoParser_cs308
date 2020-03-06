@@ -119,6 +119,7 @@ public class Controller extends Application {
 
   private void sendCommand(){
     try{
+      //System.out.println(console.getText());
       myParser.parseLine(console.getText());
       List<Command> toSend = myParser.sendCommands();
       List<TurtleStatus> statuses = myModel.executeCommands(toSend);

@@ -11,10 +11,15 @@ public class ErrorHandler {
   public ErrorHandler(){}
 
   public String getErrorMessage(String input, Map<String, List<String>> commands){
-    String recommendation = determineCommand(input, commands);
-    lastError = input;
-    lastFix = recommendation;
-    return promptUser(recommendation);
+    //TODO: TYLER CHECK
+    if (input != null ) {
+      String recommendation = determineCommand(input, commands);
+      lastError = input;
+      lastFix = recommendation;
+      return promptUser(recommendation);
+    } else {
+      return "";
+    }
   }
 
   public String promptUser(String command){

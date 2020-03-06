@@ -31,10 +31,9 @@ public class CommandFactory {
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
-    System.out.println(previous.size());
     int count = getCount(formalCommand);
 
-    if(previous.size() < count){
+    if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
 
@@ -63,13 +62,25 @@ public class CommandFactory {
         obj.add(listCommands.pop());
       }
       if(key.equals("IfElse")) obj.add(listCommands.pop());
+
+      if (key.equals("Tell")) {
+        if (listCommands.isEmpty()) {
+          System.out.println(commands.get(0));
+          obj.clear();
+          obj.add(List.of(commands.get(0)));
+        } else {
+          obj.add(listCommands.pop());
+        }
+      }
+
+
       Object[] objArray = obj.toArray();
 
 
       Class<?> params[] = findParameter(objArray);
       return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
-    } catch (InvalidCommandException | ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-      throw new InvalidCommandException("Command could not be found.");
+    } catch (InvalidCommandException | NoSuchMethodException | ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+      throw new InvalidCommandException(e, "Command could not be found.");
     }
   }
 

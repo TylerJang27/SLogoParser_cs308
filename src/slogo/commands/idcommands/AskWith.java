@@ -34,12 +34,12 @@ public class AskWith implements IdCommand {
      *
      * @param cond Command representing the condition for turtles.
      * @param commandList Commands representing commands to run for specified IDs.
-     * @param consumeIDs Consumer for modifying the activeTurtles in TurtleModel.
-     * @param supplySingleID Supplier for retrieving the activeTurtle in TurtleModel.
-     * @param supplyID Supplier for retrieving the activeTurtles in TurtleModel.
-     * @param supplyMap Supplier for retrieving information on all activeTurtles in TurtleModel.
-     * @param consumeID Consumer for modifying the activeTurtle in TurtleModel.
-     * @param supplyStat Supplier for retrieving the new activeTurtle Status in TurtleModel.
+     * @param consumeIDs Consumer for modifying the activeTurtles in TurtleManager.
+     * @param supplySingleID Supplier for retrieving the activeTurtle in TurtleManager.
+     * @param supplyID Supplier for retrieving the activeTurtles in TurtleManager.
+     * @param supplyMap Supplier for retrieving information on all activeTurtles in TurtleManager.
+     * @param consumeID Consumer for modifying the activeTurtle in TurtleManager.
+     * @param supplyStat Supplier for retrieving the new activeTurtle Status in TurtleManager.
      */
     public AskWith(Command cond, List<Command> commandList, Consumer<List<Integer>> consumeIDs, Supplier<Integer> supplySingleID, Supplier<List<Integer>> supplyID, Supplier<Map<Integer, TurtleStatus>> supplyMap, Consumer<Integer> consumeID, Supplier<TurtleStatus> supplyStat) {
         condition = cond;

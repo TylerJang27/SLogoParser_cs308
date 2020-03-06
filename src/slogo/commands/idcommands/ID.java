@@ -19,7 +19,7 @@ public class ID implements IdCommand {
     /**
      * Constructor for ID. Takes 0 command arguments.
      *
-     * @param supplier Supplier for retrieving the active turtle in TurtleModel.
+     * @param supplier Supplier for retrieving the active turtle in TurtleManager.
      */
     public ID(Supplier<Integer> supplier) {
         supp = supplier;

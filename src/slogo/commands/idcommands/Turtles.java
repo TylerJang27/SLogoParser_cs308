@@ -19,7 +19,7 @@ public class Turtles implements IdCommand {
     /**
      * Constructor for Turtles. Takes 0 command arguments.
      *
-     * @param supplier Supplier for retrieving the number of created turtles in TurtleModel.
+     * @param supplier Supplier for retrieving the number of created turtles in TurtleManager.
      */
     public Turtles(Supplier<Integer> supplier) {
         supp = supplier;

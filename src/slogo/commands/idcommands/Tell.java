@@ -27,7 +27,7 @@ public class Tell implements IdCommand {
      * Constructor for Tell. Takes 1 command argument.
      *
      * @param ids Commands representing the different commands to set turtle IDs.
-     * @param consumer Consumer for modifying the activeTurtles in TurtleModel.
+     * @param consumer Consumer for modifying the activeTurtles in TurtleManager.
      * @param supplier Supplier for retrieving the new activeTurtle Status in the event of tree recursion (e.g. fd tell 2).
      */
     public Tell(List<Command> ids, Consumer<List<Integer>> consumer, Supplier<TurtleStatus> supplier) {

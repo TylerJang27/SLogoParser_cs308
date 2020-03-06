@@ -24,6 +24,7 @@ public class SetBackGround implements DisplayCommand {
 
     @Override
     public List<TurtleStatus> execute(TurtleManifest manifest) {
+        System.out.println("execute setbg cmd");
         List<TurtleStatus> ret = new ArrayList<>();
         returnVal = DisplayCommand.indexAndAddRunnable(ret, arg1, manifest, con);
         return ret;

@@ -26,7 +26,6 @@ public interface DisplayCommand extends Command {
         //TurtleStatus t = new TurtleStatus(ret.get(ret.size()-1));
         TurtleStatus t = new TurtleStatus(manifest.getActiveState());
         t.setRunnable(() -> con.accept((int)rv));
-
         ret.add(t);
         return rv;
     }

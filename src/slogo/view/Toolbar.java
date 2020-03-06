@@ -163,6 +163,7 @@ public class Toolbar extends ToolBar {
   }
 
   public void setPenColor(int i){
+    System.out.println("setPenColor");
     ObservableList<Color> colorList = penMenu.getCustomColors();
     if(colorList.size()<=0) return;
     if(i>=colorList.size()) i = colorList.size()-1;

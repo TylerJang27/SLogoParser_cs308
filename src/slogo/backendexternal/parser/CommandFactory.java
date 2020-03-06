@@ -102,7 +102,6 @@ public class CommandFactory {
       if (myMovementCommands.contains(key)) obj.addAll(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
       if (myControlCommands.keySet().contains(key)) for (int i = 0; i < myControlCommands.get(key); i++) obj.add(listCommands.pop());
 
-
       if(myRunnableCommands.contains(key)) {
         Runnable z = () -> {
           try {
@@ -116,6 +115,7 @@ public class CommandFactory {
 
 
       if(myConsumerCommands.keySet().contains(key)){
+        System.out.println(key);
         Class<?> p[] = new Class<?>[myConsumerCommands.get(key)];
         Arrays.fill(p, Integer.TYPE);
         Consumer<Integer> z = index -> {
@@ -144,8 +144,6 @@ public class CommandFactory {
 
       Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
-      for(Object o:objArray) System.out.println(o);
-      for(Class<?> o:params) System.out.println(o);
       return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
 
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -231,9 +229,11 @@ public class CommandFactory {
 
 
   private void SetBackground(int index){
+    System.out.println("setBackGround");
     myMainView.getToolBar().setBackground(index);
   }
   private void SetPenColor(int index){
+    System.out.println("setPenColoring");
     myMainView.getToolBar().setPenColor(index);
   }
   private void SetShape(int index){
@@ -250,3 +250,5 @@ public class CommandFactory {
     return i;
   }
 }
+
+

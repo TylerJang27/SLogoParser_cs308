@@ -68,6 +68,7 @@ public class TurtleView {
     Double[] pathPoints = new Double[4];
     checkClearScreen(end);
     this.myImageView.setVisible(end.getVisible());
+    if(end.hasRunnable()) end.modify();
     if (end.getBearing() != myBearing) {
       addRotationCommand(sequentialTransition, start, end);
     }

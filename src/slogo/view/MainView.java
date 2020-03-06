@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Collection;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
@@ -55,10 +54,13 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(new Insets(0));
+<<<<<<< HEAD
     defaultBackgroundColor = Color.LIGHTGRAY;
     defaultPenColor = Color.BLACK;
     defaultNumTurtles = 1;
     defaultTurtleFileName = "raphael.png";
+=======
+>>>>>>> 5dccb89bd9a14ae3a39fa6dfbff7923436187847
 
     //Generate the initial Turtle Object
     setUpTurtles(1);
@@ -70,6 +72,22 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.getChildren().addAll(myToolbar,pane,myInputFields);
     //this.setPadding(new Insets(0.0));
     this.setAlignment(Pos.TOP_LEFT);
+
+    this.pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        double x = (event.getX());
+        double y = (event.getY());
+        int i = 1;
+
+        for(ImageView temp : turtleManager.getImageViews()) {
+          System.out.println(x > temp.getLayoutX() - turtleSize/2 & x < temp.getLayoutX() + turtleSize & y > temp.getLayoutY() - turtleSize/2  & y < temp.getLayoutY() + turtleSize);
+
+          if(x > temp.getLayoutX() - turtleSize/2 & x < temp.getLayoutX() + turtleSize &
+                  y > temp.getLayoutY() - turtleSize/2  & y < temp.getLayoutY() + turtleSize) {
+            turtleManager.getTurtle(i).setIsActive(!turtleManager.getTurtle(i).getIsActive());}
+          i++;
+        } } });
   }
 
   public MainView(Color backgroundColor, Color penColor, int numTurtle, String turtleImageName, String codeFileName) {
@@ -82,6 +100,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(new Insets(0));
 
+<<<<<<< HEAD
 
     //Generate the initial Turtle Object
     setUpTurtles(numTurtle);
@@ -92,6 +111,10 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.getChildren().addAll(myToolbar,pane,myInputFields);
     //this.setPadding(new Insets(0.0));
     this.setAlignment(Pos.TOP_LEFT);
+=======
+    this.turtleStatus = new TurtleStatus(1);
+    //setUpTurtle();
+>>>>>>> 5dccb89bd9a14ae3a39fa6dfbff7923436187847
   }
 
   private void setUpPane() {
@@ -116,7 +139,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.turtle = turtleManager.getTurtle(1);
   }
 
-  private void setUpTurtle() {
+  /*private void setUpTurtle() {
     this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0, "raphael.png");
     turtle.getPenView().setMyPenColor(Color.BLACK);
     turtle.myImageView.setFitWidth(turtleSize);
@@ -125,7 +148,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     turtle.myImageView.setY(turtle.myImageView.getY() - turtle.myImageView.getFitHeight() / 2);
     turtle.myImageView.setLayoutX(turtle.getMyStartXPos());
     turtle.myImageView.setLayoutY(turtle.getMyStartYPos());
-  }
+  } */
 
   public void moveTurtle(List<TurtleStatus> ts) {
     if (!ts.isEmpty()) {

@@ -33,8 +33,11 @@ public class TurtleView {
   private boolean isActive;
   private String TURTLE_IMG_DEFAULT_PATH = "slogo/view/imagesFolder";
   private final double turtleSize = 90;
+<<<<<<< HEAD
   private String turtleUrlPath;
 
+=======
+>>>>>>> 5dccb89bd9a14ae3a39fa6dfbff7923436187847
 
   /**
    * Constructor for TurtleView object
@@ -60,79 +63,22 @@ public class TurtleView {
 
 
   public void executeState(SequentialTransition sequentialTransition, TurtleStatus start, TurtleStatus end) {
-    this.setIsActive(true);
     //SequentialTransition sequentialTransition = new SequentialTransition();
-    sequentialTransition.setNode(this.myImageView);
-    Polyline pathLine = new Polyline();
-    int index = 0;
+    if(isActive) {
+      sequentialTransition.setNode(this.myImageView);
+      Polyline pathLine = new Polyline();
+      int index = 0;
 
-    Double[] pathPoints = new Double[4];
-    checkClearScreen(end);
-    this.myImageView.setVisible(end.getVisible());
-    if (end.getBearing() != myBearing) {
-      addRotationCommand(sequentialTransition, start, end);
-    }
-
-    pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
-
-    //if (t.size() > 1) {
-
-      //sequentialTransition.play(); /** If executing one at a time, move this to a play method and have sequential as global var*/
-    //}
-
-  }
-
-  /**
-   *  Executes the command that the user enters by doing the action specified in the command
-   * @param t : Turtle status that holds command
-   */
-  public void executeState(List<TurtleStatus> t) {
-    SequentialTransition sequentialTransition = new SequentialTransition();
-    sequentialTransition.setNode(this.myImageView);
-    Polyline pathLine = new Polyline();
-
-    int index = 0;
-
-    for(int i = 0; i < t.size() - 1; i++) {
-      index = 0;
-      Double[] pathPoints = new Double[4];
-      TurtleStatus start = t.get(i);
-      TurtleStatus end = t.get(i + 1);
-      checkClearScreen(end);
-      this.myImageView.setVisible(end.getVisible());
-      if (end.getBearing() != myBearing) {
-        addRotationCommand(sequentialTransition, start, end);
-      }
-      pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
-    }
-
-    setMyEndXPos(t.get(t.size()-1).getX());
-
-    setMyEndYPos(t.get(t.size()-1).getY());
-
-
-    if (t.size() > 1) {
-      sequentialTransition.play();
-    }
-
-
-    /*
-    SequentialTransition sequentialTransition = new SequentialTransition();
-    sequentialTransition.setNode(this.myImageView);
-    Polyline pathLine = new Polyline();
-
-    int index = 0;
       Double[] pathPoints = new Double[4];
       checkClearScreen(end);
       this.myImageView.setVisible(end.getVisible());
       if (end.getBearing() != myBearing) {
         addRotationCommand(sequentialTransition, start, end);
       }
+
       pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
-      sequentialTransition.play();
 
-     */
-
+    }
   }
 
   private Polyline getTurtleTrail(SequentialTransition sequentialTransition, Polyline pathLine,
@@ -246,6 +192,8 @@ public class TurtleView {
     return myEndYPos;
   }
 
+
+  public boolean getIsActive() {return isActive;}
 
 
   /**
@@ -363,7 +311,6 @@ public class TurtleView {
     this.myImageView.setY(this.myImageView.getY() - this.myImageView.getFitHeight() / 2);
     this.myImageView.setLayoutX(this.getMyStartXPos());
     this.myImageView.setLayoutY(this.getMyStartYPos());
-
   }
 
 }

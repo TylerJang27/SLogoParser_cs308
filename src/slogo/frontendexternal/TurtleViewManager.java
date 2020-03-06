@@ -37,6 +37,7 @@ public class TurtleViewManager {
   public void execute(List<TurtleStatus> ts) {
     SequentialTransition seq = new SequentialTransition();
     for(int i = 0; i < ts.size(); i++) {
+      System.out.println("here:" + ts.get(i));
       TurtleStatus end = ts.get(i);
       int currID = end.getID();
       turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY, picFileName));

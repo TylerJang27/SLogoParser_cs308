@@ -46,7 +46,7 @@ public class FunctionFactory {
       variableValues.add(commands.pop());
     }
     //TODO: GIVE SUPPLIER AND CONSUMER
-    return new RunFunction(functionMap.get(funcName), variableValues, null, null);
+    return new RunFunction(functionMap.get(funcName), variableValues);
   }
 
   public MakeUserInstruction handleFunction(Stack<String> components){

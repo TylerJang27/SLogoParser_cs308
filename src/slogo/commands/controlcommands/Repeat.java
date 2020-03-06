@@ -1,5 +1,6 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.ControlCommand;
@@ -58,13 +59,12 @@ public class Repeat implements ControlCommand {
     /**
      * Executes the Repeat instance, looping through the specified number of times.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances produced as a result of running the loop.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        return loop.execute(ts);
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        return loop.execute(manifest);
     }
 
     /**

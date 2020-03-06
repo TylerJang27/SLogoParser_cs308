@@ -1,5 +1,6 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.ControlCommand;
@@ -40,25 +41,21 @@ public class IfElse implements ControlCommand {
      * Executes the IfElse instance, executing the trueCommandList if exprVal is not ELSE_CASE(0) and executing the
      * falseCommandList if exprVal is ELSE_CASE(0).
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances produced as a result of running the conditional.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
-        double exprVal = Command.executeAndExtractValue(conditionExpr, ts, ret);
-        ts = ret.get(ret.size() - 1);
+        double exprVal = Command.executeAndExtractValue(conditionExpr, manifest, ret);
 
         if (exprVal != ELSE_CASE) {
             for (Command c: trueCommandList) {
-                myVal = Command.executeAndExtractValue(c, ts, ret);
-                ts = ret.get(ret.size() - 1);
+                myVal = Command.executeAndExtractValue(c, manifest, ret);
             }
         } else {
             for (Command c: falseCommandList) {
-                myVal = Command.executeAndExtractValue(c, ts, ret);
-                ts = ret.get(ret.size() - 1);
+                myVal = Command.executeAndExtractValue(c, manifest, ret);
             }
         }
         return ret;

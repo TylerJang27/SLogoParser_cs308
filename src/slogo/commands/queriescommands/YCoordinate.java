@@ -1,9 +1,10 @@
 package slogo.commands.queriescommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.QueriesCommand;
 
-import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,14 +25,13 @@ public class YCoordinate implements QueriesCommand {
     /**
      * Executes the YCoordinate instance, retrieving the yCoordinate of the turtle.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        yCor = ts.getY();
-        return List.of(ts);
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        yCor = manifest.getActiveState().getY();
+        return new LinkedList<>();
     }
 
     /**

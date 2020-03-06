@@ -1,5 +1,6 @@
 package slogo.commands.displaycommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.DisplayCommand;
@@ -20,10 +21,11 @@ public class SetPenSize implements DisplayCommand {
     }
 
 
+    //TODO: TRY TO REFACTOR
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
-        ret.addAll(arg1.execute(ts));
+        ret.addAll(arg1.execute(manifest));
 
         returnVal = arg1.returnValue();
         TurtleStatus t = new TurtleStatus(ret.get(ret.size()-1));

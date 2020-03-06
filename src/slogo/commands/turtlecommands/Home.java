@@ -1,9 +1,10 @@
 package slogo.commands.turtlecommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.TurtleCommand;
 import slogo.commands.controlcommands.Constant;
-import java.util.Collection;
+
 import java.util.List;
 
 /**
@@ -23,10 +24,10 @@ public class Home implements TurtleCommand {
     }
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        List<TurtleStatus> ret =  go.execute(ts);
-        double deltaHeading = -1*ret.get(ret.size()-1).getBearing();
-        TurtleCommand.turnDeltaHeading(ret.get(ret.size()-1), ret, deltaHeading);
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        List<TurtleStatus> ret =  go.execute(manifest);
+        double deltaHeading = -1*manifest.getActiveState().getBearing();
+        TurtleCommand.turnDeltaHeading(manifest, ret, deltaHeading);
         return ret;
     }
 

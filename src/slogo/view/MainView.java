@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.event.Event;
@@ -24,6 +25,7 @@ import slogo.view.InputFields.InputFields;
 public class MainView extends VBox implements EventHandler, MainViewAPI {
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 300;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 300;
+  public static final String DATA_TYPE = "layout";
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
@@ -47,17 +49,18 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     // Get the Textfield and Toolbar in the MainView
     this.myInputFields = new InputFields(this);
     this.myToolbar = new Toolbar(this);
-    this.myToolbar.setPadding(insets);
+    this.myToolbar.setPadding(new Insets(0));
 
 
     //Generate the initial Turtle Object
-    setUpTurtle();
+    setUpTurtles(1);
 
     //Set the Pane for the IDE
     setUpPane();
 
     this.getChildren().addAll(myToolbar,pane,myInputFields);
-    this.setPadding(new Insets(10.0));
+    //this.setPadding(new Insets(0.0));
+    this.setAlignment(Pos.TOP_LEFT);
   }
 
   public MainView(Color backgroundColor, Color penColor, int numTurtle, String turtleImageName, String codeFileName) {
@@ -65,12 +68,13 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.myToolbar = new Toolbar(this);
     this.myToolbar.setPadding(insets);
 
+    this.turtleStatus = new TurtleStatus(1);
     setUpTurtle();
 
   }
 
   private void setUpPane() {
-    this.pane = new Pane(turtle.myImageView);
+    this.pane = new Pane(turtleManager.getImageViews().get(0));
     pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,
             CornerRadii.EMPTY, new Insets(0))));
 
@@ -87,6 +91,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0);
     //turtleManager.setPenView(1, Color.BLACK); /** to do: update with correct ID*/
     this.turtleManager.initializeTurtleViews(1);
+    this.turtle = turtleManager.getTurtle(1);
   }
 
   private void setUpTurtle() {
@@ -102,14 +107,15 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public void moveTurtle(List<TurtleStatus> ts) {
     pane.getChildren().clear(); // clear complete list
-    pane.getChildren().add(turtle.myImageView);
+    pane.getChildren().addAll(turtleManager.getImageViews());
+    //pane.getChildren().add(turtle.myImageView);
 
-
-    turtle.executeState(ts);
+    //turtle.executeState(ts);
+    turtleManager.execute(ts);
     this.turtleStatus = ts.get(ts.size() - 1);
 
-    List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
-//    List<Line> temp = (ArrayList) turtleManager.getMyLines();
+    //List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
+    List<Line> temp = (ArrayList) turtleManager.getMyLines();
 
 
     for(int i = 0; i < temp.size(); i++)  {
@@ -121,6 +127,24 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public TurtleView getTurtle() {
     return turtle;
+  }
+
+  public TurtleViewManager getTurtles() {
+    return turtleManager;
+  }
+
+  public void setImageViewLayouts() {
+    for(ImageView temp : turtleManager.getImageViews()) {
+      temp.setLayoutX(turtleManager.getStartX());
+      temp.setLayoutY(turtleManager.getStartY());
+      temp.setFitWidth(turtleSize);
+      temp.setFitHeight(turtleSize);
+    }
+  }
+
+  public void setPaneImageViews() {
+    for(int i = 0; i < turtleManager.getImageViews().size(); i++)
+    pane.getChildren().set(i, turtleManager.getImageViews().get(i));
   }
 
   @Override
@@ -159,6 +183,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   @Override
   public Node getStyleableNode() { return null; }
+
+  public Color getBackgroundColor() {
+    return Color.BLACK;
+    //return pane.getBackground().getC;
+  }
 
   //Public Get Methods
   public InputFields getTextFields(){return this.myInputFields;}

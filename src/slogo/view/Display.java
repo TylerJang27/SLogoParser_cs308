@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -29,11 +30,10 @@ public class Display {
 
   private TabPane tabPane = new TabPane();
   private Tab tab = new Tab("SLogo 0");
-  private VBox vBox = new VBox();
+  private VBox vBox;
 
   private List<MainView> myMainViewList;
-  private Button addTabButton;
-  private SingleSelectionModel<Tab> selectionModel;
+  private Button addTabButton, addTabFromPreferences;
   private ResourceBundle buttonBundle;
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
@@ -44,54 +44,32 @@ public class Display {
   public Display() {
 
     myMainViewList = new ArrayList<>();
-    addTabButton = new Button("Add Tab");
     buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
     myMainViewList = new ArrayList<>();
     addTabButton = new Button(buttonBundle.getString("AddTab"));
+    addTabFromPreferences = new Button(buttonBundle.getString("AddTabPreferences"));
 
     vBox = new VBox();
     vBox.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-
-    BorderStroke borderStroke = new BorderStroke(Color.DARKBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5));
-    Border border = new Border(borderStroke);
 
     myMainView = new MainView();
     tab.setGraphic(myMainView);
     tab.setClosable(false);
     tabPane.getTabs().addAll(tab);
-//<<<<<<< HEAD
-//    tabPane.setTabMaxHeight(TAB_HEIGHT);
-//    tabPane.setTabMaxWidth(TAB_WIDTH);
-//    tabPane.setTabMinHeight(TAB_HEIGHT);
-//    tabPane.setTabMinWidth(TAB_WIDTH);
-////
-////    anchorPane.setTopAnchor(addTabButton, 10.0);
-////    anchorPane.setLeftAnchor(addTabButton, 5.0);
-////
-////    anchorPane.setTopAnchor(tabPane, 40.0);
-////    anchorPane.setLeftAnchor(tabPane, 5.0);
 
-//    //anchorPane.getChildren().addAll(addTabButton, tabPane);
-//    vBox.getChildren().addAll(addTabButton, tabPane);
-//=======
+    HBox hBox = new HBox();
+    hBox.setSpacing(10.0);
+    hBox.getChildren().addAll(addTabButton, addTabFromPreferences);
 
-//    anchorPane.setTopAnchor(tabPane, 40.0);
-//    anchorPane.setLeftAnchor(tabPane, 5.0);
-
-
-    //anchorPane.getChildren().addAll(addTabButton, tabPane);
-    vBox.getChildren().addAll(addTabButton, tabPane);
+    vBox.getChildren().addAll(hBox, tabPane);
 
     tabPane.setTabMaxHeight(760);
-    tabPane.setTabMaxWidth(1040);
+    tabPane.setTabMaxWidth(1050);
     tabPane.setTabMinHeight(760);
-    tabPane.setTabMinWidth(1040);
+    tabPane.setTabMinWidth(1050);
 
-    //selectionModel = tabPane.getSelectionModel();
-
-    vBox.setAlignment(Pos.CENTER);
-    //vBox.getChildren().addAll(addTabButton,tabPane);
+    vBox.setAlignment(Pos.TOP_CENTER);
+    //addTabFromPreferences.setAlignment(Pos.TOP_LEFT);
 
     myScene = new Scene(vBox);
   }
@@ -114,6 +92,11 @@ public class Display {
   public Button getAddTabButton() {
     return addTabButton;
   }
+
+  public Button getAddTabFromPreferencesButton() {
+    return addTabFromPreferences;
+  }
+
   public void addTab() {
     tabNo++;
     MainView newMainView = new MainView();

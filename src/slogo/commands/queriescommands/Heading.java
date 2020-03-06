@@ -1,8 +1,10 @@
 package slogo.commands.queriescommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.QueriesCommand;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,14 +25,13 @@ public class Heading implements QueriesCommand {
     /**
      * Executes the Heading instance, retrieving the direction based off of ts.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        dir = ts.getBearing();
-        return List.of(ts);
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        dir = manifest.getActiveState().getBearing();
+        return new LinkedList<>();
     }
 
     /**

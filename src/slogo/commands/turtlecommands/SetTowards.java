@@ -1,12 +1,11 @@
 package slogo.commands.turtlecommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.TurtleCommand;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,19 +27,19 @@ public class SetTowards implements TurtleCommand {
 
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
-        ret.addAll(arg1.execute(ts));
-        ret.addAll(arg2.execute(ret.get(ret.size()-1)));
+        ret.addAll(arg1.execute(manifest));
+        ret.addAll(arg2.execute(manifest));
 
         double deltaX = arg1.returnValue() - ret.get(ret.size()-1).getX();
         double deltaY = arg2.returnValue() + ret.get(ret.size()-1).getY();
 
-        degreeMoved = Math.toDegrees(Math.atan((deltaX)/(deltaY))) - ret.get(ret.size()-1).getBearing();
+        degreeMoved = Math.toDegrees(Math.atan((deltaX)/(deltaY))) - manifest.getActiveState().getBearing();
         if(deltaY<0) degreeMoved+=180;
 
 
-        return (TurtleCommand.turnDeltaHeading(ret.get(ret.size()-1), ret, degreeMoved));
+        return (TurtleCommand.turnDeltaHeading(manifest, ret, degreeMoved));
     }
 
 

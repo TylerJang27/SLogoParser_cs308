@@ -1,10 +1,10 @@
 package slogo.commands.mathcommands;
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.MathCommand;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -31,15 +31,14 @@ public class NaturalLog implements MathCommand {
      * Create an empty list of turtle status, fill list with execution from the argument command
      * set return value to the natural log of the return value of the input command
      *
-     * @param ts    a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *              TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return      list of turtle status from executing the argument commands to this operation
      *              (this operation itself does not generate new turtle status)
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts){
+    public List<TurtleStatus> execute(TurtleManifest manifest){
         List<TurtleStatus> ret = new ArrayList<>();
-        ret.addAll(arg1.execute(ts));
+        ret.addAll(arg1.execute(manifest));
         returnVal = Math.log(arg1.returnValue());
         return ret;
     }

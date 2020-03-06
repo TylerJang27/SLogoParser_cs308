@@ -1,5 +1,6 @@
 package slogo.commands.idcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.IdCommand;
@@ -17,8 +18,6 @@ import java.util.function.Supplier;
  */
 public class Tell implements IdCommand {
     public static final int NUM_ARGS = 1;
-    private Consumer<List<Integer>> idConsumer;
-    private Supplier<TurtleStatus> statusSupplier;
     private List<Command> args;
 
     private double lastId;
@@ -27,35 +26,30 @@ public class Tell implements IdCommand {
      * Constructor for Tell. Takes 1 command argument.
      *
      * @param ids Commands representing the different commands to set turtle IDs.
-     * @param consumer Consumer for modifying the activeTurtles in TurtleModel.
-     * @param supplier Supplier for retrieving the new activeTurtle Status in the event of tree recursion (e.g. fd tell 2).
      */
-    public Tell(List<Command> ids, Consumer<List<Integer>> consumer, Supplier<TurtleStatus> supplier) {
+    public Tell(List<Command> ids) {
         args = ids;
         if (ids.isEmpty()) {
             args = List.of(new Constant(1));
         }
-        idConsumer = consumer;
-        statusSupplier = supplier;
     }
 
     /**
      * Executes the Tell instance, retrieving and setting the activeTurtles based on args. Also sets the last returned TurtleStatus instance to be for the new ID.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
         List<Integer> ids = new ArrayList<>();
         for (Command c: args) {
-            ids.add((int)Command.executeAndExtractValue(c, ts, ret));
+            ids.add((int)Command.executeAndExtractValue(c, manifest, ret));
         }
-        idConsumer.accept(ids);
-        lastId = ids.get(ids.size() - 1); //TODO: ACCOUNT FOR IF THESE COMMANDS MODIFY THE MAP
-        ret.add(statusSupplier.get()); //TODO: ADJUST FOR DUPLICATION?
+        manifest.setActiveTurtles(ids);
+        lastId = ids.get(ids.size() - 1);
+        ret.add(manifest.getActiveState());
         return ret;
     }
 

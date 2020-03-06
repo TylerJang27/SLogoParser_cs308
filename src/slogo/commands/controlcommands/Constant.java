@@ -1,9 +1,10 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.ControlCommand;
 
-import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -35,13 +36,12 @@ public class Constant implements ControlCommand {
     /**
      * Executes the Constant instance, per standard implementation of the interface.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        return List.of(ts);
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        return new LinkedList<>();
     }
 
     /**

@@ -128,6 +128,7 @@ public class FunctionFactory {
           commands.add(this.runFunction(current, currentCommand));
         }
         else{
+          System.out.println("fn fc call");
           commands.add(commandFactory.makeCommand(current, currentCommand, listCommands, myCommands));
         }
       }

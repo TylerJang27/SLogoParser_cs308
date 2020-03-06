@@ -108,8 +108,11 @@ public class CommandFactory {
       consumerAdd(key, obj);
       supplierAdd(key, obj);
 
+      System.out.println(key);
+
       Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
+      for(Class<?> o: params) System.out.println(o);
       return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
       throw new InvalidCommandException("Command could not be found.");

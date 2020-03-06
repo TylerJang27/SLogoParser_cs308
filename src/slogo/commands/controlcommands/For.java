@@ -36,7 +36,7 @@ public class For implements ControlCommand {
      * @param varStep   the amount by which the variable should be incremented.
      * @param commands  the Collection of commands to execute for a given loop.
      */
-    public For(Variable var, Command varStart, Command varCap, Command varStep, Collection<Command> commands) {
+    public For(Variable var, Command varStart, Command varCap, Command varStep, List<Command> commands) {
         varCounter = var;
         varMin = varStart;
         varMax = varCap;

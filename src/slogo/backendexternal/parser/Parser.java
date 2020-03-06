@@ -81,6 +81,9 @@ public class Parser {
         if (functionFactory.hasFunction(current)) {
           commands.add(functionFactory.runFunction(current, currentCommand));
         } else {
+          System.out.println(current);
+          System.out.println(currentCommand.size());
+          System.out.println(listCommands.size());
           commands.add(commandFactory.makeCommand(current, currentCommand, listCommands, myCommands));
         }
       } else if (Input.Variable.matches(current)) {
@@ -97,15 +100,14 @@ public class Parser {
       } else if(Input.ListStart.matches(current)){
         inList = false;
         listCommands.add(currentList);
+        currentCommand.clear();
 //        currentCommand.add(currentList);
       }
 
       if(inList) {
         currentList.addAll(commands);
       }
-      else{
-        currentCommand.addAll(commands);
-      }
+      currentCommand.addAll(commands);
     }
     return currentCommand;
   }

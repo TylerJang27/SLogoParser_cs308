@@ -26,7 +26,7 @@ public class InputFields extends HBox {
         userDefinitions = new UserDefinitions(300);
         statusView = new StatusView(300);
         moveArrows = new MoveArrows(100, 10);
-        this.getChildren().addAll(console.getVBox(), userDefinitions.getVBox(), moveArrows.getVBox(), statusView.getVBox());
+        this.getChildren().addAll(console.getPane(), userDefinitions.getVBox(), moveArrows.getVBox(), statusView.getVBox());
     }
 
     public void addVariableText(String text){

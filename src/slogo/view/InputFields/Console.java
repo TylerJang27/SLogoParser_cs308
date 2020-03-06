@@ -41,6 +41,7 @@ public class Console {
     box.setBackground(backing);
   }
 
+  public ScrollPane getPane(){ return pane; }
   public String getText(){
     return entry.getText();
   }
@@ -87,9 +88,7 @@ public class Console {
   private void addUneditable(String input){
     TextField current = new TextField(input);
     current.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
-    current.setMinSize(boxWidth, 200);
-    current.setMaxSize(boxWidth, 200);
-    current.setPrefSize(boxWidth, 200);
+    current.setPrefWidth(boxWidth);
     current.setStyle("-fx-text-fill: green");
     current.setOnMouseClicked(event -> onClick(current.getText()));
     box.getChildren().add(current);
@@ -98,9 +97,7 @@ public class Console {
   private void addEditable(){
     entry = new TextField();
     entry.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0, 0, 0, 20))));
-    entry.setMinSize(boxWidth, 200);
-    entry.setMaxSize(boxWidth, 200);
-    entry.setPrefSize(boxWidth, 200);
+    entry.setPrefWidth(boxWidth);
     entry.setStyle("-fx-text-fill: green");
     box.getChildren().add(entry);
   }

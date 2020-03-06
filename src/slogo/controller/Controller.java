@@ -118,8 +118,8 @@ public class Controller extends Application {
     }
   }
 
-  private void moveTurtle(Button arrow, double increment) {
-    System.out.println(arrow.getId());
+  private void moveTurtle(Button arrow, int increment) {
+    System.out.println(arrow.getId() + " " + increment);
     console.setText(arrow.getId() + " " + increment);
     sendCommand();
   }

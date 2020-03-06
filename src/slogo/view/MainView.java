@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.event.Event;
@@ -103,14 +104,15 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public void moveTurtle(List<TurtleStatus> ts) {
     pane.getChildren().clear(); // clear complete list
+    //pane.getChildren().addAll(turtleManager.getImageViews());
     pane.getChildren().add(turtle.myImageView);
 
-
     turtle.executeState(ts);
+    //turtleManager.execute(ts);
     this.turtleStatus = ts.get(ts.size() - 1);
 
     List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
-//    List<Line> temp = (ArrayList) turtleManager.getMyLines();
+    // List<Line> temp = (ArrayList) turtleManager.getMyLines();
 
 
     for(int i = 0; i < temp.size(); i++)  {
@@ -122,6 +124,23 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public TurtleView getTurtle() {
     return turtle;
+  }
+
+  public TurtleViewManager getTurtles() {
+    return turtleManager;
+  }
+
+  public void setImageViewLayouts() {
+    for(ImageView temp : turtleManager.getImageViews()) {
+      temp.setLayoutX(turtleManager.getStartX());
+      temp.setLayoutY(turtleManager.getStartY());
+      temp.setFitWidth(turtleSize);
+      temp.setFitHeight(turtleSize);
+    }
+  }
+
+  public void setPaneImageViews() {
+
   }
 
   @Override

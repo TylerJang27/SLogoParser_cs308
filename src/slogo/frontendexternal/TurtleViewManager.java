@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import slogo.backendexternal.TurtleStatus;
@@ -16,6 +17,7 @@ public class TurtleViewManager {
   private double startX;
   private double startY;
   private List<Line> penViewLines;
+  private List<ImageView> turtleImageViewList;
   private final String picFileName = "raphael";
 
   public TurtleViewManager(double x, double y) {
@@ -23,16 +25,17 @@ public class TurtleViewManager {
     startY = y;
     turtleViewMap.put(1, new TurtleView(startX, startY, "raphael.png"));
     turtleStatusMap.put(1, null);
+    turtleImageViewList = new ArrayList<ImageView>();
     penViewLines = new ArrayList<Line>();
   }
 
   public void execute(List<TurtleStatus> ts) {
     for(int i = 0; i < ts.size(); i++) {
       TurtleStatus end = ts.get(i);
-      int currID = 1; //end.getID(); /** TO DO: Update with correct method from TS */
+      int currID = end.getID();
       turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY, picFileName));
       turtleStatusMap.putIfAbsent(currID, new TurtleStatus());
-      TurtleView tempTurtle = turtleViewMap.get(currID); /** TO DO: Update with correct method from TS */
+      TurtleView tempTurtle = turtleViewMap.get(currID);
       TurtleStatus start = turtleStatusMap.get(currID);
       tempTurtle.executeState(start, end);
       turtleStatusMap.put(currID, end);
@@ -71,12 +74,33 @@ public class TurtleViewManager {
     turtleViewMap.remove(newID);
   }
 
+  public double getStartX() {
+    return startX;
+  }
+
+  public double getStartY() {
+    return startY;
+  }
+
   public void setPenView(int ID, Color color) {
     turtleViewMap.get(ID).getPenView().setMyPenColor(color);
   }
 
   public List<Line> getMyLines() {
     return penViewLines;
+  }
+
+  public List<ImageView> getImageViews() {
+    for(Map.Entry<Integer, TurtleView> temp : turtleViewMap.entrySet()) {
+      turtleImageViewList.add(temp.getValue().getMyImageView());
+    }
+    return turtleImageViewList;
+  }
+
+  public void setImageViews(ImageView newImageView) {
+    for(Map.Entry<Integer, TurtleView> temp : turtleViewMap.entrySet()) {
+      temp.getValue().setImageView(newImageView);
+    }
   }
 
 }

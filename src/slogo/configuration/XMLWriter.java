@@ -14,11 +14,12 @@ public class XMLWriter {
   private String codeFileName;
 
   private DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-  private DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
-  private Document document = documentBuilder.newDocument();
+  //private DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+  //private Document document = documentBuilder.newDocument();
 
   private static final String xmlFilePath = "data/savedfiles/";
 
+  /*
   public XMLWriter(MainView mainView) throws Exception {
     backgroundColor = mainView.getBackground();
     myGame = game;
@@ -44,6 +45,8 @@ public class XMLWriter {
     }
     getLayout();
   }
+
+   */
 
 
 

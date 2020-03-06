@@ -29,11 +29,10 @@ public class Display {
 
   private TabPane tabPane = new TabPane();
   private Tab tab = new Tab("SLogo 0");
-  private VBox vBox = new VBox();
+  private VBox vBox;
 
   private List<MainView> myMainViewList;
   private Button addTabButton;
-  private SingleSelectionModel<Tab> selectionModel;
   private ResourceBundle buttonBundle;
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
@@ -52,35 +51,11 @@ public class Display {
     vBox = new VBox();
     vBox.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-
-    BorderStroke borderStroke = new BorderStroke(Color.DARKBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5));
-    Border border = new Border(borderStroke);
-
     myMainView = new MainView();
     tab.setGraphic(myMainView);
     tab.setClosable(false);
     tabPane.getTabs().addAll(tab);
-//<<<<<<< HEAD
-//    tabPane.setTabMaxHeight(TAB_HEIGHT);
-//    tabPane.setTabMaxWidth(TAB_WIDTH);
-//    tabPane.setTabMinHeight(TAB_HEIGHT);
-//    tabPane.setTabMinWidth(TAB_WIDTH);
-////
-////    anchorPane.setTopAnchor(addTabButton, 10.0);
-////    anchorPane.setLeftAnchor(addTabButton, 5.0);
-////
-////    anchorPane.setTopAnchor(tabPane, 40.0);
-////    anchorPane.setLeftAnchor(tabPane, 5.0);
 
-//    //anchorPane.getChildren().addAll(addTabButton, tabPane);
-//    vBox.getChildren().addAll(addTabButton, tabPane);
-//=======
-
-//    anchorPane.setTopAnchor(tabPane, 40.0);
-//    anchorPane.setLeftAnchor(tabPane, 5.0);
-
-
-    //anchorPane.getChildren().addAll(addTabButton, tabPane);
     vBox.getChildren().addAll(addTabButton, tabPane);
 
     tabPane.setTabMaxHeight(760);
@@ -88,10 +63,8 @@ public class Display {
     tabPane.setTabMinHeight(760);
     tabPane.setTabMinWidth(1040);
 
-    //selectionModel = tabPane.getSelectionModel();
 
     vBox.setAlignment(Pos.CENTER);
-    //vBox.getChildren().addAll(addTabButton,tabPane);
 
     myScene = new Scene(vBox);
   }

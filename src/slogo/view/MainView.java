@@ -72,7 +72,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
           if(x > temp.getLayoutX() - turtleSize/2 & x < temp.getLayoutX() + turtleSize &
                   y > temp.getLayoutY() - turtleSize/2  & y < temp.getLayoutY() + turtleSize) {
-            turtleManager.getTurtle(i);}
+            turtleManager.getTurtle(i).setIsActive(!turtleManager.getTurtle(i).getIsActive());}
           i++;
         } } });
   }

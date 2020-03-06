@@ -1,6 +1,10 @@
 package slogo.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.animation.SequentialTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -21,9 +25,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.scene.control.*;
+//<<<<<<< HEAD
 import javax.xml.parsers.ParserConfigurationException;
 import slogo.configuration.XMLException;
 import slogo.configuration.XMLWriter;
+//=======
+import slogo.frontendexternal.TurtleView;
+//>>>>>>> bc01223582cc31514fb0bf74813f8a6807de2f38
 import slogo.view.InputFields.InputFields;
 
 /**
@@ -127,6 +135,10 @@ public class Toolbar extends ToolBar {
       myMainView.getTurtles().setImageViews(new ImageView(new Image("" + url)));
       myMainView.setImageViewLayouts();
       myMainView.setPaneImageViews();
+
+      //TODO: REMOVE THIS FAILED ATTEMPT TO CORRECT POSITIONS BELOW
+      myMainView.getTurtles().correctPositions().play();
+      myMainView.updateViewLocation();
     }
   }
 

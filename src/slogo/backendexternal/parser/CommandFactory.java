@@ -41,6 +41,9 @@ public class CommandFactory {
       if(previous.size() > 0){
         commands.add(previous.pop());
       }
+      else{
+        break;
+      }
     }
     return buildCommand(formalCommand, commands, listCommands);
   }
@@ -52,7 +55,7 @@ public class CommandFactory {
       Class<?> c = Class.forName(myCommands.get(key));
       List<Object> obj = new ArrayList<>();
 
-      for(int i = 0; i<getCount(key); i++) obj.add(commands.get(i));
+      for(int i = 0; i<getCount(key) && !commands.isEmpty(); i++) obj.add(commands.get(i));
       if(myMovementCommands.contains(key)){
         obj.add(X_MAX);
         obj.add(Y_MAX);

@@ -119,4 +119,21 @@ public class TurtleViewManager {
     }
   }
 
+  public SequentialTransition correctPositions() {
+    SequentialTransition sq = new SequentialTransition();
+    for (Integer k: turtleStatusMap.keySet()) {
+      TurtleStatus tsFinal = turtleStatusMap.get(k);
+      TurtleStatus tsAdjusted = new TurtleStatus(tsFinal.getID(), tsFinal.getX(), tsFinal.getY()-0.0001, tsFinal.getBearing(), tsFinal.getTrail(), tsFinal.getVisible(), tsFinal.getPenDown());
+      TurtleView tv = turtleViewMap.get(k);
+      tv.executeState(sq, tsAdjusted, tsFinal);
+      //TODO: REFACTOR AND CALL EXECUTE
+    }
+    return sq;
+  }
+
+
+  public TurtleStatus getTurtleStatus(int id) {
+    return turtleStatusMap.get(id);
+  }
+
 }

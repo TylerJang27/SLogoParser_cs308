@@ -3,6 +3,8 @@ package slogo.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
+
+import javafx.animation.SequentialTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
@@ -152,23 +154,26 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
       turtleManager.execute(ts);
       this.turtleStatus = ts.get(ts.size() - 1);
 
-      pane.getChildren().clear(); // clear complete list
-      pane.getChildren().addAll(turtleManager.getImageViews());
-      //pane.getChildren().add(turtle.myImageView);
+      updateViewLocation();
+    }
+  }
+
+  public void updateViewLocation() {
+    pane.getChildren().clear(); // clear complete list
+    pane.getChildren().addAll(turtleManager.getImageViews());
+    //pane.getChildren().add(turtle.myImageView);
+
+    //List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
+    List<Line> temp = (ArrayList) turtleManager.getMyLines();
 
 
-
-      //List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
-      List<Line> temp = (ArrayList) turtleManager.getMyLines();
-
-
-      for (int i = 0; i < temp.size(); i++) {
-        if (!pane.getChildren().contains(temp.get(i))) {
-          pane.getChildren().add(temp.get(i));
-        }
+    for (int i = 0; i < temp.size(); i++) {
+      if (!pane.getChildren().contains(temp.get(i))) {
+        pane.getChildren().add(temp.get(i));
       }
     }
   }
+
   public TurtleView getTurtle() {
     return turtle;
   }
@@ -178,11 +183,17 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   public void setImageViewLayouts() {
-    for(ImageView temp : turtleManager.getImageViews()) {
+    /*for(ImageView temp : turtleManager.getImageViews()) {
+      System.out.println(temp.getX() + ", " + temp.getY());
+      temp.setX(temp.getX() - temp.getFitWidth() / 2);
+      temp.setY(temp.getY() - temp.getFitHeight() / 2);
       temp.setLayoutX(turtleManager.getStartX());
       temp.setLayoutY(turtleManager.getStartY());
       temp.setFitWidth(turtleSize);
       temp.setFitHeight(turtleSize);
+    }*/
+    for (TurtleView tv: turtleManager.getTurtleViews()) {
+      tv.setUpMyImageView();
     }
   }
 

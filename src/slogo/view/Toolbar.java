@@ -1,7 +1,12 @@
 package slogo.view;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ResourceBundle;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -136,13 +141,11 @@ public class Toolbar extends ToolBar {
 
   }
 
-  /** Methods that define the function of each Button */
-  private void handleChanges(ActionEvent actionEvent) {
-
+  private void applyChanges () {
     this.myMainView.getPane().setBackground(new Background(new BackgroundFill(backgroundMenu.getValue(), CornerRadii.EMPTY, new Insets(0))));
     this.myMainView.getTurtle().getPenView().setMyPenColor(penMenu.getValue());
 
-    if(!turtleMenu.getSelectionModel().isEmpty()) {
+    if (!turtleMenu.getSelectionModel().isEmpty()) {
       myMainView.getTurtle().setImageView(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
 
       myMainView.getTurtle().myImageView.setLayoutX(myMainView.getTurtle().getMyStartXPos());
@@ -154,6 +157,11 @@ public class Toolbar extends ToolBar {
       myMainView.getTurtle().myImageView.setX(myMainView.getTurtle().myImageView.getX() - myMainView.getTurtle().myImageView.getFitWidth() / 2);
       myMainView.getTurtle().myImageView.setY(myMainView.getTurtle().myImageView.getY() - myMainView.getTurtle().myImageView.getFitHeight() / 2);
     }
+  }
+
+  /** Methods that define the function of each Button */
+  private void handleChanges(ActionEvent actionEvent) {
+    applyChanges();
   }
 
   private void handleHelp(ActionEvent actionEvent) {
@@ -181,11 +189,11 @@ public class Toolbar extends ToolBar {
     wv.getEngine().load("https://www2.cs.duke.edu/courses/spring20/compsci308/assign/03_parser/commands.php");
   }
 
-
-
-  /** Methods for useful Getters and Setters */
-
-  // Public Set Methods
-  public void setTextField(InputFields tf){this.myTextFields = tf;}
-
+  public void setBackground(int i){
+    ObservableList<Color> colorList = backgroundMenu.getCustomColors();
+    if(colorList.size()<=0) return;
+    if(i>=colorList.size()) i = colorList.size()-1;
+    backgroundMenu.setValue(colorList.get(i));
+    applyChanges();
+  }
 }

@@ -13,7 +13,6 @@ import javafx.scene.shape.Line;
 import slogo.backendexternal.TurtleStatus;
 
 public class TurtleViewManager {
-  private PenView penView;
   private int currentTurtleId;
   private Map<Integer, TurtleView> turtleViewMap;
   private Map<Integer, TurtleStatus> turtleStatusMap;
@@ -21,14 +20,15 @@ public class TurtleViewManager {
   private double startY;
   private List<Line> penViewLines;
   private List<ImageView> turtleImageViewList;
-  private final String picFileName = "raphael";
+  private final String turtlePicFileName;
 
-  public TurtleViewManager(double x, double y) {
+  public TurtleViewManager(double x, double y, String picFileName) {
     startX = x;
     startY = y;
+    turtlePicFileName = picFileName;
     turtleViewMap = new HashMap<Integer, TurtleView>();
     turtleStatusMap = new HashMap<Integer, TurtleStatus>();
-    turtleViewMap.put(1, new TurtleView(startX, startY, "raphael.png"));
+    turtleViewMap.put(1, new TurtleView(startX, startY, picFileName));
     //turtleStatusMap.put(1, new TurtleStatus());
     turtleImageViewList = new ArrayList<ImageView>();
     penViewLines = new ArrayList<Line>();
@@ -39,7 +39,7 @@ public class TurtleViewManager {
     for(int i = 0; i < ts.size(); i++) {
       TurtleStatus end = ts.get(i);
       int currID = end.getID();
-      turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY, picFileName));
+      turtleViewMap.putIfAbsent(currID, new TurtleView(startX, startY, turtlePicFileName));
       turtleStatusMap.putIfAbsent(currID, new TurtleStatus(currID));
       TurtleView tempTurtle = turtleViewMap.get(currID);
       TurtleStatus start = turtleStatusMap.get(currID);
@@ -55,7 +55,7 @@ public class TurtleViewManager {
   /** Update with correct IDs */
   public void initializeTurtleViews(int numTurtles) {
     for(int i = 1; i <= numTurtles; i++) {
-      turtleViewMap.put(i, new TurtleView(startX, startY, picFileName));
+      turtleViewMap.put(i, new TurtleView(startX, startY, turtlePicFileName));
       turtleStatusMap.putIfAbsent(i, new TurtleStatus(i));
     }
   }
@@ -73,7 +73,7 @@ public class TurtleViewManager {
 
 
   public void addTurtle(int newID) {
-    turtleViewMap.put(newID, new TurtleView(startX, startY, picFileName));
+    turtleViewMap.put(newID, new TurtleView(startX, startY, turtlePicFileName));
   }
 
   public void removeTurtle(int newID) {
@@ -103,6 +103,7 @@ public class TurtleViewManager {
   }
 
   public List<ImageView> getImageViews() {
+    turtleImageViewList.clear();
     for(Map.Entry<Integer, TurtleView> temp : turtleViewMap.entrySet()) {
       if(!turtleImageViewList.contains(temp.getValue().getMyImageView())) {
         turtleImageViewList.add(temp.getValue().getMyImageView());

@@ -84,20 +84,14 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
     //Generate the initial Turtle Object
-    setUpTurtles(1);
+    setUpTurtles(numTurtle);
 
     //Set the Pane for the IDE
     setUpPane();
 
-<<<<<<< HEAD
     this.getChildren().addAll(myToolbar,pane,myInputFields);
     //this.setPadding(new Insets(0.0));
     this.setAlignment(Pos.TOP_LEFT);
-
-=======
-    setUpTurtle();
-    this.turtleStatus = new TurtleStatus(1);
->>>>>>> 2cde14e31b8f97bb0b219f48119824cc6fe72803
   }
 
   private void setUpPane() {
@@ -115,7 +109,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   private void setUpTurtles(int numTurtles) {
-    this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0);
+    this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0, defaultTurtleFileName);
     this.turtleManager.setAllPenViewColors(defaultPenColor);
     //turtleManager.setPenView(1, Color.BLACK); /** to do: update with correct ID*/
     this.turtleManager.initializeTurtleViews(numTurtles);
@@ -172,8 +166,9 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   public void setPaneImageViews() {
-    for(int i = 0; i < turtleManager.getImageViews().size(); i++)
-    pane.getChildren().set(i, turtleManager.getImageViews().get(i));
+    for(int i = 0; i < turtleManager.getImageViews().size(); i++) {
+      pane.getChildren().set(i, turtleManager.getImageViews().get(i));
+    }
   }
 
   @Override

@@ -116,7 +116,8 @@ public class Toolbar extends ToolBar {
     this.myMainView.getTurtle().getPenView().setMyPenColor(penMenu.getValue());
 
     if (!turtleMenu.getSelectionModel().isEmpty()) {
-      myMainView.getTurtles().setImageViews(new ImageView(new Image("/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png")));
+      String url = "/slogo/view/imagesFolder/" + turtleMenu.getValue() + ".png";
+      myMainView.getTurtles().setImageViews(new ImageView(new Image("" + url)));
       myMainView.setImageViewLayouts();
       myMainView.setPaneImageViews();
     }

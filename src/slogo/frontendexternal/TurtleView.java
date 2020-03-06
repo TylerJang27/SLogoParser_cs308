@@ -31,10 +31,9 @@ public class TurtleView {
   private boolean isVisible;
   private boolean clearScreen;
   private boolean isActive;
-  private String TURTLE_IMG = "view/imagesFolder/turtle.png";
+  private String TURTLE_IMG_DEFAULT_PATH = "slogo/view/imagesFolder";
   private final double turtleSize = 90;
-
-
+  private String turtleUrlPath;
 
 
   /**
@@ -52,7 +51,8 @@ public class TurtleView {
     isActive = true;
 
     penView = new PenView();
-    myImage = new Image("/slogo/view/imagesFolder/raphael.png");
+    turtleUrlPath = TURTLE_IMG_DEFAULT_PATH + "/" + picFileName;
+    myImage = new Image("" + turtleUrlPath);
     myImageView =  new ImageView(myImage);
     setUpMyImageView();
     //System.out.println(myImageView);

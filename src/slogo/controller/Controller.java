@@ -43,9 +43,10 @@ public class Controller extends Application {
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
   private Button addTabButton;
-  private Map<MainView, TurtleModel> mainViewTurtleModelMap;
+  private Map<Tab, TurtleModel> tabTurtleModelMap;
   private List<Tab> tabs;
   private Translator translator;
+  private Tab currentTab;
 
   /**
    * Start of the program.
@@ -60,10 +61,10 @@ public class Controller extends Application {
     myParser.setDisplay(myDisplay);
     errorHandler = new ErrorHandler();
     translator = new Translator();
-    mainViewTurtleModelMap = new HashMap<MainView, TurtleModel>();
+    tabTurtleModelMap = new HashMap<Tab, TurtleModel>();
     setTabs();
     //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
-    myModel = new TurtleModel();
+    myModel = getModel(tabs.get(0));
     setListeners(tabs.get(0));
     addTabButton = myDisplay.getAddTabButton();
     addTabButton.setOnAction(event -> addTab());
@@ -89,8 +90,14 @@ public class Controller extends Application {
     setTabs();
   }
 
+  private TurtleModel getModel(Tab tab) {
+    tabTurtleModelMap.putIfAbsent(tab, new TurtleModel());
+    return tabTurtleModelMap.get(tab);
+  }
+
   private void setListeners(Tab tab) {
     currentStatus = INITIAL_STATUS; //TODO GET CURRENT STATUS FROM FRONT END
+    myModel = getModel(tab);
     console = myDisplay.getMainView().getTextFields().getConsole();
     userDefinitions = myDisplay.getMainView().getTextFields().getUserDefinitions();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();

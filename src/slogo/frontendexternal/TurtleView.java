@@ -6,6 +6,7 @@ import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
 import slogo.backendexternal.TurtleStatus;
@@ -31,6 +32,8 @@ public class TurtleView {
   private boolean clearScreen;
   private boolean isActive;
   private String TURTLE_IMG = "view/imagesFolder/turtle.png";
+  private final double turtleSize = 77;
+
 
 
 
@@ -38,7 +41,7 @@ public class TurtleView {
    * Constructor for TurtleView object
    */
 
-  public TurtleView(double x, double y) {
+  public TurtleView(double x, double y, String picFileName) {
     myStartXPos = x;
     myStartYPos = y;
     myEndXPos = 0;
@@ -49,10 +52,32 @@ public class TurtleView {
     isActive = true;
 
     penView = new PenView();
-    myImage = new Image("/slogo/view/imagesFolder/raphael.png");
+    myImage = new Image("/slogo/view/imagesFolder/" + picFileName);
     myImageView =  new ImageView(myImage);
   }
 
+
+  public void executeState(TurtleStatus start, TurtleStatus end) {
+    this.setIsActive(true);
+    SequentialTransition sequentialTransition = new SequentialTransition();
+    sequentialTransition.setNode(this.myImageView);
+    Polyline pathLine = new Polyline();
+    int index = 0;
+
+    Double[] pathPoints = new Double[4];
+    checkClearScreen(end);
+    this.myImageView.setVisible(end.getVisible());
+    if (end.getBearing() != myBearing) {
+      addRotationCommand(sequentialTransition, start, end);
+    }
+
+    pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
+
+    //if (t.size() > 1) {
+      sequentialTransition.play(); /** If executing one at a time, move this to a play method and have sequential as global var*/
+    //}
+
+  }
 
   /**
    *  Executes the command that the user enters by doing the action specified in the command
@@ -169,7 +194,8 @@ public class TurtleView {
   }
 
   private void addPenViewLines(TurtleStatus start, TurtleStatus end) {
-      if(end.getPenDown()) {
+    this.penView.setPenDown(end.getPenDown());
+    if(end.getPenDown()) {
         this.penView.updateMyLines(this.getMyStartXPos() + start.getX(), this.getMyStartYPos() + start.getY(), this.getMyStartXPos() + end.getX(), this.getMyStartYPos() + end.getY());
       }
   }
@@ -321,6 +347,25 @@ public class TurtleView {
    */
   public void setIsVisible(boolean visible) {
     isVisible = visible;
+  }
+
+  /**
+   * sets bearing of turtle
+   * @param active : new bearing of turtle
+   */
+  public void setIsActive(boolean active) {
+    isActive = active;
+  }
+
+  public void setUpMyImageView() {
+    this.getPenView().setMyPenColor(Color.BLACK);
+    this.myImageView.setFitWidth(turtleSize);
+    this.myImageView.setFitHeight(turtleSize);
+    this.myImageView.setX(this.myImageView.getX() - this.myImageView.getFitWidth() / 2);
+    this.myImageView.setY(this.myImageView.getY() - this.myImageView.getFitHeight() / 2);
+    this.myImageView.setLayoutX(this.getMyStartXPos());
+    this.myImageView.setLayoutY(this.getMyStartYPos());
+
   }
 
 }

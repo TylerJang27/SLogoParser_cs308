@@ -17,7 +17,6 @@ public class CommandFactory {
   private static final double Y_MAX = 250;
 
   private String currentMode;
-  //private CommandCounter myCounts;
   private Map<String, String> myCommands = new HashMap<>();
   private List<String> myMovementCommands;
   private Map<String, Integer> counts = new HashMap<>();
@@ -143,7 +142,6 @@ public class CommandFactory {
   private int getCount(String command){
     return counts.get(command);
   }
-
 
   private Class<?>[] findParameter(Object[] objArray){
     Class<?> params[] = new Class[objArray.length];

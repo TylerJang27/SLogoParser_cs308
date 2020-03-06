@@ -164,6 +164,8 @@ public class Toolbar extends ToolBar {
 
   public void setPenColor(int i){
     ObservableList<Color> colorList = penMenu.getCustomColors();
+    if(colorList.size()<=0) return;
+    if(i>=colorList.size()) i = colorList.size()-1;
     penMenu.setValue(colorList.get(i));
     applyChanges();
   }
@@ -179,7 +181,9 @@ public class Toolbar extends ToolBar {
 
   public ComboBox getLanguageBox() {return languageMenu; }
 
-  public int getPenColor() { return backgroundMenu.getCustomColors().indexOf(backgroundMenu.getValue()); }
+  public int getPenColor() {
+    return backgroundMenu.getCustomColors().indexOf(backgroundMenu.getValue());
+  }
 
   public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}
 

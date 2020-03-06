@@ -128,10 +128,17 @@ public class CommandFactory {
         obj.add(z);
       }
 
-//      if(mySupplierCommands.contains(key)) {
-//        Supplier<Integer> z = ()->this.getClass().getDeclaredMethod(key);
-//        obj.add(z);
-//      }
+      if(mySupplierCommands.contains(key)) {
+        Supplier<Integer> z = ()-> {
+          try {
+            return (Integer) this.getClass().getDeclaredMethod(key).invoke(this);
+          } catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
+            System.out.println("????");
+            throw new InvalidCommandException("Command could not be found.");
+          }
+        };
+        obj.add(z);
+      }
 
 
       Object[] objArray = obj.toArray();
@@ -224,5 +231,21 @@ public class CommandFactory {
 
   private void SetBackground(int index){
     myMainView.getToolBar().setBackground(index);
+  }
+  private void SetPenColor(int index){
+    myMainView.getToolBar().setPenColor(index);
+  }
+  private void SetShape(int index){
+    myMainView.getToolBar().setShape(index);
+  }
+  private void SetPenSize(int index){
+    //myMainView.getToolBar().setShape(index);
+  }
+
+  private int GetPenColor(){
+    System.out.println("getpencolor");
+    int i = myMainView.getToolBar().getPenColor();
+    System.out.println(i);
+    return i;
   }
 }

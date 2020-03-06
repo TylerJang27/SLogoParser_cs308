@@ -1,5 +1,6 @@
 package slogo.commands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 
 import java.util.List;
@@ -23,11 +24,10 @@ public interface Command {
     /**
      * Executes a Command, updating variables, control logic, computation, or turtle movement (as stored in TurtleStatus instances).
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return a List of TurtleStatus instances, given by the execution of this and any subsequent commands.
      */
-    public List<TurtleStatus> execute(TurtleStatus ts);
+    public List<TurtleStatus> execute(TurtleManifest manifest);
 
     /**
      * Retrieves the value returned by a Command's execution, calculated during the execute() process.
@@ -50,13 +50,12 @@ public interface Command {
      * Adds the output of the commands' execution to a List of TurtleStatus instances, and returns the value of command.
      *
      * @param command   the command to execute (along with any related subsequent commands).
-     * @param ts        the TurtleStatus instance upon which to base the execution of command if ret is empty.
+     * @param manifest  a TurtleManifest containing information about all the turtles
      * @param ret       the List of TurtleStatus instances which includes all outputs of previously executed commands.
      * @return          a double for the value of command's returnValue() output after execution.
      */
-    static double executeAndExtractValue(Command command, TurtleStatus ts, List<TurtleStatus> ret) {
-        TurtleStatus currentStatus = (ret.isEmpty()) ? ts : ret.get(ret.size()-1);
-        ret.addAll(command.execute(currentStatus));
+    static double executeAndExtractValue(Command command, TurtleManifest manifest, List<TurtleStatus> ret) {
+        ret.addAll(command.execute(manifest));
         return command.returnValue();
     }
 }

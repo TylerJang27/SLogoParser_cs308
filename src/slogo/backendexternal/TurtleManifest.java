@@ -13,10 +13,22 @@ public class TurtleManifest {
     Integer activeTurtle;
 
     /**
-     * Constructor for TurtleManifest, initializing its availableTurtles and activeTurtles fields
+     * Default Constructor for TurtleManifest, initializing its availableTurtles and activeTurtles fields
      */
     public TurtleManifest() {
         initialize();
+    }
+
+    /**
+     * Constructor for TurtleManifest that creates a new TurtleManifest based on the available turtles and states in tm.
+     *
+     * @param tm TurtleManifest to base TurtleManifest upon.
+     */
+    public TurtleManifest(TurtleManifest tm) {
+        this();
+        for (Integer id: tm.getAvailableTurtles()) {
+            updateTurtleState(id, tm.getTurtleState(id));
+        }
     }
 
     /**
@@ -40,7 +52,8 @@ public class TurtleManifest {
         for (Integer k: activeTurtles) {
             initializeNewTurtle(k);
         }
-        makeActiveTurtle(activeTurtles.get(activeTurtles.size() - 1));
+        //makeActiveTurtle(activeTurtles.get(activeTurtles.size() - 1));
+        makeActiveTurtle(activeTurtles.get(0));
     }
 
     /**
@@ -107,8 +120,17 @@ public class TurtleManifest {
      *
      * @return a Map of IDs to TurtleStatuses
      */
-    public Collection<Integer> getAvailableTurtles() {
-        return Collections.unmodifiableSet(availableTurtles.keySet());
+    public List<Integer> getAvailableTurtles() {
+        return List.copyOf(availableTurtles.keySet());
+    }
+
+    /**
+     * Returns the state of the active turtle.
+     *
+     * @return the TurtleStatus instance corresponding to getActiveTurtle()
+     */
+    public TurtleStatus getActiveState() {
+        return getTurtleState(getActiveTurtle());
     }
 
     /**
@@ -119,5 +141,14 @@ public class TurtleManifest {
      */
     public void updateTurtleState(Integer k, TurtleStatus ts) {
         availableTurtles.put(k, ts);
+    }
+
+    /**
+     * Updates the TurtleStatus in availableTurtles to account for TurtleStatus updates
+     *
+     * @param ts the TurtleStatus corresponding to the most recent status
+     */
+    public void updateTurtleState(TurtleStatus ts) {
+        updateTurtleState(ts.getID(), ts);
     }
 }

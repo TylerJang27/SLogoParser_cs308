@@ -1,9 +1,9 @@
 package slogo.commands.turtlecommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.TurtleCommand;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,10 +24,11 @@ public class ClearScreen implements TurtleCommand {
         //need to keep in mind sequential order of things
     }
 
+    //TODO: MAKE SURE TO DO THE NEW TURTLE MANAGER IMPLEMENTATION
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        List<TurtleStatus> ret = go.execute(ts);
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        List<TurtleStatus> ret = go.execute(manifest);
         TurtleStatus last = ret.get(ret.size()-1);
         TurtleStatus next = new TurtleStatus(last.getID(), last.getX(), last.getY(), 0.0, false, last.getVisible(), last.getPenDown());
         next.setClear();

@@ -1,11 +1,10 @@
 package slogo.commands.turtlecommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.TurtleCommand;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,9 +19,9 @@ public class HideTurtle implements TurtleCommand {
     public HideTurtle() {}
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
-        ret.add(ts);
+        TurtleStatus ts = manifest.getActiveState();
         ret.add(new TurtleStatus(ts.getID(), ts.getX(), ts.getY(), ts.getBearing(), true, false, ts.getPenDown()));
         return ret;
     }

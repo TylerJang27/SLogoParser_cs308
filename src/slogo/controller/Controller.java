@@ -120,7 +120,7 @@ public class Controller extends Application {
       myParser.parseLine(console.getText());
       List<Command> toSend = myParser.sendCommands();
       List<TurtleStatus> statuses = myModel.executeCommands(toSend);
-      if(statuses.size() > 1){
+      if(statuses.size() > 0){
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);
       }
@@ -130,6 +130,7 @@ public class Controller extends Application {
       displayQueries();
     }
     catch(Exception e){
+      e.printStackTrace();
       console.addError(errorHandler.getErrorMessage(e.getMessage(), myParser.getCommands()));
       console.getEntry().setOnKeyPressed(key -> handlePrompt(key.getCode()));
     }

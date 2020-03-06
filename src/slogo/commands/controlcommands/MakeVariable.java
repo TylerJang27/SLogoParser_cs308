@@ -1,12 +1,11 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
-import slogo.backendexternal.parser.Parser;
 import slogo.commands.Command;
 import slogo.commands.ControlCommand;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,7 +29,6 @@ public class MakeVariable implements ControlCommand {
      * @param var   the variable to be adjusted.
      * @param value the new value for the variable.
      */
-    //TODO Dennis: PLEASE CHECK IN THE PARSER TO ENSURE THAT arg1 CONTAINS A VARIABLE INSTANCE
     public MakeVariable(Variable var, Command value) {
         varHolder = var;
         expr = value;
@@ -39,14 +37,13 @@ public class MakeVariable implements ControlCommand {
     /**
      * Executes the MakeVariable, modifying the variable's value.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances, containing any statuses resulting from the execution of subsequent commands.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
-        ret.addAll(expr.execute(ts));
+        ret.addAll(expr.execute(manifest));
         val = expr.returnValue();
         varHolder.setVal(val);
         return ret;
@@ -60,15 +57,5 @@ public class MakeVariable implements ControlCommand {
     @Override
     public double returnValue() {
         return val;
-    }
-
-    /**
-     * Retrieves the Variable instance for this Command.
-     *
-     * @return varHolder.
-     */
-    //TODO: Remove if possible
-    public Variable getVarHolder() {
-        return varHolder;
     }
 }

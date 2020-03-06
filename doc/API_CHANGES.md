@@ -218,7 +218,7 @@ The goal of the external API on the backend will be to communicate with the fron
     - TurtleStatus getTurtleState(Integer k) *[ADDED]*
     
     Retrieves the TurtleStatus instance associated with the specified turtle.
-    - Set<Integer> getAvailableTurtles() *[ADDED]*
+    - List<Integer> getAvailableTurtles() *[ADDED]*
     
     Retrieves the IDs associated with all the turtles that have been created.
     -void updateTurtleState(Integer id, TurtleStatus ts) *[ADDED]*

@@ -1,12 +1,10 @@
 package slogo.commands.turtlecommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.TurtleCommand;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,15 +34,16 @@ public class SetPosition implements TurtleCommand {
 
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        List<TurtleStatus> ret = turn.execute(ts);
-        double deltaX = arg1.returnValue() - ret.get(ret.size() - 1).getX();
-        double deltaY = -1*arg2.returnValue() - ret.get(ret.size() - 1).getY();
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        List<TurtleStatus> ret = turn.execute(manifest);
+        double deltaX = arg1.returnValue() - manifest.getActiveState().getX();
+        double deltaY = -1*arg2.returnValue() - manifest.getActiveState().getY();
         if(outOfBounds(arg1.returnValue(), arg2.returnValue())) {
-            TurtleCommand.move(ret.get(ret.size() - 1), ret, deltaX, deltaY, xMax, yMax, mode);
+            TurtleCommand.move(manifest, ret, deltaX, deltaY, xMax, yMax, mode);
         }
         else{
-            TurtleCommand.moveDelta(ret.get(ret.size() - 1), ret, deltaX, deltaY);
+            TurtleCommand.moveDelta(manifest.getActiveState(), ret, deltaX, deltaY);
+            manifest.updateTurtleState(ret.get(ret.size()-1));
         }
         return ret;
     }

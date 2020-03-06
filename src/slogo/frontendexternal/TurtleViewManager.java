@@ -2,6 +2,7 @@ package slogo.frontendexternal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.scene.image.ImageView;
@@ -23,8 +24,10 @@ public class TurtleViewManager {
   public TurtleViewManager(double x, double y) {
     startX = x;
     startY = y;
+    turtleViewMap = new HashMap<Integer, TurtleView>();
+    turtleStatusMap = new HashMap<Integer, TurtleStatus>();
     turtleViewMap.put(1, new TurtleView(startX, startY, "raphael.png"));
-    turtleStatusMap.put(1, null);
+    //turtleStatusMap.put(1, new TurtleStatus());
     turtleImageViewList = new ArrayList<ImageView>();
     penViewLines = new ArrayList<Line>();
   }
@@ -92,7 +95,9 @@ public class TurtleViewManager {
 
   public List<ImageView> getImageViews() {
     for(Map.Entry<Integer, TurtleView> temp : turtleViewMap.entrySet()) {
-      turtleImageViewList.add(temp.getValue().getMyImageView());
+      if(!turtleImageViewList.contains(temp.getValue().getMyImageView())) {
+        turtleImageViewList.add(temp.getValue().getMyImageView());
+      }
     }
     return turtleImageViewList;
   }

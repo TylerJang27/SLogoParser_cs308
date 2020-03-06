@@ -53,7 +53,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
 
     //Generate the initial Turtle Object
-    setUpTurtle();
+    setUpTurtles(1);
 
     //Set the Pane for the IDE
     setUpPane();
@@ -72,7 +72,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   private void setUpPane() {
-    this.pane = new Pane(turtle.myImageView);
+    this.pane = new Pane(turtleManager.getImageViews().get(0));
     pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,
             CornerRadii.EMPTY, new Insets(0))));
 
@@ -104,15 +104,15 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public void moveTurtle(List<TurtleStatus> ts) {
     pane.getChildren().clear(); // clear complete list
-    //pane.getChildren().addAll(turtleManager.getImageViews());
-    pane.getChildren().add(turtle.myImageView);
+    pane.getChildren().addAll(turtleManager.getImageViews());
+    //pane.getChildren().add(turtle.myImageView);
 
-    turtle.executeState(ts);
-    //turtleManager.execute(ts);
+    //turtle.executeState(ts);
+    turtleManager.execute(ts);
     this.turtleStatus = ts.get(ts.size() - 1);
 
-    List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
-    // List<Line> temp = (ArrayList) turtleManager.getMyLines();
+    //List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
+    List<Line> temp = (ArrayList) turtleManager.getMyLines();
 
 
     for(int i = 0; i < temp.size(); i++)  {

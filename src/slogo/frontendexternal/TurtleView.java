@@ -52,8 +52,9 @@ public class TurtleView {
     isActive = true;
 
     penView = new PenView();
-    myImage = new Image("/slogo/view/imagesFolder/" + picFileName);
+    myImage = new Image("/slogo/view/imagesFolder/raphael.png");
     myImageView =  new ImageView(myImage);
+    //System.out.println(myImageView);
   }
 
 

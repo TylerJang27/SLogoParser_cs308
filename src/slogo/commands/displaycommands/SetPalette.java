@@ -1,5 +1,6 @@
 package slogo.commands.displaycommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.DisplayCommand;
@@ -27,15 +28,15 @@ public class SetPalette implements DisplayCommand {
 
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
-        ret.addAll(arg1.execute(ts));
+        ret.addAll(arg1.execute(manifest));
         returnVal = arg1.returnValue();
 
 
-        ret.addAll(arg2.execute(ts));
-        ret.addAll(arg3.execute(ts));
-        ret.addAll(arg4.execute(ts));
+        ret.addAll(arg2.execute(manifest));
+        ret.addAll(arg3.execute(manifest));
+        ret.addAll(arg4.execute(manifest));
 
         TurtleStatus t = new TurtleStatus(ret.get(ret.size()-1));
         t.setRunnable(() -> con.accept(new int[]{(int)arg1.returnValue(), (int)arg2.returnValue(), (int)arg3.returnValue(), (int)arg4.returnValue()}));

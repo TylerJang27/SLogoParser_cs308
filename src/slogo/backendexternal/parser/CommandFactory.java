@@ -75,16 +75,27 @@ public class CommandFactory {
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
+    int count = getCount(formalCommand);
+
+    if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
+    
     System.out.println(formalCommand);
     System.out.println("size:" + (previous.size()+listCommands.size()));
+    
     int count = getCount(formalCommand);
+    
     System.out.println(count);
+    
     if(previous.size()+listCommands.size() < count){
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
+    
     while(commands.size() < count){
       if(previous.size() > 0){
         commands.add(previous.pop());
+      }
+      else{
+        break;
       }
     }
     return buildCommand(formalCommand, commands, listCommands);
@@ -97,6 +108,12 @@ public class CommandFactory {
     try {
       List<Object> obj = new ArrayList<>();
 
+      for(int i = 0; i<getCount(key) && !commands.isEmpty(); i++) obj.add(commands.get(i));
+      if(myMovementCommands.contains(key)){
+        obj.add(X_MAX);
+        obj.add(Y_MAX);
+        obj.add(currentMode);
+        
       for (int i = 0; i < getCount(key); i++) obj.add(commands.get(i));
       if (myMovementCommands.contains(key)) obj.addAll(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
       if (myControlCommands.keySet().contains(key)) for (int i = 0; i < myControlCommands.get(key); i++) obj.add(listCommands.pop());
@@ -127,6 +144,21 @@ public class CommandFactory {
         };
         obj.add(z);
       }
+      if(key.equals("IfElse")) obj.add(listCommands.pop());
+
+      if (key.equals("Tell")) {
+        if (listCommands.isEmpty()) {
+          System.out.println(commands.get(0));
+          obj.clear();
+          obj.add(List.of(commands.get(0)));
+        } else {
+          obj.add(listCommands.pop());
+        }
+      }
+
+
+      Object[] objArray = obj.toArray();
+
 
 //      if(mySupplierCommands.contains(key)) {
 //        Supplier<Integer> z = ()->this.getClass().getDeclaredMethod(key);
@@ -136,6 +168,9 @@ public class CommandFactory {
 
       Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
+      return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
+    } catch (InvalidCommandException | NoSuchMethodException | ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+      throw new InvalidCommandException(e, "Command could not be found.");
       for(Object o:objArray) System.out.println(o);
       for(Class<?> o:params) System.out.println(o);
       return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);

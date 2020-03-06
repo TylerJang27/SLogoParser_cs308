@@ -1,5 +1,6 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.ControlCommand;
@@ -69,16 +70,14 @@ public class Function implements ControlCommand {
     /**
      * Executes the Function, including its Collection of Command instances. This requires that another Command (typically RunFunction) set its variable values.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances produced as a result of running the Function.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
         for (Command c: myCommands) {
-            myVal = Command.executeAndExtractValue(c, ts, ret);
-            ts = ret.get(ret.size() - 1);
+            myVal = Command.executeAndExtractValue(c, manifest, ret);
         }
         return ret;
     }

@@ -42,16 +42,24 @@ public class XMLReader {
   public MainView getMainView(String fname) {
     File dataFile = new File(fname);
     Element root = getRootElement(dataFile);
+    if(! isValidFile(root, MainView.DATA_TYPE)) {
+      throw new XMLException(ERROR_MESSAGE, MainView.DATA_TYPE);
+    }
     readBasic(root);
-    return new MainView();
+    return new MainView(backgroundColor, penColor, numTurtles, turtleImageName, codeFileName);
   }
 
   private void readBasic(Element root) {
-    backgroundColor = Color.web(getTextValue(root, "background"));
-    backgroundColor = Color.web(getTextValue(root, "pen"));
-    numTurtles = Integer.parseInt(getTextValue(root, "numTurtles"));
-    turtleImageName = getTextValue(root, "turtleName");
-    codeFileName = getTextValue(root, "fileName");
+    try {
+      backgroundColor = Color.web(getTextValue(root, "background"));
+      penColor = Color.web(getTextValue(root, "pen"));
+      numTurtles = Integer.parseInt(getTextValue(root, "numTurtles"));
+      turtleImageName = getTextValue(root, "turtleName") + ".png";
+      codeFileName = getTextValue(root, "fileName");
+    }
+    catch (NumberFormatException e) {
+      throw new XMLException(INCORRECT_DATATYPE, MainView.DATA_TYPE);
+    }
   }
 
   private Element getRootElement (File xmlFile) {
@@ -61,7 +69,7 @@ public class XMLReader {
       return xmlDocument.getDocumentElement();
     }
     catch (SAXException | IOException e) {
-      return null; //fix throw new XMLException(e);
+      throw new XMLException(e);
     }
   }
 
@@ -71,7 +79,7 @@ public class XMLReader {
       return nodeList.item(0).getTextContent();
     }
     else {
-      return null; //throw new XMLException(CORRUPTED_FIELD + ": " + tagName, Game.DATA_TYPE);
+      throw new XMLException(CORRUPTED_FIELD + ": " + tagName, MainView.DATA_TYPE);
     }
   }
 
@@ -89,7 +97,7 @@ public class XMLReader {
       return DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
     catch (ParserConfigurationException e) {
-      return null;//throw new Exception(e);
+      throw new XMLException(e);
     }
   }
 }

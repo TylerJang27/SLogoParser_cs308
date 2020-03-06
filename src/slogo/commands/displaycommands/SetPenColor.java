@@ -1,5 +1,6 @@
 package slogo.commands.displaycommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.DisplayCommand;
@@ -21,9 +22,10 @@ public class SetPenColor implements DisplayCommand {
 
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
-        returnVal = DisplayCommand.indexAndAddRunnable(ret, arg1, ts, con);
+        //TODO: BUG: NEED TO UPDATE IN THE BACKEND
+        returnVal = DisplayCommand.indexAndAddRunnable(ret, arg1, manifest, con);
         return ret;
     }
 

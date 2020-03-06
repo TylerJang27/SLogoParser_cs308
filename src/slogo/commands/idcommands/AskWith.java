@@ -1,5 +1,6 @@
 package slogo.commands.idcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.IdCommand;
@@ -18,12 +19,6 @@ import java.util.function.Supplier;
  */
 public class AskWith implements IdCommand {
     public static final int NUM_ARGS = 2;
-    private Consumer<List<Integer>> idConsumer;
-    private Supplier<Integer> singleIdSupplier;
-    private Supplier<List<Integer>> idSupplier;
-    private Supplier<Map<Integer, TurtleStatus>> mapSupplier;
-    private Consumer<Integer> idSetter;
-    private Supplier<TurtleStatus> statusSupplier;
     private Command condition;
     private List<Command> commands;
 
@@ -34,48 +29,46 @@ public class AskWith implements IdCommand {
      *
      * @param cond Command representing the condition for turtles.
      * @param commandList Commands representing commands to run for specified IDs.
-     * @param consumeIDs Consumer for modifying the activeTurtles in TurtleModel.
-     * @param supplySingleID Supplier for retrieving the activeTurtle in TurtleModel.
-     * @param supplyID Supplier for retrieving the activeTurtles in TurtleModel.
-     * @param supplyMap Supplier for retrieving information on all activeTurtles in TurtleModel.
-     * @param consumeID Consumer for modifying the activeTurtle in TurtleModel.
-     * @param supplyStat Supplier for retrieving the new activeTurtle Status in TurtleModel.
      */
-    public AskWith(Command cond, List<Command> commandList, Consumer<List<Integer>> consumeIDs, Supplier<Integer> supplySingleID, Supplier<List<Integer>> supplyID, Supplier<Map<Integer, TurtleStatus>> supplyMap, Consumer<Integer> consumeID, Supplier<TurtleStatus> supplyStat) {
+    public AskWith(Command cond, List<Command> commandList) {
         condition = cond;
         commands = commandList;
-        idConsumer = consumeIDs;
-        singleIdSupplier = supplySingleID;
-        idSupplier = supplyID;
-        mapSupplier = supplyMap;
-        idSetter = consumeID;
-        statusSupplier = supplyStat;
     }
 
     //TODO: REFACTOR
     /**
      * Executes the AskWith instance, determining ids to use, retrieving and setting the activeTurtles based on ids, running the commands, and resetting the active turtles.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        Map<Integer, TurtleStatus> allStatuses = mapSupplier.get();
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        List<Integer> allTurtles = manifest.getAvailableTurtles();
+        List<Integer> previousIds = manifest.getAllActiveTurtles();
+        Integer previousId = manifest.getActiveTurtle();
         List<TurtleStatus> ret = new ArrayList<>();
 
         List<Command> validIds = new ArrayList<>();
 
-        for (Map.Entry<Integer, TurtleStatus> e: allStatuses.entrySet()) {
-            ret.addAll(condition.execute(e.getValue()));
+        TurtleManifest dummyManifest = new TurtleManifest(manifest);
+
+        for (Integer turtleId: allTurtles) {
+            //Does not modify information
+            dummyManifest.makeActiveTurtle(turtleId);
+            manifest.makeActiveTurtle(turtleId);
+            dummyManifest.updateTurtleState(turtleId, manifest.getTurtleState(turtleId));
+
+            ret.addAll(condition.execute(dummyManifest));
             if (condition.returnValue()==1) {
-                validIds.add(new Constant(e.getKey()));
+                validIds.add(new Constant(turtleId));
             }
         }
+        manifest.setActiveTurtles(previousIds);
+        manifest.makeActiveTurtle(previousId);
 
-        Ask asker = new Ask(validIds, commands, idConsumer, singleIdSupplier, idSupplier, idSetter, statusSupplier);
-        ret.addAll(asker.execute(ret.get(ret.size() - 1)));
+        Ask asker = new Ask(validIds, commands);
+        ret.addAll(asker.execute(manifest));
         lastResult = asker.returnValue();
         return ret;
     }

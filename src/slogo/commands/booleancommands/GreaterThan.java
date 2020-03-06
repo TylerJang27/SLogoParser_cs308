@@ -1,11 +1,11 @@
 package slogo.commands.booleancommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.BooleanCommand;
 import slogo.commands.Command;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,15 +34,14 @@ public class GreaterThan implements BooleanCommand{
      * using twoArgOperation, and set return value to be 1 if the return value from argument one
      * is strictly greater than the return value of argument two
      *
-     * @param ts    a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *              TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return      list of turtle status from executing the argument commands to this operation
      *              (this operation itself does not generate new turtle status)
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts){
+    public List<TurtleStatus> execute(TurtleManifest manifest){
         List<TurtleStatus> ret = new ArrayList<>();
-        double[] val = BooleanCommand.twoArgOperation(ret, ts, arg1, arg2);
+        double[] val = BooleanCommand.twoArgOperation(ret, manifest, arg1, arg2);
         returnVal = (val[0]>val[1]) ? TRUE : FALSE;
         return ret;
     }

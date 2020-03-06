@@ -9,6 +9,8 @@ import java.util.Stack;
 import java.util.regex.Pattern;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
+import slogo.view.Display;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +50,7 @@ public class Parser {
     String[] inputs = line.split(" ");
     for(String input : inputs){
       currentComponents.push(input);
+      //System.out.println(input);
     }
     currentCommands.addAll(parseComponents());
     while(currentCommands.size() > 0){

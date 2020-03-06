@@ -56,6 +56,7 @@ public class Controller extends Application {
     myDisplay = new Display();
     translator = new Translator();
     myParser = new Parser(translator);
+    myParser.setDisplay(myDisplay);
     errorHandler = new ErrorHandler();
     translator = new Translator();
     tabTurtleModelMap = new HashMap<Tab, TurtleModel>();
@@ -126,6 +127,7 @@ public class Controller extends Application {
 
   private void sendCommand(){
     try{
+      //System.out.println(console.getText());
       myParser.parseLine(console.getText());
       List<Command> toSend = myParser.sendCommands();
       List<TurtleStatus> statuses = myModel.executeCommands(toSend);

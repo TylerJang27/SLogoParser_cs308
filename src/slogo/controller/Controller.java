@@ -158,6 +158,9 @@ public class Controller extends Application {
       myParser.parseLine(console.getText());
       List<Command> toSend = myParser.sendCommands();
       List<TurtleStatus> statuses = myModel.executeCommands(toSend);
+      for (TurtleStatus ts: statuses) {
+        System.out.println("com:" + ts);
+      }
       if(statuses.size() > 0){
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);

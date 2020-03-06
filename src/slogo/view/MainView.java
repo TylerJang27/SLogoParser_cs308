@@ -62,6 +62,7 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
     //Generate the initial Turtle Object
     setUpTurtles(1);
+    this.turtleStatus = new TurtleStatus(1);
 
     //Set the Pane for the IDE
     setUpPane();
@@ -88,10 +89,15 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
     //Set the Pane for the IDE
     setUpPane();
 
+<<<<<<< HEAD
     this.getChildren().addAll(myToolbar,pane,myInputFields);
     //this.setPadding(new Insets(0.0));
     this.setAlignment(Pos.TOP_LEFT);
 
+=======
+    setUpTurtle();
+    this.turtleStatus = new TurtleStatus(1);
+>>>>>>> 2cde14e31b8f97bb0b219f48119824cc6fe72803
   }
 
   private void setUpPane() {
@@ -128,25 +134,26 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   public void moveTurtle(List<TurtleStatus> ts) {
-    pane.getChildren().clear(); // clear complete list
-    pane.getChildren().addAll(turtleManager.getImageViews());
-    //pane.getChildren().add(turtle.myImageView);
+    if (!ts.isEmpty()) {
+      pane.getChildren().clear(); // clear complete list
+      pane.getChildren().addAll(turtleManager.getImageViews());
+      //pane.getChildren().add(turtle.myImageView);
 
-    //turtle.executeState(ts);
-    turtleManager.execute(ts);
-    this.turtleStatus = ts.get(ts.size() - 1);
+      //turtle.executeState(ts);
+      turtleManager.execute(ts);
+      this.turtleStatus = ts.get(ts.size() - 1);
 
-    //List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
-    List<Line> temp = (ArrayList) turtleManager.getMyLines();
+      //List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
+      List<Line> temp = (ArrayList) turtleManager.getMyLines();
 
 
-    for(int i = 0; i < temp.size(); i++)  {
-      if(!pane.getChildren().contains(temp.get(i))) {
-        pane.getChildren().add(temp.get(i));
+      for (int i = 0; i < temp.size(); i++) {
+        if (!pane.getChildren().contains(temp.get(i))) {
+          pane.getChildren().add(temp.get(i));
+        }
       }
     }
   }
-
   public TurtleView getTurtle() {
     return turtle;
   }

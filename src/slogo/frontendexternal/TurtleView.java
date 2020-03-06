@@ -54,6 +54,7 @@ public class TurtleView {
     penView = new PenView();
     myImage = new Image("/slogo/view/imagesFolder/raphael.png");
     myImageView =  new ImageView(myImage);
+    setUpMyImageView();
     //System.out.println(myImageView);
   }
 

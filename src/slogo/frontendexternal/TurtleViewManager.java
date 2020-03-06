@@ -56,8 +56,7 @@ public class TurtleViewManager {
   public void initializeTurtleViews(int numTurtles) {
     for(int i = 1; i <= numTurtles; i++) {
       turtleViewMap.put(i, new TurtleView(startX, startY, picFileName));
-      TurtleView tempTurtle = turtleViewMap.get(i);
-      tempTurtle.setUpMyImageView();
+      turtleStatusMap.putIfAbsent(i, new TurtleStatus(i));
     }
   }
 

@@ -47,7 +47,9 @@ public class Tell implements IdCommand {
         for (Command c: args) {
             ids.add((int)Command.executeAndExtractValue(c, manifest, ret));
         }
+
         manifest.setActiveTurtles(ids);
+        manifest.makeActiveTurtle(ids.get(0));
         lastId = ids.get(ids.size() - 1);
         ret.add(manifest.getActiveState());
         return ret;

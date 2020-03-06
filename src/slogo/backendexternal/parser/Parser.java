@@ -70,9 +70,6 @@ public class Parser {
       Stack<Command> commands = new Stack<>();
       String current = currentComponents.pop();
       String controlType = getInputType(current);
-      System.out.println("CURRENT COMPONENT");
-      System.out.println(current);
-      System.out.println(controlType);
       try{
         Method control = Parser.class.getDeclaredMethod(controlType, String.class, Stack.class, Stack.class, List.class, Stack.class);
         commands.add((Command) control.invoke(this, current, commands, listCommands, currentList, currentCommand));

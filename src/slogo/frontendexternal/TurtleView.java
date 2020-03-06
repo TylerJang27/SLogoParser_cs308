@@ -58,9 +58,9 @@ public class TurtleView {
   }
 
 
-  public void executeState(TurtleStatus start, TurtleStatus end) {
+  public void executeState(SequentialTransition sequentialTransition, TurtleStatus start, TurtleStatus end) {
     this.setIsActive(true);
-    SequentialTransition sequentialTransition = new SequentialTransition();
+    //SequentialTransition sequentialTransition = new SequentialTransition();
     sequentialTransition.setNode(this.myImageView);
     Polyline pathLine = new Polyline();
     int index = 0;
@@ -75,7 +75,7 @@ public class TurtleView {
     pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
 
     //if (t.size() > 1) {
-      sequentialTransition.play(); /** If executing one at a time, move this to a play method and have sequential as global var*/
+      //sequentialTransition.play(); /** If executing one at a time, move this to a play method and have sequential as global var*/
     //}
 
   }

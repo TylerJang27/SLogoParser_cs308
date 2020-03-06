@@ -1,13 +1,12 @@
 package slogo.commands.turtlecommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.TurtleCommand;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,12 +26,12 @@ public class Right implements TurtleCommand {
 
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
-        ret.addAll(arg1.execute(ts));
+        ret.addAll(arg1.execute(manifest));
         returnVal = arg1.returnValue();
         double deltaHeading = returnVal;
-        return TurtleCommand.turnDeltaHeading(ret.get(ret.size()-1), ret, deltaHeading);
+        return TurtleCommand.turnDeltaHeading(manifest, ret, deltaHeading);
     }
 
 

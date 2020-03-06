@@ -1,9 +1,10 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.ControlCommand;
 
-import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,7 +14,6 @@ import java.util.List;
  */
 public class Variable implements ControlCommand {
 
-    //TODO: Should be 0 or 1?
     public static final int NUM_ARGS = 0;
     private double myVal;
 
@@ -34,13 +34,12 @@ public class Variable implements ControlCommand {
     /**
      * Executes the Variable, retrieving its value.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        return List.of(ts);
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        return new LinkedList<>();
     }
 
     /**

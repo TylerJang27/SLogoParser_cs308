@@ -1,9 +1,10 @@
 package slogo.commands.queriescommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.QueriesCommand;
 
-import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,14 +27,13 @@ public class IsPenDown implements QueriesCommand {
     /**
      * Executes the IsPenDown instance, retrieving the status of the pen based off of ts.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        penDown = ts.getPenDown();
-        return List.of(ts);
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        penDown = manifest.getActiveState().getPenDown();
+        return new LinkedList<>();
     }
 
     /**

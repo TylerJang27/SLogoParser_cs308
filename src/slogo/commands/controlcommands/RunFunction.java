@@ -1,5 +1,6 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
@@ -24,8 +25,6 @@ public class RunFunction implements ControlCommand {
 
     private double myVal;
 
-    private Consumer<List<Integer>> idConsumer;
-    private Supplier<List<Integer>> idSupplier;
     private List<Command> myValues;
     private Function myFunction;
 
@@ -34,15 +33,11 @@ public class RunFunction implements ControlCommand {
      *
      * @param builtFunction             the function to be called/executed.
      * @param variableValues            the values to assign to builtFunction's variables.
-     * @param consumer                  Consumer for modifying the activeTurtles in TurtleModel.
-     * @param supplier                  Supplier for retrieving the activeTurtles in TurtleModel.
      * @throws InvalidCommandException  if the number of values does not equal the number of variables.
      */
-    public RunFunction(Function builtFunction, List<Command> variableValues, Consumer<List<Integer>> consumer, Supplier<List<Integer>> supplier) throws InvalidCommandException {
+    public RunFunction(Function builtFunction, List<Command> variableValues) throws InvalidCommandException {
         myFunction = builtFunction;
         myValues = variableValues;
-        idConsumer = consumer;
-        idSupplier = supplier;
         if (myValues.size() > myFunction.getNumVars()) {
             //TODO Dennis: I would like to grab this from the resource files for the error name, but
             // I am unsure how to do so without overextending my bounds. Do you think you could look into this?
@@ -53,24 +48,23 @@ public class RunFunction implements ControlCommand {
     /**
      * Executes the RunFunction, used to apply the values to the variables sequentially
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return a List of TurtleStatus instances, produced as a result of setting the variable values and running the Function.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        List<Integer> previousIds = idSupplier.get();
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        List<Integer> previousIds = manifest.getAllActiveTurtles();
+        Integer previousId = manifest.getActiveTurtle();
         List<TurtleStatus> ret = new ArrayList<>();
 
         for (int k = 0; k < myValues.size(); k ++) {
             Command c = myValues.get(k);
-            double val = Command.executeAndExtractValue(c, ts, ret);
-            ts = ret.get(ret.size() - 1);
+            double val = Command.executeAndExtractValue(c, manifest, ret);
             myFunction.setVariableValue(k, val);
         }
-        myVal = Command.executeAndExtractValue(myFunction, ts, ret);
-        idConsumer.accept(previousIds); //TODO: ACCOUNT FOR IF THESE COMMANDS MODIFY THE MAP
-        //TODO: ADD IN GET THE TURTLESTATUS FOR THE NEW ACTIVE
+        myVal = Command.executeAndExtractValue(myFunction, manifest, ret);
+        manifest.setActiveTurtles(previousIds);
+        manifest.makeActiveTurtle(previousId);
         return ret;
     }
 

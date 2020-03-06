@@ -1,12 +1,11 @@
 package slogo.commands.displaycommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
-import slogo.commands.Command;
 import slogo.commands.DisplayCommand;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class Shape implements DisplayCommand {
@@ -20,9 +19,9 @@ public class Shape implements DisplayCommand {
 
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         returnVal=sup.get();
-        return List.of(ts);
+        return new LinkedList<>();
     }
 
     @Override

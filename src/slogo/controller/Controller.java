@@ -12,7 +12,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import slogo.backendexternal.TurtleModel;
+import slogo.backendexternal.TurtleManager;
 import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.parser.ErrorHandler;
 import slogo.backendexternal.parser.Parser;
@@ -22,7 +22,6 @@ import slogo.view.Display;
 import slogo.view.InputFields.Console;
 import slogo.view.InputFields.MoveArrows;
 import slogo.view.InputFields.UserDefinitions;
-import slogo.view.MainView;
 
 public class Controller extends Application {
 
@@ -30,7 +29,7 @@ public class Controller extends Application {
   private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
   private Display myDisplay;
   private Parser myParser;
-  private TurtleModel myModel;
+  private TurtleManager myModel;
   private Console console;
   private UserDefinitions userDefinitions;
   private Button runButton;
@@ -40,7 +39,7 @@ public class Controller extends Application {
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
   private Button addTabButton;
-  private Map<Tab, TurtleModel> tabTurtleModelMap;
+  private Map<Tab, TurtleManager> tabTurtleModelMap;
   private List<Tab> tabs;
   private Translator translator;
   private Tab currentTab;
@@ -59,7 +58,7 @@ public class Controller extends Application {
     myParser.setDisplay(myDisplay);
     errorHandler = new ErrorHandler();
     translator = new Translator();
-    tabTurtleModelMap = new HashMap<Tab, TurtleModel>();
+    tabTurtleModelMap = new HashMap<Tab, TurtleManager>();
     setTabs();
     changeOnWrite();
     myModel = getModel(tabs.get(0));
@@ -97,8 +96,8 @@ public class Controller extends Application {
     changeOnWrite();
   }
 
-  private TurtleModel getModel(Tab tab) {
-    tabTurtleModelMap.putIfAbsent(tab, new TurtleModel());
+  private TurtleManager getModel(Tab tab) {
+    tabTurtleModelMap.putIfAbsent(tab, new TurtleManager());
     return tabTurtleModelMap.get(tab);
   }
 
@@ -129,9 +128,14 @@ public class Controller extends Application {
     try{
       //System.out.println(console.getText());
       myParser.parseLine(console.getText());
+      System.out.println("help me");
       List<Command> toSend = myParser.sendCommands();
+      System.out.println(toSend);
       List<TurtleStatus> statuses = myModel.executeCommands(toSend);
-      if(statuses.size() > 1){
+      for (TurtleStatus ts: statuses) {
+        System.out.println(ts);
+      }
+      if(statuses.size() > 0){
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);
       }
@@ -141,6 +145,7 @@ public class Controller extends Application {
       displayQueries();
     }
     catch(Exception e){
+      e.printStackTrace();
       console.addError(errorHandler.getErrorMessage(e.getMessage(), myParser.getCommands()));
       console.getEntry().setOnKeyPressed(key -> handlePrompt(key.getCode()));
     }

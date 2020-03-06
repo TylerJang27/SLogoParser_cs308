@@ -55,19 +55,17 @@ public class TurtleManager {
                 myManifest.setActiveTurtles(Arrays.asList(turtleID));
                 myManifest.makeActiveTurtle(turtleID);
 
-                statusList.add(status);
+                List<TurtleStatus> newStatuses = c.execute(myManifest);
 
-                List<TurtleStatus> newStatuses = c.execute(status);
-
-                if (!newStatuses.isEmpty()) {
+                /*if (!newStatuses.isEmpty()) {
                     for (TurtleStatus ts : newStatuses) {
                         updateTurtleState(ts.getID(), ts);
                     }
                     statusList.addAll(newStatuses.subList(1, Math.max(newStatuses.size(), 0)));
                 } else {
                     System.out.println("ALERT, PLEASE TELL TYLER: TURTLE STATUSES ARE EMPTY");
-                }
-                //statusList.addAll(newStatuses);
+                }*/
+                statusList.addAll(newStatuses);
                 //TODO: VERIFY THAT THIS WORKS ^^^
                 lastReturn = c.returnValue();
             }

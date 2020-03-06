@@ -97,14 +97,18 @@ public class Controller extends Application {
     while(dataFile != null) {
       try {
         XMLReader reader = new XMLReader("media");
+        primaryStage.close();
         myDisplay.addTab(reader.getMainView(dataFile.getPath()));
         setTabs();
-        primaryStage.close();
+        return;
+        //dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
+
+       // primaryStage.close();
       }
       catch (XMLException e) {
         showMessage(AlertType.ERROR, e.getMessage());
       }
-      dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
+
     }
     primaryStage.close();
   }

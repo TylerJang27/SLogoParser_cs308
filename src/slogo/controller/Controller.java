@@ -169,6 +169,8 @@ public class Controller extends Application {
     } else{
       myDisplay.getMainView().getTextFields().addVariableText("");
     }
+    myDisplay.getMainView().getTextFields().setVariableListeners();
+    System.out.println("HERE");
   }
 
   private void displayQueries() {

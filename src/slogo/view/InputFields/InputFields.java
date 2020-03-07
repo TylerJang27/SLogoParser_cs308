@@ -53,12 +53,14 @@ public class InputFields extends HBox {
 
     public TextArea getQueries() { return statusView.getStatus(); }
 
-    public VBox getVariableBox() {
-        return userDefinitions.getVBox();
+    public void setVariableListeners(){
+        for(TextField tf : userDefinitions.getDefinitions()){
+            tf.setOnMouseClicked(event -> sendVariables(tf.getText()));
+        }
     }
 
-    public void setVariableBox(VBox vBox) {
-        userDefinitions.setVBox(vBox);
+    private void sendVariables(String variable){
+        console.setText("set " + variable.split(" ")[0]);
     }
 
 }

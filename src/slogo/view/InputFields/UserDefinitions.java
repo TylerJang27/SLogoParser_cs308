@@ -35,6 +35,7 @@ public class UserDefinitions {
     TextField variable = new TextField(text);
     variable.setPrefWidth(size);
     variable.setEditable(false);
+    variables.add(variable);
     variableBox.getChildren().add(variable);
   }
 

@@ -15,8 +15,20 @@ Finish Date: 3/7/2020
 Hours Spent: ~ 250 Hours
 
 ### Primary Roles
-Dennis Harrsch:
-Tyler Jang:
+
+Dennis Harrsch (controller and parser):
+- Designed and implemented Parser, as well as all factories related to creating Commands, Variables, Functions, and Translations.
+- Incorporated Controller as a means of bringing all portions together and reducing dependencies.
+- Helped in complete to implemenet Front End advances that were best handled in Controller.
+- Refactored InputFields and implemented Console, MoveButtons, and UserDefinitions.
+
+Tyler Jang (back end developer):
+- Designed and implemented several commands, specifically ControlCommands.
+    - Focused on loops and user-defined instructions.
+- Assisted with the implementation of multiple turtles on both the front and back ends
+    - Created TurtleManager and TurtleManifest to track turtle states.
+    - Modified TurtleView and TurtleViewManager to compensate for multiple turtles.
+
 Lucy Gu (backend developer): 
 - Setup backend external and internal API
 - Setup command interfaces
@@ -35,7 +47,7 @@ Shruthi Kumar (front end developer):
 - XML parsing, reading, and writing from/to files
     - Allowed users to load preferences and save preferences of workspaces
 
-Nevzat Sevim:
+Nevzat Sevim (front end developer):
 - Set up the initial Display, MainView, and Toolbar 
 - Created Input fields for communication with controller
 - GUI optimization and Turtle image implementation
@@ -63,6 +75,13 @@ Data files needed:
 Features implemented:
 
 BackEnd: 
+- All commands (some parsing bugs remain)
+- Recursive function calls
+- Multiple turtles
+- Commands to change display settings
+- Text input suggestion
+- Support for multiple languages
+- Informative error messages
 
 FrontEnd: 
 - Toggle active turtles
@@ -73,26 +92,28 @@ FrontEnd:
 - Move turtles graphically
 - Change pen's current properties
 - Execute list of commands
-- display command histories, variables, and commands
-- display turtle information (x position, y position, bearing, etc)
+- Display command histories, variables, and commands
+- Display turtle information (x position, y position, bearing, etc)
 
 
 
 ### Notes/Assumptions
 
 Assumptions or Simplifications:
-
+People know how to code in Slogo (only basic tutorial given). We assume spacing will always be a singular space.
 
 Interesting data files:
 tabLayout1.xml : can change and load this file to set workspace preferences
 0_saved.xml : can save preferences of current workspace to this file
 
 Known Bugs: There are issues where after a certain series of animations the turtle can disappear. Additionally, very long commands with weird spacing can cause issues with parsing, so 
-calling functions step by step is better. Clicking on turtles to activate or deactivate them is not fully incorporated. Formatting can be slightly off on some computers.
+calling functions step by step is better. Clicking on turtles to activate or deactivate them is not fully incorporated. Formatting can be slightly off on some computers. Ask, AskWith, DoTimes, and For do not currently work.
 
 Extra credit: Implemented almost all of complete outside of unlimited parameters and simulation. Advanced error handling which guesses at what the user
 meant to enter, based on distance from strings.
 
 
 ### Impressions
+This was by far the heftiest project any of us have ever created, and no singular individual can explain the design and implementation of all the components.
+
 

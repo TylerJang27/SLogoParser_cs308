@@ -75,9 +75,11 @@ public class CommandFactory {
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
-    //System.out.println("Tell" + myCommands.containsKey("Tell"));
+
     List<Command> commands = new ArrayList<>();
     int count = getCount(formalCommand);
+
+    System.out.println(command + "\n\t" + previous.size() + " " + previous.get(0) + "\n\t\t" + listCommands.size());
 
     if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
       System.out.println((previous.size() + listCommands.size()) + " vs " + count);
@@ -113,6 +115,7 @@ public class CommandFactory {
       //System.out.println(key + "???");
       if (key.equals("Tell")) {
         System.out.println("Telling");
+        //TODO: TYLER FIX HERE
         if (listCommands.isEmpty()) {
           obj.clear();
           obj.add(List.of(commands.get(0)));

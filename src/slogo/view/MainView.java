@@ -140,7 +140,7 @@ public class MainView extends VBox implements EventHandler {
   }
 
   public void setTurtleFileName(String name) {
-    defaultCodeFileName = name;
+    defaultTurtleFileName = name;
   }
 
 

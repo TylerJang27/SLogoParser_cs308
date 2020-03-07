@@ -46,25 +46,25 @@ public class XMLWriter {
     attr.setValue("sim");
     root.setAttributeNode(attr);
 
-    Element name = document.createElement("background");
-    name.appendChild(document.createTextNode(backgroundColor.toString()));
-    root.appendChild(name);
+    Element background = document.createElement("background");
+    background.appendChild(document.createTextNode(backgroundColor.toString()));
+    root.appendChild(background);
 
-    Element myChoice = document.createElement("pen");
-    myChoice.appendChild(document.createTextNode(penColor.toString()));
-    root.appendChild(myChoice);
+    Element pen = document.createElement("pen");
+    pen.appendChild(document.createTextNode(penColor.toString()));
+    root.appendChild(pen);
 
-    Element author = document.createElement("numTurtles");
-    author.appendChild(document.createTextNode(Integer.toString(numTurtles)));
-    root.appendChild(author);
+    Element numTurtles = document.createElement("numTurtles");
+    numTurtles.appendChild(document.createTextNode(Integer.toString(this.numTurtles)));
+    root.appendChild(numTurtles);
 
-    Element islayout = document.createElement("turtleName");
-    islayout.appendChild(document.createTextNode(turtleImageName));
-    root.appendChild(islayout);
+    Element turtleName = document.createElement("turtleName");
+    turtleName.appendChild(document.createTextNode(turtleImageName));
+    root.appendChild(turtleName);
 
-    Element rows = document.createElement("fileName");
-    rows.appendChild(document.createTextNode(codeFileName));
-    root.appendChild(rows);
+    Element fileName = document.createElement("fileName");
+    fileName.appendChild(document.createTextNode(codeFileName));
+    root.appendChild(fileName);
   }
 
   private void writeFile() {

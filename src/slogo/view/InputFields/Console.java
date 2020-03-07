@@ -21,7 +21,7 @@ public class Console {
   private TextField entry;
   private ScrollPane pane;
   private List<String> history;
-  private double boxHeight;
+  private double boxHeight = 200;
   private double boxWidth;
 
   public Console(double width){
@@ -33,10 +33,14 @@ public class Console {
     addEditable();
     setDetails();
     pane = new ScrollPane(box);
+    pane.setMinHeight(boxHeight);
+    pane.setMaxHeight(boxHeight);
+    //box.getChildren().add(pane);
   }
 
   private void setDetails(){
 //    box.setMinHeight(boxHeight);
+    box.setMaxHeight(boxHeight);
     Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));
     box.setBackground(backing);
   }

@@ -18,20 +18,18 @@ public class StatusView {
   private TextArea status;
   private VBox statusBox;
 
-  public StatusView(){
+  public StatusView(double length){
     statusBox = new VBox();
     status = new TextArea();
-    this.setDetails();
+    this.setDetails(length);
     statusBox.getChildren().addAll(statusLabel, status);
   }
 
 
-  private void setDetails(){
-
-    status.setMaxSize(300,200);
-    status.setMinSize(300,200);
-    status.setPrefSize(300,200);
-
+  private void setDetails(double length){
+    status.setMinSize(length, 200);
+    status.setMaxSize(length, 200);
+    status.setPrefSize(length, 200);
     Background backing = new Background(new BackgroundFill(
         Color.BLACK, new CornerRadii(0), new Insets(0)));
     //statusBox.setBackground(backing);
@@ -49,8 +47,9 @@ public class StatusView {
 
   public void clear() { status.clear(); }
 
-  public void addStatusText(Double turtleX, Double turtleY, Double turtleAngle, Color penColor, Boolean penDown) {
-    status.appendText("Active Turtle:" + "name" + "\n");
+  //TODO: tYLER FIX THIS
+  public void addStatusText(int id, Double turtleX, Double turtleY, Double turtleAngle, Color penColor, Boolean penDown) {
+    status.appendText("Active Turtle: " + id + "\n");
     status.appendText("Turtle X: " + turtleX + "\n");
     status.appendText("Turtle Y: " + turtleY + "\n");
     status.appendText("Turtle Angle: " + turtleAngle + "\n");

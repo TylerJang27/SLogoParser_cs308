@@ -1,5 +1,6 @@
 package slogo.view.InputFields;
 
+import java.util.List;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -13,15 +14,16 @@ public class InputFields extends HBox {
     private StatusView statusView;
     private MoveArrows moveArrows;
     private MainView mw;
+    private double width;
 
     public InputFields(MainView mainview) {
         this.mw = mainview;
-
-        userDefinitions = new UserDefinitions();
-        console = new Console();
-        statusView = new StatusView();
+        this.width = mw.getWidth();
+        console = new Console(300);
+        userDefinitions = new UserDefinitions(300);
+        statusView = new StatusView(300);
         moveArrows = new MoveArrows(100, 10);
-        this.getChildren().addAll(console.getVBox(), userDefinitions.getVBox(), statusView.getVBox(), moveArrows.getVBox());
+        this.getChildren().addAll(console.getPane(), userDefinitions.getVBox(), moveArrows.getVBox(), statusView.getVBox());
     }
 
     public void addVariableText(String text){
@@ -31,7 +33,7 @@ public class InputFields extends HBox {
 
     public void addQueriesText() {
         TurtleStatus ts = mw.getTurtleStatus();
-        statusView.addStatusText(ts.getX(),-ts.getY(),ts.getBearing(),mw.getTurtle().getPenView().getMyPenColor(),ts.getPenDown());
+        statusView.addStatusText(ts.getID(), ts.getX(),-ts.getY(),ts.getBearing(),mw.getTurtle().getPenView().getMyPenColor(),ts.getPenDown());
     }
 
     public String getCommands() {
@@ -44,38 +46,27 @@ public class InputFields extends HBox {
     public Console getConsole(){return console;}
     public UserDefinitions getUserDefinitions(){return userDefinitions; }
     public MoveArrows getMoveArrows(){ return moveArrows;}
-    public TextArea getVariables() {
+    public List<TextField> getVariables() {
         return userDefinitions.getDefinitions();
     }
 
     public TextArea getQueries() { return statusView.getStatus(); }
 
-//    public VBox getCommandBox() {
-//        return commandBox;
-//    }
-
-    public VBox getVariableBox() {
-        return userDefinitions.getVBox();
+    public void setVariableListeners(){
+        for(TextField tf : userDefinitions.getDefinitions()){
+            tf.setOnMouseClicked(event -> sendVariables(tf.getText()));
+        }
     }
 
-//    public void setMyMainView(MainView mainView) {
-//        myMainView = mainView;
-//    }
-//
-//    public void setMyToolBar(ToolBar toolBar) {
-//        myToolBar = toolBar;
-//    }
-
-    public void setVariables(TextArea newVariables) {
-        userDefinitions.setArea(newVariables);
-    }
-
-//    public void setCommandBox(VBox vBox) {
-//        commandBox = vBox;
-//    }
-
-    public void setVariableBox(VBox vBox) {
-        userDefinitions.setVBox(vBox);
+    private void sendVariables(String variable){
+        if (variable != null && variable.length() > 0) {
+            String[] splitString = variable.split(" ");
+            if (splitString[0].charAt(0) == ':') {
+                console.setText(console.getText() + " set " + splitString[0]);
+            } else {
+                console.setText(console.getText() + " " + variable);
+            }
+        }
     }
 
 }

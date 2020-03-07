@@ -132,6 +132,7 @@ public class TurtleStatus {
     }
 
     public void modify(){
+        System.out.println("modifying");
         runnable.run();
     }
 
@@ -145,6 +146,6 @@ public class TurtleStatus {
      */
     @Override
     public String toString() {
-        return String.format("%f, %f \t %f \t%b \t%b \t%b \t%b", x, y, bearing, leavesTrail, turtleVisible, penDown, con);
+        return String.format("%d: %f, %f \t %f \t%b \t%b \t%b \t%b", turtleID, x, y, bearing, leavesTrail, turtleVisible, penDown, con);
     }
 }

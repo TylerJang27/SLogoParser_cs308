@@ -1,6 +1,8 @@
 package slogo.commands;
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -15,7 +17,7 @@ public interface TurtleCommand extends Command {
      * return a list of turtle status resulting from moving the turtle, from a position specified by an input
      * turtle status, delta X in the X direction and delta Y in the Y direction
      *
-     * @param ts        An instance of turtle status that is the initial position of the turtle before this method begins
+     * @param manifest  a TurtleManifest containing information about all the turtles
      * @param ret       A list of pre-established turtle status that will be added onto as move executes
      * @param deltaX    How much the "turtle" needs to move in the X direction
      * @param deltaY    How much the "turtle" needs to move in the Y direction
@@ -24,17 +26,20 @@ public interface TurtleCommand extends Command {
      * @param mode      The mode of the movement. Three possible modes include normal, edge, and toroidal
      * @return          The list of turtle status created from moving
      */
-    static List<TurtleStatus> move(TurtleStatus ts, List<TurtleStatus> ret,
-                                         double deltaX, double deltaY, double xMax, double yMax,  String mode){
+    static List<TurtleStatus> move(TurtleManifest manifest, List<TurtleStatus> ret,
+                                   double deltaX, double deltaY, double xMax, double yMax, String mode){
+        List<TurtleStatus> moved = new ArrayList<>();
         if(mode.equals(MODES[1])){
-            return TurtleCommand.moveDeltaEdge(ts, ret, deltaX, deltaY, xMax, yMax);
+            moved = TurtleCommand.moveDeltaEdge(manifest.getActiveState(), ret, deltaX, deltaY, xMax, yMax);
         }
         else if(mode.equals(MODES[2])){
-            return TurtleCommand.moveDeltaWrap(ts, ret, deltaX, deltaY,  xMax, yMax);
+            moved = TurtleCommand.moveDeltaWrap(manifest.getActiveState(), ret, deltaX, deltaY,  xMax, yMax);
         }
         else {
-            return TurtleCommand.moveDelta(ts, ret, deltaX, deltaY);
+            moved = TurtleCommand.moveDelta(manifest.getActiveState(), ret, deltaX, deltaY);
         }
+        manifest.updateTurtleState(moved.get(moved.size()-1));
+        return moved;
     }
 
     /**
@@ -60,7 +65,7 @@ public interface TurtleCommand extends Command {
     static List<TurtleStatus> moveDeltaWrap(TurtleStatus ts, List<TurtleStatus> ret, double deltaX, double deltaY, double xMax, double yMax) {
         double steps = Math.sqrt(Math.pow(deltaX,2)+Math.pow(deltaY,2));
         double[] position = {ts.getX(),ts.getY()};
-        for(int i = 0; i<steps; i++){
+        for(int i = 0; i<(int)steps; i++){
             double x = position[0]+deltaX/steps;
             double y = position[1]+deltaY/steps;
             position = TurtleCommand.wrap(ts, x, y, xMax, yMax, ret);
@@ -150,15 +155,17 @@ public interface TurtleCommand extends Command {
     /**
      * Moves the turtle to turn deltaHeading from its current heading
      *
-     * @param ts            the initial status of the turtle before turnDeltaHeading is executed
+     * @param manifest      a TurtleManifest containing information about all the turtles
      * @param ret           a pre-established list of turtle status, onto which we will add a new turtle status that specifies
      *                      the endpoint of the rotation
      * @param deltaHeading  the amount of degrees that the turtle needs to turn from its current heading
      * @return
      */
-    static List<TurtleStatus> turnDeltaHeading(TurtleStatus ts, List<TurtleStatus> ret, double deltaHeading) {
+    static List<TurtleStatus> turnDeltaHeading(TurtleManifest manifest, List<TurtleStatus> ret, double deltaHeading) {
+        TurtleStatus ts = manifest.getActiveState();
         ret.add(new TurtleStatus(ts.getID(), ts.getX(), ts.getY(), ts.getBearing()+deltaHeading,
                 false, ts.getVisible(), ts.getPenDown()));
+        manifest.updateTurtleState(ret.get(ret.size() - 1));
         return ret;
     }
 }

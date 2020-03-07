@@ -1,5 +1,6 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.ControlCommand;
@@ -31,13 +32,12 @@ public class If implements ControlCommand {
     /**
      * Executes the If instance, executing the trueCommands if the condition is not IfElse.ELSE_CASE(0).
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances produced as a result of running the conditional.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        return conditional.execute(ts);
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        return conditional.execute(manifest);
     }
 
     /**

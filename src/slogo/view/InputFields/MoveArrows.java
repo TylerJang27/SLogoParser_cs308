@@ -3,67 +3,67 @@ package slogo.view.InputFields;
 import java.util.Arrays;
 import java.util.List;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import slogo.view.Display;
 
 public class MoveArrows {
-  private static final Image ARROW_IMAGE = new Image("/slogo/view/imagesFolder/arrow.png");
   private VBox pane;
   private Button up;
   private Button down;
   private Button left;
   private Button right;
-  private double increment;
+  private TextField setIncrement;
+
   private double size;
 
-  public MoveArrows(double length, double index){
+  public MoveArrows(double length, int index){
     size = length;
-    increment = index;
+    createTextField(index, size/5);
     createPane();
     createButtons();
-    pane.getChildren().addAll(up,down,left,right);
+    pane.getChildren().addAll(up,down,left,right, setIncrement);
+  }
+
+  private void createPane(){
+    pane = new VBox();
+    pane.setMinSize(size, size);
+    pane.setPrefSize(size, size);
+  }
+
+  private void createTextField(int index, double size){
+    setIncrement = new TextField();
+    setIncrement.setMinSize(3*size, 1.2*size);
+    setIncrement.setPrefSize(3*size, 1.2*size);
+    setIncrement.setMaxSize(3*size, 1.2*size);
+    setIncrement.setText(Integer.toString(index));
   }
 
   public VBox getVBox(){ return pane; }
 
-  public double getIncrement(){ return increment; }
+  public int getIncrement(){ return Integer.parseInt(setIncrement.getText()); }
 
   public List<Button> getButtons(){
     return Arrays.asList(up, down, left, right);
   }
 
-  private void createPane(){
-    pane = new VBox();
-    pane.setMinHeight(size);
-    pane.setMinWidth(size);
+  private void createButtons(){
+    up = createButton("FD", 0, size/3, 0, size/5);
+    down = createButton("BK", 180, size/3, 2*size/3, size/5);
+    right = createButton("RT", 90, 2*size/3, size/3, size/5);
+    left = createButton("LT", 270, 0, size/3, size/5);
   }
 
-  private void createButtons(){
-    up = new Button();
-    ImageView upImage = new ImageView(ARROW_IMAGE);
-    up.setGraphic(upImage);
-    up.setLayoutX(size/3);
-
-    down = new Button();
-    ImageView downImage = new ImageView(ARROW_IMAGE);
-    downImage.setRotate(downImage.getRotate() + 180);
-    down.setGraphic(downImage);
-    down.setLayoutX(size/3);
-    down.setLayoutY(2*size/3);
-
-    right = new Button();
-    ImageView rightImage = new ImageView(ARROW_IMAGE);
-    rightImage.setRotate(rightImage.getRotate() + 90);
-    right.setGraphic(rightImage);
-    right.setLayoutX(2*size/3);
-    right.setLayoutY(size/3);
-
-    left = new Button();
-    ImageView leftImage = new ImageView(ARROW_IMAGE);
-    leftImage.setRotate(leftImage.getRotate() + 270);
-    left.setGraphic(leftImage);
-    left.setLayoutY(size/3);
+  private Button createButton(String name, double rotation, double x, double y, double size){
+    Button button = new Button(name);
+    button.setId(name.toLowerCase());
+    button.setMinSize(3*size, 1.2*size);
+    button.setPrefSize(3*size, 1.2*size);
+    button.setMaxSize(3*size, 1.2*size);
+    button.setLayoutX(x - button.getLayoutBounds().getMinX());
+    button.setLayoutY(y - button.getLayoutBounds().getMinY());
+    return button;
   }
 }

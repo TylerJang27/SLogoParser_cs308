@@ -3,10 +3,13 @@ package slogo.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
+
+import javafx.animation.SequentialTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.event.Event;
@@ -21,9 +24,10 @@ import slogo.view.InputFields.InputFields;
 
 /** @author Shruthi Kumar, Nevzat Sevim */
 
-public class MainView extends VBox implements EventHandler, MainViewAPI {
+public class MainView extends VBox implements EventHandler {
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 300;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 300;
+  public static final String DATA_TYPE = "sim";
 
   //Create Toolbar (top) and Text Areas (bottom)
   private Toolbar myToolbar;
@@ -33,6 +37,12 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   private Pane pane;
   private final double paneWidth = 990;
   private final double paneHeight = 510;
+
+  private Color defaultBackgroundColor;
+  private Color defaultPenColor;
+  private int defaultNumTurtles;
+  private String defaultTurtleFileName;
+  private String defaultCodeFileName;
 
   private final double turtleSize = 90;
   private Insets insets = new Insets(0);
@@ -45,34 +55,164 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
 
   public MainView() {
     // Get the Textfield and Toolbar in the MainView
-    this.myInputFields = new InputFields(this);
-    this.myToolbar = new Toolbar(this);
-    this.myToolbar.setPadding(insets);
-
+    setUpMainViewFields(Color.LIGHTGRAY, Color.BLACK, 1, "raphael", "blank");
 
     //Generate the initial Turtle Object
-    setUpTurtle();
+    setUpTurtles(1);
+    this.turtleStatus = new TurtleStatus(1);
 
     //Set the Pane for the IDE
     setUpPane();
 
     this.getChildren().addAll(myToolbar,pane,myInputFields);
-    this.setPadding(new Insets(10.0));
+    this.setAlignment(Pos.TOP_LEFT);
+
+    //setTurtleClickable();
   }
+
 
   public MainView(Color backgroundColor, Color penColor, int numTurtle, String turtleImageName, String codeFileName) {
-    this.myInputFields = new InputFields(this);
-    this.myToolbar = new Toolbar(this);
-    this.myToolbar.setPadding(insets);
+    // Get the Textfield and Toolbar in the MainView
+    setUpMainViewFields(backgroundColor, penColor, numTurtle, turtleImageName, codeFileName);
 
-    setUpTurtle();
+    //Generate the initial Turtle Object
+    setUpTurtles(numTurtle);
 
+    //Set the Pane for the IDE
+    setUpPane();
+
+    this.getChildren().addAll(myToolbar,pane,myInputFields);
+    this.setAlignment(Pos.TOP_LEFT);
+    this.turtleStatus = new TurtleStatus(1);
   }
 
+
+  public void moveTurtle(List<TurtleStatus> ts) {
+    if (!ts.isEmpty()) {
+      turtleManager.execute(ts);
+      this.turtleStatus = ts.get(ts.size() - 1);
+
+      updateViewLocation();
+    }
+  }
+
+  public void updateViewLocation() {
+    pane.getChildren().clear(); // clear complete list
+    pane.getChildren().addAll(turtleManager.getImageViews());
+
+    List<Line> temp = (ArrayList) turtleManager.getMyLines();
+
+    for (int i = 0; i < temp.size(); i++) {
+      if (!pane.getChildren().contains(temp.get(i))) {
+        pane.getChildren().add(temp.get(i));
+      }
+    }
+  }
+
+  public TurtleView getTurtle() {
+    return turtle;
+  }
+
+  public TurtleViewManager getTurtles() {
+    return turtleManager;
+  }
+
+  public void setImageViewLayouts() {
+    for (TurtleView tv: turtleManager.getTurtleViews()) {
+      tv.setUpMyImageView();
+    }
+  }
+
+  public void setPaneImageViews() {
+    for(int i = 0; i < turtleManager.getImageViews().size(); i++) {
+      pane.getChildren().set(i, turtleManager.getImageViews().get(i));
+    }
+  }
+
+  public void setBackgroundColor(Color newColor) {
+    this.pane.setBackground(new Background(new BackgroundFill(newColor, CornerRadii.EMPTY, new Insets(0))));
+    defaultBackgroundColor = newColor;
+  }
+
+  public void setPenColor(Color newColor) {
+    this.turtleManager.setAllPenViewColors(newColor);
+    defaultPenColor = newColor;
+  }
+
+  public void setTurtleFileName(String name) {
+    defaultTurtleFileName = name;
+  }
+
+
+  @Override
+  public void handle(Event event) { }
+
+  public Color getDefaultBackgroundColor() {
+    return defaultBackgroundColor;
+  }
+
+  public Color getDefaultPenColor() {
+    return defaultPenColor;
+  }
+
+  public int getDefaultNumTurtles() {
+    return turtleManager.getTurtleViews().size();
+  }
+
+  public String getDefaultTurtleFileName() {
+    return defaultTurtleFileName;
+  }
+
+  public String getDefaultCodeFileName() {
+    return defaultCodeFileName;
+  }
+
+  //Public Get Methods
+  public InputFields getTextFields(){return this.myInputFields;}
+  public Toolbar getToolBar(){return this.myToolbar;}
+  //public Pane getPane() {return this.pane;}
+  //public double getTurtleSize() {return this.turtleSize;}
+  public TurtleStatus getTurtleStatus() {return this.turtleStatus;}
+
+  private void setUpMainViewFields(Color backgroundColor, Color penColor, int numTurtles, String turtleImageName,
+      String codeFileName) {
+    this.myInputFields = new InputFields(this);
+    this.myToolbar = new Toolbar(this);
+    this.myToolbar.setPadding(new Insets(0));
+    defaultBackgroundColor = backgroundColor;
+    defaultPenColor = penColor;
+    defaultNumTurtles = numTurtles;
+    defaultTurtleFileName = turtleImageName;
+    defaultCodeFileName = codeFileName;
+  }
+
+  /*private void setTurtleClickable() {
+    this.pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        double x = (event.getX());
+        double y = (event.getY());
+        int i = 1;
+
+        for(ImageView temp : turtleManager.getImageViews()) {
+          System.out.println(temp.getLayoutY());
+          System.out.println(y);
+          System.out.println(x > temp.getLayoutX() - turtleSize/2 & x < temp.getLayoutX() + turtleSize &
+                  y > temp.getLayoutY() - turtleSize/2  & y < temp.getLayoutY() + turtleSize);
+
+          if(x > temp.getLayoutX() - turtleSize/2 & x < temp.getLayoutX() + turtleSize &
+              y > temp.getLayoutY() - turtleSize/2  & y < temp.getLayoutY() + turtleSize) {
+            turtleManager.getTurtle(i).setIsActive(!turtleManager.getTurtle(i).getIsActive());}
+          i++;
+        } } });
+  }
+
+   */
+
   private void setUpPane() {
-    this.pane = new Pane(turtle.myImageView);
-    pane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,
-            CornerRadii.EMPTY, new Insets(0))));
+    this.pane = new Pane(turtleManager.getImageViews().get(0));
+    pane.setBackground(new Background(new BackgroundFill(defaultBackgroundColor,
+        CornerRadii.EMPTY, new Insets(0))));
 
     pane.setMaxSize(paneWidth, paneHeight);
     pane.setMinSize(paneWidth, paneHeight);
@@ -84,87 +224,11 @@ public class MainView extends VBox implements EventHandler, MainViewAPI {
   }
 
   private void setUpTurtles(int numTurtles) {
-    this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0);
-    //turtleManager.setPenView(1, Color.BLACK); /** to do: update with correct ID*/
-    this.turtleManager.initializeTurtleViews(1);
+    this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0, defaultTurtleFileName, defaultPenColor);
+    this.turtleManager.setAllPenViewColors(defaultPenColor);
+    this.turtleManager.initializeTurtleViews(numTurtles);
+    this.turtle = turtleManager.getTurtle(1);
   }
 
-  private void setUpTurtle() {
-    this.turtle = new TurtleView(paneWidth/2.0, paneHeight/2.0, "raphael.png");
-    turtle.getPenView().setMyPenColor(Color.BLACK);
-    turtle.myImageView.setFitWidth(turtleSize);
-    turtle.myImageView.setFitHeight(turtleSize);
-    turtle.myImageView.setX(turtle.myImageView.getX() - turtle.myImageView.getFitWidth() / 2);
-    turtle.myImageView.setY(turtle.myImageView.getY() - turtle.myImageView.getFitHeight() / 2);
-    turtle.myImageView.setLayoutX(turtle.getMyStartXPos());
-    turtle.myImageView.setLayoutY(turtle.getMyStartYPos());
-  }
-
-  public void moveTurtle(List<TurtleStatus> ts) {
-    pane.getChildren().clear(); // clear complete list
-    pane.getChildren().add(turtle.myImageView);
-
-
-    turtle.executeState(ts);
-    this.turtleStatus = ts.get(ts.size() - 1);
-
-    List<Line> temp = (ArrayList) turtle.getPenView().getMyLines();
-//    List<Line> temp = (ArrayList) turtleManager.getMyLines();
-
-
-    for(int i = 0; i < temp.size(); i++)  {
-      if(!pane.getChildren().contains(temp.get(i))) {
-        pane.getChildren().add(temp.get(i));
-      }
-    }
-  }
-
-  public TurtleView getTurtle() {
-    return turtle;
-  }
-
-  @Override
-  public void handle(Event event) { }
-
-  @Override
-  public String readCommand() {
-    return "";
-  }
-
-  @Override
-  public void sendCommand(String command) { }
-
-  @Override
-  public int sendUpdates() {
-    return 0;
-  }
-
-  @Override
-  public void changeLanguage(int choice) { }
-
-  @Override
-  public Collection<TurtleStatus> getCommands() { return null; }
-
-  @Override
-  public void updatePastCommands() { }
-
-  @Override
-  public void clearCommands() { }
-
-  @Override
-  public void resetCommands() { }
-
-  @Override
-  public void setSkin(int choice) { }
-
-  @Override
-  public Node getStyleableNode() { return null; }
-
-  //Public Get Methods
-  public InputFields getTextFields(){return this.myInputFields;}
-  public Toolbar getToolBar(){return this.myToolbar;}
-  public Pane getPane() {return this.pane;}
-  public double getTurtleSize() {return this.turtleSize;}
-  public TurtleStatus getTurtleStatus() {return this.turtleStatus;}
 
 }

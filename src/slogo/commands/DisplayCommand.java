@@ -1,8 +1,8 @@
 package slogo.commands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -17,16 +17,14 @@ import java.util.function.Consumer;
 public interface DisplayCommand extends Command {
 
 
-    static double indexAndAddRunnable(List<TurtleStatus>ret, Command arg1, TurtleStatus ts, Consumer<Integer> con){
+    static double indexAndAddRunnable(List<TurtleStatus>ret, Command arg1, TurtleManifest manifest, Consumer<Integer> con){
 
-        ret.addAll(arg1.execute(ts));
+        ret.addAll(arg1.execute(manifest));
         double rv = arg1.returnValue();
 
-        TurtleStatus t = new TurtleStatus(ret.get(ret.size()-1));
+        TurtleStatus t = new TurtleStatus(manifest.getActiveState());
         t.setRunnable(() -> con.accept((int)rv));
-
         ret.add(t);
-
         return rv;
     }
 }

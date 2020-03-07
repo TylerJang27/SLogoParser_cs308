@@ -1,19 +1,16 @@
 package slogo.backendexternal.parser;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
-import slogo.commands.controlcommands.DoTimes;
-import slogo.commands.controlcommands.For;
 import slogo.commands.controlcommands.Function;
-import slogo.commands.controlcommands.If;
-import slogo.commands.controlcommands.IfElse;
 import slogo.commands.controlcommands.MakeUserInstruction;
-import slogo.commands.controlcommands.Repeat;
 import slogo.commands.controlcommands.RunFunction;
 import slogo.commands.controlcommands.Variable;
 
@@ -22,16 +19,12 @@ public class FunctionFactory {
   private Map<String, Function> functionMap;
   private List<Variable> functionVariables;
   private List<Command> functionCommands;
-  private CommandFactory commandFactory;
   private VariableFactory variableFactory;
-  private Map<String, List<String>> myCommands;
 
-  public FunctionFactory(Map<String, List<String>> commands){
+  public FunctionFactory(){
     functionMap = new HashMap<>();
     functionVariables = new ArrayList<>();
     functionCommands = new ArrayList<>();
-    myCommands = commands;
-    commandFactory = new CommandFactory(myCommands);
     variableFactory = new VariableFactory();
   }
 
@@ -46,15 +39,36 @@ public class FunctionFactory {
       variableValues.add(commands.pop());
     }
     //TODO: GIVE SUPPLIER AND CONSUMER
-    return new RunFunction(functionMap.get(funcName), variableValues, null, null);
+    return new RunFunction(functionMap.get(funcName), variableValues);
   }
 
   public MakeUserInstruction handleFunction(Stack<String> components){
     String func = getName(components);
     functionMap.put(func, new Function());
-    fillCommands(components);
+    Stack<String> executed = getFunctionCommands(components);
     fillVariables(components);
+    fillCommands(executed);
     return new MakeUserInstruction(functionMap.get(func), functionVariables, functionCommands);
+  }
+
+  private Stack<String> getFunctionCommands(Stack<String> components){
+    Stack<String> commandStack = new Stack<>();
+    while(components.size() > 0){
+      String next = components.pop();
+      if(Input.ListStart.matches(next)){
+        break;
+      }
+      commandStack.add(next);
+    }
+    return reverseStack(commandStack);
+  }
+
+  private Stack<String> reverseStack(Stack<String> revStack) {
+    Stack<String> retStack = new Stack<>();
+    while (revStack.size() > 0) {
+      retStack.add(revStack.pop());
+    }
+    return retStack;
   }
 
   private void fillVariables(Stack<String> components) {
@@ -67,15 +81,13 @@ public class FunctionFactory {
       if(Input.Variable.matches(current)){
         variableFactory.handleVariable(current);
         functionVariables.add(variableFactory.getVariable(current));
-        System.out.println("Variables Being Made in Function:");
-        System.out.println(variableFactory.getVariableString());
       }
     }
   }
 
   private void fillCommands(Stack<String> components){
     functionCommands.clear();
-    Stack<Command> newCommands = new Stack<Command>();
+    Stack<Command> newCommands = new Stack<>();
     newCommands.addAll(parseComponentsFunction(components));
     while(newCommands.size() > 0){
       functionCommands.add(newCommands.pop());
@@ -96,74 +108,42 @@ public class FunctionFactory {
 
   private Stack<Command> parseComponentsFunction(Stack<String> components){
     Stack<Command> currentCommand = new Stack<>();
-    Stack<List<Command>> listCommands = new Stack();
-
+    Stack<List<Command>> listCommands = new Stack<>();
     while(components.size() > 0){
-
       Stack<Command> commands = new Stack<>();
       String current = components.pop();
-
+      String controlType = "";
       if(Input.ListStart.matches(current)){
         break;
       }
-
-      if(Input.Constant.matches(current)){
-        commands.add(commandFactory.makeConstant(current));
+      try{
+        Method checkType = Parser.class.getDeclaredMethod("getInputType", String.class);
+        controlType = (String) checkType.invoke(new Parser(), current);
+        Method control = Parser.class.getDeclaredMethod(controlType, String.class, Stack.class, Stack.class, Stack.class, List.class);
+        Command newCommand = (Command) control.invoke(new Parser(variableFactory), current, commands, listCommands, currentCommand, new ArrayList<>());
+        commands.add(newCommand);
+        currentCommand.add(newCommand);
+      }catch(Exception e){
+        throw new InvalidCommandException(current);
       }
-
-      else if(Input.Make.matches(current)){
-        if(currentCommand.size() > 0){
-          commands.add(variableFactory.makeVariable(currentCommand.pop()));
-        }
-      }
-
-      else if(Input.Set.matches(current)){
-        if(currentCommand.size() > 0){
-          commands.add(variableFactory.setVariable(currentCommand.pop()));
-        }
-      }
-
-      else if(Input.Command.matches(current)){
-        if(this.hasFunction(current)){
-          commands.add(this.runFunction(current, currentCommand));
-        }
-        else{
-          commands.add(commandFactory.makeCommand(current, currentCommand, listCommands, myCommands));
-        }
-      }
-
-      else if(Input.Variable.matches(current)){
-        variableFactory.handleVariable(current);
-        commands.add(variableFactory.getVariable(current));
-      }
-
-      currentCommand.addAll(commands);
     }
+
     return currentCommand;
   }
 
-  public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands){
-    Stack<Command> components = new Stack<>();
-    for(Command c : commands){
-      components.push(c);
+  public List<String> getFunctionString() {
+    List<String> ret = new ArrayList<String>();
+    for(String s : functionMap.keySet()){
+      StringBuilder builder = new StringBuilder();
+      Function f = functionMap.get(s);
+      int variables = f.getNumVars();
+      builder.append(s + " [ ");
+      for(int i = 0; i < variables; i++){
+        builder.append(":var" + i + " ");
+      }
+      builder.append(" ] ");
+      ret.add(builder.toString());
     }
-//    if(key.equals("DoTimes")){
-//      return new DoTimes(listCommands.pop().get(0), )
-//    }
-//    else if(key.equals("For")){
-//      return new For()
-//    }
-//    else if(key.equals("If")){
-//      return new If()
-//    }
-//    else if(key.equals("IfElse")){
-//      return new IfElse()
-//    }
-//    else if(key.equals("Repeat")){
-//      return new Repeat()
-//    }
-    return new Function();
+    return ret;
   }
-
-
 }

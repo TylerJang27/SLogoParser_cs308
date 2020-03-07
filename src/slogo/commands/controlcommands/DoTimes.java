@@ -1,5 +1,6 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.ControlCommand;
@@ -18,11 +19,6 @@ public class DoTimes implements ControlCommand {
     private static final int SINGLE_STEP = 1;
 
     private ControlCommand loop;
-
-    //TODO Dennis: PLEASE CHECK IN THE PARSER TO ENSURE THAT arg1 CONTAINS A VARIABLE INSTANCE
-    // refer to spiral2 example
-    // please pass this in as a Variable instance
-
     /**
      * Constructor for DoTimes, creating a For loop based on its parameters.
      *
@@ -30,20 +26,19 @@ public class DoTimes implements ControlCommand {
      * @param varCap    the maximum value of the variable.
      * @param commands  the Collection of commands to execute for a given loop.
      */
-    public DoTimes(Variable var, Command varCap, Collection<Command> commands) {
+    public DoTimes(Variable var, Command varCap, List<Command> commands) {
         loop = new For(var, new Constant(), varCap, new Constant(SINGLE_STEP), commands);
     }
 
     /**
      * Executes the DoTimes instance, looping through the specified number of times.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances produced as a result of running the loop.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        return loop.execute(ts);
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        return loop.execute(manifest);
     }
 
     /**

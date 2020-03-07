@@ -1,10 +1,11 @@
 package slogo.commands.mathcommands;
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.MathCommand;
+import slogo.commands.controlcommands.Constant;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,16 +35,16 @@ public class Product implements MathCommand {
      * using twoArgOperation, and set return value to be the product of the return value of the first command and
      * the return value of the second command
      *
-     * @param ts    a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *              TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return      list of turtle status from executing the argument commands to this operation
      *              (this operation itself does not generate new turtle status)
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts){
+    public List<TurtleStatus> execute(TurtleManifest manifest){
         List<TurtleStatus> ret = new ArrayList<>();
-        double[] val = MathCommand.twoArgOperation(ret, ts, arg1, arg2);
+        double[] val = MathCommand.twoArgOperation(ret, manifest, arg1, arg2);
         returnVal = val[0]*val[1];
+        System.out.println(returnVal);
         return ret;
     }
 

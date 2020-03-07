@@ -1,12 +1,10 @@
 package slogo.commands.mathcommands;
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
-import slogo.commands.Command;
 import slogo.commands.MathCommand;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * returns the value of pi
@@ -26,14 +24,13 @@ public class Pi implements MathCommand {
     /**
      * Create and return an empty list of turtle status, and set return value to the value of pi
      *
-     * @param ts    a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *              TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return      list of TurtleStatus instances containing only ts
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts){
+    public List<TurtleStatus> execute(TurtleManifest manifest){
         returnVal = Math.PI;
-        return List.of(ts);
+        return new LinkedList<>();
     }
 
     /**

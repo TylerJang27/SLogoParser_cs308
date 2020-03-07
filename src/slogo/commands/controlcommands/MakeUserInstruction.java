@@ -1,10 +1,12 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.ControlCommand;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ public class MakeUserInstruction implements ControlCommand {
     public static final int NUM_ARGS = 3;
 
     private List<Variable> myVariables;
-    private Collection<Command> myCommands;
+    private List<Command> myCommands;
     private Function myFunction;
 
     /**
@@ -30,10 +32,7 @@ public class MakeUserInstruction implements ControlCommand {
      * @param variables the variables to be identified for the function.
      * @param commands  the commands for the function to execute, which may include instances of those variables.
      */
-    //TODO Dennis: PLEASE CHECK IN THE PARSER TO ENSURE THAT arg1 CONTAINS A Function INSTANCE
-    //TODO Dennis: PLEASE CHECK IN PARSER TO ENSURE THAT arg2 CONTAINS A Collection of Variable INSTANCES
-    //TODO Dennis: Please ensure that the parser accounts for these variables occurring within the function
-    public MakeUserInstruction(Function func, List<Variable> variables, Collection<Command> commands) {
+    public MakeUserInstruction(Function func, List<Variable> variables, List<Command> commands) {
         myFunction = func;
         myVariables = variables;
         myCommands = commands;
@@ -42,15 +41,15 @@ public class MakeUserInstruction implements ControlCommand {
     /**
      * Executes the MakeUserInstruction, used to apply the variables and commands to the Function.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
+
      * @return   a List of TurtleStatus instances, containing only the parameter ts.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         myFunction.setVariables(myVariables);
         myFunction.setCommands(myCommands);
-        return List.of(ts);
+        return new LinkedList<>();
     }
 
     /**
@@ -63,15 +62,5 @@ public class MakeUserInstruction implements ControlCommand {
         return 1;
         //TODO: IT SAYS TO RETURN 0 IF NOT SUCCESSFULLY DEFINED; WHEN WOULD THAT BE?
         // Should I have try-catch stuff?
-    }
-
-    /**
-     * Retrieves the Function instance for this Command.
-     *
-     * @return myFunction.
-     */
-    //TODO: Remove if possible
-    public Function getFunctionHolder() {
-        return myFunction;
     }
 }

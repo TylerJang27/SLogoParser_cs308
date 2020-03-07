@@ -1,57 +1,15 @@
 package slogo.backendexternal.parser;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
-import slogo.commands.booleancommands.And;
-import slogo.commands.booleancommands.Equal;
-import slogo.commands.booleancommands.GreaterThan;
-import slogo.commands.booleancommands.LessThan;
-import slogo.commands.booleancommands.Not;
-import slogo.commands.booleancommands.NotEqual;
-import slogo.commands.booleancommands.Or;
 import slogo.commands.controlcommands.Constant;
-import slogo.commands.controlcommands.DoTimes;
-import slogo.commands.controlcommands.For;
-import slogo.commands.controlcommands.If;
-import slogo.commands.controlcommands.IfElse;
-import slogo.commands.controlcommands.Repeat;
-import slogo.commands.mathcommands.ArcTangent;
-import slogo.commands.mathcommands.Cosine;
-import slogo.commands.mathcommands.Difference;
-import slogo.commands.mathcommands.Minus;
-import slogo.commands.mathcommands.NaturalLog;
-import slogo.commands.mathcommands.Pi;
-import slogo.commands.mathcommands.Power;
-import slogo.commands.mathcommands.Product;
-import slogo.commands.mathcommands.Quotient;
-import slogo.commands.mathcommands.Rand;
-import slogo.commands.mathcommands.Remainder;
-import slogo.commands.mathcommands.Sine;
-import slogo.commands.mathcommands.Sum;
-import slogo.commands.mathcommands.Tangent;
-import slogo.commands.queriescommands.Heading;
-import slogo.commands.queriescommands.IsPenDown;
-import slogo.commands.queriescommands.IsShowing;
-import slogo.commands.queriescommands.XCoordinate;
-import slogo.commands.queriescommands.YCoordinate;
-import slogo.commands.turtlecommands.Backward;
-import slogo.commands.turtlecommands.ClearScreen;
-import slogo.commands.turtlecommands.Forward;
-import slogo.commands.turtlecommands.HideTurtle;
-import slogo.commands.turtlecommands.Home;
-import slogo.commands.turtlecommands.Left;
-import slogo.commands.turtlecommands.PenDown;
-import slogo.commands.turtlecommands.PenUp;
-import slogo.commands.turtlecommands.Right;
-import slogo.commands.turtlecommands.SetHeading;
-import slogo.commands.turtlecommands.SetPosition;
-import slogo.commands.turtlecommands.SetTowards;
-import slogo.commands.turtlecommands.ShowTurtle;
+import slogo.view.MainView;
 
 public class CommandFactory {
 
@@ -59,171 +17,185 @@ public class CommandFactory {
   private static final double Y_MAX = 250;
 
   private String currentMode;
-  private CommandCounter myCounts;
-  private FunctionFactory functionFactory;
-  private Map<String, List<String>> myCommands;
+  private List<String> myMovementCommands;
+  private Map<String, Integer> counts = new HashMap<>();
+  private Map<String, Integer> myControlCommands = new HashMap<>();
+  private MainView myMainView;
+  private List<String> mySupplierCommands;
+  private List<String> myRunnableCommands;
+  private Map<String, Integer> myConsumerCommands = new HashMap<>();
+  private Map<String, String> myCommands = new HashMap<>();
 
-  public CommandFactory(Map<String, List<String>> commands){
-    currentMode = "toroidal";
-    myCounts = new CommandCounter();
-    myCommands = commands;
-//    functionFactory = new FunctionFactory(myCommands);
+
+  public CommandFactory(){
+    currentMode = "Toroidal";
+    fillCounts();
+    setGeneralCommands();
+    setMovementCommands();
+    setControlCommands();
+    setSRCCommands();
   }
+
+
+  private void setControlCommands(){
+    var resources2 = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "ControlCommand");
+    for(String key:resources2.keySet()){
+      myControlCommands.put(key, Integer.parseInt(resources2.getString(key)));
+    }
+  }
+
+  private void setGeneralCommands(){
+    var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandFactory");
+    for(String key:resources.keySet()){
+      myCommands.put(key, resources.getString(key));
+    }
+  }
+
+  private void setMovementCommands(){
+    myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
+  }
+
+  private void setSRCCommands(){
+    var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "ConsumerCommand");
+    for(String key:resources.keySet()){
+      myConsumerCommands.put(key, Integer.parseInt(resources.getString(key)));
+    }
+    myRunnableCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "RunnableCommand").getKeys());
+    mySupplierCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "SupplierCommand").getKeys());
+  }
+
+  public void setView(MainView mv){
+    myMainView = mv;
+  }
+
+
+
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
-    List<Command> commands = new ArrayList<>();
-    System.out.println(previous.size());
-    int count = myCounts.getCount(formalCommand);
 
-    if(previous.size() < count){
+    List<Command> commands = new ArrayList<>();
+    int count = getCount(formalCommand);
+
+    if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
+      System.out.println((previous.size() + listCommands.size()) + " vs " + count);
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
-
-    while(commands.size() < count){
-      if(previous.size() > 0){
-        commands.add(previous.pop());
+    if (formalCommand.equals("Tell")) {
+      while (commands.size() + listCommands.size() < count) {
+        if (previous.size() > 0) {
+          commands.add(previous.pop());
+        } else {
+          break;
+        }
+      }
+      } else {
+        while (commands.size() < count) {
+          if (previous.size() > 0) {
+            commands.add(previous.pop());
+          } else {
+            break;
+          }
       }
     }
     return buildCommand(formalCommand, commands, listCommands);
   }
 
-  //TODO Replace the following if else tree with reflection - will make much cleaner
+  public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException {
+    try {
+      List<Object> obj = new ArrayList<>();
 
-  public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands){
-    if(key.equals("Backward")){
-      return new Backward(commands.get(0), X_MAX, Y_MAX, currentMode);
-    }
-    else if(key.equals("ClearScreen")){
-      return new ClearScreen(X_MAX, Y_MAX, currentMode);
-    }
-    else if(key.equals("Forward")){
-      return new Forward(commands.get(0), X_MAX, Y_MAX, currentMode);
-    }
-    else if(key.equals("HideTurtle")){
-      return new HideTurtle();
-    }
-    else if(key.equals("Home")){
-      return new Home(X_MAX, Y_MAX, currentMode);
-    }
-    else if(key.equals("Left")){
-      return new Left(commands.get(0));
-    }
-    else if(key.equals("PenDown")){
-      return new PenDown();
-    }
-    else if(key.equals("PenUp")){
-      return new PenUp();
-    }
-    else if(key.equals("Right")){
-      return new Right(commands.get(0));
-    }
-    else if(key.equals("SetHeading")){
-      return new SetHeading(commands.get(0));
-    }
-    else if(key.equals("SetPosition")){
-      return new SetPosition(commands.get(0), commands.get(1), X_MAX, Y_MAX, currentMode);
-    }
-    else if(key.equals("SetTowards")){
-      return new SetTowards(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("ShowTurtle")){
-      return new ShowTurtle();
-    }
-    else if(key.equals("Heading")){
-      return new Heading();
-    }
-    else if(key.equals("IsPenDown")){
-      return new IsPenDown();
-    }
-    else if(key.equals("IsShowing")){
-      return new IsShowing();
-    }
-    else if(key.equals("XCoordinate")){
-      return new XCoordinate();
-    }
-    else if(key.equals("YCoordinate")){
-      return new YCoordinate();
-    }
-    else if(key.equals("ArcTangenet")){
-      return new ArcTangent(commands.get(0));
-    }
-    else if(key.equals("Cosine")){
-      return new Cosine(commands.get(0));
-    }
-    else if(key.equals("Difference")){
-      return new Difference(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("Minus")){
-      return new Minus(commands.get(0));
-    }
-    else if(key.equals("NaturalLog")){
-      return new NaturalLog(commands.get(0));
-    }
-    else if(key.equals("Pi")){
-      return new Pi();
-    }
-    else if(key.equals("Power")){
-      return new Power(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("Product")){
-      return new Product(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("Quotient")){
-      return new Quotient(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("Rand")){
-      return new Rand(commands.get(0));
-    }
-    else if(key.equals("Remainder")){
-      return new Remainder(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("Sine")){
-      return new Sine(commands.get(0));
-    }
-    else if(key.equals("Sum")){
-      return new Sum(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("Tangent")){
-      return new Tangent(commands.get(0));
-    }
-    else if(key.equals("And")){
-      return new And(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("Equal")){
-      return new Equal(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("GreaterThan")){
-      return new GreaterThan(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("LessThan")){
-      return new LessThan(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("Not")){
-      return new Not(commands.get(0));
-    }
-    else if(key.equals("NotEqual")){
-      return new NotEqual(commands.get(0),commands.get(1));
-    }
-    else if(key.equals("Or")){
-      return new Or(commands.get(0), commands.get(1));
-    }
-    else if(key.equals("Repeat")){
-      System.out.println("Constant before repeat");
-      System.out.println(listCommands.peek());
-      return new Repeat(commands.get(0), listCommands.pop());
-    }
-    else{
-//      return functionFactory.buildFunction(key, commands, listCommands);
-      return null;
+      for (int i = 0; i < getCount(key) && commands.size() > 0; i++) {
+        obj.add(commands.get(i));
+      }
+      if (myMovementCommands.contains(key)) {obj.addAll(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));}
+      if (myControlCommands.keySet().contains(key)) {for (int i = 0; i < myControlCommands.get(key); i++) {obj.add(listCommands.pop());}}
+
+      runnableAdd(key, obj);
+      consumerAdd(key, obj);
+      supplierAdd(key, obj);
+      if (key.equals("Tell")) {
+        obj.clear();
+        if (listCommands.isEmpty()) {
+          obj.add(List.of(commands.get(0)));
+        } else {
+          obj.add(listCommands.pop());
+        }
+      }
+
+      //System.out.println(key);
+
+      Object[] objArray = obj.toArray();
+      Class<?> params[] = findParameter(objArray);
+      for(Class<?> o: params) System.out.println(o);
+      return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
+    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+      System.out.println("sth happened");
+      throw new InvalidCommandException("Command could not be found.");
     }
   }
+
+  private void runnableAdd(String key, List<Object> obj){
+    //System.out.println(key + "runnableAdding");
+    if(myRunnableCommands.contains(key)) {
+      Runnable z = () -> {
+        try {
+          this.getClass().getDeclaredMethod(key).invoke(this);
+        } catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
+          throw new InvalidCommandException("Command could not be found.");
+        }
+      };
+      obj.add(z);
+    }
+  }
+
+  private void consumerAdd(String key, List<Object> obj){
+    if(myConsumerCommands.keySet().contains(key)){
+      //System.out.println(key);
+//      if(myConsumerCommands.get(key)!=1) ;
+//      Class<?> p[] = new Class<?>[myConsumerCommands.get(key)];
+//      Arrays.fill(p, Integer.TYPE);
+      if(myConsumerCommands.get(key)==1) {
+        Consumer<Integer> z = index -> {
+          try {
+            this.getClass().getDeclaredMethod(key, Integer.TYPE).invoke(this, index);
+          } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new InvalidCommandException("Command could not be found.");
+          }
+        };
+        obj.add(z);
+      }
+      else{
+        Consumer<int[]> z = index -> {
+          try {
+            this.getClass().getDeclaredMethod(key, int[].class).invoke(this, index);
+          }catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new InvalidCommandException("Command could not be found.");
+          }
+        };
+        obj.add(z);
+      }
+    }
+  }
+
+  private void supplierAdd(String key, List<Object> obj){
+    if(mySupplierCommands.contains(key)) {
+      Supplier<Integer> z = ()-> {
+        try {
+          return (Integer) this.getClass().getDeclaredMethod(key).invoke(this);
+        } catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
+          //System.out.println("????");
+          throw new InvalidCommandException("Command could not be found.");
+        }
+      };
+      obj.add(z);
+    }
+  }
+
 
   public Command makeConstant(String current) {
     return new Constant(Integer.parseInt(current));
   }
-
-  //TODO: WILL IT ALWAYS BE AN INTEGER?
 
   public void setMode(String mode){
     currentMode = mode;
@@ -235,6 +207,85 @@ public class CommandFactory {
         return key;
       }
     }
-    throw new InvalidCommandException(String.format("The command %s could not be found", current));
+    throw new InvalidCommandException(current);
+  }
+
+  private void fillCounts(){
+    counts = new HashMap<>();
+    var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandCounter");
+    for(String key:resources.keySet()){
+      counts.put(key, Integer.parseInt(resources.getString(key)));
+    }
+  }
+
+  private int getCount(String command){
+    System.out.println(command + " " + counts.size());
+    return counts.get(command);
+  }
+
+  private Class<?>[] findParameter(Object[] objArray){
+    Class<?> params[] = new Class[objArray.length];
+    for (int i = 0; i < objArray.length; i++) {
+      if (objArray[i] instanceof Double) {
+        params[i] = Double.TYPE;
+      } else if (objArray[i] instanceof String) {
+        params[i] = String.class;
+      } else if (objArray[i] instanceof Command) {
+        params[i] = Command.class;
+      } else if (objArray[i] instanceof List) {
+        params[i] = List.class;
+      } else if (objArray[i] instanceof Consumer) {
+        params[i] = Consumer.class;
+      } else if (objArray[i] instanceof Supplier) {
+        params[i] = Supplier.class;
+      }else if (objArray[i] instanceof Runnable) {
+        params[i] = Runnable.class;
+      }
+      else if (objArray[i] instanceof Collection) {
+        params[i] = Collection.class;
+      }
+    }
+    return params;
+  }
+
+  private void ClearScreen(){
+    myMainView.getTurtles().getMyLines().clear();
+    myMainView.getTurtle().clearScreen();
+    //for(TurtleView t : myMainView.getTurtles().getTurtleViews()) t.clearScreen();
+  }
+
+
+
+
+  private void SetBackground(int index){
+    System.out.println("setBackGround");
+    myMainView.getToolBar().setBackground(index);
+  }
+  private void SetPenColor(int index){
+    System.out.println("setPenColoring");
+    myMainView.getToolBar().setPenColor(index);
+  }
+  private void SetShape(int index){
+    myMainView.getToolBar().setShape(index);
+  }
+
+  private void SetPenSize(int index){
+    myMainView.getTurtle().setThickness(index);
+  }
+
+  private int GetPenColor(){
+    int i = myMainView.getToolBar().getPenColor();
+    System.out.println(i);
+    return i;
+  }
+
+  private int GetShape(){
+    return myMainView.getToolBar().getTurtleShape();
+  }
+
+  private void SetPalette(int[] index){
+    myMainView.getToolBar().setPalette(index);
   }
 }
+
+

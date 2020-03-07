@@ -1,11 +1,14 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 import slogo.commands.ControlCommand;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Class that implements ControlCommand, used to call/execute a function, assigning it values to its variables.
@@ -35,7 +38,7 @@ public class RunFunction implements ControlCommand {
     public RunFunction(Function builtFunction, List<Command> variableValues) throws InvalidCommandException {
         myFunction = builtFunction;
         myValues = variableValues;
-        if (myValues.size() != myFunction.getNumVars()) {
+        if (myValues.size() > myFunction.getNumVars()) {
             //TODO Dennis: I would like to grab this from the resource files for the error name, but
             // I am unsure how to do so without overextending my bounds. Do you think you could look into this?
             throw new InvalidCommandException(BAD_FUNCTION_CALL);
@@ -45,20 +48,24 @@ public class RunFunction implements ControlCommand {
     /**
      * Executes the RunFunction, used to apply the values to the variables sequentially
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return a List of TurtleStatus instances, produced as a result of setting the variable values and running the Function.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        List<Integer> previousIds = manifest.getAllActiveTurtles();
+        Integer previousId = manifest.getActiveTurtle();
         List<TurtleStatus> ret = new ArrayList<>();
 
         for (int k = 0; k < myValues.size(); k ++) {
             Command c = myValues.get(k);
-            double val = ControlCommand.executeAndExtractValue(c, ts, ret);
+            double val = Command.executeAndExtractValue(c, manifest, ret);
             myFunction.setVariableValue(k, val);
+            System.out.println(val);
         }
-        myVal = ControlCommand.executeAndExtractValue(myFunction, ts, ret);
+        myVal = Command.executeAndExtractValue(myFunction, manifest, ret);
+        manifest.setActiveTurtles(previousIds);
+        manifest.makeActiveTurtle(previousId);
         return ret;
     }
 

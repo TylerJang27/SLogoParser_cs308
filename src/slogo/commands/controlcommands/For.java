@@ -1,5 +1,6 @@
 package slogo.commands.controlcommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
@@ -35,7 +36,7 @@ public class For implements ControlCommand {
      * @param varStep   the amount by which the variable should be incremented.
      * @param commands  the Collection of commands to execute for a given loop.
      */
-    public For(Variable var, Command varStart, Command varCap, Command varStep, Collection<Command> commands) {
+    public For(Variable var, Command varStart, Command varCap, Command varStep, List<Command> commands) {
         varCounter = var;
         varMin = varStart;
         varMax = varCap;
@@ -47,18 +48,17 @@ public class For implements ControlCommand {
     /**
      * Executes the For instance, updating varCounter as necessary and executing the contained commands.
      *
-     * @param ts a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *           TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @return   a List of TurtleStatus instances produced as a result of running the loop.
      */
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         //TODO: AT THE MOMENT, THE ITEMS IN THE VARCAP FIELD WILL BE EXECUTED AND ADDED AS TURTLESTATUS INSTANCES
         //TODO: DETERMINE IF THIS IS APPROPRIATE/REQUIRED
 
         List<TurtleStatus> ret = new ArrayList<>();
-        varCounter.setVal(ControlCommand.executeAndExtractValue(varMin, ts, ret));
-        double cap = ControlCommand.executeAndExtractValue(varMax, ts, ret);
+        varCounter.setVal(Command.executeAndExtractValue(varMin, manifest, ret));
+        double cap = Command.executeAndExtractValue(varMax, manifest, ret);
 
         int counter = 0;
         while (varCounter.returnValue() < cap) {
@@ -67,9 +67,9 @@ public class For implements ControlCommand {
                 throw new InvalidCommandException(BAD_INFINITE_LOOP);
             }
             for (Command c: commandsToExecute) {
-                myVal = ControlCommand.executeAndExtractValue(c, ts, ret);
+                myVal = Command.executeAndExtractValue(c, manifest, ret);
             }
-            double incr = ControlCommand.executeAndExtractValue(varIncr, ts, ret);
+            double incr = Command.executeAndExtractValue(varIncr, manifest, ret);
             varCounter.setVal(varCounter.returnValue() + incr);
             counter ++;
         }

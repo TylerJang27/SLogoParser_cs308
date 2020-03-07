@@ -1,9 +1,10 @@
 package slogo.commands.turtlecommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.TurtleCommand;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,22 +16,21 @@ public class ClearScreen implements TurtleCommand {
     public static final int NUM_ARGS = 0;
 
     private TurtleCommand go;
+    private Runnable runnable;
 
-    public ClearScreen(double xMax, double yMax, String mode){
+    public ClearScreen(double xMax, double yMax, String mode, Runnable runnable){
         go = new Home(xMax,yMax,mode);
-        //TODO: NEED ADDITIONAL PARAMETER QUALIFYING AS A RESET:
-        //Could add a null to a collection of TurtleStatus, stuff, which the front
-        //could interpret as remove everything and go from there
-        //need to keep in mind sequential order of things
+        this.runnable = runnable;
     }
 
-
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
-        List<TurtleStatus> ret = go.execute(ts);
-        TurtleStatus last = ret.get(ret.size()-1);
-        TurtleStatus next = new TurtleStatus(last.getX(), last.getY(), 0.0, false, last.getVisible(), last.getPenDown(), last.getPenColor());
-        next.setClear();
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
+        List<TurtleStatus> ret = go.execute(manifest);
+        //List<TurtleStatus> ret = new ArrayList<>();
+        TurtleStatus last = manifest.getActiveState();
+        TurtleStatus next = new TurtleStatus(last.getID(), 0, 0, 0.0, false, last.getVisible(), last.getPenDown());
+        //next.setClear();
+        next.setRunnable(()->runnable.run());
         ret.add(next);
         return ret;
     }
@@ -41,8 +41,8 @@ public class ClearScreen implements TurtleCommand {
         return go.returnValue();
     }
 
-    public static boolean toClear() {
-        return true; //TODO: MAKE SURE THIS IMPLEMENTATION WORKS
-    }
+//    public static boolean toClear() {
+//        return true; //TODO: MAKE SURE THIS IMPLEMENTATION WORKS
+//    }
 
 }

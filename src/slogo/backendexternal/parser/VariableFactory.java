@@ -19,19 +19,16 @@ public class VariableFactory {
     variablesAdded = new Stack<>();
   }
 
-  public MakeVariable makeVariable(Command previous){
+  public MakeVariable makeVariable(Stack<Command> previous){
+    previous.pop();
     String key = variablesAdded.pop();
-    return new MakeVariable(variableMap.get(key), previous);
+    return new MakeVariable(variableMap.get(key), previous.pop());
   }
 
-  public boolean handleVariable(String current){
-    if(variableMap.containsKey(current)){
-      return true;
-    }
-    else{
-      variablesAdded.push(current);
+  public void handleVariable(String current){
+    variablesAdded.push(current);
+    if(!variableMap.containsKey(current)){
       variableMap.put(current, new Variable());
-      return false;
     }
   }
 
@@ -42,17 +39,20 @@ public class VariableFactory {
     return null;
   }
 
-  public MakeVariable setVariable(Command command){
-    return new MakeVariable(variableMap.get(variablesAdded.pop()), command);
+  public MakeVariable setVariable(Stack<Command> previous){
+    previous.pop();
+    return new MakeVariable(variableMap.get(variablesAdded.pop()), previous.pop());
   }
 
-  public String getVariableString(){
-    StringBuilder ret = new StringBuilder();
+  public List<String> getVariableString(){
+    List<String> ret = new ArrayList<>();
+    StringBuilder builder = new StringBuilder();
     for(String key : variableMap.keySet()){
-      ret.append(key + " ");
-      ret.append(variableMap.get(key).returnValue());
-      ret.append("\n");
+      builder.append(key + " -> ");
+      builder.append(variableMap.get(key).returnValue());
+      builder.append("\n");
+      ret.add(builder.toString());
     }
-    return ret.toString();
+    return ret;
   }
 }

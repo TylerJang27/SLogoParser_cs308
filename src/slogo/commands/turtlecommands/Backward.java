@@ -1,5 +1,6 @@
 package slogo.commands.turtlecommands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.Command;
 import slogo.commands.TurtleCommand;
@@ -28,15 +29,15 @@ public class Backward implements TurtleCommand {
     }
 
     @Override
-    public List<TurtleStatus> execute(TurtleStatus ts) {
+    public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = new ArrayList<>();
 
-        ret.addAll(arg1.execute(ts));
+        ret.addAll(arg1.execute(manifest));
         returnVal = arg1.returnValue();
 
-        double deltaX = -1*returnVal*Math.sin(Math.toRadians(ret.get(ret.size()-1).getBearing()));
-        double deltaY = returnVal*Math.cos(Math.toRadians(ret.get(ret.size()-1).getBearing()));
-        return TurtleCommand.move(ret.get(ret.size()-1),ret,deltaX,deltaY,xMax, yMax, mode);
+        double deltaX = -1*returnVal*Math.sin(Math.toRadians(manifest.getActiveState().getBearing()));
+        double deltaY = returnVal*Math.cos(Math.toRadians(manifest.getActiveState().getBearing()));
+        return TurtleCommand.move(manifest,ret,deltaX,deltaY,xMax, yMax, mode);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package slogo.commands;
 
+import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 
 import java.util.List;
@@ -21,18 +22,17 @@ public interface BooleanCommand extends Command {
      *
      * @param ret   list of turtle status that will eventually hold all the turtle statuses from executing
      *              both input commands
-     * @param ts    a singular TurtleStatus instance upon which to build subsequent TurtleStatus instances.
-     *              TurtleStatus instances are given in absolutes, and thus may require other TurtleStatus values.
+     * @param manifest a TurtleManifest containing information about all the turtles
      * @param arg1  first argument to be executed
      * @param arg2  second argument to be executed
      *
      * @return      a double array, in which the first value is the return value from input command 1 and the second
      *              value is the return value from input command 2
      */
-    static double[] twoArgOperation(List<TurtleStatus> ret, TurtleStatus ts, Command arg1, Command arg2) {
-        ret.addAll(arg1.execute(ts));
-        ret.addAll(arg2.execute(ret.get(ret.size()-1)));
-        double[] val = {arg1.returnValue(), arg1.returnValue()};
+    static double[] twoArgOperation(List<TurtleStatus> ret, TurtleManifest manifest, Command arg1, Command arg2) {
+        ret.addAll(arg1.execute(manifest));
+        ret.addAll(arg2.execute(manifest));
+        double[] val = {arg1.returnValue(), arg2.returnValue()};
         return val;
     }
 }

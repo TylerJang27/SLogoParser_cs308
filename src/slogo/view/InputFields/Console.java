@@ -25,6 +25,11 @@ public class Console {
 
   private double boxWidth;
 
+  /**
+   * Console object which allows user to enter commands as well as stores and displays history
+   * of previous commands
+   * @param width the width of the console in the display
+   */
   public Console(double width){
     history = new ArrayList<>();
     box = new VBox();
@@ -36,29 +41,32 @@ public class Console {
     pane = new ScrollPane(box);
     pane.setMinHeight(boxHeight);
     pane.setMaxHeight(boxHeight);
-    //box.getChildren().add(pane);
   }
 
-  private void setDetails(){
-//    box.setMinHeight(boxHeight);
-    box.setMaxHeight(boxHeight);
-    pane = new ScrollPane();
-    pane.setContent(box);
-    pane.setPannable(true);
-
-    Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));
-    box.setBackground(backing);
-  }
-
+  /**
+   * Returns the pane in which the console is located
+   * @return ScrollPane
+   */
   public ScrollPane getPane(){ return pane; }
+
+  /**
+   * Returns the current text in the user entry field
+   * @return String
+   */
   public String getText(){
     return entry.getText();
   }
 
+  /**
+   * Adds current user entry to list of previous entries
+   */
   public void addHistory(){
     history.add(entry.getText());
   }
 
+  /**
+   * Adds uneditable text fields to the scroll pane to display past command history in console
+   */
   public void displayHistory(){
     clear();
     addEditable();
@@ -70,11 +78,18 @@ public class Console {
     pane.setContent(box);
   }
 
+  /**
+   * Clears all entries and textfields in the console outside of its label.
+   */
   public void clear(){
     box.getChildren().clear();
     box.getChildren().add(comLabel);
   }
 
+  /**
+   * Changes current text to display an error message to the user in the console
+   * @param message to be displayed
+   */
   public void addError(String message){
     addHistory();
     history.add(DEFAULT_ERROR_MESSAGE);
@@ -82,17 +97,52 @@ public class Console {
     entry.setEditable(false);
   }
 
+  /**
+   * Sets current editable text in the console
+   * @param text the String displayed to the user
+   */
   public void setText(String text){
     entry.clear();
     entry.setText(text);
   }
 
+  /**
+   * Returns the editable text field atop the console for use in Controller in handling prompting the user.
+   * @return TextField
+   */
   public TextField getEntry(){
     return entry;
-//>>>>>>> b38f675fbb2ee7dd66c656afdd7909d2a2010175
   }
 
+  /**
+   * Iterates over past entries and displays them in the selected language
+   * @param translator Translator object to translate objects from one language to another specified language
+   * @param newLanguage String which specifies the language strings will be translated to
+   */
+  public void translateHistory(Translator translator, String newLanguage) {
+    clear();
+    addEditable();
+    ListIterator<String> iter = history.listIterator(history.size());
+    while(iter.hasPrevious()){
+      StringBuilder translatedLine = new StringBuilder();
+      for(String command : iter.previous().split(" ")){
+        translatedLine.append(translator.translateCommand(command, newLanguage));
+        translatedLine.append(" ");
+      }
+      String past = "> " + translatedLine.toString();
+      addUneditable(past);
+    }
+    pane.setContent(box);
+  }
 
+  private void setDetails(){
+    box.setMaxHeight(boxHeight);
+    pane = new ScrollPane();
+    pane.setContent(box);
+    pane.setPannable(true);
+    Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));
+    box.setBackground(backing);
+  }
 
   private void addUneditable(String input){
     TextField current = new TextField(input);
@@ -113,21 +163,5 @@ public class Console {
 
   private void onClick(String input){
     entry.setText(input.substring(2));
-  }
-
-  public void translateHistory(Translator translator, String newLanguage) {
-    clear();
-    addEditable();
-    ListIterator<String> iter = history.listIterator(history.size());
-    while(iter.hasPrevious()){
-      StringBuilder translatedLine = new StringBuilder();
-      for(String command : iter.previous().split(" ")){
-        translatedLine.append(translator.translateCommand(command, newLanguage));
-        translatedLine.append(" ");
-      }
-      String past = "> " + translatedLine.toString();
-      addUneditable(past);
-    }
-    pane.setContent(box);
   }
 }

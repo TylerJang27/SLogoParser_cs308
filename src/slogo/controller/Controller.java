@@ -88,7 +88,6 @@ public class Controller extends Application {
     addTabPreferencesButton = myDisplay.getAddTabFromPreferencesButton();
     addTabPreferencesButton.setOnAction(event -> uploadNewFile());
     Scene myScene = myDisplay.getScene();
-
     currentStage.setScene(myScene);
     currentStage.setTitle(TITLE);
     currentStage.setWidth(1070);

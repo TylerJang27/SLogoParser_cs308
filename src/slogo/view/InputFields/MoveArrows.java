@@ -29,6 +29,15 @@ public class MoveArrows {
     pane.getChildren().addAll(label,up,down,left,right, setIncrement);
   }
 
+
+  public VBox getVBox(){ return pane; }
+
+  public int getIncrement(){ return Integer.parseInt(setIncrement.getText()); }
+
+  public List<Button> getButtons(){
+    return Arrays.asList(up, down, left, right);
+  }
+
   private void createPane(){
     pane = new VBox();
     pane.setMinSize(size, size);
@@ -37,18 +46,10 @@ public class MoveArrows {
 
   private void createTextField(int index, double size){
     setIncrement = new TextField();
-    setIncrement.setMinSize(3*size, 1.2*size);
-    setIncrement.setPrefSize(3*size, 1.2*size);
-    setIncrement.setMaxSize(3*size, 1.2*size);
+    setIncrement.setMinSize(3*size, size);
+    setIncrement.setPrefSize(3*size, size);
+    setIncrement.setMaxSize(3*size, size);
     setIncrement.setText(Integer.toString(index));
-  }
-
-  public VBox getVBox(){ return pane; }
-
-  public int getIncrement(){ return Integer.parseInt(setIncrement.getText()); }
-
-  public List<Button> getButtons(){
-    return Arrays.asList(up, down, left, right);
   }
 
   private void createButtons(){
@@ -61,9 +62,9 @@ public class MoveArrows {
   private Button createButton(String name, double rotation, double x, double y, double size){
     Button button = new Button(name);
     button.setId(name.toLowerCase());
-    button.setMinSize(3*size, 1.2*size);
-    button.setPrefSize(3*size, 1.2*size);
-    button.setMaxSize(3*size, 1.2*size);
+    button.setMinSize(3*size, size);
+    button.setPrefSize(3*size, size);
+    button.setMaxSize(3*size, size);
     button.setLayoutX(x - button.getLayoutBounds().getMinX());
     button.setLayoutY(y - button.getLayoutBounds().getMinY());
     return button;

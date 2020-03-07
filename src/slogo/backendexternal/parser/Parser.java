@@ -35,9 +35,9 @@ public class Parser {
     myCommands = translator.getCurrentCommands();
     newCommands = new ArrayList<>();
     commandHistory = new ArrayList<>();
-    commandFactory = new CommandFactory(myCommands);
+    commandFactory = new CommandFactory();
     variableFactory = new VariableFactory();
-    functionFactory = new FunctionFactory(myCommands);
+    functionFactory = new FunctionFactory();
     currentCommands = new Stack<>();
     currentComponents = new Stack<>();
     controlTypes = ResourceBundle.getBundle(Parser.class.getPackageName() + ".resources." + "Syntax");
@@ -74,6 +74,7 @@ public class Parser {
       String controlType = getInputType(current);
       try{
         Method control;
+        System.out.println(controlType);
         if(controlType.equals(parserMethods.getString("ListEnd")) || controlType.equals(parserMethods.getString("ListStart"))){
           control = Parser.class.getDeclaredMethod(controlType, Stack.class, Stack.class, List.class);
           control.invoke(this, commands, listCommands, currentList);
@@ -99,7 +100,7 @@ public class Parser {
     return currentCommand;
   }
 
-  private String getInputType(String current) {
+  public String getInputType(String current) {
     Iterator<String> iter = controlTypes.getKeys().asIterator();
     while(iter.hasNext()){
       String key = iter.next();
@@ -174,6 +175,8 @@ public class Parser {
   }
 
   private void ListStart(Stack<Command> commands, Stack<List<Command>> listCommands, List<Command> currentList){
+    //TODO: FIXME PLEASE
+    System.out.println("parser" + commands + "\n\t" + listCommands.size() + "\n\t\t" + currentList.size());
     inList.remove(0);
     listCommands.add(currentList);
   }

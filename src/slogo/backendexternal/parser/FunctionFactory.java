@@ -19,16 +19,12 @@ public class FunctionFactory {
   private Map<String, Function> functionMap;
   private List<Variable> functionVariables;
   private List<Command> functionCommands;
-  private CommandFactory commandFactory;
   private VariableFactory variableFactory;
-  private Map<String, List<String>> myCommands;
 
-  public FunctionFactory(Map<String, List<String>> commands){
+  public FunctionFactory(){
     functionMap = new HashMap<>();
     functionVariables = new ArrayList<>();
     functionCommands = new ArrayList<>();
-    myCommands = commands;
-    commandFactory = new CommandFactory(myCommands);
     variableFactory = new VariableFactory();
   }
 
@@ -49,9 +45,22 @@ public class FunctionFactory {
   public MakeUserInstruction handleFunction(Stack<String> components){
     String func = getName(components);
     functionMap.put(func, new Function());
-    fillCommands(components);
+    Stack<String> executed = getFunctionCommands(components);
     fillVariables(components);
+    fillCommands(executed);
     return new MakeUserInstruction(functionMap.get(func), functionVariables, functionCommands);
+  }
+
+  private Stack<String> getFunctionCommands(Stack<String> components){
+    Stack<String> commandStack = new Stack<>();
+    while(components.size() > 0){
+      String next = components.pop();
+      if(Input.ListEnd.matches(next)){
+        break;
+      }
+      commandStack.add(next);
+    }
+    return commandStack;
   }
 
   private void fillVariables(Stack<String> components) {
@@ -64,15 +73,13 @@ public class FunctionFactory {
       if(Input.Variable.matches(current)){
         variableFactory.handleVariable(current);
         functionVariables.add(variableFactory.getVariable(current));
-        System.out.println("Variables Being Made in Function:");
-        System.out.println(variableFactory.getVariableString());
       }
     }
   }
 
   private void fillCommands(Stack<String> components){
     functionCommands.clear();
-    Stack<Command> newCommands = new Stack<Command>();
+    Stack<Command> newCommands = new Stack<>();
     newCommands.addAll(parseComponentsFunction(components));
     while(newCommands.size() > 0){
       functionCommands.add(newCommands.pop());
@@ -93,8 +100,7 @@ public class FunctionFactory {
 
   private Stack<Command> parseComponentsFunction(Stack<String> components){
     Stack<Command> currentCommand = new Stack<>();
-    Stack<List<Command>> listCommands = new Stack();
-
+    Stack<List<Command>> listCommands = new Stack<>();
     while(components.size() > 0){
       Stack<Command> commands = new Stack<>();
       String current = components.pop();
@@ -103,12 +109,9 @@ public class FunctionFactory {
         break;
       }
       try{
-        System.out.println("FUNCTION FACTORY");
         Method checkType = Parser.class.getDeclaredMethod("getInputType", String.class);
         controlType = (String) checkType.invoke(new Parser(), current);
-        System.out.println(controlType);
         Method control = Parser.class.getDeclaredMethod(controlType, String.class, Stack.class, Stack.class, Stack.class, List.class);
-        System.out.println(control);
         commands.add((Command) control.invoke(new Parser(), current, commands, listCommands, currentCommand, new ArrayList<>()));
       }catch(Exception e){
         throw new InvalidCommandException(current);
@@ -116,11 +119,6 @@ public class FunctionFactory {
     }
     return currentCommand;
   }
-
-  public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands){
-    return new Function();
-  }
-
 
   public List<String> getFunctionString() {
     List<String> ret = new ArrayList<String>();

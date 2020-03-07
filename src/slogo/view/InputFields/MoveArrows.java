@@ -11,7 +11,6 @@ import javafx.scene.layout.VBox;
 import slogo.view.Display;
 
 public class MoveArrows {
-  private static final Image ARROW_IMAGE = new Image("/slogo/view/imagesFolder/arrow.png");
   private VBox pane;
   private Button up;
   private Button down;
@@ -62,9 +61,6 @@ public class MoveArrows {
   private Button createButton(String name, double rotation, double x, double y, double size){
     Button button = new Button(name);
     button.setId(name.toLowerCase());
-//    ImageView view = new ImageView(ARROW_IMAGE);
-//    view.setRotate(view.getRotate() + 90);
-//    button.setGraphic(view);
     button.setMinSize(3*size, 1.2*size);
     button.setPrefSize(3*size, 1.2*size);
     button.setMaxSize(3*size, 1.2*size);

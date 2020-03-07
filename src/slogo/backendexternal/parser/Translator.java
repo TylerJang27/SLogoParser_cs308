@@ -22,6 +22,8 @@ public class Translator {
 
   public Map<String, List<String>> getCurrentCommands(){ return currentCommands; }
 
+  public void setCurrentLanguage(String language){ currentCommands = setLanguage(language);}
+
   public Map<String, List<String>> setLanguage(String language){
     Map<String, List<String>> translatedCommands = new HashMap<String, List<String>>();
     ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + language);

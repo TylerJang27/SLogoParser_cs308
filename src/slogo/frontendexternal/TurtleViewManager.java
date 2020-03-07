@@ -47,12 +47,22 @@ public class TurtleViewManager {
       turtleStatusMap.putIfAbsent(currID, new TurtleStatus(currID));
       TurtleView tempTurtle = turtleViewMap.get(currID);
       TurtleStatus start = turtleStatusMap.get(currID);
-
-      if(tempTurtle.getIsActive()) {
-        tempTurtle.executeState(seq, start, end);
-        turtleStatusMap.put(currID, end);
-        penViewLines.addAll(tempTurtle.getPenView().getMyLines());
+//<<<<<<< HEAD
+//
+//      if(tempTurtle.getIsActive()) {
+//        tempTurtle.executeState(seq, start, end);
+//        turtleStatusMap.put(currID, end);
+//        penViewLines.addAll(tempTurtle.getPenView().getMyLines());
+//      }
+//=======
+      tempTurtle.executeState(seq, start, end);
+      if(end.hasRunnable()){
+        System.out.println("manager modify");
+        end.modify();
       }
+      turtleStatusMap.put(currID, end);
+      penViewLines.addAll(tempTurtle.getPenView().getMyLines());
+      //if(end.hasRunnable()) end.modify();
     }
     seq.setRate(animationRate);
     seq.play();
@@ -124,7 +134,6 @@ public class TurtleViewManager {
       TurtleStatus tsFinal = turtleStatusMap.get(k);
       TurtleStatus tsAdjusted = new TurtleStatus(tsFinal.getID(), tsFinal.getX(), tsFinal.getY()-0.0001, 0, tsFinal.getTrail(), tsFinal.getVisible(), tsFinal.getPenDown());
       TurtleView tv = turtleViewMap.get(k);
-      //tv.setMyBearing(0);
       tv.executeState(sq, tsAdjusted, tsFinal);
       //TODO: REFACTOR AND CALL EXECUTE
     }

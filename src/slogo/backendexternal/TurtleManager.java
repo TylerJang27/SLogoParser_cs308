@@ -54,7 +54,6 @@ public class TurtleManager {
             for (Integer turtleID : myActives) {
                 myManifest.setActiveTurtles(Arrays.asList(turtleID));
                 myManifest.makeActiveTurtle(turtleID);
-
                 List<TurtleStatus> newStatuses = c.execute(myManifest);
 
                 statusList.addAll(newStatuses);

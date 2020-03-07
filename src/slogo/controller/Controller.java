@@ -86,7 +86,7 @@ public class Controller extends Application {
     currentStage.setTitle(TITLE);
     currentStage.setWidth(1070);
     currentStage.setHeight(800);
-    currentStage.setResizable(false);
+    currentStage.setResizable(true);
     currentStage.show();
   }
 

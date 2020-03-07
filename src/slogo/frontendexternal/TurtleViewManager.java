@@ -39,6 +39,9 @@ public class TurtleViewManager {
   public void execute(List<TurtleStatus> ts) {
     SequentialTransition seq = new SequentialTransition();
     for(int i = 0; i < ts.size(); i++) {
+//      if(ts.get(i).hasRunnable()) {
+//        ts.get(i).modify();
+//      }
       System.out.println("here:" + ts.get(i));
       TurtleStatus end = ts.get(i);
       int currID = end.getID();
@@ -49,6 +52,7 @@ public class TurtleViewManager {
       tempTurtle.executeState(seq, start, end);
       turtleStatusMap.put(currID, end);
       penViewLines.addAll(tempTurtle.getPenView().getMyLines());
+      //if(end.hasRunnable()) end.modify();
     }
     seq.play();
 

@@ -66,7 +66,7 @@ public class MainView extends VBox implements EventHandler {
     this.getChildren().addAll(myToolbar,pane,myInputFields);
     this.setAlignment(Pos.TOP_LEFT);
 
-    setTurtleClickable();
+    //setTurtleClickable();
   }
 
 
@@ -185,7 +185,7 @@ public class MainView extends VBox implements EventHandler {
     defaultCodeFileName = codeFileName;
   }
 
-  private void setTurtleClickable() {
+  /*private void setTurtleClickable() {
     this.pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
@@ -202,6 +202,8 @@ public class MainView extends VBox implements EventHandler {
           i++;
         } } });
   }
+
+   */
 
   private void setUpPane() {
     this.pane = new Pane(turtleManager.getImageViews().get(0));

@@ -17,7 +17,12 @@ Hours Spent: ~ 250 Hours
 ### Primary Roles
 Dennis Harrsch:
 Tyler Jang:
-Lucy Gu: 
+Lucy Gu (backend developer): 
+- Setup backend external and internal API
+- Setup command interfaces
+- Implemented commands including turtle movement commands, math commands, boolean commands
+- Set up display commands to interact with front end using runnables, suppliers, consumers
+- Extensively refactored command factory to use reflection
 
 Shruthi Kumar (front end developer):
 - Set up the initial Display, MainView, and Toolbar 

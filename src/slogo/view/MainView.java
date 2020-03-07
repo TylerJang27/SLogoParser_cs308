@@ -64,10 +64,8 @@ public class MainView extends VBox implements EventHandler {
     //Set the Pane for the IDE
     setUpPane();
 
-    this.getChildren().addAll(myToolbar,pane,myInputFields);
+    this.getChildren().addAll(pane, myToolbar, myInputFields);
     this.setAlignment(Pos.TOP_LEFT);
-
-    //setTurtleClickable();
   }
 
 
@@ -185,29 +183,6 @@ public class MainView extends VBox implements EventHandler {
     defaultTurtleFileName = turtleImageName;
     defaultCodeFileName = codeFileName;
   }
-
-  /*private void setTurtleClickable() {
-    this.pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        double x = (event.getX());
-        double y = (event.getY());
-        int i = 1;
-
-        for(ImageView temp : turtleManager.getImageViews()) {
-          System.out.println(temp.getLayoutY());
-          System.out.println(y);
-          System.out.println(x > temp.getLayoutX() - turtleSize/2 & x < temp.getLayoutX() + turtleSize &
-                  y > temp.getLayoutY() - turtleSize/2  & y < temp.getLayoutY() + turtleSize);
-
-          if(x > temp.getLayoutX() - turtleSize/2 & x < temp.getLayoutX() + turtleSize &
-              y > temp.getLayoutY() - turtleSize/2  & y < temp.getLayoutY() + turtleSize) {
-            turtleManager.getTurtle(i).setIsActive(!turtleManager.getTurtle(i).getIsActive());}
-          i++;
-        } } });
-  }
-
-   */
 
   private void setUpPane() {
     this.pane = new Pane(turtleManager.getImageViews().get(0));

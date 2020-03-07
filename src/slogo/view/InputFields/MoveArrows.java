@@ -3,6 +3,7 @@ package slogo.view.InputFields;
 import java.util.Arrays;
 import java.util.List;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,10 +23,11 @@ public class MoveArrows {
 
   public MoveArrows(double length, int index){
     size = length;
-    createTextField(index, size/5);
+    createTextField(index, size/3);
     createPane();
     createButtons();
-    pane.getChildren().addAll(up,down,left,right, setIncrement);
+    Label label = new Label("Controls: ");
+    pane.getChildren().addAll(label,up,down,left,right, setIncrement);
   }
 
   private void createPane(){
@@ -51,10 +53,10 @@ public class MoveArrows {
   }
 
   private void createButtons(){
-    up = createButton("FD", 0, size/3, 0, size/5);
-    down = createButton("BK", 180, size/3, 2*size/3, size/5);
-    right = createButton("RT", 90, 2*size/3, size/3, size/5);
-    left = createButton("LT", 270, 0, size/3, size/5);
+    up = createButton("FD", 0, size/3, 0, size/3);
+    down = createButton("BK", 180, size/3, 2*size/3, size/3);
+    right = createButton("RT", 90, 2*size/3, size/3, size/3);
+    left = createButton("LT", 270, 0, size/3, size/3);
   }
 
   private Button createButton(String name, double rotation, double x, double y, double size){

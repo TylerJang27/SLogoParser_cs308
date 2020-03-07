@@ -61,6 +61,7 @@ public class Display {
 
     HBox hBox = new HBox();
     hBox.setSpacing(10.0);
+    hBox.setAlignment(Pos.CENTER);
     hBox.getChildren().addAll(addTabButton, addTabFromPreferences);
 
     vBox.getChildren().addAll(hBox, tabPane);

@@ -1,19 +1,16 @@
 package slogo.backendexternal.parser;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
-import slogo.commands.controlcommands.DoTimes;
-import slogo.commands.controlcommands.For;
 import slogo.commands.controlcommands.Function;
-import slogo.commands.controlcommands.If;
-import slogo.commands.controlcommands.IfElse;
 import slogo.commands.controlcommands.MakeUserInstruction;
-import slogo.commands.controlcommands.Repeat;
 import slogo.commands.controlcommands.RunFunction;
 import slogo.commands.controlcommands.Variable;
 
@@ -99,72 +96,45 @@ public class FunctionFactory {
     Stack<List<Command>> listCommands = new Stack();
 
     while(components.size() > 0){
-
       Stack<Command> commands = new Stack<>();
       String current = components.pop();
-
+      String controlType = "";
       if(Input.ListStart.matches(current)){
         break;
       }
-
-      if(Input.Constant.matches(current)){
-        commands.add(commandFactory.makeConstant(current));
+      try{
+        System.out.println("FUNCTION FACTORY");
+        Method checkType = Parser.class.getDeclaredMethod("getInputType", String.class);
+        controlType = (String) checkType.invoke(new Parser(), current);
+        System.out.println(controlType);
+        Method control = Parser.class.getDeclaredMethod(controlType, String.class, Stack.class, Stack.class, Stack.class, List.class);
+        System.out.println(control);
+        commands.add((Command) control.invoke(new Parser(), current, commands, listCommands, currentCommand, new ArrayList<>()));
+      }catch(Exception e){
+        throw new InvalidCommandException(current);
       }
-
-      else if(Input.Make.matches(current)){
-        if(currentCommand.size() > 0){
-          commands.add(variableFactory.makeVariable(currentCommand.pop()));
-        }
-      }
-
-      else if(Input.Set.matches(current)){
-        if(currentCommand.size() > 0){
-          commands.add(variableFactory.setVariable(currentCommand.pop()));
-        }
-      }
-
-      else if(Input.Command.matches(current)){
-        if(this.hasFunction(current)){
-          commands.add(this.runFunction(current, currentCommand));
-        }
-        else{
-          System.out.println("fn fc call");
-          commands.add(commandFactory.makeCommand(current, currentCommand, listCommands, myCommands));
-        }
-      }
-
-      else if(Input.Variable.matches(current)){
-        variableFactory.handleVariable(current);
-        commands.add(variableFactory.getVariable(current));
-      }
-
-      currentCommand.addAll(commands);
     }
     return currentCommand;
   }
 
   public Function buildFunction(String key, List<Command> commands, Stack<List<Command>> listCommands){
-    Stack<Command> components = new Stack<>();
-    for(Command c : commands){
-      components.push(c);
-    }
-//    if(key.equals("DoTimes")){
-//      return new DoTimes(listCommands.pop().get(0), )
-//    }
-//    else if(key.equals("For")){
-//      return new For()
-//    }
-//    else if(key.equals("If")){
-//      return new If()
-//    }
-//    else if(key.equals("IfElse")){
-//      return new IfElse()
-//    }
-//    else if(key.equals("Repeat")){
-//      return new Repeat()
-//    }
     return new Function();
   }
 
 
+  public List<String> getFunctionString() {
+    List<String> ret = new ArrayList<String>();
+    for(String s : functionMap.keySet()){
+      StringBuilder builder = new StringBuilder();
+      Function f = functionMap.get(s);
+      int variables = f.getNumVars();
+      builder.append(s + " [ ");
+      for(int i = 0; i < variables; i++){
+        builder.append(":var" + i + " ");
+      }
+      builder.append(" ] ");
+      ret.add(builder.toString());
+    }
+    return ret;
+  }
 }

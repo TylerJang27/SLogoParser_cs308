@@ -2,6 +2,8 @@ package slogo.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
+
 import java.util.ResourceBundle;
 
 import javafx.animation.SequentialTransition;
@@ -21,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.web.PopupFeatures;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -52,8 +55,9 @@ public class Toolbar extends ToolBar {
   private ComboBox languageMenu, turtleMenu, modeMenu;
 
   //The Buttons
-  private Button commandButton, helpButton, changesButton, savePrefButton;
-//<<<<<<< HEAD
+
+  private Button commandButton, helpButton, changesButton, savePrefButton, uploadFile;
+
 
   //Timeline Inputs
   private static final int FRAMES_PER_SECOND = 60;
@@ -89,9 +93,9 @@ public class Toolbar extends ToolBar {
 
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,
-//<<<<<<< HEAD
         languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
-        savePrefButton, modeMenu, helpButton);
+        savePrefButton, modeMenu, uploadFile, helpButton);
+
   }
 
 
@@ -99,6 +103,8 @@ public class Toolbar extends ToolBar {
   public Button getCommandButton(){
     return commandButton;
   }
+
+  public Button getUploadFile(){ return uploadFile; }
 
   public ComboBox getLanguageBox() {return languageMenu; }
 
@@ -220,6 +226,9 @@ public class Toolbar extends ToolBar {
 
     this.savePrefButton = new Button(buttonBundle.getString("SavePref"));
     savePrefButton.setOnAction(this::writeOutTab);
+
+    this.uploadFile = new Button("Choose a file to upload");
+//    uploadFile.setOnAction(this::getUploadFile);
   }
 
   private void applyChanges () {
@@ -305,6 +314,8 @@ public class Toolbar extends ToolBar {
 //  }
 //
 //  public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}
+
+
 
 
 

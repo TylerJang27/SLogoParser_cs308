@@ -52,7 +52,7 @@ public class MoveArrows {
 
   private void createButtons(){
     up = createButton("FD", 0, size/3, 0, size/5);
-    down = createButton("BD", 180, size/3, 2*size/3, size/5);
+    down = createButton("BK", 180, size/3, 2*size/3, size/5);
     right = createButton("RT", 90, 2*size/3, size/3, size/5);
     left = createButton("LT", 270, 0, size/3, size/5);
   }

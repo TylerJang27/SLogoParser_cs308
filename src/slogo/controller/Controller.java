@@ -32,11 +32,14 @@ import slogo.view.MainView;
 public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
-  private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-  public static final int FRAMES_PER_SECOND = 60;
-  public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-
-
+//<<<<<<< HEAD
+//  private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
+//  public static final int FRAMES_PER_SECOND = 60;
+//  public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+//
+//
+//=======
+//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
   private Display myDisplay;
   private Parser myParser;
   private TurtleManager myModel;
@@ -48,7 +51,12 @@ public class Controller extends Application {
   private MoveArrows arrows;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
+//<<<<<<< HEAD
   private Button addTabButton, addTabPreferencesButton;
+//=======
+  //private Button addTabButton;
+  private Button uploadFile;
+//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
   private Map<Tab, TurtleManager> tabTurtleModelMap;
   private List<Tab> tabs;
   private Translator translator;
@@ -68,10 +76,10 @@ public class Controller extends Application {
     myDisplay = new Display();
     translator = new Translator();
     myParser = new Parser(translator);
-    myParser.setView(myDisplay.getMainView());
+    //myParser.setView(myDisplay.getMainView());
     errorHandler = new ErrorHandler();
     translator = new Translator();
-    tabTurtleModelMap = new HashMap<Tab, TurtleManager>();
+    tabTurtleModelMap = new HashMap<>();
     setTabs();
     //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
     myModel = getModel(tabs.get(0));
@@ -135,16 +143,23 @@ public class Controller extends Application {
   }
 
   private void setListeners(Tab tab) {
-    currentStatus = INITIAL_STATUS; //TODO GET CURRENT STATUS FROM FRONT END
+//    currentStatus = INITIAL_STATUS; //TODO GET CURRENT STATUS FROM FRONT END
+    currentTab = tab;
     myModel = getModel(tab);
     console = myDisplay.getMainView().getTextFields().getConsole();
     userDefinitions = myDisplay.getMainView().getTextFields().getUserDefinitions();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
+//<<<<<<< HEAD
+//    language = myDisplay.getMainView().getToolBar().getLanguageBox();
+//=======
+    uploadFile = myDisplay.getMainView().getToolBar().getUploadFile();
+    uploadFile.setOnAction( event -> chooseFile());
     language = myDisplay.getMainView().getToolBar().getLanguageBox();
+//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
     language.setOnAction(event -> setLanguage(language));
-//    modeMenu = myDisplay.getMainView().getToolBar().getModeMenu();
-//    modeMenu.setOnAction(event -> setMode(modeMenu));
+    modeMenu = myDisplay.getMainView().getToolBar().getModeMenu();
+    modeMenu.setOnAction(event -> setMode(modeMenu));
     arrows = myDisplay.getMainView().getTextFields().getMoveArrows();
     for(Button arrow : arrows.getButtons()){
       arrow.setOnAction(event -> moveTurtle(arrow, arrows.getIncrement()));
@@ -152,7 +167,6 @@ public class Controller extends Application {
   }
 
   private void moveTurtle(Button arrow, int increment) {
-    System.out.println(arrow.getId() + " " + increment);
     console.setText(arrow.getId() + " " + increment);
     sendCommand();
   }
@@ -199,7 +213,20 @@ public class Controller extends Application {
 
   private void displayVariables(){
     myDisplay.getMainView().getTextFields().clearVariables();
-    myDisplay.getMainView().getTextFields().addVariableText(myParser.getVariableString());
+    List<String> variables =  myParser.getVariableString();
+    List<String> functions = myParser.getFunctionString();
+    if(variables.size() + functions.size() <= 0) {
+      myDisplay.getMainView().getTextFields().addVariableText("");
+    }
+    else{
+      for(String variable : myParser.getVariableString()){
+        myDisplay.getMainView().getTextFields().addVariableText(variable);
+      }
+      for(String function : myParser.getFunctionString()){
+        myDisplay.getMainView().getTextFields().addVariableText(function);
+      }
+    }
+    myDisplay.getMainView().getTextFields().setVariableListeners();
   }
 
 
@@ -220,12 +247,25 @@ public class Controller extends Application {
     myParser.setMode(menu.getValue().toString());
   }
 
+//<<<<<<< HEAD
   private static FileChooser makeChooser (String extensionAccepted) {
     FileChooser result = new FileChooser();
     result.setTitle("Open Data File");
     // pick a reasonable place to start searching for files
     result.setInitialDirectory(new File(System.getProperty("user.dir")));
-    result.getExtensionFilters().setAll(new FileChooser.ExtensionFilter("Text Files", extensionAccepted));
+    result.getExtensionFilters()
+        .setAll(new FileChooser.ExtensionFilter("Text Files", extensionAccepted));
     return result;
   }
+//=======
+private void chooseFile() {
+  FileChooser fileChooser = new FileChooser();
+  Stage fileStage = new Stage();
+  File file = fileChooser.showOpenDialog(fileStage);
+  if(file != null){
+    //read file
+  }
+///>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
+}
+
 }

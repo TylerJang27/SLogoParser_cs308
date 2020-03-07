@@ -10,7 +10,6 @@ import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 import slogo.commands.controlcommands.Constant;
-import slogo.frontendexternal.TurtleView;
 import slogo.view.MainView;
 
 public class CommandFactory {
@@ -19,7 +18,6 @@ public class CommandFactory {
   private static final double Y_MAX = 250;
 
   private String currentMode;
-  private Map<String, String> myCommands = new HashMap<>();
   private List<String> myMovementCommands;
   private Map<String, Integer> counts = new HashMap<>();
   private Map<String, Integer> myControlCommands = new HashMap<>();
@@ -27,11 +25,11 @@ public class CommandFactory {
   private List<String> mySupplierCommands;
   private List<String> myRunnableCommands;
   private Map<String, Integer> myConsumerCommands = new HashMap<>();
+  private Map<String, String> myCommands = new HashMap<>();
 
 
-  public CommandFactory(Map<String, List<String>> commands){
+  public CommandFactory(){
     currentMode = "Toroidal";
-    //myCounts = new CommandCounter();
     fillCounts();
     setGeneralCommands();
     setMovementCommands();
@@ -53,6 +51,7 @@ public class CommandFactory {
       myCommands.put(key, resources.getString(key));
     }
   }
+
   private void setMovementCommands(){
     myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
   }

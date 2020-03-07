@@ -35,9 +35,9 @@ public class Parser {
     myCommands = translator.getCurrentCommands();
     newCommands = new ArrayList<>();
     commandHistory = new ArrayList<>();
-    commandFactory = new CommandFactory(myCommands);
+    commandFactory = new CommandFactory();
     variableFactory = new VariableFactory();
-    functionFactory = new FunctionFactory(myCommands);
+    functionFactory = new FunctionFactory();
     currentCommands = new Stack<>();
     currentComponents = new Stack<>();
     controlTypes = ResourceBundle.getBundle(Parser.class.getPackageName() + ".resources." + "Syntax");

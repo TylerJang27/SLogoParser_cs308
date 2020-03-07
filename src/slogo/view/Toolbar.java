@@ -230,7 +230,7 @@ public class Toolbar extends ToolBar {
       myMainView.setPaneImageViews();
 
       //TODO: REMOVE THIS FAILED ATTEMPT TO CORRECT POSITIONS BELOW
-      myMainView.getTurtles().correctPositions().play();
+      myMainView.getTurtles().correctPositions();
       myMainView.updateViewLocation();
     }
   }

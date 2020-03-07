@@ -127,8 +127,9 @@ public class TurtleViewManager {
     SequentialTransition sq = new SequentialTransition();
     for (Integer k: turtleStatusMap.keySet()) {
       TurtleStatus tsFinal = turtleStatusMap.get(k);
-      TurtleStatus tsAdjusted = new TurtleStatus(tsFinal.getID(), tsFinal.getX(), tsFinal.getY()-0.0001, tsFinal.getBearing(), tsFinal.getTrail(), tsFinal.getVisible(), tsFinal.getPenDown());
+      TurtleStatus tsAdjusted = new TurtleStatus(tsFinal.getID(), tsFinal.getX(), tsFinal.getY()-0.0001, 0, tsFinal.getTrail(), tsFinal.getVisible(), tsFinal.getPenDown());
       TurtleView tv = turtleViewMap.get(k);
+      //tv.setMyBearing(0);
       tv.executeState(sq, tsAdjusted, tsFinal);
       //TODO: REFACTOR AND CALL EXECUTE
     }

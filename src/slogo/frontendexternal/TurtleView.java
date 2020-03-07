@@ -85,7 +85,7 @@ public class TurtleView {
 
       this.myImageView.setVisible(end.getVisible());
 
-      if (end.getBearing() != myBearing) {
+      if (end.getBearing() != start.getBearing()) {
         addRotationCommand(sequentialTransition, start, end);
       }
 

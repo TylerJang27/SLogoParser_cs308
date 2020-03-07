@@ -42,7 +42,6 @@ public class Parser {
     String[] inputs = line.split(" ");
     for(String input : inputs){
       currentComponents.push(input);
-      //System.out.println(input);
     }
     currentCommands.addAll(parseComponents(currentComponents));
     while(currentCommands.size() > 0){

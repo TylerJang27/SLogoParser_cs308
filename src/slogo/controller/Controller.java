@@ -150,8 +150,10 @@ public class Controller extends Application {
     }
   }
 
-  private void moveTurtle(Button arrow, double increment) {
-    //MOVE TURTLE DISTANCE BASED ON WHICH ARROW CLICKED, INCREMENT IS AMOUNT TO MOVE BYlk
+  private void moveTurtle(Button arrow, int increment) {
+    System.out.println(arrow.getId() + " " + increment);
+    console.setText(arrow.getId() + " " + increment);
+    sendCommand();
   }
 
 
@@ -173,7 +175,6 @@ public class Controller extends Application {
       displayQueries();
     }
     catch(Exception e){
-      e.printStackTrace();
       console.addError(errorHandler.getErrorMessage(e.getMessage(), myParser.getCommands()));
       console.getEntry().setOnKeyPressed(key -> handlePrompt(key.getCode()));
     }

@@ -19,16 +19,12 @@ public class FunctionFactory {
   private Map<String, Function> functionMap;
   private List<Variable> functionVariables;
   private List<Command> functionCommands;
-  private CommandFactory commandFactory;
   private VariableFactory variableFactory;
-  private Map<String, List<String>> myCommands;
 
-  public FunctionFactory(Map<String, List<String>> commands){
+  public FunctionFactory(){
     functionMap = new HashMap<>();
     functionVariables = new ArrayList<>();
     functionCommands = new ArrayList<>();
-    myCommands = commands;
-    commandFactory = new CommandFactory(myCommands);
     variableFactory = new VariableFactory();
   }
 

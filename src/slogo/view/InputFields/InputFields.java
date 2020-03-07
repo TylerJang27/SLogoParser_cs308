@@ -1,5 +1,6 @@
 package slogo.view.InputFields;
 
+import java.util.List;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -18,10 +19,6 @@ public class InputFields extends HBox {
     public InputFields(MainView mainview) {
         this.mw = mainview;
         this.width = mw.getWidth();
-//        console = new Console(width/3);
-//        userDefinitions = new UserDefinitions(2*width/9);
-//        statusView = new StatusView(2*width/9);
-//        moveArrows = new MoveArrows(2*width/9, 10);
         console = new Console(300);
         userDefinitions = new UserDefinitions(300);
         statusView = new StatusView(300);
@@ -49,22 +46,26 @@ public class InputFields extends HBox {
     public Console getConsole(){return console;}
     public UserDefinitions getUserDefinitions(){return userDefinitions; }
     public MoveArrows getMoveArrows(){ return moveArrows;}
-    public TextArea getVariables() {
+    public List<TextField> getVariables() {
         return userDefinitions.getDefinitions();
     }
 
     public TextArea getQueries() { return statusView.getStatus(); }
 
-    public VBox getVariableBox() {
-        return userDefinitions.getVBox();
+    public void setVariableListeners(){
+        for(TextField tf : userDefinitions.getDefinitions()){
+            tf.setOnMouseClicked(event -> sendVariables(tf.getText()));
+        }
     }
 
-    public void setVariables(TextArea newVariables) {
-        userDefinitions.setArea(newVariables);
-    }
-
-    public void setVariableBox(VBox vBox) {
-        userDefinitions.setVBox(vBox);
+    private void sendVariables(String variable){
+        String[] splitString = variable.split(" ");
+        if(splitString[0].charAt(0) == ':'){
+            console.setText(console.getText() + " set " + splitString[0]);
+        }
+        else{
+            console.setText(console.getText() + " " + variable);
+        }
     }
 
 }

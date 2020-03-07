@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -29,7 +31,7 @@ public class Display {
   private MainView myMainView;
 
   private TabPane tabPane = new TabPane();
-  private Tab tab = new Tab("SLogo 0");
+  private Tab tab = new Tab("");
   private VBox vBox;
 
   private List<MainView> myMainViewList;
@@ -67,6 +69,15 @@ public class Display {
     tabPane.setTabMaxWidth(1050);
     tabPane.setTabMinHeight(760);
     tabPane.setTabMinWidth(1050);
+    //tabPane.setOnScroll(event -> {});
+    //tabPane.setOnScroll(event -> {});
+    tabPane.addEventFilter(SwipeEvent.ANY, new EventHandler<SwipeEvent>() {
+
+      @Override
+      public void handle(SwipeEvent event) {
+        event.consume();
+      }
+    });
 
     vBox.setAlignment(Pos.TOP_CENTER);
 

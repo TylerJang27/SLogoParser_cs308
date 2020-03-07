@@ -1,5 +1,7 @@
 package slogo.frontendexternal;
 
+import java.awt.event.MouseEvent;
+import java.beans.EventHandler;
 import java.util.List;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
@@ -12,7 +14,7 @@ import javafx.util.Duration;
 import slogo.backendexternal.TurtleStatus;
 
 /**
- * Creates TurtleViewg
+ * Creates TurtleView
  * @author Shruthi Kumar, Tyler Jang
  */
 public class TurtleView {
@@ -30,6 +32,7 @@ public class TurtleView {
   private String TURTLE_IMG_DEFAULT_PATH = "slogo/view/imagesFolder";
   private final double turtleSize = 90;
   private String turtleUrlPath;
+
 
 
   /**
@@ -53,6 +56,14 @@ public class TurtleView {
     turtleUrlPath = TURTLE_IMG_DEFAULT_PATH + "/" + picFileName + ".png";
     myImage = new Image("" + turtleUrlPath);
     myImageView =  new ImageView(myImage);
+    myImageView.setOnMouseClicked(new javafx.event.EventHandler<javafx.scene.input.MouseEvent>() {
+      @Override
+      public void handle(javafx.scene.input.MouseEvent event) {
+        setIsActive();
+        setOpacity();
+      }
+    });
+
     setUpMyImageView();
   }
 
@@ -151,10 +162,9 @@ public class TurtleView {
 
   /**
    * sets bearing of turtle
-   * @param active : new bearing of turtle
    */
-  public void setIsActive(boolean active) {
-    isActive = active;
+  public void setIsActive() {
+    isActive = !isActive;
   }
 
   /**
@@ -241,6 +251,14 @@ public class TurtleView {
     if(end.getPenDown()) {
         this.penView.updateMyLines(this.getMyStartXPos() + start.getX(), this.getMyStartYPos() + start.getY(), this.getMyStartXPos() + end.getX(), this.getMyStartYPos() + end.getY());
       }
+  }
+
+  private void setOpacity() {
+    if(!isActive) {
+      myImageView.setOpacity(.5);
+    } else {
+      myImageView.setOpacity(1);
+    }
   }
 
 

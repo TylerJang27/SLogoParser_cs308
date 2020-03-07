@@ -1,11 +1,15 @@
 package slogo.backendexternal.parser;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.ResourceBundle;
 import java.util.Stack;
+import java.util.regex.Pattern;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 import slogo.view.Display;
-import slogo.view.MainView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,9 @@ public class Parser {
   private Stack<Command> currentCommands;
   private Stack<String> currentComponents;
   private String lastLine;
+  private List<Integer> inList;
+  private ResourceBundle controlTypes;
+  private ResourceBundle parserMethods;
 
   public Parser(){ this(new Translator());}
 
@@ -33,8 +40,10 @@ public class Parser {
     functionFactory = new FunctionFactory(myCommands);
     currentCommands = new Stack<>();
     currentComponents = new Stack<>();
+    controlTypes = ResourceBundle.getBundle(Parser.class.getPackageName() + ".resources." + "Syntax");
+    parserMethods = ResourceBundle.getBundle(Parser.class.getPackageName() + ".resources." + "Parser");
+    inList = new ArrayList<>();
   }
-
 
   public void parseLine(String line){
     lastLine = line;
@@ -43,7 +52,7 @@ public class Parser {
     for(String input : inputs){
       currentComponents.push(input);
     }
-    currentCommands.addAll(parseComponents(currentComponents));
+    currentCommands.addAll(parseComponents());
     while(currentCommands.size() > 0){
       newCommands.add(currentCommands.pop());
     }
@@ -55,57 +64,118 @@ public class Parser {
     return toSend;
   }
 
-  public Stack<Command> parseComponents(Stack<String> components) throws InvalidCommandException {
+  public Stack<Command> parseComponents() throws InvalidCommandException {
     Stack<Command> currentCommand = new Stack<>();
     Stack<List<Command>> listCommands = new Stack<>();
     List<Command> currentList = new ArrayList<>();
-    boolean inList = false;
-    while (components.size() > 0) {
+    while (currentComponents.size() > 0) {
       Stack<Command> commands = new Stack<>();
-      String current = components.pop();
-      if (Input.Constant.matches(current)) {
-        commands.add(commandFactory.makeConstant(current));
-      } else if (Input.Make.matches(current)) {
-        if (currentCommand.size() > 0) {
-          commands.add(variableFactory.makeVariable(currentCommand.pop()));
+      String current = currentComponents.pop();
+      String controlType = getInputType(current);
+      try{
+        Method control;
+        if(controlType.equals(parserMethods.getString("ListEnd")) || controlType.equals(parserMethods.getString("ListStart"))){
+          control = Parser.class.getDeclaredMethod(controlType, Stack.class, Stack.class, List.class);
+          control.invoke(this, commands, listCommands, currentList);
         }
-      } else if (Input.Set.matches(current)) {
-        if (currentCommand.size() > 0) {
-          commands.add(variableFactory.setVariable(currentCommand.pop()));
+        else{
+          control = Parser.class.getDeclaredMethod(controlType, String.class, Stack.class, Stack.class, Stack.class, List.class);
+          if(inList.size() > 0){
+            currentList.add((Command) control.invoke(this, current, commands, listCommands, currentCommand, currentList));
+          }else{
+            commands.add((Command) control.invoke(this, current, commands, listCommands, currentCommand, currentList));
+          }
         }
-      } else if (Input.Command.matches(current)) {
-        if (functionFactory.hasFunction(current)) {
-          commands.add(functionFactory.runFunction(current, currentCommand));
-        } else {
-          System.out.println(current);
-          System.out.println(currentCommand.size());
-          System.out.println(listCommands.size());
-          commands.add(commandFactory.makeCommand(current, currentCommand, listCommands, myCommands));
-        }
-      } else if (Input.Variable.matches(current)) {
-        if (variableFactory.handleVariable(current)) {
-          commands.add(variableFactory.getVariable(current));
-        }
-      } else if (Input.ListEnd.matches(current)) {
-        inList = true;
-        currentList.clear();
-        if (checkFunction(components)) {
-          commands.add(functionFactory.handleFunction(components));
-          inList = false;
-        }
-      } else if(Input.ListStart.matches(current)){
-        inList = false;
-        listCommands.add(currentList);
-        currentCommand.clear();
-//        currentCommand.add(currentList);
+      }catch(Exception e){
+        throw new InvalidCommandException(current);
       }
-
-      if(inList) {
-        currentList.addAll(commands);
+      if(inList.size() == 0){
+        currentCommand.addAll(commands);
       }
-      currentCommand.addAll(commands);
+    }
+    while(listCommands.size() > 0){
+      currentCommand.addAll(listCommands.pop());
     }
     return currentCommand;
+  }
+
+  private String getInputType(String current) {
+    Iterator<String> iter = controlTypes.getKeys().asIterator();
+    while(iter.hasNext()){
+      String key = iter.next();
+      Pattern regex = Pattern.compile(controlTypes.getString(key), Pattern.CASE_INSENSITIVE);
+      if(regex.matcher(current).matches()){
+        return parserMethods.getString(key);
+      }
+    }
+    return current;
+  }
+
+  public Map<String, List<String>> getCommands(){
+    return myCommands;
+  }
+
+  public List<String> getVariableString() {
+    return variableFactory.getVariableString();
+  }
+  public List<String> getFunctionString() {
+    return functionFactory.getFunctionString();
+  }
+
+  public String getLastLine() { return lastLine; }
+
+  public void setMode(String mode){ commandFactory.setMode(mode); }
+
+  public void setLanguage(Translator translator) {
+    myCommands = translator.getCurrentCommands();
+  }
+
+  private Command Constant(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
+      Stack<Command> currentCommand, List<Command> currentList){
+    return commandFactory.makeConstant(current);
+  }
+
+  private Command Make(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
+      Stack<Command> currentCommand, List<Command> currentList){
+    return variableFactory.makeVariable(currentCommand);
+  }
+
+  private Command Set(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
+      Stack<Command> currentCommand, List<Command> currentList){
+    return variableFactory.setVariable(currentCommand);
+  }
+
+  private Command Command(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
+      Stack<Command> currentCommand, List<Command> currentList){
+    if (functionFactory.hasFunction(current)) {
+      return functionFactory.runFunction(current, currentCommand);
+    } else {
+      if(inList.size() > 0){
+        currentCommand.add(currentList.get(0));
+        currentList.remove(0);
+      }
+      return commandFactory.makeCommand(current, currentCommand, listCommands, myCommands);
+    }
+  }
+
+  private Command Variable(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
+      Stack<Command> currentCommand, List<Command> currentList){
+    variableFactory.handleVariable(current);
+    return variableFactory.getVariable(current);
+  }
+
+  private void ListEnd(Stack<Command> commands, Stack<List<Command>> listCommands, List<Command> currentList){
+    inList.add(1);
+    currentList.clear();
+    if (checkFunction(currentComponents)) {
+      commands.add(functionFactory.handleFunction(currentComponents));
+      inList.remove(0);
+    }
+  }
+
+  private void ListStart(Stack<Command> commands, Stack<List<Command>> listCommands, List<Command> currentList){
+    inList.remove(0);
+    listCommands.add(currentList);
   }
 
   private boolean checkFunction(Stack<String> components) {
@@ -119,22 +189,4 @@ public class Parser {
     }
     return false;
   }
-
-  public Map<String, List<String>> getCommands(){
-    return myCommands;
-  }
-
-  public String getVariableString() {
-    return variableFactory.getVariableString();
-  }
-
-  public String getLastLine() { return lastLine; }
-
-  public void setMode(String mode){ commandFactory.setMode(mode); }
-
-  public void setLanguage(Translator translator) {
-    myCommands = translator.getCurrentCommands();
-  }
-
-  public void setView(MainView d){commandFactory.setView(d);}
 }

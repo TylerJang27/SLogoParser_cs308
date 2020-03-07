@@ -22,6 +22,7 @@ public class Console {
   private ScrollPane pane;
   private List<String> history;
   private double boxHeight = 200;
+
   private double boxWidth;
 
   public Console(double width){
@@ -41,6 +42,10 @@ public class Console {
   private void setDetails(){
 //    box.setMinHeight(boxHeight);
     box.setMaxHeight(boxHeight);
+    pane = new ScrollPane();
+    pane.setContent(box);
+    pane.setPannable(true);
+
     Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));
     box.setBackground(backing);
   }
@@ -62,10 +67,7 @@ public class Console {
       String past = "> " + iter.previous();
       addUneditable(past);
     }
-  }
-
-  public VBox getVBox(){
-    return box;
+    pane.setContent(box);
   }
 
   public void clear(){
@@ -141,5 +143,6 @@ public class Console {
       String past = "> " + translatedLine.toString();
       addUneditable(past);
     }
+    pane.setContent(box);
   }
 }

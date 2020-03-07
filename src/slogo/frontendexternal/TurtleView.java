@@ -49,7 +49,7 @@ public class TurtleView {
     clearScreen = false;
     isActive = true;
 
-    penView = new PenView();
+    penView = new PenView(color);
     turtleUrlPath = TURTLE_IMG_DEFAULT_PATH + "/" + picFileName + ".png";
     myImage = new Image("" + turtleUrlPath);
     myImageView =  new ImageView(myImage);
@@ -226,6 +226,12 @@ public class TurtleView {
 
   public void clearScreen() {
     getPenView().getMyLines().clear();
+  }
+
+  public void setThickness(int i){
+    System.out.println(getPenView().getMyLineThickness());
+    getPenView().setMyLineThickness(i);
+    System.out.println(getPenView().getMyLineThickness());
   }
 
   private boolean checkMovement(TurtleStatus start, TurtleStatus end) {

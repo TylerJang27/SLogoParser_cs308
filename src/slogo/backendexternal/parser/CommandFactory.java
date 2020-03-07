@@ -97,7 +97,7 @@ public class CommandFactory {
 
 
   public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException {
-    System.out.println(key);
+    //System.out.println(key);
     try {
       List<Object> obj = new ArrayList<>();
 
@@ -117,11 +117,11 @@ public class CommandFactory {
         }
       }
 
-      System.out.println(key);
+      //System.out.println(key);
 
       Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
-      for(Class<?> o: params) System.out.println(o);
+      //for(Class<?> o: params) System.out.println(o);
       return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
       throw new InvalidCommandException("Command could not be found.");
@@ -129,7 +129,7 @@ public class CommandFactory {
   }
 
   private void runnableAdd(String key, List<Object> obj){
-    System.out.println(key + "runnableAdding");
+    //System.out.println(key + "runnableAdding");
     if(myRunnableCommands.contains(key)) {
       Runnable z = () -> {
         try {
@@ -144,7 +144,7 @@ public class CommandFactory {
 
   private void consumerAdd(String key, List<Object> obj){
     if(myConsumerCommands.keySet().contains(key)){
-      System.out.println(key);
+      //System.out.println(key);
       Class<?> p[] = new Class<?>[myConsumerCommands.get(key)];
       Arrays.fill(p, Integer.TYPE);
       Consumer<Integer> z = index -> {
@@ -248,8 +248,9 @@ public class CommandFactory {
   private void SetShape(int index){
     myMainView.getToolBar().setShape(index);
   }
+
   private void SetPenSize(int index){
-    //myMainView.getToolBar().setShape(index);
+    myMainView.getTurtle().setThickness(index);
   }
 
   private int GetPenColor(){

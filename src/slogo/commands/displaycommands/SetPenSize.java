@@ -11,11 +11,11 @@ import java.util.function.Consumer;
 
 public class SetPenSize implements DisplayCommand {
     public static final int NUM_ARGS = 1;
-    private Consumer<Double> con;
+    private Consumer<Integer> con;
     private Command arg1;
     private double returnVal;
 
-    public SetPenSize(Command argA, Consumer<Double> consumer){
+    public SetPenSize(Command argA, Consumer<Integer> consumer){
         arg1 = argA;
         con = consumer;
     }
@@ -28,8 +28,8 @@ public class SetPenSize implements DisplayCommand {
         ret.addAll(arg1.execute(manifest));
 
         returnVal = arg1.returnValue();
-        TurtleStatus t = new TurtleStatus(ret.get(ret.size()-1));
-        t.setRunnable(() -> con.accept(returnVal));
+        TurtleStatus t = new TurtleStatus(manifest.getActiveState());
+        t.setRunnable(() -> con.accept((int)returnVal));
 
         ret.add(t);
         return ret;

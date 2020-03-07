@@ -56,13 +56,7 @@ public class TurtleView {
     turtleUrlPath = TURTLE_IMG_DEFAULT_PATH + "/" + picFileName + ".png";
     myImage = new Image("" + turtleUrlPath);
     myImageView =  new ImageView(myImage);
-    myImageView.setOnMouseClicked(new javafx.event.EventHandler<javafx.scene.input.MouseEvent>() {
-      @Override
-      public void handle(javafx.scene.input.MouseEvent event) {
-        setIsActive();
-        setOpacity();
-      }
-    });
+
 
     setUpMyImageView();
   }
@@ -179,6 +173,18 @@ public class TurtleView {
     this.myImageView.setY(this.myImageView.getY() - this.myImageView.getFitHeight() / 2);
     this.myImageView.setLayoutX(this.getMyStartXPos());
     this.myImageView.setLayoutY(this.getMyStartYPos());
+
+    enableMouseClick();
+  }
+
+  private void enableMouseClick() {
+    myImageView.setOnMouseClicked(new javafx.event.EventHandler<javafx.scene.input.MouseEvent>() {
+      @Override
+      public void handle(javafx.scene.input.MouseEvent event) {
+        setIsActive();
+        setOpacity();
+      }
+    });
   }
 
   private Polyline getTurtleTrail(SequentialTransition sequentialTransition, Polyline pathLine,

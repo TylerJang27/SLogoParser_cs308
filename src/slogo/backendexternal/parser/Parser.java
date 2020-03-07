@@ -80,6 +80,7 @@ public class Parser {
         }
         else{
           control = Parser.class.getDeclaredMethod(controlType, String.class, Stack.class, Stack.class, Stack.class, List.class);
+          System.out.println(control);
           if(inList.size() > 0){
             currentList.add((Command) control.invoke(this, current, commands, listCommands, currentCommand, currentList));
           }else{

@@ -194,7 +194,7 @@ public class Controller extends Application {
     String newLanguage = language.getValue().toString();
     console.translateHistory(translator, newLanguage);
     userDefinitions.translateDefinitions(translator, newLanguage);
-    translator.setLanguage(newLanguage);
+    translator.setCurrentLanguage(newLanguage);
     myParser.setLanguage(translator);
   }
 

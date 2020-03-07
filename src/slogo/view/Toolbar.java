@@ -112,8 +112,10 @@ public class Toolbar extends ToolBar {
   }
 
   public void setShape(int i){
+    System.out.println(turtleMenu.getItems());
     if(i>=turtleMenu.getItems().size() || i<0) return;
     turtleMenu.getSelectionModel().select(i);
+    System.out.println(turtleMenu.getSelectionModel().getSelectedItem());
     applyChanges();
   }
 

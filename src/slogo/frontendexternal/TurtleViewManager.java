@@ -47,6 +47,7 @@ public class TurtleViewManager {
       TurtleView tempTurtle = turtleViewMap.get(currID);
       TurtleStatus start = turtleStatusMap.get(currID);
       tempTurtle.executeState(seq, start, end);
+      if(end.hasRunnable())end.modify();
       turtleStatusMap.put(currID, end);
       penViewLines.addAll(tempTurtle.getPenView().getMyLines());
     }

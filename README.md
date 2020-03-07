@@ -91,9 +91,11 @@ Interesting data files:
 tabLayout1.xml : can change and load this file to set workspace preferences
 0_saved.xml : can save preferences of current workspace to this file
 
-Known Bugs:
+Known Bugs: There are issues where after a certain series of animations the turtle can disappear. Additionally, very long commands with weird spacing can cause issues with parsing, so 
+calling functions step by step is better. Clicking on turtles to activate or deactivate them is not fully incorporated. Formatting can be slightly off on some computers.
 
-Extra credit:
+Extra credit: Implemented almost all of complete outside of unlimited parameters and simulation. Advanced error handling which guesses at what the user
+meant to enter, based on distance from strings.
 
 
 ### Impressions

@@ -16,7 +16,9 @@ Hours Spent: ~ 250 Hours
 
 ### Primary Roles
 Dennis Harrsch:
-Tyler Jang:
+Tyler Jang (back end developer):
+- Designed and implemented 
+
 Lucy Gu: 
 
 Shruthi Kumar (front end developer):
@@ -58,6 +60,13 @@ Data files needed:
 Features implemented:
 
 BackEnd: 
+- All commands (some parsing bugs remain)
+- Recursive function calls
+- Multiple turtles
+- Commands to change display settings
+- Text input suggestion
+- Support for multiple languages
+- Informative error messages
 
 FrontEnd: 
 - Toggle active turtles
@@ -68,8 +77,8 @@ FrontEnd:
 - Move turtles graphically
 - Change pen's current properties
 - Execute list of commands
-- display command histories, variables, and commands
-- display turtle information (x position, y position, bearing, etc)
+- Display command histories, variables, and commands
+- Display turtle information (x position, y position, bearing, etc)
 
 
 

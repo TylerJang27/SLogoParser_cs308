@@ -44,7 +44,6 @@ public class Toolbar extends ToolBar {
   public static final String PNG = ".png";
   //Incorporate View and Text Field
   private MainView myMainView;
-  private InputFields myTextFields;
 
   //The Drop Down Menus Themselves
   private ColorPicker penMenu, backgroundMenu;
@@ -64,7 +63,6 @@ public class Toolbar extends ToolBar {
     setUpBundles();
 
     this.myMainView = mainview;
-    this.myTextFields = myMainView.getTextFields();
 
     //set up tool bar and its elements
     createMenus();
@@ -308,16 +306,12 @@ public class Toolbar extends ToolBar {
   }
 
   private void setUpWebView(WebView wv) {
-    wv.getEngine().setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
-
-      @Override
-      public WebEngine call(PopupFeatures p) {
-        Stage stage = new Stage(StageStyle.UTILITY);
-        WebView wv2 = new WebView();
-        stage.setScene(new Scene(wv2));
-        stage.show();
-        return wv2.getEngine(); }
-    });
+    wv.getEngine().setCreatePopupHandler(p -> {
+      Stage stage = new Stage(StageStyle.UTILITY);
+      WebView wv2 = new WebView();
+      stage.setScene(new Scene(wv2));
+      stage.show();
+      return wv2.getEngine(); });
   }
 
   private void writeOutTab(ActionEvent actionEvent) {

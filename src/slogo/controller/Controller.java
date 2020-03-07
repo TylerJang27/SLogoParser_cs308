@@ -74,7 +74,7 @@ public class Controller extends Application {
     myDisplay = new Display();
     translator = new Translator();
     myParser = new Parser(translator);
-    //myParser.setView(myDisplay.getMainView());
+    myParser.setView(myDisplay.getMainView());
     errorHandler = new ErrorHandler();
     translator = new Translator();
     tabTurtleModelMap = new HashMap<>();
@@ -151,6 +151,7 @@ public class Controller extends Application {
     currentTab = tab;
     myModel = getModel(tab);
     mainView = (MainView) currentTab.getGraphic();
+    myParser.setView(mainView);
     console = mainView.getTextFields().getConsole();
     userDefinitions = mainView.getTextFields().getUserDefinitions();
     runButton = mainView.getToolBar().getCommandButton();

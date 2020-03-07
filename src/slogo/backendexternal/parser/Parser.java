@@ -9,7 +9,7 @@ import java.util.Stack;
 import java.util.regex.Pattern;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
-import slogo.view.Display;
+import slogo.view.MainView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,9 @@ public class Parser {
     variableFactory = vf;
   }
 
+  public void setView(MainView v){
+    commandFactory.setView(v);
+  }
   public void parseLine(String line){
     lastLine = line;
     commandHistory.add(line);

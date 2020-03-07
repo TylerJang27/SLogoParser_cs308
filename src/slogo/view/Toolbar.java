@@ -84,10 +84,7 @@ public class Toolbar extends ToolBar {
 
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,
-//<<<<<<< HEAD
-//=======
-//
-//>>>>>>> b801aed6c61643f35a69afda37c62f8511ac4bdc
+
         languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
         savePrefButton, modeMenu, uploadFile, helpButton);
 
@@ -108,18 +105,18 @@ public class Toolbar extends ToolBar {
   /** Public Set Methods Called Directly from the Console */
 
   public void setBackground(int i){
-    ObservableList<Color> colorList = backgroundMenu.getCustomColors();
-    if(i<0) return;
-    if(i>=colorList.size()) i = colorList.size()-1;
-    backgroundMenu.setValue(colorList.get(i));
-    applyChanges();
+    setCol(i,backgroundMenu);
   }
 
   public void setPenColor(int i){
-    ObservableList<Color> colorList = penMenu.getCustomColors();
-    if(i<0) return;
+    setCol(i,penMenu);
+  }
+
+  private void setCol(int i, ColorPicker c){
+    ObservableList<Color> colorList = c.getCustomColors();
+    if(i<0 || colorList.size()<=0) return;
     if(i>=colorList.size()) i = colorList.size()-1;
-    penMenu.setValue(colorList.get(i));
+    c.setValue(colorList.get(i));
     applyChanges();
   }
 

@@ -79,8 +79,6 @@ public class CommandFactory {
     List<Command> commands = new ArrayList<>();
     int count = getCount(formalCommand);
 
-    System.out.println(command + "\n\t" + previous.size() + " " + previous.get(0) + "\n\t\t" + listCommands.size());
-
     if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
       System.out.println((previous.size() + listCommands.size()) + " vs " + count);
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
@@ -101,18 +99,20 @@ public class CommandFactory {
 
 
   public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException {
-    System.out.println(key);
     try {
       List<Object> obj = new ArrayList<>();
 
-      for (int i = 0; i < getCount(key); i++) obj.add(commands.get(i));
-      if (myMovementCommands.contains(key)) obj.addAll(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
-      if (myControlCommands.keySet().contains(key)) for (int i = 0; i < myControlCommands.get(key); i++) obj.add(listCommands.pop());
+      for (int i = 0; i < getCount(key) && commands.size() > 0; i++) {
+        obj.add(commands.get(i));
+      }
+      if (myMovementCommands.contains(key)) {obj.addAll(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));}
+      if (myControlCommands.keySet().contains(key)) {for (int i = 0; i < myControlCommands.get(key); i++) {obj.add(listCommands.pop());}}
 
+      System.out.println(key + "??");
       runnableAdd(key, obj);
       consumerAdd(key, obj);
       supplierAdd(key, obj);
-      //System.out.println(key + "???");
+      System.out.println(key + "???");
       if (key.equals("Tell")) {
         System.out.println("Telling");
         //TODO: TYLER FIX HERE
@@ -220,6 +220,7 @@ public class CommandFactory {
   }
 
   private int getCount(String command){
+    System.out.println(command + " " + counts.size());
     return counts.get(command);
   }
 

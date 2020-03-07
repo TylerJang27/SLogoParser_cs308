@@ -74,13 +74,13 @@ public class Parser {
       String controlType = getInputType(current);
       try{
         Method control;
+        System.out.println(controlType);
         if(controlType.equals(parserMethods.getString("ListEnd")) || controlType.equals(parserMethods.getString("ListStart"))){
           control = Parser.class.getDeclaredMethod(controlType, Stack.class, Stack.class, List.class);
           control.invoke(this, commands, listCommands, currentList);
         }
         else{
           control = Parser.class.getDeclaredMethod(controlType, String.class, Stack.class, Stack.class, Stack.class, List.class);
-          System.out.println(control);
           if(inList.size() > 0){
             currentList.add((Command) control.invoke(this, current, commands, listCommands, currentCommand, currentList));
           }else{
@@ -175,6 +175,8 @@ public class Parser {
   }
 
   private void ListStart(Stack<Command> commands, Stack<List<Command>> listCommands, List<Command> currentList){
+    //TODO: FIXME PLEASE
+    System.out.println("parser" + commands + "\n\t" + listCommands.size() + "\n\t\t" + currentList.size());
     inList.remove(0);
     listCommands.add(currentList);
   }

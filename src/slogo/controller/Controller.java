@@ -51,12 +51,8 @@ public class Controller extends Application {
   private MoveArrows arrows;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
-//<<<<<<< HEAD
   private Button addTabButton, addTabPreferencesButton;
-//=======
-  //private Button addTabButton;
   private Button uploadFile;
-//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
   private Map<Tab, TurtleManager> tabTurtleModelMap;
   private List<Tab> tabs;
   private Translator translator;

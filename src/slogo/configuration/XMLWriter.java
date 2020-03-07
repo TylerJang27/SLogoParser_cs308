@@ -74,7 +74,6 @@ public class XMLWriter {
       DOMSource domSource = new DOMSource(document);
       StreamResult streamResult = new StreamResult(new File(xmlFilePath+numFile+"_saved.xml"));
       transformer.transform(domSource, streamResult);
-      System.out.println("Done creating XML File");
       numFile++;
     }
     catch (TransformerException tfe) {

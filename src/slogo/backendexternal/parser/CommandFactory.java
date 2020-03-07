@@ -78,7 +78,6 @@ public class CommandFactory {
     int count = getCount(formalCommand);
 
     if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
-      System.out.println((previous.size() + listCommands.size()) + " vs " + count);
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
     if (formalCommand.equals("Tell")) {
@@ -123,20 +122,15 @@ public class CommandFactory {
         }
       }
 
-      //System.out.println(key);
-
       Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
-      for(Class<?> o: params) System.out.println(o);
       return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-      System.out.println("sth happened");
       throw new InvalidCommandException("Command could not be found.");
     }
   }
 
   private void runnableAdd(String key, List<Object> obj){
-    //System.out.println(key + "runnableAdding");
     if(myRunnableCommands.contains(key)) {
       Runnable z = () -> {
         try {
@@ -151,7 +145,6 @@ public class CommandFactory {
 
   private void consumerAdd(String key, List<Object> obj){
     if(myConsumerCommands.keySet().contains(key)){
-      //System.out.println(key);
 //      if(myConsumerCommands.get(key)!=1) ;
 //      Class<?> p[] = new Class<?>[myConsumerCommands.get(key)];
 //      Arrays.fill(p, Integer.TYPE);
@@ -184,7 +177,6 @@ public class CommandFactory {
         try {
           return (Integer) this.getClass().getDeclaredMethod(key).invoke(this);
         } catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
-          //System.out.println("????");
           throw new InvalidCommandException("Command could not be found.");
         }
       };
@@ -219,7 +211,6 @@ public class CommandFactory {
   }
 
   private int getCount(String command){
-    System.out.println(command + " " + counts.size());
     return counts.get(command);
   }
 
@@ -258,11 +249,9 @@ public class CommandFactory {
 
 
   private void SetBackground(int index){
-    System.out.println("setBackGround");
     myMainView.getToolBar().setBackground(index);
   }
   private void SetPenColor(int index){
-    System.out.println("setPenColoring");
     myMainView.getToolBar().setPenColor(index);
   }
   private void SetShape(int index){
@@ -275,7 +264,6 @@ public class CommandFactory {
 
   private int GetPenColor(){
     int i = myMainView.getToolBar().getPenColor();
-    System.out.println(i);
     return i;
   }
 

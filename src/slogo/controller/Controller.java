@@ -9,9 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Tab;
+
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -29,17 +36,11 @@ import slogo.view.InputFields.MoveArrows;
 import slogo.view.InputFields.UserDefinitions;
 import slogo.view.MainView;
 
+
 public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
-//<<<<<<< HEAD
-//  private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-//  public static final int FRAMES_PER_SECOND = 60;
-//  public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-//
-//
-//=======
-//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
+
   private Display myDisplay;
   private Parser myParser;
   private TurtleManager myModel;
@@ -57,6 +58,7 @@ public class Controller extends Application {
   private List<Tab> tabs;
   private Translator translator;
   private Tab currentTab;
+
   public static final String DATA_FILE_EXTENSION = "*.xml";
   public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
   private MainView mainView;
@@ -79,7 +81,6 @@ public class Controller extends Application {
     translator = new Translator();
     tabTurtleModelMap = new HashMap<>();
     setTabs();
-    //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
     myModel = getModel(tabs.get(0));
     setListeners(tabs.get(0));
     addTabButton = myDisplay.getAddTabButton();
@@ -91,7 +92,7 @@ public class Controller extends Application {
     currentStage.setScene(myScene);
     currentStage.setTitle(TITLE);
     currentStage.setWidth(1070);
-    currentStage.setHeight(800);
+    currentStage.setHeight(820);
     currentStage.setResizable(true);
     currentStage.show();
   }
@@ -104,20 +105,19 @@ public class Controller extends Application {
   }
 
   private void uploadNewFile() {
-     readFileSimulation(new Stage());
+    readFileSimulation(new Stage());
   }
 
   public void readFileSimulation(Stage primaryStage) {
     File dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
-    while(dataFile != null) {
+    while (dataFile != null) {
       try {
         XMLReader reader = new XMLReader("media");
         primaryStage.close();
         myDisplay.addTab(reader.getMainView(dataFile.getPath()));
         setTabs();
         return;
-      }
-      catch (XMLException e) {
+      } catch (XMLException e) {
         showMessage(AlertType.ERROR, e.getMessage());
       }
     }
@@ -132,7 +132,7 @@ public class Controller extends Application {
     }
   }
 
-  private void showMessage (AlertType type, String message) {
+  private void showMessage(AlertType type, String message) {
     new Alert(type, message).showAndWait();
   }
 
@@ -157,9 +157,15 @@ public class Controller extends Application {
     runButton = mainView.getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
 
+////<<<<<<< HEAD
+//    uploadFile = myDisplay.getMainView().getToolBar().getUploadFile();
+//    uploadFile.setOnAction( event -> chooseFile());
+//    language = myDisplay.getMainView().getToolBar().getLanguageBox();
+//=======
     uploadFile = mainView.getToolBar().getUploadFile();
     uploadFile.setOnAction(event -> chooseFile());
     language = mainView.getToolBar().getLanguageBox();
+//>>>>>>> 4bcf0dda67429e624b86ab7a3769bc27d796bc4e
 
     language.setOnAction(event -> setLanguage(language));
     modeMenu = mainView.getToolBar().getModeMenu();
@@ -275,7 +281,7 @@ public class Controller extends Application {
   }
 
 
-  private static FileChooser makeChooser (String extensionAccepted) {
+  private static FileChooser makeChooser(String extensionAccepted) {
     FileChooser result = new FileChooser();
     result.setTitle("Open Data File");
     // pick a reasonable place to start searching for files

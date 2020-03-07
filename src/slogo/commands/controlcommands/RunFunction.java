@@ -61,7 +61,6 @@ public class RunFunction implements ControlCommand {
             Command c = myValues.get(k);
             double val = Command.executeAndExtractValue(c, manifest, ret);
             myFunction.setVariableValue(k, val);
-            System.out.println(val);
         }
         myVal = Command.executeAndExtractValue(myFunction, manifest, ret);
         manifest.setActiveTurtles(previousIds);

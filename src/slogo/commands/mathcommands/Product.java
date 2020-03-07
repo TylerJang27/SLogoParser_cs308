@@ -44,7 +44,6 @@ public class Product implements MathCommand {
         List<TurtleStatus> ret = new ArrayList<>();
         double[] val = MathCommand.twoArgOperation(ret, manifest, arg1, arg2);
         returnVal = val[0]*val[1];
-        System.out.println(returnVal);
         return ret;
     }
 

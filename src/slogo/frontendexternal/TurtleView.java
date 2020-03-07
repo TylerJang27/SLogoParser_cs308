@@ -56,13 +56,7 @@ public class TurtleView {
     turtleUrlPath = TURTLE_IMG_DEFAULT_PATH + "/" + picFileName + ".png";
     myImage = new Image("" + turtleUrlPath);
     myImageView =  new ImageView(myImage);
-    myImageView.setOnMouseClicked(new javafx.event.EventHandler<javafx.scene.input.MouseEvent>() {
-      @Override
-      public void handle(javafx.scene.input.MouseEvent event) {
-        setIsActive();
-        setOpacity();
-      }
-    });
+
 
     setUpMyImageView();
   }
@@ -75,8 +69,8 @@ public class TurtleView {
    */
   public void executeState(SequentialTransition sequentialTransition, TurtleStatus start, TurtleStatus end) {
     //SequentialTransition sequentialTransition = new SequentialTransition();
+
     if(isActive) {
-      //System.out.println("executeState");
       sequentialTransition.setNode(this.myImageView);
       Polyline pathLine = new Polyline();
       int index = 0;
@@ -86,7 +80,10 @@ public class TurtleView {
 
       this.myImageView.setVisible(end.getVisible());
 
-      if (end.getBearing() != myBearing) addRotationCommand(sequentialTransition, start, end);
+      if (end.getBearing() != start.getBearing()) {
+        addRotationCommand(sequentialTransition, start, end);
+      }
+
 
 //      if(end.hasRunnable())end.modify();
       pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
@@ -178,6 +175,18 @@ public class TurtleView {
     this.myImageView.setY(this.myImageView.getY() - this.myImageView.getFitHeight() / 2);
     this.myImageView.setLayoutX(this.getMyStartXPos());
     this.myImageView.setLayoutY(this.getMyStartYPos());
+
+    enableMouseClick();
+  }
+
+  private void enableMouseClick() {
+    myImageView.setOnMouseClicked(new javafx.event.EventHandler<javafx.scene.input.MouseEvent>() {
+      @Override
+      public void handle(javafx.scene.input.MouseEvent event) {
+        setIsActive();
+        setOpacity();
+      }
+    });
   }
 
   private Polyline getTurtleTrail(SequentialTransition sequentialTransition, Polyline pathLine,
@@ -237,9 +246,7 @@ public class TurtleView {
   }
 
   public void setThickness(int i){
-    System.out.println(getPenView().getMyLineThickness());
     getPenView().setMyLineThickness(i);
-    System.out.println(getPenView().getMyLineThickness());
   }
 
   private boolean checkMovement(TurtleStatus start, TurtleStatus end) {

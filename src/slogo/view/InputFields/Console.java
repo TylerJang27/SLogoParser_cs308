@@ -87,20 +87,6 @@ public class Console {
     entry.setText(text);
   }
 
-  /*
-<<<<<<< HEAD
-  private void setDetails(){
-    box.setMinHeight(boxHeight);
-    box.setMinWidth(boxWidth);
-    box.setMaxHeight(boxHeight);
-    box.setMaxWidth(boxWidth);
-    System.out.println("WIDTH: " + box.getWidth());
-    System.out.println("height: " + box.getHeight());
-    Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));
-    box.setBackground(backing);
-=======
-
-   */
   public TextField getEntry(){
     return entry;
 //>>>>>>> b38f675fbb2ee7dd66c656afdd7909d2a2010175
@@ -136,7 +122,6 @@ public class Console {
     while(iter.hasPrevious()){
       StringBuilder translatedLine = new StringBuilder();
       for(String command : iter.previous().split(" ")){
-        System.out.println(command);
         translatedLine.append(translator.translateCommand(command, newLanguage));
         translatedLine.append(" ");
       }

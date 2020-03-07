@@ -32,7 +32,6 @@ public class CommandFactory {
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
     int count = getCount(formalCommand);
-
     if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
@@ -54,16 +53,18 @@ public class CommandFactory {
     try {
       Class<?> c = Class.forName(myCommands.get(key));
       List<Object> obj = new ArrayList<>();
-
       for(int i = 0; i<getCount(key) && !commands.isEmpty(); i++) obj.add(commands.get(i));
+
       if(myMovementCommands.contains(key)){
         obj.add(X_MAX);
         obj.add(Y_MAX);
         obj.add(currentMode);
       }
+
       if(key.equals("Repeat")||key.equals("If")||key.equals("IfElse")){
         obj.add(listCommands.pop());
       }
+
       if(key.equals("IfElse")) obj.add(listCommands.pop());
 
       if (key.equals("Tell")) {
@@ -74,11 +75,7 @@ public class CommandFactory {
           obj.add(listCommands.pop());
         }
       }
-
-
       Object[] objArray = obj.toArray();
-
-
       Class<?> params[] = findParameter(objArray);
       return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
     } catch (InvalidCommandException | NoSuchMethodException | ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {

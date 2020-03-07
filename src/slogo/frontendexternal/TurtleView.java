@@ -56,7 +56,6 @@ public class TurtleView {
     setUpMyImageView();
   }
 
-
   /**
    * Executes each turtle status
    * @param sequentialTransition the transition to be played
@@ -72,16 +71,18 @@ public class TurtleView {
 
       Double[] pathPoints = new Double[4];
       checkClearScreen(end);
+
       this.myImageView.setVisible(end.getVisible());
+
       if (end.getBearing() != myBearing) {
         addRotationCommand(sequentialTransition, start, end);
       }
 
+      if(end.hasRunnable()) end.modify();
       pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
 
     }
   }
-
 
   /**
    * Gets x position of turtle
@@ -230,6 +231,7 @@ public class TurtleView {
         this.penView.updateMyLines(this.getMyStartXPos() + start.getX(), this.getMyStartYPos() + start.getY(), this.getMyStartXPos() + end.getX(), this.getMyStartYPos() + end.getY());
       }
   }
+
 
 
 }

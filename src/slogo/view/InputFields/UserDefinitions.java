@@ -15,17 +15,17 @@ public class UserDefinitions {
   private VBox variableBox;
   private TextArea variables;
 
-  public UserDefinitions(){
+  public UserDefinitions(double length){
     variableBox = new VBox();
     variables = new TextArea();
-    setDetails();
+    setDetails(length);
     variableBox.getChildren().addAll(varLabel, variables);
   }
 
-  private void setDetails(){
-    variables.setMaxSize(300,200);
-    variables.setMinSize(300,200);
-    variables.setPrefSize(300,200);
+  private void setDetails(double length){
+    variables.setMinSize(length, 200);
+    variables.setMaxSize(length, 200);
+    variables.setPrefSize(length, 200);
     Background backing = new Background(new BackgroundFill(
         Color.BLACK, new CornerRadii(0), new Insets(0)));
     //statusBox.setBackground(backing);

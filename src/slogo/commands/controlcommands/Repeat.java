@@ -32,7 +32,7 @@ public class Repeat implements ControlCommand {
      * @param varCap    the maximum value of the variable.
      * @param commands  the Collection of commands to execute for a given loop.
      */
-    public Repeat(Command varCap, Collection<Command> commands) {
+    public Repeat(Command varCap, List<Command> commands) {
         loop = new DoTimes(getRepCount(), varCap, commands);
     }
     //End

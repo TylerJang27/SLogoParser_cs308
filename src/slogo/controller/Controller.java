@@ -12,6 +12,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -33,10 +34,6 @@ public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
   private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-  public static final int FRAMES_PER_SECOND = 60;
-  public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-
-
   private Display myDisplay;
   private Parser myParser;
   private TurtleManager myModel;
@@ -53,9 +50,13 @@ public class Controller extends Application {
   private List<Tab> tabs;
   private Translator translator;
   private Tab currentTab;
+//<<<<<<< HEAD
   public static final String DATA_FILE_EXTENSION = "*.xml";
   public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
 
+//=======
+  private MainView mainView;
+///>>>>>>> b38f675fbb2ee7dd66c656afdd7909d2a2010175
 
   /**
    * Start of the program.
@@ -71,7 +72,7 @@ public class Controller extends Application {
     translator = new Translator();
     tabTurtleModelMap = new HashMap<Tab, TurtleManager>();
     setTabs();
-    //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
+    changeOnWrite();
     myModel = getModel(tabs.get(0));
     setListeners(tabs.get(0));
     addTabButton = myDisplay.getAddTabButton();
@@ -79,7 +80,6 @@ public class Controller extends Application {
     addTabPreferencesButton = myDisplay.getAddTabFromPreferencesButton();
     addTabPreferencesButton.setOnAction(event -> uploadNewFile());
     Scene myScene = myDisplay.getScene();
-
     currentStage.setScene(myScene);
     currentStage.setTitle(TITLE);
     currentStage.setWidth(1070);
@@ -122,9 +122,18 @@ public class Controller extends Application {
     }
   }
 
+  private void changeOnWrite(){
+    for(Tab tab : tabs){
+      MainView tabMainView = (MainView) tab.getGraphic();
+      TextField tabConsole = tabMainView.getTextFields().getConsole().getEntry();
+      tabConsole.setOnMouseClicked(event -> setListeners(tab));
+    }
+  }
+
   private void addTab() {
     myDisplay.addTab(null);
     setTabs();
+    changeOnWrite();
   }
 
   private TurtleManager getModel(Tab tab) {
@@ -133,24 +142,27 @@ public class Controller extends Application {
   }
 
   private void setListeners(Tab tab) {
-    currentStatus = INITIAL_STATUS; //TODO GET CURRENT STATUS FROM FRONT END
-    myModel = getModel(tab);
-    console = myDisplay.getMainView().getTextFields().getConsole();
-    userDefinitions = myDisplay.getMainView().getTextFields().getUserDefinitions();
-    runButton = myDisplay.getMainView().getToolBar().getCommandButton();
+    currentTab = tab;
+    myModel = getModel(currentTab);
+    mainView = (MainView) currentTab.getGraphic();
+    console = mainView.getTextFields().getConsole();
+    userDefinitions = mainView.getTextFields().getUserDefinitions();
+    runButton = mainView.getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
-    language = myDisplay.getMainView().getToolBar().getLanguageBox();
+    language = mainView.getToolBar().getLanguageBox();
     language.setOnAction(event -> setLanguage(language));
-//    modeMenu = myDisplay.getMainView().getToolBar().getModeMenu();
-//    modeMenu.setOnAction(event -> setMode(modeMenu));
-    arrows = myDisplay.getMainView().getTextFields().getMoveArrows();
+    modeMenu = mainView.getToolBar().getModeMenu();
+    modeMenu.setOnAction(event -> setMode(modeMenu));
+    arrows = mainView.getTextFields().getMoveArrows();
     for(Button arrow : arrows.getButtons()){
       arrow.setOnAction(event -> moveTurtle(arrow, arrows.getIncrement()));
     }
   }
 
-  private void moveTurtle(Button arrow, double increment) {
-    //MOVE TURTLE DISTANCE BASED ON WHICH ARROW CLICKED, INCREMENT IS AMOUNT TO MOVE BYlk
+  private void moveTurtle(Button arrow, int increment) {
+    System.out.println(arrow.getId() + " " + increment);
+    console.setText(arrow.getId() + " " + increment);
+    sendCommand();
   }
 
 
@@ -159,9 +171,12 @@ public class Controller extends Application {
       myParser.parseLine(console.getText());
       List<Command> toSend = myParser.sendCommands();
       List<TurtleStatus> statuses = myModel.executeCommands(toSend);
-      for (TurtleStatus ts: statuses) {
-        System.out.println("com:" + ts);
-      }
+//<<<<<<< HEAD
+//      for (TurtleStatus ts: statuses) {
+//        System.out.println("com:" + ts);
+//      }
+//=======
+//>>>>>>> b38f675fbb2ee7dd66c656afdd7909d2a2010175
       if(statuses.size() > 0){
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);
@@ -172,7 +187,6 @@ public class Controller extends Application {
       displayQueries();
     }
     catch(Exception e){
-      e.printStackTrace();
       console.addError(errorHandler.getErrorMessage(e.getMessage(), myParser.getCommands()));
       console.getEntry().setOnKeyPressed(key -> handlePrompt(key.getCode()));
     }
@@ -198,7 +212,6 @@ public class Controller extends Application {
     myDisplay.getMainView().getTextFields().clearVariables();
     myDisplay.getMainView().getTextFields().addVariableText(myParser.getVariableString());
   }
-
 
   private void displayQueries() {
     myDisplay.getMainView().getTextFields().clearQueries();

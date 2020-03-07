@@ -22,11 +22,8 @@ public interface DisplayCommand extends Command {
         ret.addAll(arg1.execute(manifest));
         double rv = arg1.returnValue();
 
-        //TODO: DOUBLE CHECK THIS WORKS WITH THE NEW IMPLEMENTATION
-        //TurtleStatus t = new TurtleStatus(ret.get(ret.size()-1));
         TurtleStatus t = new TurtleStatus(manifest.getActiveState());
         t.setRunnable(() -> con.accept((int)rv));
-
         ret.add(t);
         return rv;
     }

@@ -53,6 +53,7 @@ public class Toolbar extends ToolBar {
 
   //The Buttons
   private Button commandButton, helpButton, changesButton, savePrefButton;
+//<<<<<<< HEAD
 
   //Timeline Inputs
   private static final int FRAMES_PER_SECOND = 60;
@@ -61,6 +62,15 @@ public class Toolbar extends ToolBar {
 
   public Toolbar(MainView mainview) {
     setUpBundles();
+//=======
+//  private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle;
+//
+//  public Toolbar(MainView mainview) {
+//    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
+//    labelBundle = ResourceBundle.getBundle("slogo.view.resources.labels");
+//    languageBundle = ResourceBundle.getBundle("slogo.view.resources.languages");
+//    turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
+//>>>>>>> 75fcef32b09b72de3dd1f1b95eb213fa1b1df925
 
     this.myMainView = mainview;
     this.myTextFields = myMainView.getTextFields();
@@ -79,6 +89,7 @@ public class Toolbar extends ToolBar {
 
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,
+//<<<<<<< HEAD
         languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
         savePrefButton, modeMenu, helpButton);
   }
@@ -131,6 +142,13 @@ public class Toolbar extends ToolBar {
   /**
    * Helping methods to import menus and buttons to the toolbar
    */
+//=======
+//        languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton,
+//        savePrefButton, new Separator(), helpButton);
+  //}
+
+  /** Helping methods to import menus and buttons to the toolbar*/
+
   private void createMenus() {
     //Color Menus
     createColorMenu();
@@ -188,6 +206,7 @@ public class Toolbar extends ToolBar {
     this.penMenu = new ColorPicker();
     penMenu.setValue(Color.BLACK);
     penMenu.setMaxWidth(MAX_WIDTH);
+
   }
 
   private void createButtons() {
@@ -261,6 +280,33 @@ public class Toolbar extends ToolBar {
     }
 
   }
+
+//  public void setPenColor(int i){
+//    System.out.println("setPenColor");
+//    ObservableList<Color> colorList = penMenu.getCustomColors();
+//    if(colorList.size()<=0||i>=colorList.size()) return;
+//    penMenu.setValue(colorList.get(i));
+//    applyChanges();
+//  }
+//
+//  public void setShape(int i){
+//    languageMenu.getSelectionModel().select(i);
+//    applyChanges();
+//  }
+//
+//  /** Public Get Methods */
+//
+//  public Button getCommandButton(){ return commandButton; }
+//
+//  public ComboBox getLanguageBox() {return languageMenu; }
+//
+//  public int getPenColor() {
+//    return penMenu.getCustomColors().indexOf(penMenu.getValue());
+//  }
+//
+//  public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}
+
+
 
 
 }

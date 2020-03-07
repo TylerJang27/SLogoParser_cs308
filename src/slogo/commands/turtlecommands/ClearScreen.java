@@ -4,6 +4,7 @@ import slogo.backendexternal.TurtleManifest;
 import slogo.backendexternal.TurtleStatus;
 import slogo.commands.TurtleCommand;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,20 +21,15 @@ public class ClearScreen implements TurtleCommand {
     public ClearScreen(double xMax, double yMax, String mode, Runnable runnable){
         go = new Home(xMax,yMax,mode);
         this.runnable = runnable;
-        //TODO: NEED ADDITIONAL PARAMETER QUALIFYING AS A RESET:
-        //Could add a null to a collection of TurtleStatus, stuff, which the front
-        //could interpret as remove everything and go from there
-        //need to keep in mind sequential order of things
     }
-
-    //TODO: MAKE SURE TO DO THE NEW TURTLE MANAGER IMPLEMENTATION
 
     @Override
     public List<TurtleStatus> execute(TurtleManifest manifest) {
         List<TurtleStatus> ret = go.execute(manifest);
-        TurtleStatus last = ret.get(ret.size()-1);
-        TurtleStatus next = new TurtleStatus(last.getID(), last.getX(), last.getY(), 0.0, false, last.getVisible(), last.getPenDown());
-        next.setClear();
+        //List<TurtleStatus> ret = new ArrayList<>();
+        TurtleStatus last = manifest.getActiveState();
+        TurtleStatus next = new TurtleStatus(last.getID(), 0, 0, 0.0, false, last.getVisible(), last.getPenDown());
+        //next.setClear();
         next.setRunnable(()->runnable.run());
         ret.add(next);
         return ret;
@@ -45,8 +41,8 @@ public class ClearScreen implements TurtleCommand {
         return go.returnValue();
     }
 
-    public static boolean toClear() {
-        return true; //TODO: MAKE SURE THIS IMPLEMENTATION WORKS
-    }
+//    public static boolean toClear() {
+//        return true; //TODO: MAKE SURE THIS IMPLEMENTATION WORKS
+//    }
 
 }

@@ -1,12 +1,17 @@
 package slogo.backendexternal.parser;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 import slogo.backendexternal.backendexceptions.InvalidArgumentException;
 import slogo.backendexternal.backendexceptions.InvalidCommandException;
 import slogo.commands.Command;
 import slogo.commands.controlcommands.Constant;
+import slogo.frontendexternal.TurtleView;
+import slogo.view.MainView;
 
 public class CommandFactory {
 
@@ -16,26 +21,66 @@ public class CommandFactory {
   private String currentMode;
   private Map<String, String> myCommands = new HashMap<>();
   private List<String> myMovementCommands;
-  private Map<String, Integer> counts;
+  private Map<String, Integer> counts = new HashMap<>();
+  private Map<String, Integer> myControlCommands = new HashMap<>();
+  private MainView myMainView;
+  private List<String> mySupplierCommands;
+  private List<String> myRunnableCommands;
+  private Map<String, Integer> myConsumerCommands = new HashMap<>();
+
 
   public CommandFactory(Map<String, List<String>> commands){
     currentMode = "toroidal";
+    //myCounts = new CommandCounter();
+    fillCounts();
+    setGeneralCommands();
+    setMovementCommands();
+    setControlCommands();
+    setSRCCommands();
+  }
+
+
+  private void setControlCommands(){
+    var resources2 = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "ControlCommand");
+    for(String key:resources2.keySet()){
+      myControlCommands.put(key, Integer.parseInt(resources2.getString(key)));
+    }
+  }
+
+  private void setGeneralCommands(){
     var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandFactory");
     for(String key:resources.keySet()){
       myCommands.put(key, resources.getString(key));
     }
-    myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
-    fillCounts();
   }
+  private void setMovementCommands(){
+    myMovementCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "MovementCommand").getKeys());
+  }
+
+  private void setSRCCommands(){
+    var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "ConsumerCommand");
+    for(String key:resources.keySet()){
+      myConsumerCommands.put(key, Integer.parseInt(resources.getString(key)));
+    }
+    myRunnableCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "RunnableCommand").getKeys());
+    mySupplierCommands = Collections.list(ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "SupplierCommand").getKeys());
+  }
+
+  public void setView(MainView mv){
+    myMainView = mv;
+  }
+
+
+
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
     List<Command> commands = new ArrayList<>();
     int count = getCount(formalCommand);
+
     if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
-
     while(commands.size() < count){
       if(previous.size() > 0){
         commands.add(previous.pop());
@@ -47,26 +92,22 @@ public class CommandFactory {
     return buildCommand(formalCommand, commands, listCommands);
   }
 
-  //TODO Replace the following if else tree with reflection - will make much cleaner
 
-  public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException{
+
+
+
+  public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException {
+    //System.out.println(key);
     try {
-      Class<?> c = Class.forName(myCommands.get(key));
       List<Object> obj = new ArrayList<>();
-      for(int i = 0; i<getCount(key) && !commands.isEmpty(); i++) obj.add(commands.get(i));
 
-      if(myMovementCommands.contains(key)){
-        obj.add(X_MAX);
-        obj.add(Y_MAX);
-        obj.add(currentMode);
-      }
+      for (int i = 0; i < getCount(key); i++) obj.add(commands.get(i));
+      if (myMovementCommands.contains(key)) obj.addAll(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));
+      if (myControlCommands.keySet().contains(key)) for (int i = 0; i < myControlCommands.get(key); i++) obj.add(listCommands.pop());
 
-      if(key.equals("Repeat")||key.equals("If")||key.equals("IfElse")){
-        obj.add(listCommands.pop());
-      }
-
-      if(key.equals("IfElse")) obj.add(listCommands.pop());
-
+      runnableAdd(key, obj);
+      consumerAdd(key, obj);
+      supplierAdd(key, obj);
       if (key.equals("Tell")) {
         if (listCommands.isEmpty()) {
           obj.clear();
@@ -75,13 +116,63 @@ public class CommandFactory {
           obj.add(listCommands.pop());
         }
       }
+
+      //System.out.println(key);
+
       Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
-      return (Command)c.getDeclaredConstructor(params).newInstance(objArray);
-    } catch (InvalidCommandException | NoSuchMethodException | ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-      throw new InvalidCommandException(e, "Command could not be found.");
+      //for(Class<?> o: params) System.out.println(o);
+      return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
+    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+      throw new InvalidCommandException("Command could not be found.");
     }
   }
+
+  private void runnableAdd(String key, List<Object> obj){
+    //System.out.println(key + "runnableAdding");
+    if(myRunnableCommands.contains(key)) {
+      Runnable z = () -> {
+        try {
+          this.getClass().getDeclaredMethod(key).invoke(this);
+        } catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
+          throw new InvalidCommandException("Command could not be found.");
+        }
+      };
+      obj.add(z);
+    }
+  }
+
+  private void consumerAdd(String key, List<Object> obj){
+    if(myConsumerCommands.keySet().contains(key)){
+      //System.out.println(key);
+      Class<?> p[] = new Class<?>[myConsumerCommands.get(key)];
+      Arrays.fill(p, Integer.TYPE);
+      Consumer<Integer> z = index -> {
+        try {
+          this.getClass().getDeclaredMethod(key, p).invoke(this, index);
+        }
+        catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
+          throw new InvalidCommandException("Command could not be found.");
+        }
+      };
+      obj.add(z);
+    }
+  }
+
+  private void supplierAdd(String key, List<Object> obj){
+    if(mySupplierCommands.contains(key)) {
+      Supplier<Integer> z = ()-> {
+        try {
+          return (Integer) this.getClass().getDeclaredMethod(key).invoke(this);
+        } catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
+          System.out.println("????");
+          throw new InvalidCommandException("Command could not be found.");
+        }
+      };
+      obj.add(z);
+    }
+  }
+
 
   public Command makeConstant(String current) {
     return new Constant(Integer.parseInt(current));
@@ -125,8 +216,56 @@ public class CommandFactory {
         params[i] = List.class;
       } else if (objArray[i] instanceof Consumer) {
         params[i] = Consumer.class;
+      } else if (objArray[i] instanceof Supplier) {
+        params[i] = Supplier.class;
+      }else if (objArray[i] instanceof Runnable) {
+        params[i] = Runnable.class;
+      }
+      else if (objArray[i] instanceof Collection) {
+        params[i] = Collection.class;
       }
     }
     return params;
   }
+
+  private void ClearScreen(){
+    myMainView.getTurtles().getMyLines().clear();
+    myMainView.getTurtle().clearScreen();
+    //for(TurtleView t : myMainView.getTurtles().getTurtleViews()) t.clearScreen();
+  }
+
+
+
+
+  private void SetBackground(int index){
+    System.out.println("setBackGround");
+    myMainView.getToolBar().setBackground(index);
+  }
+  private void SetPenColor(int index){
+    System.out.println("setPenColoring");
+    myMainView.getToolBar().setPenColor(index);
+  }
+  private void SetShape(int index){
+    myMainView.getToolBar().setShape(index);
+  }
+
+  private void SetPenSize(int index){
+    myMainView.getTurtle().setThickness(index);
+  }
+
+  private int GetPenColor(){
+    int i = myMainView.getToolBar().getPenColor();
+    System.out.println(i);
+    return i;
+  }
+
+  private int GetShape(){
+    return myMainView.getToolBar().getTurtleShape();
+  }
+
+  private void SetPalette(int index, int r, int g, int b){
+    //myMainView.getToolBar().setPalette(index, r, g, b);
+  }
 }
+
+

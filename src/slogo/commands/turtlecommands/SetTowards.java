@@ -32,10 +32,15 @@ public class SetTowards implements TurtleCommand {
         ret.addAll(arg1.execute(manifest));
         ret.addAll(arg2.execute(manifest));
 
-        double deltaX = arg1.returnValue() - ret.get(ret.size()-1).getX();
-        double deltaY = arg2.returnValue() + ret.get(ret.size()-1).getY();
+        double deltaX = arg1.returnValue() - manifest.getActiveState().getX();
+        double deltaY = arg2.returnValue() + manifest.getActiveState().getY();
 
-        degreeMoved = Math.toDegrees(Math.atan((deltaX)/(deltaY))) - manifest.getActiveState().getBearing();
+        if(deltaY!=0) {
+            degreeMoved = Math.toDegrees(Math.atan((deltaX) / (deltaY))) - manifest.getActiveState().getBearing();
+        }
+        else{
+            degreeMoved = 0 -  manifest.getActiveState().getBearing();
+        }
         if(deltaY<0) degreeMoved+=180;
 
 

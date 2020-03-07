@@ -84,6 +84,7 @@ public class TurtleView {
     }
   }
 
+
   /**
    * Gets x position of turtle
    * @return myXPos : x position
@@ -219,6 +220,17 @@ public class TurtleView {
     if(end.getClear()) {
       getPenView().getMyLines().clear();
     }
+  }
+
+
+  public void clearScreen() {
+    getPenView().getMyLines().clear();
+  }
+
+  public void setThickness(int i){
+    System.out.println(getPenView().getMyLineThickness());
+    getPenView().setMyLineThickness(i);
+    System.out.println(getPenView().getMyLineThickness());
   }
 
   private boolean checkMovement(TurtleStatus start, TurtleStatus end) {

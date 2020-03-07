@@ -40,6 +40,9 @@ import slogo.view.InputFields.InputFields;
 
 public class Toolbar extends ToolBar {
 
+  private static final double WIDTH = 1010.0;
+  private static final double HEIGHT = 40.0;
+  public static final int MAX_WIDTH = 50;
   //Incorporate View and Text Field
   private MainView myMainView;
   private InputFields myTextFields;
@@ -49,24 +52,15 @@ public class Toolbar extends ToolBar {
   private ComboBox languageMenu, turtleMenu, modeMenu;
 
   //The Buttons
-//<<<<<<< HEAD
-//  private Button commandButton, helpButton, changesButton, savePrefButton;
-//  private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle;
-//=======
   private Button commandButton, helpButton, changesButton, savePrefButton;
 
   //Timeline Inputs
   private static final int FRAMES_PER_SECOND = 60;
   private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
   private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle, modeBundle;
-//>>>>>>> b38f675fbb2ee7dd66c656afdd7909d2a2010175
 
   public Toolbar(MainView mainview) {
-    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
-    labelBundle = ResourceBundle.getBundle("slogo.view.resources.labels");
-    languageBundle = ResourceBundle.getBundle("slogo.view.resources.languages");
-    turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
-    modeBundle = ResourceBundle.getBundle("slogo.view.resources.modes");
+    setUpBundles();
 
     this.myMainView = mainview;
     this.myTextFields = myMainView.getTextFields();
@@ -79,51 +73,90 @@ public class Toolbar extends ToolBar {
     Label turtleLabel = new Label(labelBundle.getString("TurtleLabel"));
     Label languageLabel = new Label(labelBundle.getString("LanguageLabel"));
 
-    this.setMinSize(1010.0, 40.0);
-    this.setMaxSize(1010.0, 40.0);
-    this.setPrefSize(1010.0, 40.0);
+    this.setMinSize(WIDTH, HEIGHT);
+    this.setMaxSize(WIDTH, HEIGHT);
+    this.setPrefSize(WIDTH, HEIGHT);
 
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,
-//<<<<<<< HEAD
-//        languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton,
-//        savePrefButton, new Separator(), helpButton);
-//=======
         languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
         savePrefButton, modeMenu, helpButton);
   }
 
+
+
   public Button getCommandButton(){
     return commandButton;
-//>>>>>>> b38f675fbb2ee7dd66c656afdd7909d2a2010175
   }
 
   public ComboBox getLanguageBox() {return languageMenu; }
 
   public ComboBox getModeMenu(){ return modeMenu; }
 
+  /** Public Set Methods Called Directly from the Console */
+
+  public void setBackground(int i){
+    ObservableList<Color> colorList = backgroundMenu.getCustomColors();
+    if(colorList.size()<=0) return;
+    if(i>=colorList.size()) i = colorList.size()-1;
+    backgroundMenu.setValue(colorList.get(i));
+    applyChanges();
+  }
+
+  public void setPenColor(int i){
+    ObservableList<Color> colorList = penMenu.getCustomColors();
+    penMenu.setValue(colorList.get(i));
+    applyChanges();
+  }
+
+  public void setShape(int i){
+    languageMenu.getSelectionModel().select(i);
+    applyChanges();
+  }
+
+  /** Public Get Methods */
+
+  public int getPenColor() { return backgroundMenu.getCustomColors().indexOf(backgroundMenu.getValue()); }
+
+  public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}
+
+  private void setUpBundles() {
+    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
+    labelBundle = ResourceBundle.getBundle("slogo.view.resources.labels");
+    languageBundle = ResourceBundle.getBundle("slogo.view.resources.languages");
+    turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
+    modeBundle = ResourceBundle.getBundle("slogo.view.resources.modes");
+  }
+
   /**
    * Helping methods to import menus and buttons to the toolbar
    */
-
   private void createMenus() {
     //Color Menus
-    this.penMenu = new ColorPicker();
-    penMenu.setValue(Color.BLACK);
-    penMenu.setMaxWidth(50);
+    createColorMenu();
 
-    this.backgroundMenu = new ColorPicker();
-    backgroundMenu.setValue(Color.LIGHTGRAY);
-    backgroundMenu.setMaxWidth(50);
+    //Background Color Menu
+    createBackgroundColorMenu();
 
     //Turtle Menu
-    this.turtleMenu = new ComboBox();
-    turtleMenu.setPromptText("raphael");
-    turtleMenu.getItems().addAll(turtleSkinBundle.getString("Mickey"),
-        turtleSkinBundle.getString("Raphael"),
-        turtleSkinBundle.getString("Turtle"));
+    createTurtleImageMenu();
 
     //Language Menu
+    createLanguageMenu();
+
+    //Mode Menu
+    createModeMenu();
+  }
+
+  private void createModeMenu() {
+    this.modeMenu = new ComboBox();
+    modeMenu.setPromptText("Toroidal");
+    modeMenu.getItems().addAll(modeBundle.getString("Toroidal"),
+        modeBundle.getString("Normal"),
+        modeBundle.getString("Edge"));
+  }
+
+  private void createLanguageMenu() {
     this.languageMenu = new ComboBox();
     languageMenu.setPromptText("English");
     languageMenu.getItems().addAll(languageBundle.getString("English"),
@@ -135,13 +168,26 @@ public class Toolbar extends ToolBar {
         languageBundle.getString("Russian"),
         languageBundle.getString("Spanish"),
         languageBundle.getString("Urdu"));
+  }
 
-    this.modeMenu = new ComboBox();
-    modeMenu.setPromptText("Toroidal");
-    modeMenu.getItems().addAll(modeBundle.getString("Toroidal"),
-        modeBundle.getString("Normal"),
-        modeBundle.getString("Edge"));
+  private void createTurtleImageMenu() {
+    this.turtleMenu = new ComboBox();
+    turtleMenu.setPromptText("raphael");
+    turtleMenu.getItems().addAll(turtleSkinBundle.getString("Mickey"),
+        turtleSkinBundle.getString("Raphael"),
+        turtleSkinBundle.getString("Turtle"));
+  }
 
+  private void createBackgroundColorMenu() {
+    this.backgroundMenu = new ColorPicker();
+    backgroundMenu.setValue(Color.LIGHTGRAY);
+    backgroundMenu.setMaxWidth(MAX_WIDTH);
+  }
+
+  private void createColorMenu() {
+    this.penMenu = new ColorPicker();
+    penMenu.setValue(Color.BLACK);
+    penMenu.setMaxWidth(MAX_WIDTH);
   }
 
   private void createButtons() {
@@ -215,31 +261,6 @@ public class Toolbar extends ToolBar {
     }
 
   }
-  /** Public Set Methods Called Directly from the Console */
 
-  public void setBackground(int i){
-    ObservableList<Color> colorList = backgroundMenu.getCustomColors();
-    if(colorList.size()<=0) return;
-    if(i>=colorList.size()) i = colorList.size()-1;
-    backgroundMenu.setValue(colorList.get(i));
-    applyChanges();
-  }
-
-  public void setPenColor(int i){
-    ObservableList<Color> colorList = penMenu.getCustomColors();
-    penMenu.setValue(colorList.get(i));
-    applyChanges();
-  }
-
-  public void setShape(int i){
-    languageMenu.getSelectionModel().select(i);
-    applyChanges();
-  }
-
-  /** Public Get Methods */
-
-  public int getPenColor() { return backgroundMenu.getCustomColors().indexOf(backgroundMenu.getValue()); }
-
-  public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}
 
 }

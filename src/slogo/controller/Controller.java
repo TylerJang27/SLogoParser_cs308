@@ -50,13 +50,10 @@ public class Controller extends Application {
   private List<Tab> tabs;
   private Translator translator;
   private Tab currentTab;
-//<<<<<<< HEAD
+
   public static final String DATA_FILE_EXTENSION = "*.xml";
   public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
-
-//=======
   private MainView mainView;
-///>>>>>>> b38f675fbb2ee7dd66c656afdd7909d2a2010175
 
   /**
    * Start of the program.

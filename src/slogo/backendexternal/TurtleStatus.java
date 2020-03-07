@@ -132,7 +132,7 @@ public class TurtleStatus {
     }
 
     public void modify(){
-        //System.out.println("modify");
+        System.out.println("modifying");
         runnable.run();
     }
 

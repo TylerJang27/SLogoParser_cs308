@@ -99,24 +99,47 @@ public class Toolbar extends ToolBar {
 
   public void setBackground(int i){
     ObservableList<Color> colorList = backgroundMenu.getCustomColors();
-    if(i>=colorList.size() || i<0) return;
+    if(i<0) return;
+    if(i>=colorList.size()) i = colorList.size()-1;
     backgroundMenu.setValue(colorList.get(i));
     applyChanges();
   }
 
   public void setPenColor(int i){
     ObservableList<Color> colorList = penMenu.getCustomColors();
-    if(i>=colorList.size() || i<0) return;
+    if(i<0) return;
+    if(i>=colorList.size()) i = colorList.size()-1;
     penMenu.setValue(colorList.get(i));
     applyChanges();
   }
 
   public void setShape(int i){
     System.out.println(turtleMenu.getItems());
-    if(i>=turtleMenu.getItems().size() || i<0) return;
+    if(i<0) return;
+    if(i>=turtleMenu.getItems().size()) i = turtleMenu.getItems().size()-1;
     turtleMenu.getSelectionModel().select(i);
     System.out.println(turtleMenu.getSelectionModel().getSelectedItem());
     applyChanges();
+  }
+
+  public void setPalette(int[] things){
+    System.out.println("toolbar");
+    if(things.length!=4) return;
+    int i = things[0];
+    int r = things[1];
+    int g = things[2];
+    int b = things[3];
+    if(i<0 || r <0 || g<0 || b<0 || r>255 || g>255 ||b>255 ) return;
+    System.out.println("let's try get color");
+    Color c = Color.rgb(r,g,b);
+    System.out.println("got color");
+    if(i<backgroundMenu.getCustomColors().size()) backgroundMenu.getCustomColors().set(i, c);
+    else{
+      for(int j = backgroundMenu.getCustomColors().size(); j<i; j++){
+        backgroundMenu.getCustomColors().add(Color.WHITE);
+      }
+      backgroundMenu.getCustomColors().add(c);
+    }
   }
 
   /** Public Get Methods */

@@ -75,10 +75,12 @@ public class CommandFactory {
 
   public Command makeCommand(String command, Stack<Command> previous, Stack<List<Command>> listCommands, Map<String, List<String>> myCommands) throws InvalidArgumentException{
     String formalCommand = validateCommand(command, myCommands);
+    //System.out.println("Tell" + myCommands.containsKey("Tell"));
     List<Command> commands = new ArrayList<>();
     int count = getCount(formalCommand);
 
     if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
+      System.out.println((previous.size() + listCommands.size()) + " vs " + count);
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
     while(commands.size() < count){
@@ -97,7 +99,7 @@ public class CommandFactory {
 
 
   public Command buildCommand(String key, List<Command> commands, Stack<List<Command>> listCommands) throws InvalidCommandException {
-    //System.out.println(key);
+    System.out.println(key);
     try {
       List<Object> obj = new ArrayList<>();
 
@@ -108,7 +110,9 @@ public class CommandFactory {
       runnableAdd(key, obj);
       consumerAdd(key, obj);
       supplierAdd(key, obj);
+      //System.out.println(key + "???");
       if (key.equals("Tell")) {
+        System.out.println("Telling");
         if (listCommands.isEmpty()) {
           obj.clear();
           obj.add(List.of(commands.get(0)));
@@ -121,9 +125,10 @@ public class CommandFactory {
 
       Object[] objArray = obj.toArray();
       Class<?> params[] = findParameter(objArray);
-      //for(Class<?> o: params) System.out.println(o);
+      for(Class<?> o: params) System.out.println(o);
       return (Command) Class.forName(myCommands.get(key)).getDeclaredConstructor(params).newInstance(objArray);
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+      System.out.println("sth happened");
       throw new InvalidCommandException("Command could not be found.");
     }
   }
@@ -145,17 +150,29 @@ public class CommandFactory {
   private void consumerAdd(String key, List<Object> obj){
     if(myConsumerCommands.keySet().contains(key)){
       //System.out.println(key);
-      Class<?> p[] = new Class<?>[myConsumerCommands.get(key)];
-      Arrays.fill(p, Integer.TYPE);
-      Consumer<Integer> z = index -> {
-        try {
-          this.getClass().getDeclaredMethod(key, p).invoke(this, index);
-        }
-        catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
-          throw new InvalidCommandException("Command could not be found.");
-        }
-      };
-      obj.add(z);
+//      if(myConsumerCommands.get(key)!=1) ;
+//      Class<?> p[] = new Class<?>[myConsumerCommands.get(key)];
+//      Arrays.fill(p, Integer.TYPE);
+      if(myConsumerCommands.get(key)==1) {
+        Consumer<Integer> z = index -> {
+          try {
+            this.getClass().getDeclaredMethod(key, Integer.TYPE).invoke(this, index);
+          } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new InvalidCommandException("Command could not be found.");
+          }
+        };
+        obj.add(z);
+      }
+      else{
+        Consumer<int[]> z = index -> {
+          try {
+            this.getClass().getDeclaredMethod(key, int[].class).invoke(this, index);
+          }catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new InvalidCommandException("Command could not be found.");
+          }
+        };
+        obj.add(z);
+      }
     }
   }
 
@@ -165,7 +182,7 @@ public class CommandFactory {
         try {
           return (Integer) this.getClass().getDeclaredMethod(key).invoke(this);
         } catch (NoSuchMethodException|InvocationTargetException | IllegalAccessException e) {
-          System.out.println("????");
+          //System.out.println("????");
           throw new InvalidCommandException("Command could not be found.");
         }
       };
@@ -263,8 +280,9 @@ public class CommandFactory {
     return myMainView.getToolBar().getTurtleShape();
   }
 
-  private void SetPalette(int index, int r, int g, int b){
-    //myMainView.getToolBar().setPalette(index, r, g, b);
+  private void SetPalette(int[] index){
+    System.out.println("reached here?");
+    myMainView.getToolBar().setPalette(index);
   }
 }
 

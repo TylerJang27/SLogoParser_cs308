@@ -21,7 +21,6 @@ public class Console {
   private TextField entry;
   private ScrollPane pane;
   private List<String> history;
-  private double boxHeight;
   private double boxWidth;
 
   public Console(double width){
@@ -32,11 +31,12 @@ public class Console {
     boxWidth = width;
     addEditable();
     setDetails();
-    pane = new ScrollPane(box);
+    pane = new ScrollPane();
+    pane.setContent(box);
+    pane.setPannable(true);
   }
 
   private void setDetails(){
-//    box.setMinHeight(boxHeight);
     Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));
     box.setBackground(backing);
   }
@@ -58,10 +58,7 @@ public class Console {
       String past = "> " + iter.previous();
       addUneditable(past);
     }
-  }
-
-  public VBox getVBox(){
-    return box;
+    pane.setContent(box);
   }
 
   public void clear(){
@@ -120,5 +117,6 @@ public class Console {
       String past = "> " + translatedLine.toString();
       addUneditable(past);
     }
+    pane.setContent(box);
   }
 }

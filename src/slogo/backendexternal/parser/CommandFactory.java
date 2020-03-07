@@ -35,7 +35,6 @@ public class CommandFactory {
     if(previous.size() + listCommands.size() < count){ //TODO: TYLER EDITED
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
-
     while(commands.size() < count){
       if(previous.size() > 0){
         commands.add(previous.pop());

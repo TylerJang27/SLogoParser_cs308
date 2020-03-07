@@ -1,5 +1,6 @@
 package slogo.view.InputFields;
 
+import java.util.List;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -18,10 +19,6 @@ public class InputFields extends HBox {
     public InputFields(MainView mainview) {
         this.mw = mainview;
         this.width = mw.getWidth();
-//        console = new Console(width/3);
-//        userDefinitions = new UserDefinitions(2*width/9);
-//        statusView = new StatusView(2*width/9);
-//        moveArrows = new MoveArrows(2*width/9, 10);
         console = new Console(300);
         userDefinitions = new UserDefinitions(300);
         statusView = new StatusView(300);
@@ -50,7 +47,7 @@ public class InputFields extends HBox {
     public Console getConsole(){return console;}
     public UserDefinitions getUserDefinitions(){return userDefinitions; }
     public MoveArrows getMoveArrows(){ return moveArrows;}
-    public TextArea getVariables() {
+    public List<TextField> getVariables() {
         return userDefinitions.getDefinitions();
     }
 
@@ -58,10 +55,6 @@ public class InputFields extends HBox {
 
     public VBox getVariableBox() {
         return userDefinitions.getVBox();
-    }
-
-    public void setVariables(TextArea newVariables) {
-        userDefinitions.setArea(newVariables);
     }
 
     public void setVariableBox(VBox vBox) {

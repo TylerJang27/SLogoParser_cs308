@@ -71,14 +71,11 @@ public class Parser {
     while (currentComponents.size() > 0) {
       Stack<Command> commands = new Stack<>();
       String current = currentComponents.pop();
-      System.out.println(current);
       String controlType = getInputType(current);
-      System.out.println(controlType);
       try{
         Method control;
         if(controlType.equals(parserMethods.getString("ListEnd")) || controlType.equals(parserMethods.getString("ListStart"))){
           control = Parser.class.getDeclaredMethod(controlType, Stack.class, Stack.class, List.class);
-          System.out.println(control);
           control.invoke(this, commands, listCommands, currentList);
         }
         else{
@@ -91,17 +88,21 @@ public class Parser {
           }
         }
       }catch(Exception e){
+        e.printStackTrace();
         throw new InvalidCommandException(current);
       }
       if(!inList){
         currentCommand.addAll(commands);
       }
+      System.out.println(currentCommand.size());
     }
     return currentCommand;
   }
 
   private String getInputType(String current) {
-    for(String key : controlTypes.keySet()){
+    Iterator<String> iter = controlTypes.getKeys().asIterator();
+    while(iter.hasNext()){
+      String key = iter.next();
       Pattern regex = Pattern.compile(controlTypes.getString(key), Pattern.CASE_INSENSITIVE);
       if(regex.matcher(current).matches()){
         return parserMethods.getString(key);
@@ -114,7 +115,7 @@ public class Parser {
     return myCommands;
   }
 
-  public String getVariableString() {
+  public List<String> getVariableString() {
     return variableFactory.getVariableString();
   }
 
@@ -133,12 +134,12 @@ public class Parser {
 
   private Command Make(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
       Stack<Command> currentCommand, List<Command> currentList){
-      return variableFactory.makeVariable(currentCommand.pop());
+      return variableFactory.makeVariable(currentCommand);
   }
 
   private Command Set(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
       Stack<Command> currentCommand, List<Command> currentList){
-      return variableFactory.setVariable(currentCommand.pop());
+    return variableFactory.setVariable(currentCommand);
   }
 
   private Command Command(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
@@ -156,9 +157,7 @@ public class Parser {
 
   private Command Variable(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
       Stack<Command> currentCommand, List<Command> currentList){
-    if (variableFactory.handleVariable(current)) {
-      return variableFactory.getVariable(current);
-    }
+    variableFactory.handleVariable(current);
     return variableFactory.getVariable(current);
   }
 

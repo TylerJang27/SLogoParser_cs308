@@ -27,7 +27,6 @@ import slogo.view.MainView;
 public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
-  private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
   private Display myDisplay;
   private Parser myParser;
   private TurtleManager myModel;
@@ -58,7 +57,7 @@ public class Controller extends Application {
     myParser = new Parser(translator);
     errorHandler = new ErrorHandler();
     translator = new Translator();
-    tabTurtleModelMap = new HashMap<Tab, TurtleManager>();
+    tabTurtleModelMap = new HashMap<>();
     setTabs();
     changeOnWrite();
     myModel = getModel(tabs.get(0));
@@ -119,7 +118,6 @@ public class Controller extends Application {
   }
 
   private void moveTurtle(Button arrow, int increment) {
-    System.out.println(arrow.getId() + " " + increment);
     console.setText(arrow.getId() + " " + increment);
     sendCommand();
   }
@@ -163,7 +161,14 @@ public class Controller extends Application {
 
   private void displayVariables(){
     myDisplay.getMainView().getTextFields().clearVariables();
-    myDisplay.getMainView().getTextFields().addVariableText(myParser.getVariableString());
+    List<String> variables =  myParser.getVariableString();
+    if(variables.size() > 0){
+      for(String variable : myParser.getVariableString()){
+        myDisplay.getMainView().getTextFields().addVariableText(variable);
+      }
+    } else{
+      myDisplay.getMainView().getTextFields().addVariableText("");
+    }
   }
 
   private void displayQueries() {

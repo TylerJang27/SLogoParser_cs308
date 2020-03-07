@@ -103,9 +103,12 @@ public class FunctionFactory {
         break;
       }
       try{
+        System.out.println("FUNCTION FACTORY");
         Method checkType = Parser.class.getDeclaredMethod("getInputType", String.class);
         controlType = (String) checkType.invoke(new Parser(), current);
+        System.out.println(controlType);
         Method control = Parser.class.getDeclaredMethod(controlType, String.class, Stack.class, Stack.class, Stack.class, List.class);
+        System.out.println(control);
         commands.add((Command) control.invoke(new Parser(), current, commands, listCommands, currentCommand, new ArrayList<>()));
       }catch(Exception e){
         throw new InvalidCommandException(current);

@@ -1,6 +1,7 @@
 package slogo.controller;
 
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import slogo.backendexternal.TurtleManager;
 import slogo.backendexternal.TurtleStatus;
@@ -39,6 +41,7 @@ public class Controller extends Application {
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
   private Button addTabButton;
+  private Button uploadFile;
   private Map<Tab, TurtleManager> tabTurtleModelMap;
   private List<Tab> tabs;
   private Translator translator;
@@ -107,6 +110,8 @@ public class Controller extends Application {
     userDefinitions = mainView.getTextFields().getUserDefinitions();
     runButton = mainView.getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
+    uploadFile = mainView.getToolBar().getUploadFile();
+    uploadFile.setOnAction( event -> chooseFile());
     language = mainView.getToolBar().getLanguageBox();
     language.setOnAction(event -> setLanguage(language));
     modeMenu = mainView.getToolBar().getModeMenu();
@@ -192,5 +197,14 @@ public class Controller extends Application {
 
   private void setMode(ComboBox menu){
     myParser.setMode(menu.getValue().toString());
+  }
+
+  private void chooseFile() {
+    FileChooser fileChooser = new FileChooser();
+    Stage fileStage = new Stage();
+    File file = fileChooser.showOpenDialog(fileStage);
+    if(file != null){
+     //read file
+    }
   }
 }

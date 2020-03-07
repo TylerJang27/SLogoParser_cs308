@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.io.File;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.web.PopupFeatures;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -38,7 +40,7 @@ public class Toolbar extends ToolBar {
   private ComboBox languageMenu, turtleMenu, modeMenu;
 
   //The Buttons
-  private Button commandButton, helpButton, changesButton;
+  private Button commandButton, helpButton, changesButton, uploadFile;
 
   //Timeline Inputs
   private static final int FRAMES_PER_SECOND = 60;
@@ -70,12 +72,14 @@ public class Toolbar extends ToolBar {
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,
         languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
-        modeMenu, helpButton);
+        modeMenu, uploadFile, helpButton);
   }
 
   public Button getCommandButton(){
     return commandButton;
   }
+
+  public Button getUploadFile(){ return uploadFile; }
 
   public ComboBox getLanguageBox() {return languageMenu; }
 
@@ -131,6 +135,8 @@ public class Toolbar extends ToolBar {
 
     this.changesButton = new Button(buttonBundle.getString("ApplyLabel"));
     changesButton.setOnAction(this::handleChanges);
+
+    this.uploadFile = new Button("Choose a file to upload");
   }
 
   private void applyChanges () {
@@ -211,5 +217,7 @@ public class Toolbar extends ToolBar {
   public int getPenColor() { return backgroundMenu.getCustomColors().indexOf(backgroundMenu.getValue()); }
 
   public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}
+
+
 
 }

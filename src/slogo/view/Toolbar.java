@@ -99,20 +99,21 @@ public class Toolbar extends ToolBar {
 
   public void setBackground(int i){
     ObservableList<Color> colorList = backgroundMenu.getCustomColors();
-    if(colorList.size()<=0) return;
-    if(i>=colorList.size()) i = colorList.size()-1;
+    if(i>=colorList.size() || i<0) return;
     backgroundMenu.setValue(colorList.get(i));
     applyChanges();
   }
 
   public void setPenColor(int i){
     ObservableList<Color> colorList = penMenu.getCustomColors();
+    if(i>=colorList.size() || i<0) return;
     penMenu.setValue(colorList.get(i));
     applyChanges();
   }
 
   public void setShape(int i){
-    languageMenu.getSelectionModel().select(i);
+    if(i>=turtleMenu.getItems().size() || i<0) return;
+    turtleMenu.getSelectionModel().select(i);
     applyChanges();
   }
 
@@ -120,7 +121,7 @@ public class Toolbar extends ToolBar {
 
   public int getPenColor() { return backgroundMenu.getCustomColors().indexOf(backgroundMenu.getValue()); }
 
-  public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}
+  public int getTurtleShape() {return turtleMenu.getSelectionModel().getSelectedIndex();}
 
   private void setUpBundles() {
     buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");

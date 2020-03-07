@@ -7,6 +7,7 @@ import java.util.Collection;
 import javafx.animation.SequentialTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -194,7 +195,10 @@ public class MainView extends VBox implements EventHandler {
         int i = 1;
 
         for(ImageView temp : turtleManager.getImageViews()) {
-          System.out.println(x > temp.getLayoutX() - turtleSize/2 & x < temp.getLayoutX() + turtleSize & y > temp.getLayoutY() - turtleSize/2  & y < temp.getLayoutY() + turtleSize);
+          System.out.println(temp.getLayoutY());
+          System.out.println(y);
+          System.out.println(x > temp.getLayoutX() - turtleSize/2 & x < temp.getLayoutX() + turtleSize &
+                  y > temp.getLayoutY() - turtleSize/2  & y < temp.getLayoutY() + turtleSize);
 
           if(x > temp.getLayoutX() - turtleSize/2 & x < temp.getLayoutX() + turtleSize &
               y > temp.getLayoutY() - turtleSize/2  & y < temp.getLayoutY() + turtleSize) {

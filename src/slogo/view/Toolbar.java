@@ -66,15 +66,6 @@ public class Toolbar extends ToolBar {
 
   public Toolbar(MainView mainview) {
     setUpBundles();
-//=======
-//  private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle;
-//
-//  public Toolbar(MainView mainview) {
-//    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
-//    labelBundle = ResourceBundle.getBundle("slogo.view.resources.labels");
-//    languageBundle = ResourceBundle.getBundle("slogo.view.resources.languages");
-//    turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
-//>>>>>>> 75fcef32b09b72de3dd1f1b95eb213fa1b1df925
 
     this.myMainView = mainview;
     this.myTextFields = myMainView.getTextFields();
@@ -93,6 +84,10 @@ public class Toolbar extends ToolBar {
 
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,
+<<<<<<< HEAD
+=======
+
+>>>>>>> b801aed6c61643f35a69afda37c62f8511ac4bdc
         languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
         savePrefButton, modeMenu, uploadFile, helpButton);
 
@@ -144,14 +139,6 @@ public class Toolbar extends ToolBar {
     turtleSkinBundle = ResourceBundle.getBundle("slogo.view.resources.turtleSkin");
     modeBundle = ResourceBundle.getBundle("slogo.view.resources.modes");
   }
-
-  /**
-   * Helping methods to import menus and buttons to the toolbar
-   */
-//=======
-//        languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton,
-//        savePrefButton, new Separator(), helpButton);
-  //}
 
   /** Helping methods to import menus and buttons to the toolbar*/
 
@@ -287,9 +274,9 @@ public class Toolbar extends ToolBar {
     } catch(Exception e) {
       throw new XMLException("Couldn't write file");
     }
-
   }
 
+<<<<<<< HEAD
 //  public void setPenColor(int i){
 //    System.out.println("setPenColor");
 //    ObservableList<Color> colorList = penMenu.getCustomColors();
@@ -320,4 +307,6 @@ public class Toolbar extends ToolBar {
 
 
 
+=======
+>>>>>>> b801aed6c61643f35a69afda37c62f8511ac4bdc
 }

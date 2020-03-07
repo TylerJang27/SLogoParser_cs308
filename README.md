@@ -18,7 +18,12 @@ Hours Spent:
 Dennis Harrsch:
 Tyler Jang:
 Lucy Gu: 
-Shruthi Kumar:
+
+Shruthi Kumar: 
+- Worked on the front end with setting up the TurtleView representation 
+- Loaded data from resource files
+- XML reading and writing
+
 Nevzat Sevim:
 
 ### Resources Used
@@ -34,6 +39,7 @@ Data files needed:
     - Backend: Language property files (Chinese, English, French, etc)
     - Command property files (Command, CommandCounter, CommandFactory, etc)
     - Button/Label/Menu property files (buttons, modes, turtleSkin, etc)
+    - Exception files (exceptionMessges)
 - Image files:
     - Frontend: mickey, raphael, turtle
 
@@ -46,7 +52,9 @@ Features implemented:
 
 Assumptions or Simplifications:
 
+
 Interesting data files:
+
 
 Known Bugs:
 

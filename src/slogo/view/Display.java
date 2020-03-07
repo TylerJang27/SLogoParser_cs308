@@ -27,9 +27,16 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 
 /**
+ * This class sets up the Display that holds each MainView. Users can add tabs (default tabs or based on preferences).
+ * Purpose: This holds the MainView display and allows user to add tabs to their workspace
+ * Assumptions: The class will work assuming all dependencies on MainView are working.
+ * Dependencies: This class relies on the Controller to instantiate it and MainView to load the turtle display area
  * @author Shruthi Kumar, Nevzat Sevim
- */
+ **/
 public class Display {
+
+  public static final int HEIGHT = 760;
+  public static final int WIDTH = 1050;
   private Scene myScene;
   private MainView myMainView;
 
@@ -37,7 +44,7 @@ public class Display {
   private Tab tab = new Tab("");
   private VBox vBox;
   private Slider mySlider;
-
+  private HBox hBox;
 
   private List<MainView> myMainViewList;
   private Button addTabButton, addTabFromPreferences;
@@ -50,72 +57,65 @@ public class Display {
 
   private int tabNo;
 
+  /**
+   * Constructor for the Display
+   */
   public Display() {
-
     myMainViewList = new ArrayList<>();
-    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
-    myMainViewList = new ArrayList<>();
-    addTabButton = new Button(buttonBundle.getString("AddTab"));
-    addTabFromPreferences = new Button(buttonBundle.getString("AddTabPreferences"));
-
-    vBox = new VBox();
-    vBox.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
     myMainView = new MainView();
-    tab.setGraphic(myMainView);
-    tab.setClosable(false);
-    tabPane.getTabs().addAll(tab);
 
-    HBox hBox = new HBox();
-    hBox.setSpacing(10.0);
-    hBox.setAlignment(Pos.CENTER);
-    makeSlider();
-    hBox.getChildren().addAll(addTabButton, addTabFromPreferences, mySlider);
+    setUpButtons();
+    setUpVBox();
+    setUpTabs();
+    setUpHBox();
 
     vBox.getChildren().addAll(hBox, tabPane);
-
-    tabPane.setTabMaxHeight(760);
-    tabPane.setTabMaxWidth(1050);
-    tabPane.setTabMinHeight(760);
-    tabPane.setTabMinWidth(1050);
-    //tabPane.setOnScroll(event -> {});
-    //tabPane.setOnScroll(event -> {});
-    tabPane.addEventFilter(SwipeEvent.ANY, new EventHandler<SwipeEvent>() {
-
-      @Override
-      public void handle(SwipeEvent event) {
-        event.consume();
-      }
-    });
-
-    vBox.setAlignment(Pos.TOP_CENTER);
-
     myScene = new Scene(vBox);
   }
 
-
   /**
    * Returns display scene
+   * @return myScene
    */
   public Scene getScene(){
     return myScene;
   }
 
+  /**
+   * Gets the tab pane
+   * @return tabPane : tabPane
+   */
   public TabPane getTabPane(){ return tabPane; }
 
+  /**
+   * Gets the MainView from a given tab
+   * @return given tab's mainview
+   */
   public MainView getMainView(){
     Tab tab = tabPane.getSelectionModel().getSelectedItem();
     return (MainView) tab.getGraphic();
   }
 
+  /**
+   * Gets the add tab button
+   * @return addTabButton : add tab button
+   */
   public Button getAddTabButton() {
     return addTabButton;
   }
 
+  /**
+   * Gets the add tab from preferences button
+   * @return addTabFromPreferences : addTabFromPreferences button
+   */
   public Button getAddTabFromPreferencesButton() {
     return addTabFromPreferences;
   }
 
+  /**
+   * Adds a tab to the tabPane
+   * @param newMainView : the new main view tab to be added
+   */
   public void addTab(MainView newMainView) {
     tabNo++;
     if(newMainView == null) {
@@ -124,12 +124,10 @@ public class Display {
     Tab newTab = new Tab("SLogo " + tabNo);
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);
-    //selectionModel.select(newTab);
   }
 
   /**
-   * Makes the slider which dictates the speed that the simulation and grid is updating. Also changes the elapsed speed
-   * timer to accurately display the elapsed time based on the relative speed.
+   * Makes the slider to change rate of animation
    */
   private void makeSlider() {
     this.mySlider = new Slider();
@@ -147,6 +145,37 @@ public class Display {
         getMainView().getTurtles().setAnimationRate(((Double) new_val).intValue());
       }
     });
+  }
+
+  private void setUpHBox() {
+    hBox = new HBox();
+    hBox.setSpacing(10.0);
+    hBox.setAlignment(Pos.CENTER);
+    makeSlider();
+    hBox.getChildren().addAll(addTabButton, addTabFromPreferences, mySlider);
+  }
+
+  private void setUpTabs() {
+    tab.setGraphic(myMainView);
+    tab.setClosable(false);
+    tabPane.getTabs().addAll(tab);
+
+    tabPane.setTabMaxHeight(HEIGHT);
+    tabPane.setTabMaxWidth(WIDTH);
+    tabPane.setTabMinHeight(HEIGHT);
+    tabPane.setTabMinWidth(WIDTH);
+  }
+
+  private void setUpVBox() {
+    vBox = new VBox();
+    vBox.setAlignment(Pos.TOP_CENTER);
+    vBox.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+  }
+
+  private void setUpButtons() {
+    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
+    addTabButton = new Button(buttonBundle.getString("AddTab"));
+    addTabFromPreferences = new Button(buttonBundle.getString("AddTabPreferences"));
   }
 
 }

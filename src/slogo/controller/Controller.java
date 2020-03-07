@@ -36,6 +36,7 @@ import slogo.view.InputFields.MoveArrows;
 import slogo.view.InputFields.UserDefinitions;
 import slogo.view.MainView;
 
+
 public class Controller extends Application {
 
   private static final String TITLE = "SLogo";

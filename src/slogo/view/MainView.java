@@ -256,7 +256,7 @@ public class MainView extends VBox implements EventHandler {
    */
   public TurtleStatus getTurtleStatus() {return this.turtleStatus;}
 
-  
+
   private void setUpMainViewFields(Color backgroundColor, Color penColor, int numTurtles, String turtleImageName,
       String codeFileName) {
     this.myInputFields = new InputFields(this);

@@ -31,7 +31,7 @@ public interface MathCommand extends Command {
     static double[] twoArgOperation(List<TurtleStatus> ret, TurtleManifest manifest, Command arg1, Command arg2) {
         ret.addAll(arg1.execute(manifest));
         ret.addAll(arg2.execute(manifest));
-        double[] val = {arg1.returnValue(), arg1.returnValue()};
+        double[] val = {arg1.returnValue(), arg2.returnValue()};
         return val;
     }
 }

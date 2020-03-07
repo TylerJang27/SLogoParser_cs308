@@ -11,7 +11,7 @@ import java.util.*;
  * @author Lucy Gu, Tyler Jang
  */
 public interface TurtleCommand extends Command {
-    String[] MODES = {"NORMAL", "EDGE", "TOROIDAL"};
+    String[] MODES = {"normal", "edge", "toroidal"};
 
     /**
      * return a list of turtle status resulting from moving the turtle, from a position specified by an input

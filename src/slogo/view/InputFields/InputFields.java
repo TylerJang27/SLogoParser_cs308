@@ -30,10 +30,9 @@ public class InputFields extends HBox {
         userDefinitions.addVariableText(text);
     }
 
+
     public void addQueriesText() {
         TurtleStatus ts = mw.getTurtleStatus();
-        //TODO: TYLER FIX: mw.getTurtle()); is null
-        System.out.println(ts);
         statusView.addStatusText(ts.getID(), ts.getX(),-ts.getY(),ts.getBearing(),mw.getTurtle().getPenView().getMyPenColor(),ts.getPenDown());
     }
 
@@ -60,12 +59,13 @@ public class InputFields extends HBox {
     }
 
     private void sendVariables(String variable){
-        String[] splitString = variable.split(" ");
-        if(splitString[0].charAt(0) == ':'){
-            console.setText(console.getText() + " set " + splitString[0]);
-        }
-        else{
-            console.setText(console.getText() + " " + variable);
+        if (variable != null && variable.length() > 0) {
+            String[] splitString = variable.split(" ");
+            if (splitString[0].charAt(0) == ':') {
+                console.setText(console.getText() + " set " + splitString[0]);
+            } else {
+                console.setText(console.getText() + " " + variable);
+            }
         }
     }
 

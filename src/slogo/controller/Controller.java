@@ -10,10 +10,8 @@ import java.util.List;
 import java.util.Map;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -23,6 +21,8 @@ import slogo.backendexternal.parser.ErrorHandler;
 import slogo.backendexternal.parser.Parser;
 import slogo.backendexternal.parser.Translator;
 import slogo.commands.Command;
+import slogo.configuration.XMLException;
+import slogo.configuration.XMLReader;
 import slogo.view.Display;
 import slogo.view.InputFields.Console;
 import slogo.view.InputFields.MoveArrows;
@@ -32,6 +32,14 @@ import slogo.view.MainView;
 public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
+//<<<<<<< HEAD
+//  private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
+//  public static final int FRAMES_PER_SECOND = 60;
+//  public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+//
+//
+//=======
+//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
   private Display myDisplay;
   private Parser myParser;
   private TurtleManager myModel;
@@ -43,13 +51,20 @@ public class Controller extends Application {
   private MoveArrows arrows;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
-  private Button addTabButton;
+//<<<<<<< HEAD
+  private Button addTabButton, addTabPreferencesButton;
+//=======
+  //private Button addTabButton;
   private Button uploadFile;
+//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
   private Map<Tab, TurtleManager> tabTurtleModelMap;
   private List<Tab> tabs;
   private Translator translator;
   private Tab currentTab;
+  public static final String DATA_FILE_EXTENSION = "*.xml";
+  public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
   private MainView mainView;
+
 
   /**
    * Start of the program.
@@ -63,21 +78,25 @@ public class Controller extends Application {
     myDisplay = new Display();
     translator = new Translator();
     myParser = new Parser(translator);
+    //myParser.setView(myDisplay.getMainView());
     errorHandler = new ErrorHandler();
     translator = new Translator();
     tabTurtleModelMap = new HashMap<>();
     setTabs();
-    changeOnWrite();
+    //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
     myModel = getModel(tabs.get(0));
     setListeners(tabs.get(0));
     addTabButton = myDisplay.getAddTabButton();
     addTabButton.setOnAction(event -> addTab());
+    addTabPreferencesButton = myDisplay.getAddTabFromPreferencesButton();
+    addTabPreferencesButton.setOnAction(event -> uploadNewFile());
     Scene myScene = myDisplay.getScene();
+
     currentStage.setScene(myScene);
     currentStage.setTitle(TITLE);
     currentStage.setWidth(1070);
     currentStage.setHeight(800);
-    currentStage.setResizable(false);
+    currentStage.setResizable(true);
     currentStage.show();
   }
 
@@ -88,6 +107,27 @@ public class Controller extends Application {
     }
   }
 
+  private void uploadNewFile() {
+     readFileSimulation(new Stage());
+  }
+
+  public void readFileSimulation(Stage primaryStage) {
+    File dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
+    while(dataFile != null) {
+      try {
+        XMLReader reader = new XMLReader("media");
+        primaryStage.close();
+        myDisplay.addTab(reader.getMainView(dataFile.getPath()));
+        setTabs();
+        return;
+      }
+      catch (XMLException e) {
+        showMessage(AlertType.ERROR, e.getMessage());
+      }
+    }
+    primaryStage.close();
+  }
+
   private void changeOnWrite() {
     for (Tab tab : tabs) {
       MainView tabMainView = (MainView) tab.getGraphic();
@@ -96,10 +136,13 @@ public class Controller extends Application {
     }
   }
 
+  private void showMessage (AlertType type, String message) {
+    new Alert(type, message).showAndWait();
+  }
+
   private void addTab() {
-    myDisplay.addTab();
+    myDisplay.addTab(null);
     setTabs();
-    changeOnWrite();
   }
 
   private TurtleManager getModel(Tab tab) {
@@ -108,19 +151,23 @@ public class Controller extends Application {
   }
 
   private void setListeners(Tab tab) {
+//    currentStatus = INITIAL_STATUS; //TODO GET CURRENT STATUS FROM FRONT END
     currentTab = tab;
-    myModel = getModel(currentTab);
+    myModel = getModel(tab);
     mainView = (MainView) currentTab.getGraphic();
     console = mainView.getTextFields().getConsole();
     userDefinitions = mainView.getTextFields().getUserDefinitions();
     runButton = mainView.getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
+
     uploadFile = mainView.getToolBar().getUploadFile();
     uploadFile.setOnAction(event -> chooseFile());
     language = mainView.getToolBar().getLanguageBox();
+
     language.setOnAction(event -> setLanguage(language));
     modeMenu = mainView.getToolBar().getModeMenu();
     modeMenu.setOnAction(event -> setMode(modeMenu));
+
     arrows = mainView.getTextFields().getMoveArrows();
     for (Button arrow : arrows.getButtons()) {
       arrow.setOnAction(event -> moveTurtle(arrow, arrows.getIncrement()));
@@ -138,6 +185,7 @@ public class Controller extends Application {
       myParser.parseLine(console.getText());
       List<Command> toSend = myParser.sendCommands();
       List<TurtleStatus> statuses = myModel.executeCommands(toSend);
+
       if (statuses.size() > 0) {
         setStatus(statuses.get(statuses.size() - 1));
         myDisplay.getMainView().moveTurtle(statuses);
@@ -185,6 +233,7 @@ public class Controller extends Application {
     myDisplay.getMainView().getTextFields().setVariableListeners();
   }
 
+
   private void displayQueries() {
     myDisplay.getMainView().getTextFields().clearQueries();
     myDisplay.getMainView().getTextFields().addQueriesText();
@@ -201,6 +250,7 @@ public class Controller extends Application {
   private void setMode(ComboBox menu) {
     myParser.setMode(menu.getValue().toString());
   }
+
 
   private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
@@ -226,4 +276,16 @@ public class Controller extends Application {
       console.setText("File could not be read");
     }
   }
+
+
+  private static FileChooser makeChooser (String extensionAccepted) {
+    FileChooser result = new FileChooser();
+    result.setTitle("Open Data File");
+    // pick a reasonable place to start searching for files
+    result.setInitialDirectory(new File(System.getProperty("user.dir")));
+    result.getExtensionFilters()
+        .setAll(new FileChooser.ExtensionFilter("Text Files", extensionAccepted));
+    return result;
+  }
+
 }

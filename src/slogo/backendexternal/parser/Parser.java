@@ -133,12 +133,12 @@ public class Parser {
 
   private Command Constant(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
       Stack<Command> currentCommand, List<Command> currentList){
-      return commandFactory.makeConstant(current);
+    return commandFactory.makeConstant(current);
   }
 
   private Command Make(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
       Stack<Command> currentCommand, List<Command> currentList){
-      return variableFactory.makeVariable(currentCommand);
+    return variableFactory.makeVariable(currentCommand);
   }
 
   private Command Set(String current, Stack<Command> commands, Stack<List<Command>> listCommands,

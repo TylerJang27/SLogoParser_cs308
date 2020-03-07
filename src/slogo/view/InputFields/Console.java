@@ -21,6 +21,8 @@ public class Console {
   private TextField entry;
   private ScrollPane pane;
   private List<String> history;
+  private double boxHeight = 200;
+
   private double boxWidth;
 
   public Console(double width){
@@ -31,12 +33,19 @@ public class Console {
     boxWidth = width;
     addEditable();
     setDetails();
-    pane = new ScrollPane();
-    pane.setContent(box);
-    pane.setPannable(true);
+    pane = new ScrollPane(box);
+    pane.setMinHeight(boxHeight);
+    pane.setMaxHeight(boxHeight);
+    //box.getChildren().add(pane);
   }
 
   private void setDetails(){
+//    box.setMinHeight(boxHeight);
+    box.setMaxHeight(boxHeight);
+    pane = new ScrollPane();
+    pane.setContent(box);
+    pane.setPannable(true);
+
     Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));
     box.setBackground(backing);
   }
@@ -78,9 +87,26 @@ public class Console {
     entry.setText(text);
   }
 
+  /*
+<<<<<<< HEAD
+  private void setDetails(){
+    box.setMinHeight(boxHeight);
+    box.setMinWidth(boxWidth);
+    box.setMaxHeight(boxHeight);
+    box.setMaxWidth(boxWidth);
+    System.out.println("WIDTH: " + box.getWidth());
+    System.out.println("height: " + box.getHeight());
+    Background backing = new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0)));
+    box.setBackground(backing);
+=======
+
+   */
   public TextField getEntry(){
     return entry;
+//>>>>>>> b38f675fbb2ee7dd66c656afdd7909d2a2010175
   }
+
+
 
   private void addUneditable(String input){
     TextField current = new TextField(input);

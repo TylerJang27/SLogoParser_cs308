@@ -26,7 +26,7 @@ public class DoTimes implements ControlCommand {
      * @param varCap    the maximum value of the variable.
      * @param commands  the Collection of commands to execute for a given loop.
      */
-    public DoTimes(Variable var, Command varCap, Collection<Command> commands) {
+    public DoTimes(Variable var, Command varCap, List<Command> commands) {
         loop = new For(var, new Constant(), varCap, new Constant(SINGLE_STEP), commands);
     }
 

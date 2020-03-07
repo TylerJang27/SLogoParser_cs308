@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -28,24 +31,25 @@ public class Display {
   private MainView myMainView;
 
   private TabPane tabPane = new TabPane();
-  private Tab tab = new Tab("SLogo 0");
+  private Tab tab = new Tab("");
   private VBox vBox;
 
   private List<MainView> myMainViewList;
-  private Button addTabButton;
+  private Button addTabButton, addTabFromPreferences;
   private ResourceBundle buttonBundle;
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
+
 
   private int tabNo;
 
   public Display() {
 
     myMainViewList = new ArrayList<>();
-    addTabButton = new Button("Add Tab");
     buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
     myMainViewList = new ArrayList<>();
     addTabButton = new Button(buttonBundle.getString("AddTab"));
+    addTabFromPreferences = new Button(buttonBundle.getString("AddTabPreferences"));
 
     vBox = new VBox();
     vBox.setMinSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -55,15 +59,27 @@ public class Display {
     tab.setClosable(false);
     tabPane.getTabs().addAll(tab);
 
-    vBox.getChildren().addAll(addTabButton, tabPane);
+    HBox hBox = new HBox();
+    hBox.setSpacing(10.0);
+    hBox.getChildren().addAll(addTabButton, addTabFromPreferences);
+
+    vBox.getChildren().addAll(hBox, tabPane);
 
     tabPane.setTabMaxHeight(760);
-    tabPane.setTabMaxWidth(1040);
+    tabPane.setTabMaxWidth(1050);
     tabPane.setTabMinHeight(760);
-    tabPane.setTabMinWidth(1040);
+    tabPane.setTabMinWidth(1050);
+    //tabPane.setOnScroll(event -> {});
+    //tabPane.setOnScroll(event -> {});
+    tabPane.addEventFilter(SwipeEvent.ANY, new EventHandler<SwipeEvent>() {
 
+      @Override
+      public void handle(SwipeEvent event) {
+        event.consume();
+      }
+    });
 
-    vBox.setAlignment(Pos.CENTER);
+    vBox.setAlignment(Pos.TOP_CENTER);
 
     myScene = new Scene(vBox);
   }
@@ -86,9 +102,16 @@ public class Display {
   public Button getAddTabButton() {
     return addTabButton;
   }
-  public void addTab() {
+
+  public Button getAddTabFromPreferencesButton() {
+    return addTabFromPreferences;
+  }
+
+  public void addTab(MainView newMainView) {
     tabNo++;
-    MainView newMainView = new MainView();
+    if(newMainView == null) {
+      newMainView = new MainView();
+    }
     Tab newTab = new Tab("SLogo " + tabNo);
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);

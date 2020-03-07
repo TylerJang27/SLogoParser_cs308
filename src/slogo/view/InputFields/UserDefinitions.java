@@ -22,9 +22,24 @@ public class UserDefinitions {
   public UserDefinitions(double length){
     size = length;
     variableBox = new VBox();
+//<<<<<<< HEAD
+//    variables = new TextArea();
+//    setDetails(length);
+//    variableBox.getChildren().addAll(varLabel, variables);
+//  }
+//
+//  private void setDetails(double length){
+//    variables.setMinSize(length, 183);
+//    variables.setMaxSize(length, 183);
+//    variables.setPrefSize(length, 183);
+//    Background backing = new Background(new BackgroundFill(
+//        Color.BLACK, new CornerRadii(0), new Insets(0)));
+//    //statusBox.setBackground(backing);
+//=======
     variables = new ArrayList<>();
     variableBox.getChildren().addAll(varLabel);
     addVariableText("");
+//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
   }
 
   public VBox getVBox(){

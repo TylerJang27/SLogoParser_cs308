@@ -2,21 +2,14 @@ package slogo.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collection;
 
-import javafx.animation.SequentialTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
 import slogo.backendexternal.TurtleStatus;
 import slogo.frontendexternal.TurtleView;
 import slogo.frontendexternal.TurtleViewManager;
@@ -32,8 +25,7 @@ import slogo.view.InputFields.InputFields;
  **/
 
 public class MainView extends VBox implements EventHandler {
-  public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 300;
-  public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 300;
+
   public static final String DATA_TYPE = "sim";
 
   //Create Toolbar (top) and Text Areas (bottom)
@@ -42,8 +34,8 @@ public class MainView extends VBox implements EventHandler {
 
   //Pane and Turtle Object
   private Pane pane;
-  private final double paneWidth = 990;
-  private final double paneHeight = 510;
+  private final double PANE_WIDTH = 990;
+  private final double PANE_HEIGHT = 510;
 
   private Color defaultBackgroundColor;
   private Color defaultPenColor;
@@ -274,9 +266,9 @@ public class MainView extends VBox implements EventHandler {
     pane.setBackground(new Background(new BackgroundFill(defaultBackgroundColor,
         CornerRadii.EMPTY, new Insets(0))));
 
-    pane.setMaxSize(paneWidth, paneHeight);
-    pane.setMinSize(paneWidth, paneHeight);
-    pane.setPrefSize(paneWidth, paneHeight);
+    pane.setMaxSize(PANE_WIDTH, PANE_HEIGHT);
+    pane.setMinSize(PANE_WIDTH, PANE_HEIGHT);
+    pane.setPrefSize(PANE_WIDTH, PANE_HEIGHT);
 
     BorderStroke borderStroke = new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5));
     Border border = new Border(borderStroke);
@@ -284,7 +276,7 @@ public class MainView extends VBox implements EventHandler {
   }
 
   private void setUpTurtles(int numTurtles) {
-    this.turtleManager = new TurtleViewManager(paneWidth/2.0, paneHeight/2.0, defaultTurtleFileName, defaultPenColor);
+    this.turtleManager = new TurtleViewManager(PANE_WIDTH /2.0, PANE_HEIGHT /2.0, defaultTurtleFileName, defaultPenColor);
     this.turtleManager.setAllPenViewColors(defaultPenColor);
     this.turtleManager.initializeTurtleViews(numTurtles);
     this.turtle = turtleManager.getTurtle(1);

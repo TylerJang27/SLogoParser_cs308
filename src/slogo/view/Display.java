@@ -1,29 +1,15 @@
 package slogo.view;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.input.SwipeEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 
 /**
@@ -46,14 +32,12 @@ public class Display {
   private Slider mySlider;
   private HBox hBox;
 
-  private List<MainView> myMainViewList;
   private Button addTabButton, addTabFromPreferences;
-  private ResourceBundle buttonBundle;
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
-  private static final int SLIDERMINNUM = 0;
-  private static final int SLIDERMAXNUM = 50;
-  private static final int SLIDERUNIT = 5;
+  private static final int SLIDER_MIN_NUM = 0;
+  private static final int SLIDER_MAX_NUM = 50;
+  private static final int SLIDER_UNIT = 5;
 
   private int tabNo;
 
@@ -61,7 +45,6 @@ public class Display {
    * Constructor for the Display
    */
   public Display() {
-    myMainViewList = new ArrayList<>();
     myMainView = new MainView();
 
     setUpButtons();
@@ -131,20 +114,17 @@ public class Display {
    */
   private void makeSlider() {
     this.mySlider = new Slider();
-    mySlider.setMin(SLIDERMINNUM);
-    mySlider.setMax(SLIDERMAXNUM);
+    mySlider.setMin(SLIDER_MIN_NUM);
+    mySlider.setMax(SLIDER_MAX_NUM);
     mySlider.setValue(1);
     mySlider.setShowTickLabels(true);
     mySlider.setShowTickMarks(true);
-    mySlider.setMajorTickUnit(SLIDERUNIT);
-    mySlider.setBlockIncrement(SLIDERUNIT);
+    mySlider.setMajorTickUnit(SLIDER_UNIT);
+    mySlider.setBlockIncrement(SLIDER_UNIT);
 
-    mySlider.valueProperty().addListener(new ChangeListener<Number>() {
-      public void changed(ObservableValue<? extends Number> ov,
-          Number old_val, Number new_val) {
-        getMainView().getTurtles().setAnimationRate(((Double) new_val).intValue());
-      }
-    });
+    mySlider.valueProperty().addListener(
+        (ov, old_val, new_val) -> getMainView().getTurtles().setAnimationRate(
+            new_val.intValue()));
   }
 
   private void setUpHBox() {
@@ -173,7 +153,7 @@ public class Display {
   }
 
   private void setUpButtons() {
-    buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
+    ResourceBundle buttonBundle = ResourceBundle.getBundle("slogo.view.resources.buttons");
     addTabButton = new Button(buttonBundle.getString("AddTab"));
     addTabFromPreferences = new Button(buttonBundle.getString("AddTabPreferences"));
   }

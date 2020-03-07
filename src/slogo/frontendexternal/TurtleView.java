@@ -68,7 +68,6 @@ public class TurtleView {
    * @param end ending turtle status
    */
   public void executeState(SequentialTransition sequentialTransition, TurtleStatus start, TurtleStatus end) {
-    //SequentialTransition sequentialTransition = new SequentialTransition();
 
     if(isActive) {
       sequentialTransition.setNode(this.myImageView);
@@ -80,14 +79,11 @@ public class TurtleView {
 
       this.myImageView.setVisible(end.getVisible());
 
+//      if(end.hasRunnable())end.modify();
+      pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
       if (end.getBearing() != start.getBearing()) {
         addRotationCommand(sequentialTransition, start, end);
       }
-
-
-//      if(end.hasRunnable())end.modify();
-      pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
-
     }
   }
 

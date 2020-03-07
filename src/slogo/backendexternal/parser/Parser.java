@@ -45,6 +45,11 @@ public class Parser {
     inList = new ArrayList<>();
   }
 
+  public Parser(VariableFactory vf) {
+    this();
+    variableFactory = vf;
+  }
+
   public void parseLine(String line){
     lastLine = line;
     commandHistory.add(line);
@@ -74,7 +79,6 @@ public class Parser {
       String controlType = getInputType(current);
       try{
         Method control;
-        System.out.println(controlType);
         if(controlType.equals(parserMethods.getString("ListEnd")) || controlType.equals(parserMethods.getString("ListStart"))){
           control = Parser.class.getDeclaredMethod(controlType, Stack.class, Stack.class, List.class);
           control.invoke(this, commands, listCommands, currentList);
@@ -131,22 +135,22 @@ public class Parser {
     myCommands = translator.getCurrentCommands();
   }
 
-  private Command Constant(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
+  public Command Constant(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
       Stack<Command> currentCommand, List<Command> currentList){
     return commandFactory.makeConstant(current);
   }
 
-  private Command Make(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
+  public Command Make(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
       Stack<Command> currentCommand, List<Command> currentList){
     return variableFactory.makeVariable(currentCommand);
   }
 
-  private Command Set(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
+  public Command Set(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
       Stack<Command> currentCommand, List<Command> currentList){
     return variableFactory.setVariable(currentCommand);
   }
 
-  private Command Command(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
+  public Command Command(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
       Stack<Command> currentCommand, List<Command> currentList){
     if (functionFactory.hasFunction(current)) {
       return functionFactory.runFunction(current, currentCommand);
@@ -159,13 +163,13 @@ public class Parser {
     }
   }
 
-  private Command Variable(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
-      Stack<Command> currentCommand, List<Command> currentList){
+  public Command Variable(String current, Stack<Command> commands, Stack<List<Command>> listCommands,
+                             Stack<Command> currentCommand, List<Command> currentList){
     variableFactory.handleVariable(current);
     return variableFactory.getVariable(current);
   }
 
-  private void ListEnd(Stack<Command> commands, Stack<List<Command>> listCommands, List<Command> currentList){
+  public void ListEnd(Stack<Command> commands, Stack<List<Command>> listCommands, List<Command> currentList){
     inList.add(1);
     currentList.clear();
     if (checkFunction(currentComponents)) {
@@ -174,9 +178,7 @@ public class Parser {
     }
   }
 
-  private void ListStart(Stack<Command> commands, Stack<List<Command>> listCommands, List<Command> currentList){
-    //TODO: FIXME PLEASE
-    System.out.println("parser" + commands + "\n\t" + listCommands.size() + "\n\t\t" + currentList.size());
+  public void ListStart(Stack<Command> commands, Stack<List<Command>> listCommands, List<Command> currentList){
     inList.remove(0);
     listCommands.add(currentList);
   }

@@ -133,16 +133,13 @@ public class Toolbar extends ToolBar {
   }
 
   public void setPalette(int[] things){
-    System.out.println("toolbar");
     if(things.length!=4) return;
     int i = things[0];
     int r = things[1];
     int g = things[2];
     int b = things[3];
     if(i<0 || r <0 || g<0 || b<0 || r>255 || g>255 ||b>255 ) return;
-    System.out.println("let's try get color");
     Color c = Color.rgb(r,g,b);
-    System.out.println("got color");
     if(i<backgroundMenu.getCustomColors().size()) backgroundMenu.getCustomColors().set(i, c);
     else{
       for(int j = backgroundMenu.getCustomColors().size(); j<i; j++){

@@ -30,7 +30,6 @@ public class SetPalette implements DisplayCommand {
 
     @Override
     public List<TurtleStatus> execute(TurtleManifest manifest) {
-        System.out.println("execute set palette");
         List<TurtleStatus> ret = new ArrayList<>();
         ret.addAll(arg1.execute(manifest));
         returnVal = arg1.returnValue();

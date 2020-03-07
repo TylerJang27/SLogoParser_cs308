@@ -55,12 +55,20 @@ public class FunctionFactory {
     Stack<String> commandStack = new Stack<>();
     while(components.size() > 0){
       String next = components.pop();
-      if(Input.ListEnd.matches(next)){
+      if(Input.ListStart.matches(next)){
         break;
       }
       commandStack.add(next);
     }
-    return commandStack;
+    return reverseStack(commandStack);
+  }
+
+  private Stack<String> reverseStack(Stack<String> revStack) {
+    Stack<String> retStack = new Stack<>();
+    while (revStack.size() > 0) {
+      retStack.add(revStack.pop());
+    }
+    return retStack;
   }
 
   private void fillVariables(Stack<String> components) {
@@ -112,11 +120,14 @@ public class FunctionFactory {
         Method checkType = Parser.class.getDeclaredMethod("getInputType", String.class);
         controlType = (String) checkType.invoke(new Parser(), current);
         Method control = Parser.class.getDeclaredMethod(controlType, String.class, Stack.class, Stack.class, Stack.class, List.class);
-        commands.add((Command) control.invoke(new Parser(), current, commands, listCommands, currentCommand, new ArrayList<>()));
+        Command newCommand = (Command) control.invoke(new Parser(variableFactory), current, commands, listCommands, currentCommand, new ArrayList<>());
+        commands.add(newCommand);
+        currentCommand.add(newCommand);
       }catch(Exception e){
         throw new InvalidCommandException(current);
       }
     }
+
     return currentCommand;
   }
 

@@ -99,7 +99,6 @@ public class CommandFactory {
           }
       }
     }
-    System.out.println("yeeeeeet" + formalCommand);
     return buildCommand(formalCommand, commands, listCommands);
   }
 
@@ -121,12 +120,7 @@ public class CommandFactory {
       consumerAdd(key, obj);
       supplierAdd(key, obj);
       if (key.equals("Tell")) {
-        System.out.println("Telling");
-        //TODO: TYLER FIX HERE
         obj.clear();
-        if (obj.size() > 0) {
-          System.out.println("yeet" + obj.get(0));
-        }
         if (listCommands.isEmpty()) {
           obj.add(List.of(commands.get(0)));
         } else {
@@ -295,7 +289,6 @@ public class CommandFactory {
   }
 
   private void SetPalette(int[] index){
-    System.out.println("reached here?");
     myMainView.getToolBar().setPalette(index);
   }
 }

@@ -22,7 +22,7 @@ public class MakeUserInstruction implements ControlCommand {
     public static final int NUM_ARGS = 3;
 
     private List<Variable> myVariables;
-    private Collection<Command> myCommands;
+    private List<Command> myCommands;
     private Function myFunction;
 
     /**
@@ -32,7 +32,7 @@ public class MakeUserInstruction implements ControlCommand {
      * @param variables the variables to be identified for the function.
      * @param commands  the commands for the function to execute, which may include instances of those variables.
      */
-    public MakeUserInstruction(Function func, List<Variable> variables, Collection<Command> commands) {
+    public MakeUserInstruction(Function func, List<Variable> variables, List<Command> commands) {
         myFunction = func;
         myVariables = variables;
         myCommands = commands;

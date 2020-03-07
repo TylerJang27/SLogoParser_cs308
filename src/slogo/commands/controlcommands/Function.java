@@ -44,7 +44,7 @@ public class Function implements ControlCommand {
      *
      * @param commands a Collection of commands for the Function to execute.
      */
-    protected void setCommands(Collection<Command> commands) {
+    protected void setCommands(List<Command> commands) {
         myCommands = commands;
     }
 

@@ -54,14 +54,8 @@ public class Toolbar extends ToolBar {
   private ColorPicker penMenu, backgroundMenu;
   private ComboBox languageMenu, turtleMenu, modeMenu;
 
-  //The Buttons
-
+  //The Buttons & Bundles
   private Button commandButton, helpButton, changesButton, savePrefButton, uploadFile;
-
-
-  //Timeline Inputs
-  private static final int FRAMES_PER_SECOND = 60;
-  private static final double MILLISECOND_DELAY = 10000/FRAMES_PER_SECOND;
   private ResourceBundle buttonBundle, labelBundle, languageBundle, turtleSkinBundle, modeBundle;
 
   public Toolbar(MainView mainview) {
@@ -77,6 +71,7 @@ public class Toolbar extends ToolBar {
     Label backgroundLabel = new Label(labelBundle.getString("BackgroundLabel"));
     Label turtleLabel = new Label(labelBundle.getString("TurtleLabel"));
     Label languageLabel = new Label(labelBundle.getString("LanguageLabel"));
+    Label extraLabel = new Label("More Buttons ----> ");
 
     this.setMinSize(WIDTH, HEIGHT);
     this.setMaxSize(WIDTH, HEIGHT);
@@ -84,13 +79,8 @@ public class Toolbar extends ToolBar {
 
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,
-//<<<<<<< HEAD
-//=======
-//
-//>>>>>>> b801aed6c61643f35a69afda37c62f8511ac4bdc
         languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
-        savePrefButton, modeMenu, uploadFile, helpButton);
-
+            extraLabel, savePrefButton, modeMenu, uploadFile, helpButton);
   }
 
 
@@ -276,37 +266,4 @@ public class Toolbar extends ToolBar {
     }
   }
 
-//<<<<<<< HEAD
-//  public void setPenColor(int i){
-//    System.out.println("setPenColor");
-//    ObservableList<Color> colorList = penMenu.getCustomColors();
-//    if(colorList.size()<=0||i>=colorList.size()) return;
-//    penMenu.setValue(colorList.get(i));
-//    applyChanges();
-//  }
-//
-//  public void setShape(int i){
-//    languageMenu.getSelectionModel().select(i);
-//    applyChanges();
-//  }
-//
-//  /** Public Get Methods */
-//
-//  public Button getCommandButton(){ return commandButton; }
-//
-//  public ComboBox getLanguageBox() {return languageMenu; }
-//
-//  public int getPenColor() {
-//    return penMenu.getCustomColors().indexOf(penMenu.getValue());
-//  }
-//
-//  public int getTurtleShape() {return languageMenu.getSelectionModel().getSelectedIndex();}
-
-
-
-
-//
-//
-//=======
-//>>>>>>> b801aed6c61643f35a69afda37c62f8511ac4bdc
 }

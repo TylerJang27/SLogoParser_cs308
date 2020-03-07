@@ -32,14 +32,7 @@ import slogo.view.MainView;
 public class Controller extends Application {
 
   private static final String TITLE = "SLogo";
-//<<<<<<< HEAD
-//  private static final TurtleStatus INITIAL_STATUS = new TurtleStatus();
-//  public static final int FRAMES_PER_SECOND = 60;
-//  public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-//
-//
-//=======
-//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
+
   private Display myDisplay;
   private Parser myParser;
   private TurtleManager myModel;
@@ -51,19 +44,14 @@ public class Controller extends Application {
   private MoveArrows arrows;
   private TurtleStatus currentStatus;
   private ErrorHandler errorHandler;
-//<<<<<<< HEAD
   private Button addTabButton, addTabPreferencesButton;
-//=======
-  //private Button addTabButton;
   private Button uploadFile;
-//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
   private Map<Tab, TurtleManager> tabTurtleModelMap;
   private List<Tab> tabs;
   private Translator translator;
   private Tab currentTab;
   public static final String DATA_FILE_EXTENSION = "*.xml";
   public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
-  private MainView mainView;
 
 
   /**
@@ -76,12 +64,10 @@ public class Controller extends Application {
     myDisplay = new Display();
     translator = new Translator();
     myParser = new Parser(translator);
-    //myParser.setView(myDisplay.getMainView());
     errorHandler = new ErrorHandler();
     translator = new Translator();
     tabTurtleModelMap = new HashMap<>();
     setTabs();
-    //mainViewTurtleModelMap.put(myDisplay.getMainView(), myModel);
     myModel = getModel(tabs.get(0));
     setListeners(tabs.get(0));
     addTabButton = myDisplay.getAddTabButton();
@@ -93,7 +79,7 @@ public class Controller extends Application {
     currentStage.setScene(myScene);
     currentStage.setTitle(TITLE);
     currentStage.setWidth(1070);
-    currentStage.setHeight(800);
+    currentStage.setHeight(820);
     currentStage.setResizable(true);
     currentStage.show();
   }
@@ -150,13 +136,11 @@ public class Controller extends Application {
     userDefinitions = myDisplay.getMainView().getTextFields().getUserDefinitions();
     runButton = myDisplay.getMainView().getToolBar().getCommandButton();
     runButton.setOnAction(event -> sendCommand());
-//<<<<<<< HEAD
-//    language = myDisplay.getMainView().getToolBar().getLanguageBox();
-//=======
+
     uploadFile = myDisplay.getMainView().getToolBar().getUploadFile();
     uploadFile.setOnAction( event -> chooseFile());
     language = myDisplay.getMainView().getToolBar().getLanguageBox();
-//>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
+
     language.setOnAction(event -> setLanguage(language));
     modeMenu = myDisplay.getMainView().getToolBar().getModeMenu();
     modeMenu.setOnAction(event -> setMode(modeMenu));

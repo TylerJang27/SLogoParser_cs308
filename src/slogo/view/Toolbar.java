@@ -84,10 +84,10 @@ public class Toolbar extends ToolBar {
 
     this.getItems().addAll(commandButton, new Separator(),
         turtleLabel, turtleMenu, penLabel, penMenu,
-<<<<<<< HEAD
-=======
-
->>>>>>> b801aed6c61643f35a69afda37c62f8511ac4bdc
+//<<<<<<< HEAD
+//=======
+//
+//>>>>>>> b801aed6c61643f35a69afda37c62f8511ac4bdc
         languageLabel, languageMenu, backgroundLabel, backgroundMenu,  changesButton, new Separator(),
         savePrefButton, modeMenu, uploadFile, helpButton);
 
@@ -276,7 +276,7 @@ public class Toolbar extends ToolBar {
     }
   }
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //  public void setPenColor(int i){
 //    System.out.println("setPenColor");
 //    ObservableList<Color> colorList = penMenu.getCustomColors();
@@ -305,8 +305,8 @@ public class Toolbar extends ToolBar {
 
 
 
-
-
-=======
->>>>>>> b801aed6c61643f35a69afda37c62f8511ac4bdc
+//
+//
+//=======
+//>>>>>>> b801aed6c61643f35a69afda37c62f8511ac4bdc
 }

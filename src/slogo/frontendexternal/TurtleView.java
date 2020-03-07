@@ -60,8 +60,7 @@ public class TurtleView {
       @Override
       public void handle(javafx.scene.input.MouseEvent event) {
         setIsActive();
-        System.out.println(isActive);
-
+        setOpacity();
       }
     });
 
@@ -76,7 +75,7 @@ public class TurtleView {
    */
   public void executeState(SequentialTransition sequentialTransition, TurtleStatus start, TurtleStatus end) {
     //SequentialTransition sequentialTransition = new SequentialTransition();
-    //if(isActive) {
+    if(isActive) {
       sequentialTransition.setNode(this.myImageView);
       Polyline pathLine = new Polyline();
       int index = 0;
@@ -94,7 +93,7 @@ public class TurtleView {
       pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
 
     }
-  //}
+  }
 
 
   /**
@@ -253,6 +252,14 @@ public class TurtleView {
     if(end.getPenDown()) {
         this.penView.updateMyLines(this.getMyStartXPos() + start.getX(), this.getMyStartYPos() + start.getY(), this.getMyStartXPos() + end.getX(), this.getMyStartYPos() + end.getY());
       }
+  }
+
+  private void setOpacity() {
+    if(!isActive) {
+      myImageView.setOpacity(.5);
+    } else {
+      myImageView.setOpacity(1);
+    }
   }
 
 

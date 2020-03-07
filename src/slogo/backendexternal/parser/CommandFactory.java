@@ -19,7 +19,7 @@ public class CommandFactory {
   private Map<String, Integer> counts;
 
   public CommandFactory(Map<String, List<String>> commands){
-    currentMode = "toroidal";
+    currentMode = "Toroidal";
     var resources = ResourceBundle.getBundle(CommandFactory.class.getPackageName() + ".resources." + "CommandFactory");
     for(String key:resources.keySet()){
       myCommands.put(key, resources.getString(key));

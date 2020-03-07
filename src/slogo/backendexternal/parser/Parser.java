@@ -100,7 +100,7 @@ public class Parser {
     return currentCommand;
   }
 
-  private String getInputType(String current) {
+  public String getInputType(String current) {
     Iterator<String> iter = controlTypes.getKeys().asIterator();
     while(iter.hasNext()){
       String key = iter.next();

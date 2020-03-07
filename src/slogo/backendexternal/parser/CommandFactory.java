@@ -83,14 +83,24 @@ public class CommandFactory {
       System.out.println((previous.size() + listCommands.size()) + " vs " + count);
       throw new InvalidArgumentException(String.format("Incorrect number of arguments for command %s", command));
     }
-    while(commands.size() < count){
-      if(previous.size() > 0){
-        commands.add(previous.pop());
+    if (formalCommand.equals("Tell")) {
+      while (commands.size() + listCommands.size() < count) {
+        if (previous.size() > 0) {
+          commands.add(previous.pop());
+        } else {
+          break;
+        }
       }
-      else{
-        break;
+      } else {
+        while (commands.size() < count) {
+          if (previous.size() > 0) {
+            commands.add(previous.pop());
+          } else {
+            break;
+          }
       }
     }
+    System.out.println("yeeeeeet" + formalCommand);
     return buildCommand(formalCommand, commands, listCommands);
   }
 
@@ -108,16 +118,17 @@ public class CommandFactory {
       if (myMovementCommands.contains(key)) {obj.addAll(new ArrayList<>(Arrays.asList(X_MAX, Y_MAX, currentMode)));}
       if (myControlCommands.keySet().contains(key)) {for (int i = 0; i < myControlCommands.get(key); i++) {obj.add(listCommands.pop());}}
 
-      System.out.println(key + "??");
       runnableAdd(key, obj);
       consumerAdd(key, obj);
       supplierAdd(key, obj);
-      System.out.println(key + "???");
       if (key.equals("Tell")) {
         System.out.println("Telling");
         //TODO: TYLER FIX HERE
+        obj.clear();
+        if (obj.size() > 0) {
+          System.out.println("yeet" + obj.get(0));
+        }
         if (listCommands.isEmpty()) {
-          obj.clear();
           obj.add(List.of(commands.get(0)));
         } else {
           obj.add(listCommands.pop());

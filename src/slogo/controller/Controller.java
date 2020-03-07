@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
@@ -50,6 +53,7 @@ public class Controller extends Application {
   private List<Tab> tabs;
   private Translator translator;
   private Tab currentTab;
+
   public static final String DATA_FILE_EXTENSION = "*.xml";
   public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
 
@@ -251,5 +255,6 @@ private void chooseFile() {
   }
 ///>>>>>>> 96032fc18f2aca4a4f2caa7548b44d84ab439890
 }
+
 
 }

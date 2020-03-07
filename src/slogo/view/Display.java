@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.SwipeEvent;
@@ -33,13 +36,17 @@ public class Display {
   private TabPane tabPane = new TabPane();
   private Tab tab = new Tab("");
   private VBox vBox;
+  private Slider mySlider;
+
 
   private List<MainView> myMainViewList;
   private Button addTabButton, addTabFromPreferences;
   private ResourceBundle buttonBundle;
   public static final double SCREEN_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() - 100;
   public static final double SCREEN_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() - 100;
-
+  private static final int SLIDERMINNUM = 0;
+  private static final int SLIDERMAXNUM = 50;
+  private static final int SLIDERUNIT = 5;
 
   private int tabNo;
 
@@ -62,7 +69,8 @@ public class Display {
     HBox hBox = new HBox();
     hBox.setSpacing(10.0);
     hBox.setAlignment(Pos.CENTER);
-    hBox.getChildren().addAll(addTabButton, addTabFromPreferences);
+    makeSlider();
+    hBox.getChildren().addAll(addTabButton, addTabFromPreferences, mySlider);
 
     vBox.getChildren().addAll(hBox, tabPane);
 
@@ -117,6 +125,28 @@ public class Display {
     newTab.setGraphic(newMainView);
     tabPane.getTabs().add(newTab);
     //selectionModel.select(newTab);
+  }
+
+  /**
+   * Makes the slider which dictates the speed that the simulation and grid is updating. Also changes the elapsed speed
+   * timer to accurately display the elapsed time based on the relative speed.
+   */
+  private void makeSlider() {
+    this.mySlider = new Slider();
+    mySlider.setMin(SLIDERMINNUM);
+    mySlider.setMax(SLIDERMAXNUM);
+    mySlider.setValue(1);
+    mySlider.setShowTickLabels(true);
+    mySlider.setShowTickMarks(true);
+    mySlider.setMajorTickUnit(SLIDERUNIT);
+    mySlider.setBlockIncrement(SLIDERUNIT);
+
+    mySlider.valueProperty().addListener(new ChangeListener<Number>() {
+      public void changed(ObservableValue<? extends Number> ov,
+          Number old_val, Number new_val) {
+        getMainView().getTurtles().setAnimationRate(((Double) new_val).intValue());
+      }
+    });
   }
 
 }

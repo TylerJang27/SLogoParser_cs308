@@ -69,7 +69,7 @@ public class TurtleView {
    */
   public void executeState(SequentialTransition sequentialTransition, TurtleStatus start, TurtleStatus end) {
     //SequentialTransition sequentialTransition = new SequentialTransition();
-    if(isActive) {
+    //if(isActive) {
       sequentialTransition.setNode(this.myImageView);
       Polyline pathLine = new Polyline();
       int index = 0;
@@ -86,7 +86,7 @@ public class TurtleView {
       if(end.hasRunnable()) end.modify();
       pathLine = getTurtleTrail(sequentialTransition, pathLine, index, pathPoints, start, end);
 
-    }
+    //}
   }
 
 

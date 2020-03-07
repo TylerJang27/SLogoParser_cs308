@@ -25,7 +25,7 @@ public class Parser {
   private Stack<Command> currentCommands;
   private Stack<String> currentComponents;
   private String lastLine;
-  private boolean inList;
+  private List<Integer> inList;
   private ResourceBundle controlTypes;
   private ResourceBundle parserMethods;
 
@@ -42,7 +42,7 @@ public class Parser {
     currentComponents = new Stack<>();
     controlTypes = ResourceBundle.getBundle(Parser.class.getPackageName() + ".resources." + "Syntax");
     parserMethods = ResourceBundle.getBundle(Parser.class.getPackageName() + ".resources." + "Parser");
-    inList = false;
+    inList = new ArrayList<>();
   }
 
   public void parseLine(String line){
@@ -80,21 +80,21 @@ public class Parser {
         }
         else{
           control = Parser.class.getDeclaredMethod(controlType, String.class, Stack.class, Stack.class, Stack.class, List.class);
-          System.out.println(control);
-          if(inList){
+          if(inList.size() > 0){
             currentList.add((Command) control.invoke(this, current, commands, listCommands, currentCommand, currentList));
           }else{
             commands.add((Command) control.invoke(this, current, commands, listCommands, currentCommand, currentList));
           }
         }
       }catch(Exception e){
-        e.printStackTrace();
         throw new InvalidCommandException(current);
       }
-      if(!inList){
+      if(inList.size() == 0){
         currentCommand.addAll(commands);
       }
-      System.out.println(currentCommand.size());
+    }
+    while(listCommands.size() > 0){
+      currentCommand.addAll(listCommands.pop());
     }
     return currentCommand;
   }
@@ -117,6 +117,9 @@ public class Parser {
 
   public List<String> getVariableString() {
     return variableFactory.getVariableString();
+  }
+  public List<String> getFunctionString() {
+    return functionFactory.getFunctionString();
   }
 
   public String getLastLine() { return lastLine; }
@@ -147,7 +150,7 @@ public class Parser {
     if (functionFactory.hasFunction(current)) {
       return functionFactory.runFunction(current, currentCommand);
     } else {
-      if(inList){
+      if(inList.size() > 0){
         currentCommand.add(currentList.get(0));
         currentList.remove(0);
       }
@@ -162,16 +165,16 @@ public class Parser {
   }
 
   private void ListEnd(Stack<Command> commands, Stack<List<Command>> listCommands, List<Command> currentList){
-    inList = true;
+    inList.add(1);
     currentList.clear();
     if (checkFunction(currentComponents)) {
       commands.add(functionFactory.handleFunction(currentComponents));
-      inList = false;
+      inList.remove(0);
     }
   }
 
   private void ListStart(Stack<Command> commands, Stack<List<Command>> listCommands, List<Command> currentList){
-    inList = false;
+    inList.remove(0);
     listCommands.add(currentList);
   }
 

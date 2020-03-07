@@ -162,15 +162,19 @@ public class Controller extends Application {
   private void displayVariables(){
     myDisplay.getMainView().getTextFields().clearVariables();
     List<String> variables =  myParser.getVariableString();
-    if(variables.size() > 0){
+    List<String> functions = myParser.getFunctionString();
+    if(variables.size() + functions.size() <= 0) {
+      myDisplay.getMainView().getTextFields().addVariableText("");
+    }
+    else{
       for(String variable : myParser.getVariableString()){
         myDisplay.getMainView().getTextFields().addVariableText(variable);
       }
-    } else{
-      myDisplay.getMainView().getTextFields().addVariableText("");
+      for(String function : myParser.getFunctionString()){
+        myDisplay.getMainView().getTextFields().addVariableText(function);
+      }
     }
     myDisplay.getMainView().getTextFields().setVariableListeners();
-    System.out.println("HERE");
   }
 
   private void displayQueries() {
